@@ -1,0 +1,45 @@
+Source: libfwsi
+Section: unknown
+Priority: extra
+Maintainer: Joachim Metz <joachim.metz@gmail.com>
+Build-Depends: debhelper (>= 7), autotools-dev, python-dev
+Standards-Version: 3.8.3
+Homepage: http://code.google.com/p/libflibs/
+
+Package: libfwsi
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: libfwsi-dbg
+Description: Library to access the Windows Shell Item format
+ libfwsi is a library to access the Windows Shell Item format.
+
+Package: libfwsi-dbg
+Architecture: any
+Section: debug
+Depends: libfwsi (= ${Source-Version}), ${misc:Depends}
+Description: Debugging symbols for libfwsi
+ Debugging symbols for libfwsi.
+
+Package: libfwsi-dev
+Section: libdevel
+Architecture: any
+Depends: libfwsi (= ${Source-Version})
+Description: Header files and libraries for developing applications for libfwsi
+ Header files and libraries for developing applications for libfwsi.
+
+Package: libfwsi-python
+Section: python
+Architecture: any
+Depends: libfwsi (= ${Source-Version}), ${shlibs:Depends}, ${python:Depends}
+Suggests: libfwsi-python-dbg
+Description: Python bindings for libfwsi
+ Python bindings for libfwsi.
+
+Package: libfwsi-python-dbg
+Section: debug
+Architecture: any
+Depends: libfwsi-python (= ${Source-Version})
+Description: Debugging symbols for libfwsi-python
+ Debugging symbols for libfwsi-python.
+

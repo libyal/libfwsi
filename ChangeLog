@@ -1,0 +1,200 @@
+TODO
+* cdburn:
+  - parse sub shell item list
+* URI shell item
+  - add FTP sub shell item support
+* API
+  - add libfwsi_item_get_data
+  - add libfwsi_extension_block_get_data
+  - extension block allow to set unsupported flag?
+  - extension blocks support
+* improve support for extension blocks
+  - item API
+  - 0xbeef0008
+  - 0xbeef000a
+  - 0xbeef0017
+  - 0xbeef0019, print folder type
+  - 0xbeef001a
+  - 0xbeef0025
+* update man pages
+
+20140921
+* changes for project site move
+
+20140827
+* small fixes
+
+20140810
+* worked on format support
+
+20140807
+* worked on format support
+
+20140806
+* worked on format support
+
+20140805
+* worked on format support
+
+20140804
+* worked on format support
+
+20140801
+* added support of file entry 0x36 shell item type
+
+20140730
+* worked on format
+* worked on property storage support
+
+20140729
+* worked on format
+* worked on debug output
+
+20140714
+* worked on Python bindings
+* worked on API
+* bug fixes
+
+20140713
+* worked on Python bindings
+
+20140712
+* worked on API
+* worked on Python bindings
+* updated msvscpp files
+
+20140711
+* worked on Python bindings
+
+20140710
+* worked on API
+* worked on Python bindings
+
+20140709
+* worked on Python bindings
+
+20140708
+* worked on API
+* worked on Python bindings
+
+20140707
+* worked on Python bindings
+
+20140703
+* worked on API
+* worked on Python bindings
+
+20140701
+* worked on API
+* worked on Python bindings
+
+20140630
+* worked on API
+* worked on Python bindings
+
+20140618
+* worked on API
+
+20140617
+* worked on API
+* worked on Python bindings
+
+20140616
+* worked on Python bindings
+
+20140615
+* added msvscpp files
+* updated dependencies
+* worked on Python bindings
+
+20140105
+* 2014 update
+* updated dependencies
+
+20131014
+* bug fix in item
+* worked on Windows 8.1 support
+
+20130929
+* worked on libcthreads build support
+* worked on git files
+
+20130922
+* code clean up
+
+20130831
+* updated libuna include header
+
+20130805
+* small changes
+
+20130721
+* worked on API
+
+20130720
+* added function to copy item list without size
+* worked on API
+
+20130718
+* removed unnecessary restriction in library include headers
+
+20130623
+* worked on format
+
+20130622
+* worked on format
+
+20130608
+* worked on format
+
+20130607
+* worked on format
+* bug fixes and code clean up
+
+20130413
+* updated dependencies
+* textual changes
+
+20130202
+* 2013 update
+* updated dependencies
+* added support for shell item type 0x30
+
+20121025
+* updated dependencies
+
+20120701
+* updated dependencies
+
+20120630
+* updated dependencies
+
+20120531
+* small changes in debug output
+
+20120507
+* updated dependencies
+* fix for GUID string size
+
+20120426
+* fixes for pkg-config detection of libraries
+
+20120418
+* updated dependencies
+* improvments to stand-alone version
+
+20120408
+* updated dependencies
+
+20120407
+* updated dependencies
+
+20120406
+* updated dependencies
+
+20120314
+* updated libfguid
+
+20120312
+* Created stand-alone version of version used in liblnk
+
