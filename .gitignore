@@ -7,6 +7,7 @@
 *.a
 *.la
 *.lai
+*.lineno
 *.lo
 *.Plo
 *.Po
@@ -109,6 +110,7 @@ stamp-h1
 /libcerror
 /libclocale
 /libcnotify
+/libcstring
 /libcthreads
 /libfdatetime
 /libfguid
