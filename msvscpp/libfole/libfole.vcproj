@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="libfwps"
-	ProjectGUID="{A12184EC-E059-4FA1-8A15-AF8726DDD517}"
-	RootNamespace="libfwps"
+	Name="libfole"
+	ProjectGUID="{B09CA6A5-E46A-412B-9B99-2C660E56E63A}"
+	RootNamespace="libfole"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -39,8 +39,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\include;..\..\common;..\..\libcstring;..\..\libcerror;..\..\libcnotify;..\..\libuna;..\..\libfdatetime;..\..\libfguid;..\..\libfole"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBCSTRING;HAVE_LOCAL_LIBCERROR;HAVE_LOCAL_LIBCNOTIFY;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFOLE;HAVE_LOCAL_LIBFWPS"
+				AdditionalIncludeDirectories="..\..\include;..\..\common;..\..\libcstring;..\..\libcerror"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBCSTRING;HAVE_LOCAL_LIBCERROR;HAVE_LOCAL_LIBFOLE"
 				RuntimeLibrary="2"
 				WarningLevel="4"
 				CompileAs="1"
@@ -101,8 +101,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\include;..\..\common;..\..\libcstring;..\..\libcerror;..\..\libcnotify;..\..\libuna;..\..\libfdatetime;..\..\libfguid;..\..\libfole"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBCSTRING;HAVE_LOCAL_LIBCERROR;HAVE_LOCAL_LIBCNOTIFY;HAVE_LOCAL_LIBUNA;HAVE_LOCAL_LIBFDATETIME;HAVE_LOCAL_LIBFGUID;HAVE_LOCAL_LIBFOLE;HAVE_LOCAL_LIBFWPS"
+				AdditionalIncludeDirectories="..\..\include;..\..\common;..\..\libcstring;..\..\libcerror"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;HAVE_LOCAL_LIBCSTRING;HAVE_LOCAL_LIBCERROR;HAVE_LOCAL_LIBFOLE"
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
@@ -151,27 +151,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\libfwps\libfwps_error.c"
+				RelativePath="..\..\libfole\libfole_error.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_format_class_identifier.c"
+				RelativePath="..\..\libfole\libfole_support.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_property_identifier.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_storage.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_support.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_value.c"
+				RelativePath="..\..\libfole\libfole_value_type.c"
 				>
 			</File>
 		</Filter>
@@ -181,67 +169,39 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\libfwps\libfwps_definitions.h"
+				RelativePath="..\..\libfole\libfole_definitions.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_error.h"
+				RelativePath="..\..\libfole\libfole_error.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_extern.h"
+				RelativePath="..\..\libfole\libfole_extern.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_format_class_identifier.h"
+				RelativePath="..\..\libfole\libfole_libcerror.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_libcerror.h"
+				RelativePath="..\..\libfole\libfole_libcstring.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_libcnotify.h"
+				RelativePath="..\..\libfole\libfole_support.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_libcstring.h"
+				RelativePath="..\..\libfole\libfole_types.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_libfguid.h"
+				RelativePath="..\..\libfole\libfole_unused.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwps\libfwps_libfole.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_libuna.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_property_identifier.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_storage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_support.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_types.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_unused.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwps\libfwps_value.h"
+				RelativePath="..\..\libfole\libfole_value_type.h"
 				>
 			</File>
 		</Filter>
