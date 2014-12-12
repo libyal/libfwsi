@@ -850,7 +850,7 @@ The Game Folder Shell Item is 32 bytes of size and consists of:
 Includes the 2 bytes of the size itself
 | 2 | 1 | 0x00 | Class type indicator
 | 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 4 | "GFSI” +
+| 4 | 4 | "GFSI" +
 0x49534647 | Signature
 | 8 | 16 | | Class identifier +
 Contains a GameExplorer related GUID +
@@ -1119,7 +1119,7 @@ Includes the 2 bytes of the size itself
 | 4 | 2 | | [yellow-background]*Unknown (size?)* +
 Size does not Includes the 2 bytes of the size itself, should map up to the start of the delegate item identifier +
 [yellow-background]*Inner or delegated data size?*
-| 6 | 4 | "CFSF” +
+| 6 | 4 | "CFSF" +
 0x46534643 | [yellow-background]*Unknown (signature)*
 | 10 | 2 | | Sub shell item data size +
 Value does not includes the 2 bytes of the size itself +
@@ -2021,7 +2021,7 @@ This extension block can likely be used for different class identifiers and
 that the class data is specific to the class.
 
 The extension block has seen to be used with the CUri class identifier which is 
-the GUID “df2fce13-25ec-45bb-9d4c-cecd47c2430c”. The CUri data could be a Vista 
+the GUID "df2fce13-25ec-45bb-9d4c-cecd47c2430c". The CUri data could be a Vista 
 and/or MSIE 7 specific extension.
 
 ==== CUri class data
@@ -2183,7 +2183,7 @@ Includes the 2 bytes of the size itself
 [yellow-background]*Seen 0x0002*
 | 8 | ... | | [yellow-background]*Unknown string?* +
 UTF-16 little-endian string with end-of-string character +
-[yellow-background]*Seen: “boy” and “order”*
+[yellow-background]*Seen: "boy" and "order"*
 | ... | 2 | | Extension version offset +
 The offset is relative from the start of the shell item.
 |===
