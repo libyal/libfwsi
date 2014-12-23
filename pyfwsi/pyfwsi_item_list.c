@@ -90,10 +90,8 @@ PyGetSetDef pyfwsi_item_list_object_get_set_definitions[] = {
 };
 
 PyTypeObject pyfwsi_item_list_type_object = {
-	PyObject_HEAD_INIT( NULL )
+	PyVarObject_HEAD_INIT( NULL, 0 )
 
-	/* ob_size */
-	0,
 	/* tp_name */
 	"pyfwsi.item_list",
 	/* tp_basicsize */
@@ -272,9 +270,10 @@ int pyfwsi_item_list_init(
 void pyfwsi_item_list_free(
       pyfwsi_item_list_t *pyfwsi_item_list )
 {
-	libcerror_error_t *error = NULL;
-	static char *function    = "pyfwsi_item_list_free";
-	int result               = 0;
+	libcerror_error_t *error    = NULL;
+	struct _typeobject *ob_type = NULL;
+	static char *function       = "pyfwsi_item_list_free";
+	int result                  = 0;
 
 	if( pyfwsi_item_list == NULL )
 	{
@@ -285,29 +284,32 @@ void pyfwsi_item_list_free(
 
 		return;
 	}
-	if( pyfwsi_item_list->ob_type == NULL )
-	{
-		PyErr_Format(
-		 PyExc_TypeError,
-		 "%s: invalid item list - missing ob_type.",
-		 function );
-
-		return;
-	}
-	if( pyfwsi_item_list->ob_type->tp_free == NULL )
-	{
-		PyErr_Format(
-		 PyExc_TypeError,
-		 "%s: invalid item list - invalid ob_type - missing tp_free.",
-		 function );
-
-		return;
-	}
 	if( pyfwsi_item_list->item_list == NULL )
 	{
 		PyErr_Format(
 		 PyExc_TypeError,
 		 "%s: invalid item list - missing libfwsi item list.",
+		 function );
+
+		return;
+	}
+	ob_type = Py_TYPE(
+	           pyfwsi_item_list );
+
+	if( ob_type == NULL )
+	{
+		PyErr_Format(
+		 PyExc_ValueError,
+		 "%s: missing ob_type.",
+		 function );
+
+		return;
+	}
+	if( ob_type->tp_free == NULL )
+	{
+		PyErr_Format(
+		 PyExc_ValueError,
+		 "%s: invalid ob_type - missing tp_free.",
 		 function );
 
 		return;
@@ -331,7 +333,7 @@ void pyfwsi_item_list_free(
 		libcerror_error_free(
 		 &error );
 	}
-	pyfwsi_item_list->ob_type->tp_free(
+	ob_type->tp_free(
 	 (PyObject*) pyfwsi_item_list );
 }
 
@@ -343,17 +345,12 @@ PyObject *pyfwsi_item_list_copy_from_byte_stream(
            PyObject *arguments,
            PyObject *keywords )
 {
-	PyObject *exception_string    = NULL;
-	PyObject *exception_traceback = NULL;
-	PyObject *exception_type      = NULL;
-	PyObject *exception_value     = NULL;
 	PyObject *string_object       = NULL;
 	libcerror_error_t *error      = NULL;
 	static char *function         = "pyfwsi_item_list_copy_from_byte_stream";
 	static char *keyword_list[]   = { "byte_stream", "ascii_codepage", NULL };
 	const char *byte_stream       = NULL;
 	char *codepage_string         = NULL;
-	char *error_string            = NULL;
 	Py_ssize_t byte_stream_size   = 0;
 	size_t codepage_string_length = 0;
 	uint32_t feature_flags        = 0;
@@ -381,40 +378,21 @@ PyObject *pyfwsi_item_list_copy_from_byte_stream(
 	}
 	PyErr_Clear();
 
+#if PY_MAJOR_VERSION >= 3
+	result = PyObject_IsInstance(
+		  string_object,
+		  (PyObject *) &PyBytes_Type );
+#else
 	result = PyObject_IsInstance(
 		  string_object,
 		  (PyObject *) &PyString_Type );
-
+#endif
 	if( result == -1 )
 	{
-		PyErr_Fetch(
-		 &exception_type,
-		 &exception_value,
-		 &exception_traceback );
-
-		exception_string = PyObject_Repr(
-				    exception_value );
-
-		error_string = PyString_AsString(
-				exception_string );
-
-		if( error_string != NULL )
-		{
-			PyErr_Format(
-		         PyExc_RuntimeError,
-			 "%s: unable to determine if string object is of type string with error: %s.",
-			 function,
-			 error_string );
-		}
-		else
-		{
-			PyErr_Format(
-		         PyExc_RuntimeError,
-			 "%s: unable to determine if string object is of type string.",
-			 function );
-		}
-		Py_DecRef(
-		 exception_string );
+		pyfwsi_error_fetch_and_raise(
+	         PyExc_RuntimeError,
+		 "%s: unable to determine if string object is of type string.",
+		 function );
 
 		return( NULL );
 	}
@@ -455,12 +433,19 @@ PyObject *pyfwsi_item_list_copy_from_byte_stream(
 	}
 	PyErr_Clear();
 
+#if PY_MAJOR_VERSION >= 3
+	byte_stream = PyBytes_AsString(
+	               string_object );
+
+	byte_stream_size = PyBytes_Size(
+	                    string_object );
+#else
 	byte_stream = PyString_AsString(
 	               string_object );
 
 	byte_stream_size = PyString_Size(
 	                    string_object );
-
+#endif
 /* TODO size bounds check */
 
 	Py_BEGIN_ALLOW_THREADS
@@ -501,6 +486,7 @@ PyObject *pyfwsi_item_list_get_number_of_items(
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
 	libcerror_error_t *error = NULL;
+	PyObject *integer_object = NULL;
 	static char *function    = "pyfwsi_item_list_get_number_of_items";
 	int number_of_items      = 0;
 	int result               = 0;
@@ -538,8 +524,14 @@ PyObject *pyfwsi_item_list_get_number_of_items(
 
 		return( NULL );
 	}
-	return( PyInt_FromLong(
-	         (long) number_of_items ) );
+#if PY_MAJOR_VERSION >= 3
+	integer_object = PyLong_FromLong(
+	                  (long) number_of_items );
+#else
+	integer_object = PyInt_FromLong(
+	                  (long) number_of_items );
+#endif
+	return( integer_object );
 }
 
 /* Retrieves a specific item by index

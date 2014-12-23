@@ -87,10 +87,8 @@ PyGetSetDef pyfwsi_network_location_object_get_set_definitions[] = {
 };
 
 PyTypeObject pyfwsi_network_location_type_object = {
-	PyObject_HEAD_INIT( NULL )
+	PyVarObject_HEAD_INIT( NULL, 0 )
 
-	/* ob_size */
-	0,
 	/* tp_name */
 	"pyfwsi.network_location",
 	/* tp_basicsize */

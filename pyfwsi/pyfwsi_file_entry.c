@@ -96,10 +96,8 @@ PyGetSetDef pyfwsi_file_entry_object_get_set_definitions[] = {
 };
 
 PyTypeObject pyfwsi_file_entry_type_object = {
-	PyObject_HEAD_INIT( NULL )
+	PyVarObject_HEAD_INIT( NULL, 0 )
 
-	/* ob_size */
-	0,
 	/* tp_name */
 	"pyfwsi.file_entry",
 	/* tp_basicsize */

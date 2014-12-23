@@ -93,10 +93,8 @@ PyGetSetDef pyfwsi_extension_block_object_get_set_definitions[] = {
 };
 
 PyTypeObject pyfwsi_extension_block_type_object = {
-	PyObject_HEAD_INIT( NULL )
+	PyVarObject_HEAD_INIT( NULL, 0 )
 
-	/* ob_size */
-	0,
 	/* tp_name */
 	"pyfwsi.extension_block",
 	/* tp_basicsize */
@@ -278,9 +276,10 @@ int pyfwsi_extension_block_init(
 void pyfwsi_extension_block_free(
       pyfwsi_extension_block_t *pyfwsi_extension_block )
 {
-	libcerror_error_t *error = NULL;
-	static char *function    = "pyfwsi_extension_block_free";
-	int result               = 0;
+	libcerror_error_t *error    = NULL;
+	struct _typeobject *ob_type = NULL;
+	static char *function       = "pyfwsi_extension_block_free";
+	int result                  = 0;
 
 	if( pyfwsi_extension_block == NULL )
 	{
@@ -291,29 +290,32 @@ void pyfwsi_extension_block_free(
 
 		return;
 	}
-	if( pyfwsi_extension_block->ob_type == NULL )
-	{
-		PyErr_Format(
-		 PyExc_TypeError,
-		 "%s: invalid extension block - missing ob_type.",
-		 function );
-
-		return;
-	}
-	if( pyfwsi_extension_block->ob_type->tp_free == NULL )
-	{
-		PyErr_Format(
-		 PyExc_TypeError,
-		 "%s: invalid extension block - invalid ob_type - missing tp_free.",
-		 function );
-
-		return;
-	}
 	if( pyfwsi_extension_block->extension_block == NULL )
 	{
 		PyErr_Format(
 		 PyExc_TypeError,
 		 "%s: invalid extension block - missing libfwsi extension block.",
+		 function );
+
+		return;
+	}
+	ob_type = Py_TYPE(
+	           pyfwsi_extension_block );
+
+	if( ob_type == NULL )
+	{
+		PyErr_Format(
+		 PyExc_ValueError,
+		 "%s: missing ob_type.",
+		 function );
+
+		return;
+	}
+	if( ob_type->tp_free == NULL )
+	{
+		PyErr_Format(
+		 PyExc_ValueError,
+		 "%s: invalid ob_type - missing tp_free.",
 		 function );
 
 		return;
@@ -342,7 +344,7 @@ void pyfwsi_extension_block_free(
 		Py_DecRef(
 		 (PyObject *) pyfwsi_extension_block->item_object );
 	}
-	pyfwsi_extension_block->ob_type->tp_free(
+	ob_type->tp_free(
 	 (PyObject*) pyfwsi_extension_block );
 }
 
@@ -535,10 +537,15 @@ PyObject *pyfwsi_extension_block_get_data(
 
 		goto on_error;
 	}
+#if PY_MAJOR_VERSION >= 3
+	string_object = PyBytes_FromStringAndSize(
+			 (char *) data,
+			 (Py_ssize_t) data_size );
+#else
 	string_object = PyString_FromStringAndSize(
 			 (char *) data,
 			 (Py_ssize_t) data_size );
-
+#endif
 	PyMem_Free(
 	 data );
 

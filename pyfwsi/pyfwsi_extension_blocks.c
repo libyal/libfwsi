@@ -56,10 +56,8 @@ PySequenceMethods pyfwsi_extension_blocks_sequence_methods = {
 };
 
 PyTypeObject pyfwsi_extension_blocks_type_object = {
-	PyObject_HEAD_INIT( NULL )
+	PyVarObject_HEAD_INIT( NULL, 0 )
 
-	/* ob_size */
-	0,
 	/* tp_name */
 	"pyfwsi._extension_blocks",
 	/* tp_basicsize */
@@ -258,7 +256,8 @@ int pyfwsi_extension_blocks_init(
 void pyfwsi_extension_blocks_free(
       pyfwsi_extension_blocks_t *pyfwsi_extension_blocks )
 {
-	static char *function = "pyfwsi_extension_blocks_free";
+	struct _typeobject *ob_type = NULL;
+	static char *function       = "pyfwsi_extension_blocks_free";
 
 	if( pyfwsi_extension_blocks == NULL )
 	{
@@ -269,20 +268,23 @@ void pyfwsi_extension_blocks_free(
 
 		return;
 	}
-	if( pyfwsi_extension_blocks->ob_type == NULL )
+	ob_type = Py_TYPE(
+	           pyfwsi_extension_blocks );
+
+	if( ob_type == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - missing ob_type.",
+		 "%s: missing ob_type.",
 		 function );
 
 		return;
 	}
-	if( pyfwsi_extension_blocks->ob_type->tp_free == NULL )
+	if( ob_type->tp_free == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - invalid ob_type - missing tp_free.",
+		 "%s: invalid ob_type - missing tp_free.",
 		 function );
 
 		return;
@@ -292,7 +294,7 @@ void pyfwsi_extension_blocks_free(
 		Py_DecRef(
 		 (PyObject *) pyfwsi_extension_blocks->item_object );
 	}
-	pyfwsi_extension_blocks->ob_type->tp_free(
+	ob_type->tp_free(
 	 (PyObject*) pyfwsi_extension_blocks );
 }
 

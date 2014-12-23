@@ -17,6 +17,10 @@ TODO
   - 0xbeef001a
   - 0xbeef0025
 * update man pages
+* add tests
+
+20141223
+* worked on Python 3 support
 
 20141116
 * updated version for release

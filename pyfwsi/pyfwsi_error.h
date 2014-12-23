@@ -1,7 +1,7 @@
 /*
  * Error functions
  *
- * Copyright (c) 2010-2014, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2014, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _PYFWSI_ERROR_H )
-#define _PYFWSI_ERROR_H
+#if !defined( _PYFWSIX_ERROR_H )
+#define _PYFWSIX_ERROR_H
 
 #include <common.h>
 #include <types.h>
@@ -28,11 +28,23 @@
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_python.h"
 
-#define PYFWSI_ERROR_STRING_SIZE		768
+#define PYFWSIX_ERROR_STRING_SIZE		768
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
+
+void pyfwsi_error_fetch(
+      libcerror_error_t **error,
+      int error_domain,
+      int error_code,
+      const char *format_string,
+      ... );
+
+void pyfwsi_error_fetch_and_raise(
+      PyObject *exception_object,
+      const char *format_string,
+      ... );
 
 void pyfwsi_error_raise(
       libcerror_error_t *error,

@@ -56,10 +56,8 @@ PySequenceMethods pyfwsi_items_sequence_methods = {
 };
 
 PyTypeObject pyfwsi_items_type_object = {
-	PyObject_HEAD_INIT( NULL )
+	PyVarObject_HEAD_INIT( NULL, 0 )
 
-	/* ob_size */
-	0,
 	/* tp_name */
 	"pyfwsi._items",
 	/* tp_basicsize */
@@ -258,7 +256,8 @@ int pyfwsi_items_init(
 void pyfwsi_items_free(
       pyfwsi_items_t *pyfwsi_items )
 {
-	static char *function = "pyfwsi_items_free";
+	struct _typeobject *ob_type = NULL;
+	static char *function       = "pyfwsi_items_free";
 
 	if( pyfwsi_items == NULL )
 	{
@@ -269,20 +268,23 @@ void pyfwsi_items_free(
 
 		return;
 	}
-	if( pyfwsi_items->ob_type == NULL )
+	ob_type = Py_TYPE(
+	           pyfwsi_items );
+
+	if( ob_type == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - missing ob_type.",
+		 "%s: missing ob_type.",
 		 function );
 
 		return;
 	}
-	if( pyfwsi_items->ob_type->tp_free == NULL )
+	if( ob_type->tp_free == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - invalid ob_type - missing tp_free.",
+		 "%s: invalid ob_type - missing tp_free.",
 		 function );
 
 		return;
@@ -292,7 +294,7 @@ void pyfwsi_items_free(
 		Py_DecRef(
 		 (PyObject *) pyfwsi_items->item_list_object );
 	}
-	pyfwsi_items->ob_type->tp_free(
+	ob_type->tp_free(
 	 (PyObject*) pyfwsi_items );
 }
 

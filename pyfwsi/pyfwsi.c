@@ -94,16 +94,42 @@ PyObject *pyfwsi_get_version(
 	         errors ) );
 }
 
-/* Declarations for DLL import/export
+#if PY_MAJOR_VERSION >= 3
+
+/* The pyfwsi module definition
  */
-#ifndef PyMODINIT_FUNC
-#define PyMODINIT_FUNC void
-#endif
+PyModuleDef pyfwsi_module_definition = {
+	PyModuleDef_HEAD_INIT,
+
+	/* m_name */
+	"pyfwsi",
+	/* m_doc */
+	"Python libfwsi module (pyfwsi).",
+	/* m_size */
+	-1,
+	/* m_methods */
+	pyfwsi_module_methods,
+	/* m_reload */
+	NULL,
+	/* m_traverse */
+	NULL,
+	/* m_clear */
+	NULL,
+	/* m_free */
+	NULL,
+};
+
+#endif /* PY_MAJOR_VERSION >= 3 */
 
 /* Initializes the pyfwsi module
  */
+#if PY_MAJOR_VERSION >= 3
+PyMODINIT_FUNC PyInit_pyfwsi(
+                void )
+#else
 PyMODINIT_FUNC initpyfwsi(
                 void )
+#endif
 {
 	PyObject *module                               = NULL;
 	PyTypeObject *extension_block_type_object      = NULL;
@@ -122,11 +148,23 @@ PyMODINIT_FUNC initpyfwsi(
 	 * This function must be called before grabbing the GIL
 	 * otherwise the module will segfault on a version mismatch
 	 */
+#if PY_MAJOR_VERSION >= 3
+	module = PyModule_Create(
+	          &pyfwsi_module_definition );
+#else
 	module = Py_InitModule3(
 	          "pyfwsi",
 	          pyfwsi_module_methods,
 	          "Python libfwsi module (pyfwsi)." );
-
+#endif
+	if( module == NULL )
+	{
+#if PY_MAJOR_VERSION >= 3
+		return( NULL );
+#else
+		return;
+#endif
+	}
 	PyEval_InitThreads();
 
 	gil_state = PyGILState_Ensure();
@@ -321,8 +359,23 @@ PyMODINIT_FUNC initpyfwsi(
 	 "file_entry_extension",
 	 (PyObject *) file_entry_extension_type_object );
 
+	PyGILState_Release(
+	 gil_state );
+
+#if PY_MAJOR_VERSION >= 3
+	return( module );
+#else
+	return;
+#endif
+
 on_error:
 	PyGILState_Release(
 	 gil_state );
+
+#if PY_MAJOR_VERSION >= 3
+	return( NULL );
+#else
+	return;
+#endif
 }
 
