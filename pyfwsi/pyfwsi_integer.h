@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _PYFWSIX_INTEGER_H )
-#define _PYFWSIX_INTEGER_H
+#if !defined( _PYFWSI_INTEGER_H )
+#define _PYFWSI_INTEGER_H
 
 #include <common.h>
 #include <types.h>

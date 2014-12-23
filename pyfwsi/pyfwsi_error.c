@@ -66,7 +66,7 @@ void VARARGS(
 {
 	va_list argument_list;
 
-	char error_string[ PYFWSIX_ERROR_STRING_SIZE ];
+	char error_string[ PYFWSI_ERROR_STRING_SIZE ];
 
         PyObject *exception_traceback = NULL;
         PyObject *exception_type      = NULL;
@@ -97,7 +97,7 @@ void VARARGS(
 
 	print_count = PyOS_vsnprintf(
 	               error_string,
-	               PYFWSIX_ERROR_STRING_SIZE,
+	               PYFWSI_ERROR_STRING_SIZE,
 	               format_string,
 	               argument_list );
 
@@ -206,7 +206,7 @@ void VARARGS(
 {
 	va_list argument_list;
 
-	char error_string[ PYFWSIX_ERROR_STRING_SIZE ];
+	char error_string[ PYFWSI_ERROR_STRING_SIZE ];
 
 	PyObject *exception_traceback = NULL;
 	PyObject *exception_type      = NULL;
@@ -237,7 +237,7 @@ void VARARGS(
 
 	print_count = PyOS_vsnprintf(
 	               error_string,
-	               PYFWSIX_ERROR_STRING_SIZE,
+	               PYFWSI_ERROR_STRING_SIZE,
 	               format_string,
 	               argument_list );
 
@@ -336,8 +336,8 @@ void VARARGS(
 {
 	va_list argument_list;
 
-	char error_string[ PYFWSIX_ERROR_STRING_SIZE ];
-	char exception_string[ PYFWSIX_ERROR_STRING_SIZE ];
+	char error_string[ PYFWSI_ERROR_STRING_SIZE ];
+	char exception_string[ PYFWSI_ERROR_STRING_SIZE ];
 
 	static char *function     = "pyfwsi_error_raise";
 	size_t error_string_index = 0;
@@ -359,7 +359,7 @@ void VARARGS(
 
 	print_count = PyOS_vsnprintf(
 	               exception_string,
-	               PYFWSIX_ERROR_STRING_SIZE,
+	               PYFWSI_ERROR_STRING_SIZE,
 	               format_string,
 	               argument_list );
 
@@ -380,9 +380,9 @@ void VARARGS(
 		if( libcerror_error_backtrace_sprint(
 		     error,
 		     error_string,
-		     PYFWSIX_ERROR_STRING_SIZE ) != -1 )
+		     PYFWSI_ERROR_STRING_SIZE ) != -1 )
 		{
-			while( error_string_index < PYFWSIX_ERROR_STRING_SIZE )
+			while( error_string_index < PYFWSI_ERROR_STRING_SIZE )
 			{
 				if( error_string[ error_string_index ] == 0 )
 				{
@@ -394,9 +394,9 @@ void VARARGS(
 				}
 				error_string_index++;
 			}
-			if( error_string_index >= PYFWSIX_ERROR_STRING_SIZE )
+			if( error_string_index >= PYFWSI_ERROR_STRING_SIZE )
 			{
-				error_string[ PYFWSIX_ERROR_STRING_SIZE - 1 ] = 0;
+				error_string[ PYFWSI_ERROR_STRING_SIZE - 1 ] = 0;
 			}
 			PyErr_Format(
 			 exception_object,
