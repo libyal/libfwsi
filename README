@@ -1,7 +1,7 @@
 libfwsi is a library to access the Windows Shell Item format.
 
 Project information:
-* Status: alpha
+* Status: experimental
 * Licence: LGPLv3+
 
 For more information see:
