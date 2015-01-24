@@ -18,6 +18,9 @@ TODO
   - 0xbeef0025
 * add tests
 
+20150124
+* fix for missing libfwsi_notify_set_verbose
+
 20150101
 * 2015 update
 

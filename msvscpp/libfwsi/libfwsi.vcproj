@@ -294,6 +294,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libfwsi\libfwsi_notify.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libfwsi\libfwsi_root_folder.c"
 				>
 			</File>
@@ -501,6 +505,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_network_location_values.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_notify.h"
 				>
 			</File>
 			<File

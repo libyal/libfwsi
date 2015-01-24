@@ -57,6 +57,7 @@ libfwsi_la_SOURCES = \
 	libfwsi_mtp_volume_values.c libfwsi_mtp_volume_values.h \
 	libfwsi_network_location.c libfwsi_network_location.h \
 	libfwsi_network_location_values.c libfwsi_network_location_values.h \
+	libfwsi_notify.c libfwsi_notify.h \
 	libfwsi_root_folder.c libfwsi_root_folder.h \
 	libfwsi_root_folder_values.c libfwsi_root_folder_values.h \
 	libfwsi_shell_folder_identifier.c libfwsi_shell_folder_identifier.h \
