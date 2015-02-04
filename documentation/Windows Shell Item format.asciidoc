@@ -2058,7 +2058,7 @@ Includes the 2 bytes of the size itself
 
 ==== CUri property types
 
-[cols="1, 1,5",options="header"]
+[cols="1,1,5",options="header"]
 |===
 | Value | Identifier | Description
 | 0 | Uri_PROPERTY_ABSOLUTE_URI | The entire canonicalized URI.
@@ -2085,7 +2085,7 @@ Not implemented according to `[MSDN]`.
 
 ==== CUri host type
 
-[cols="1, 1,5",options="header"]
+[cols="1,1,5",options="header"]
 |===
 | Value | Identifier | Description
 | 0 | Uri_HOST_UNKNOWN | Unrecognized (or future version) format.
@@ -2097,7 +2097,7 @@ Not implemented according to `[MSDN]`.
 
 ==== CUri URL schemes
 
-[cols="1, 1,5",options="header"]
+[cols="1,1,5",options="header"]
 |===
 | Value | Identifier | Description
 | -1 | URL_SCHEME_INVALID | An invalid scheme.
@@ -2314,7 +2314,7 @@ The offset is relative from the start of the shell item.
 === [[file_attribute_flags]]File attribute flags
 The file attribute flags consist of the following values:
 
-[cols="1, 1,5",options="header"]
+[cols="1,1,5",options="header"]
 |===
 | Value | Identifier | Description
 | 0x00000001 | FILE_ATTRIBUTE_READONLY | Is read-Only
