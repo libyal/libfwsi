@@ -2093,7 +2093,7 @@ Not implemented according to `[MSDN]`.
 | 2 | Uri_HOST_IPV4 | IPv4 host format.
 | 3 | Uri_HOST_IPV6 | IPv6 host format.
 | 4 | Uri_HOST_IDN | Internationalized Domain Name (IDN) format.
-| ===
+|===
 
 ==== CUri URL schemes
 
