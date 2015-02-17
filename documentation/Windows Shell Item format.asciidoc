@@ -81,7 +81,7 @@ Updated information regarding the delegate shell item.
 | 0.0.28 | J.B. Metz | September 2014 | Additional information regarding shell item 0x67 and extension block 0xbeef0021 with thanks to E. Zimmerman.
 | 0.0.29 | J.B. Metz | October 2014 | Additional information regarding CDBurn shell item and extension blocks 0xbeef000b, 0xbeef000e and 0xbeef0016 with thanks to E. Zimmerman.
 | 0.0.30 | J.B. Metz | December 2014 | Switched to asccidoc format.
-| 0.0.31 | J.B. Metz | February 2015 | Added findings on the compressed folder 0x52 shell item with thanks to D. White.
+| 0.0.31 | J.B. Metz | February 2015 | Additional information compressed folder 0x52 shell item with thanks to D. White and various yet unknown shell items with thanks to E. Zimmerman.
 |===
 
 :numbered:
@@ -713,6 +713,8 @@ Not always present, but is an ASCII string sometimes without an end-of-string ch
 |===
 
 ....
+Indication that the value at offset 0x10 contains a FILETIME
+
 00000000: 76 00 6f 00 05 00 00 00  90 00 00 00 00 00 00 00   v.o..... ........ 
 00000010: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ........ ........ 
 00000020: 01 00 00 00 74 65 73 74  00 00 00 00 74 00 65 00   ....test ....t.e. 
@@ -1382,6 +1384,73 @@ Shell item from Windows 7 ShellMRU root level
 |===
 
 == Unknown shell items
+=== 0x01 shell item
+....
+RealPlayer Cloud related?
+
+Includes shell item size:
+00000000  2a 00 01 26 0d 00 00 00  00 01 00 00 00 20 53 00  |*..&......... S.|
+00000010  68 00 61 00 72 00 65 00  64 00 20 00 42 00 79 00  |h.a.r.e.d. .B.y.|
+00000020  20 00 4d 00 65 00 00 00  00 00 00 00              | .M.e.......|
+
+Includes shell item size:
+00000000  2e 00 01 26 0f 00 00 00  00 01 00 00 00 08 4d 00  |...&..........M.|
+00000010  79 00 20 00 43 00 6f 00  6c 00 6c 00 65 00 63 00  |y. .C.o.l.l.e.c.|
+00000020  74 00 69 00 6f 00 6e 00  73 00 00 00 00 00 00 00  |t.i.o.n.s.......|
+....
+
+=== Hyper-V 0x00, 0x01 and 0x02 shell items
+....
+Related to Hyper-V?
+
+Includes shell item size:
+00000000  30 00 00 00 00 00 73 00  75 00 2d 00 68 00 79 00  |0.....s.u.-.h.y.|
+00000010  70 00 65 00 72 00 76 00  30 00 31 00 2e 00 53 00  |p.e.r.v.0.1...S.|
+00000020  55 00 2e 00 6c 00 6f 00  63 00 61 00 6c 00 00 00  |U...l.o.c.a.l...|
+00000030  00 00                                             |..|
+
+Includes shell item size:
+00000000  58 00 01 00 00 00 44 00  3a 00 00 00 00 00 00 00  |X.....D.:.......|
+00000010  00 00 00 f0 ff 39 74 00  00 00 00 e0 ab 30 74 00  |.....9t......0t.|
+00000020  00 00 08 00 00 00 08 00  00 00 00 00 00 00 00 00  |................|
+00000030  00 00 4d 00 6f 00 72 00  65 00 20 00 73 00 74 00  |..M.o.r.e. .s.t.|
+00000040  6f 00 72 00 61 00 67 00  65 00 20 00 28 00 44 00  |o.r.a.g.e. .(.D.|
+00000050  3a 00 29 00 20 00 00 00  00 00                    |:.). .....|
+
+Includes shell item size:
+00000000  54 00 01 00 00 00 43 00  3a 00 00 00 00 00 00 00  |T.....C.:.......|
+00000010  00 00 00 f0 af e0 e8 00  00 00 00 70 46 74 e7 00  |...........pFt..|
+00000020  00 00 08 00 00 00 08 00  00 00 00 00 00 00 00 00  |................|
+00000030  00 00 4c 00 6f 00 63 00  61 00 6c 00 20 00 44 00  |..L.o.c.a.l. .D.|
+00000040  69 00 73 00 6b 00 20 00  28 00 43 00 3a 00 29 00  |i.s.k. .(.C.:.).|
+00000050  20 00 00 00 00 00                                 | .....|
+
+Includes shell item size:
+00000000  3e 00 02 00 00 00 00 00  00 00 00 00 00 00 00 00  |>...............|
+00000010  00 00 11 00 00 00 94 4e  0a 94 3c 9f ce 01 fe f6  |.......N..<.....|
+00000020  b9 b2 7a 15 d0 01 fe f6  b9 b2 7a 15 d0 01 00 00  |..z.......z.....|
+00000030  00 00 75 00 73 00 65 00  72 00 73 00 00 00 00 00  |..u.s.e.r.s.....|
+....
+
+=== 0x1f shell item
+....
+Includes shell item size:
+00000000  55 00 1f 00 2f 00 10 b7  a6 f5 19 00 2f 4c 3a 5c  |U.../......./L:\|
+00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000030  00 00 00 00 00 74 1a 59  5e 96 df d3 48 8d 67 17  |.....t.Y^...H.g.|
+00000040  33 bc ee 28 ba 77 2c fb  f5 2f 0e 16 4a a3 81 3e  |3..(.w,../..J..>|
+00000050  56 0c 68 bc 83 00 00                              |V.h....|
+
+Includes shell item size:
+00000000  55 00 1f 00 2f 00 10 b7  a6 f5 19 00 2f 4a 3a 5c  |U.../......./J:\|
+00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000030  00 00 00 00 00 74 1a 59  5e 96 df d3 48 8d 67 17  |.....t.Y^...H.g.|
+00000040  33 bc ee 28 ba 77 2c fb  f5 2f 0e 16 4a a3 81 3e  |3..(.w,../..J..>|
+00000050  56 0c 68 bc 83 00 00                              |V.h....|
+....
+
 === 0x4c shell item
 Seen after shell item 0x2e with CLSID Web Folders
 
@@ -2325,6 +2394,20 @@ Contains a FILETIME
 | 28 | 4 | | Extension version offset +
 The offset is relative from the start of the shell item.
 |===
+
+....
+Includes shell item size:
+00000000  3a 00 2e 80 3a cc bf b4  2c db 4c 42 b0 29 7f e9  |:...:...,.LB.)..|
+00000010  9a 87 c6 41 26 00 01 00  25 00 ef be 11 00 00 00  |...A&...%.......|
+00000020  a7 17 31 a6 e9 dd cf 01  6c bd e8 71 5d de cf 01  |..1.....l..q]...|
+00000030  6c bd e8 71 5d de cf 01  14 00 00 00              |l..q].......|
+
+Includes shell item size:
+00000000  3a 00 2e 80 90 e2 4d 37  3f 12 65 45 91 64 39 c4  |:.....M7?.eE.d9.|
+00000010  92 5e 46 7b 26 00 01 00  25 00 ef be 11 00 00 00  |.^F{&...%.......|
+00000020  a7 17 31 a6 e9 dd cf 01  ae 8e 98 d1 ed dd cf 01  |..1.............|
+00000030  ae 8e 98 d1 ed dd cf 01  14 00 00 00              |............|
+....
 
 == Windows definitions
 === [[file_attribute_flags]]File attribute flags
