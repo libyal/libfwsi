@@ -195,7 +195,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 	}
 	/* Do not try to parse unsupported shell item data sizes
 	 */
-	if( shell_item_data_size < 50 )
+	if( shell_item_data_size < 6 )
 	{
 		return( 0 );
 	}
@@ -205,193 +205,208 @@ ssize_t libfwsi_compressed_folder_values_read(
 	{
 		return( 0 );
 	}
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
+/* TODO: other variants not supported yet */
+	if( ( shell_item_data[ 3 ] != 0x67 )
+	 || ( shell_item_data[ 4 ] != 0xb1 )
+	 || ( shell_item_data[ 5 ] != 0xac ) )
 	{
-		libcnotify_printf(
-		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
-		 function,
-		 shell_item_data[ 3 ] );
-
-		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 4 ] ),
-		 value_16bit );
-		libcnotify_printf(
-		 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
-		 function,
-		 value_16bit );
-
-		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 6 ] ),
-		 value_32bit );
-		libcnotify_printf(
-		 "%s: unknown3\t\t\t\t: 0x%08" PRIx32 "\n",
-		 function,
-		 value_32bit );
-
-		byte_stream_copy_to_uint64_little_endian(
-		 &( shell_item_data[ 10 ] ),
-		 value_64bit );
-		libcnotify_printf(
-		 "%s: unknown4\t\t\t\t: 0x%08" PRIx64 "\n",
-		 function,
-		 value_64bit );
-
-		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 18 ] ),
-		 value_32bit );
-		libcnotify_printf(
-		 "%s: unknown5\t\t\t\t: 0x%08" PRIx32 "\n",
-		 function,
-		 value_32bit );
-
-		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 22 ] ),
-		 value_32bit );
-		libcnotify_printf(
-		 "%s: unknown6\t\t\t\t: 0x%08" PRIx32 "\n",
-		 function,
-		 value_32bit );
-
-		if( libfdatetime_fat_date_time_initialize(
-		     &fat_date_time,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create FAT date time.",
-			 function );
-
-			goto on_error;
-		}
-		if( libfdatetime_fat_date_time_copy_from_byte_stream(
-		     fat_date_time,
-		     &( shell_item_data[ 26 ] ),
-		     4,
-		     LIBFDATETIME_ENDIAN_LITTLE,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy byte stream to FAT date time.",
-			 function );
-
-			goto on_error;
-		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libfdatetime_fat_date_time_copy_to_utf16_string(
-			  fat_date_time,
-			  (uint16_t *) date_time_string,
-			  32,
-			  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			  error );
-#else
-		result = libfdatetime_fat_date_time_copy_to_utf8_string(
-			  fat_date_time,
-			  (uint8_t *) date_time_string,
-			  32,
-			  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			  error );
-#endif
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy FAT date time to string.",
-			 function );
-
-			goto on_error;
-		}
-		libcnotify_printf(
-		 "%s: unknown time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
-		 function,
-		 date_time_string );
-
-		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 30 ] ),
-		 value_32bit );
-		libcnotify_printf(
-		 "%s: unknown7\t\t\t\t: 0x%08" PRIx32 "\n",
-		 function,
-		 value_32bit );
-
-		if( libfdatetime_fat_date_time_copy_from_byte_stream(
-		     fat_date_time,
-		     &( shell_item_data[ 34 ] ),
-		     4,
-		     LIBFDATETIME_ENDIAN_LITTLE,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy byte stream to FAT date time.",
-			 function );
-
-			goto on_error;
-		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libfdatetime_fat_date_time_copy_to_utf16_string(
-			  fat_date_time,
-			  (uint16_t *) date_time_string,
-			  32,
-			  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			  error );
-#else
-		result = libfdatetime_fat_date_time_copy_to_utf8_string(
-			  fat_date_time,
-			  (uint8_t *) date_time_string,
-			  32,
-			  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			  error );
-#endif
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy FAT date time to string.",
-			 function );
-
-			goto on_error;
-		}
-		libcnotify_printf(
-		 "%s: unknown time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
-		 function,
-		 date_time_string );
-
-		if( libfdatetime_fat_date_time_free(
-		     &fat_date_time,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free FAT date time.",
-			 function );
-
-			goto on_error;
-		}
-		byte_stream_copy_to_uint64_little_endian(
-		 &( shell_item_data[ 38 ] ),
-		 value_64bit );
-		libcnotify_printf(
-		 "%s: unknown8\t\t\t\t: 0x%08" PRIx64 "\n",
-		 function,
-		 value_64bit );
+		return( 0 );
 	}
-#endif
-	shell_item_data_offset = 46;
+	if( ( shell_item_data[ 3 ] == 0x67 )
+	 && ( shell_item_data[ 4 ] == 0xb1 )
+	 && ( shell_item_data[ 5 ] == 0xac ) )
+	{
+		if( shell_item_data_size < 50 )
+		{
+			return( 0 );
+		}
+#if defined( HAVE_DEBUG_OUTPUT )
+		if( libcnotify_verbose != 0 )
+		{
+			libcnotify_printf(
+			 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
+			 function,
+			 shell_item_data[ 3 ] );
 
+			byte_stream_copy_to_uint16_little_endian(
+			 &( shell_item_data[ 4 ] ),
+			 value_16bit );
+			libcnotify_printf(
+			 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
+			 function,
+			 value_16bit );
+
+			byte_stream_copy_to_uint32_little_endian(
+			 &( shell_item_data[ 6 ] ),
+			 value_32bit );
+			libcnotify_printf(
+			 "%s: unknown3\t\t\t\t: 0x%08" PRIx32 "\n",
+			 function,
+			 value_32bit );
+
+			byte_stream_copy_to_uint64_little_endian(
+			 &( shell_item_data[ 10 ] ),
+			 value_64bit );
+			libcnotify_printf(
+			 "%s: unknown4\t\t\t\t: 0x%08" PRIx64 "\n",
+			 function,
+			 value_64bit );
+
+			byte_stream_copy_to_uint32_little_endian(
+			 &( shell_item_data[ 18 ] ),
+			 value_32bit );
+			libcnotify_printf(
+			 "%s: unknown5\t\t\t\t: 0x%08" PRIx32 "\n",
+			 function,
+			 value_32bit );
+
+			byte_stream_copy_to_uint32_little_endian(
+			 &( shell_item_data[ 22 ] ),
+			 value_32bit );
+			libcnotify_printf(
+			 "%s: unknown6\t\t\t\t: 0x%08" PRIx32 "\n",
+			 function,
+			 value_32bit );
+
+			if( libfdatetime_fat_date_time_initialize(
+			     &fat_date_time,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create FAT date time.",
+				 function );
+
+				goto on_error;
+			}
+			if( libfdatetime_fat_date_time_copy_from_byte_stream(
+			     fat_date_time,
+			     &( shell_item_data[ 26 ] ),
+			     4,
+			     LIBFDATETIME_ENDIAN_LITTLE,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy byte stream to FAT date time.",
+				 function );
+
+				goto on_error;
+			}
+#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+			result = libfdatetime_fat_date_time_copy_to_utf16_string(
+				  fat_date_time,
+				  (uint16_t *) date_time_string,
+				  32,
+				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
+				  error );
+#else
+			result = libfdatetime_fat_date_time_copy_to_utf8_string(
+				  fat_date_time,
+				  (uint8_t *) date_time_string,
+				  32,
+				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
+				  error );
+#endif
+			if( result != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy FAT date time to string.",
+				 function );
+
+				goto on_error;
+			}
+			libcnotify_printf(
+			 "%s: unknown time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
+			 function,
+			 date_time_string );
+
+			byte_stream_copy_to_uint32_little_endian(
+			 &( shell_item_data[ 30 ] ),
+			 value_32bit );
+			libcnotify_printf(
+			 "%s: unknown7\t\t\t\t: 0x%08" PRIx32 "\n",
+			 function,
+			 value_32bit );
+
+			if( libfdatetime_fat_date_time_copy_from_byte_stream(
+			     fat_date_time,
+			     &( shell_item_data[ 34 ] ),
+			     4,
+			     LIBFDATETIME_ENDIAN_LITTLE,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy byte stream to FAT date time.",
+				 function );
+
+				goto on_error;
+			}
+#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+			result = libfdatetime_fat_date_time_copy_to_utf16_string(
+				  fat_date_time,
+				  (uint16_t *) date_time_string,
+				  32,
+				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
+				  error );
+#else
+			result = libfdatetime_fat_date_time_copy_to_utf8_string(
+				  fat_date_time,
+				  (uint8_t *) date_time_string,
+				  32,
+				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
+				  error );
+#endif
+			if( result != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy FAT date time to string.",
+				 function );
+
+				goto on_error;
+			}
+			libcnotify_printf(
+			 "%s: unknown time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
+			 function,
+			 date_time_string );
+
+			if( libfdatetime_fat_date_time_free(
+			     &fat_date_time,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free FAT date time.",
+				 function );
+
+				goto on_error;
+			}
+			byte_stream_copy_to_uint64_little_endian(
+			 &( shell_item_data[ 38 ] ),
+			 value_64bit );
+			libcnotify_printf(
+			 "%s: unknown8\t\t\t\t: 0x%08" PRIx64 "\n",
+			 function,
+			 value_64bit );
+		}
+#endif
+		shell_item_data_offset = 46;
+	}
 	byte_stream_copy_to_uint32_little_endian(
 	 &( shell_item_data[ shell_item_data_offset ] ),
 	 string_size );
@@ -410,6 +425,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 	string_size *= 2;
 
 	if( ( string_size > 0 )
+         && ( string_size <= shell_item_data_size )
 	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -525,6 +541,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 	string_size *= 2;
 
 	if( ( string_size > 0 )
+         && ( string_size <= shell_item_data_size )
 	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -640,6 +657,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 	string_size *= 2;
 
 	if( ( string_size > 0 )
+         && ( string_size <= shell_item_data_size )
 	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -755,6 +773,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 	string_size *= 2;
 
 	if( ( string_size > 0 )
+         && ( string_size <= shell_item_data_size )
 	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )

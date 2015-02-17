@@ -155,6 +155,7 @@ ssize_t libfwsi_file_entry_values_read(
 {
 	static char *function                       = "libfwsi_file_entry_values_read";
 	size_t shell_item_data_offset               = 0;
+	size_t string_alignment_offset              = 0;
 	size_t string_alignment_size                = 0;
 	size_t string_size                          = 0;
 	uint16_t extension_size                     = 0;
@@ -572,19 +573,21 @@ ssize_t libfwsi_file_entry_values_read(
 	}
 #endif
 	shell_item_data_offset += string_size;
+	string_alignment_offset = shell_item_data_offset + string_alignment_size;
 
-	if( ( shell_item_data_size - ( shell_item_data_offset + string_alignment_size ) ) >= 2 )
+	if( ( string_alignment_offset < shell_item_data_size )
+	 && ( ( shell_item_data_size - string_alignment_offset ) >= 2 ) )
 	{
 		/* Look ahead if the extension size makes sense
 		 * if not we're dealing with a Windows 2000 or earlier entry
 		 * otherwise a Windows XP or later
 		 */
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ shell_item_data_offset + string_alignment_size ] ),
+		 &( shell_item_data[ string_alignment_offset ] ),
 		 extension_size );
 	}
 	if( ( has_swn1 != 0 )
-	 && ( ( ( shell_item_data_size - ( shell_item_data_offset + string_alignment_size ) ) < 2 )
+	 && ( ( ( shell_item_data_size - string_alignment_offset ) < 2 )
 	  ||  ( extension_size > shell_item_data_size ) ) )
 	{
 		file_entry_values->in_pre_xp_format = 1;
