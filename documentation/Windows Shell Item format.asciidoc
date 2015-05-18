@@ -91,6 +91,8 @@ the Windows Folder Hierarchy. A Shell Item list is much like a path, and is
 unique to its parent folder. The format of the Shell Item is undocumented and 
 varies between Windows versions.
 
+MSDN-SHELLEXT
+
 [cols="1,5",options="header"]
 |===
 | Characteristics | Description
@@ -592,6 +594,17 @@ UTF-16 little-endian string with end-of-string character.
 |===
 
 ....
+Possible fields:
+* Compression ratio
+* Compression method
+* Compression CRC
+* File type
+* Original size
+* Compressed size
+* Encrypted status?
+....
+
+....
 00000000: 67 b1 ac 02 00 00 00 00  00 00 00 00 00 00 00 16   g....... ........ 
 00000010: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ........ ........ 
 00000020: 00 00 00 00 00 00 00 00  00 00 00 03 00 00 00 43   ........ .......C 
@@ -632,6 +645,16 @@ Different variants:
 00000080: 75 00 6e 00 63 00 68 00  20 00 54 00 72 00 61 00   u.n.c.h.  .T.r.a.
 00000090: 69 00 6c 00 65 00 72 00  20 00 32 00 30 00 31 00   i.l.e.r.  .2.0.1.
 000000a0: 33 00 00 00 00 00 34 03  00 00                     3.....4. ..
+....
+
+[cols="1,1",options="header"]
+|===
+| Interface identifier (IID) | GUID
+| CLSID_ZipFolder | e88dcce0-b7b3-11d1-a9f0-00aa0060fa31
+|===
+
+....
+%SystemRoot%\System32\zipfldr.dll
 ....
 
 === URI shell item
@@ -2838,6 +2861,19 @@ CDesktopFolder
 
 IshellFolder:EnumObjects -> IEnumIDList
 
+=== Shell folder identifiers
+
+Key: HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\DelegateFolders\%GUID%\
+Default value
+
+[cols="1,5",options="header"]
+|===
+| Identifier | Description
+| 35786d3c-b075-49b9-88dd-029876e11c01 | Portable Devices
+| 9113a02d-00a3-46b9-bc5f-9c04daddd5d7 | Enhanced Storage Data Source
+| b155bdf8-02f0-451e-9a26-ae317cfd7779 | nethood delegate folder
+|===
+
 :numbered!:
 [appendix]
 == References
@@ -3001,6 +3037,14 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 |===
 | Title: | Shell and Shlwapi DLL Versions
 | URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb776779(v=vs.85).aspx
+|===
+
+`[MSDN-SHELLEXT]`
+
+[cols="1,5",options="header"]
+|===
+| Title: | Implementing the Basic Folder Object Interfaces
+| URL: | https://msdn.microsoft.com/en-us/library/windows/desktop/cc144093(v=vs.85).aspx
 |===
 
 `[MSDN-WP]`
