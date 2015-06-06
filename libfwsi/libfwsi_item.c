@@ -646,6 +646,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_control_panel_values_free;
+
 			if( libfwsi_control_panel_values_initialize(
 			     (libfwsi_control_panel_values_t **) &( internal_item->value ),
 			     error ) != 1 )
@@ -679,6 +681,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CATEGORY:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_control_panel_category_values_free;
+
 			if( libfwsi_control_panel_category_values_initialize(
 			     (libfwsi_control_panel_category_values_t **) &( internal_item->value ),
 			     error ) != 1 )
@@ -712,6 +716,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CPL_FILE:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_control_panel_cpl_file_values_free;
+
 			if( libfwsi_control_panel_cpl_file_values_initialize(
 			     (libfwsi_control_panel_cpl_file_values_t **) &( internal_item->value ),
 			     error ) != 1 )
@@ -996,6 +1002,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_URI:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_uri_values_free;
+
 			if( libfwsi_uri_values_initialize(
 			     (libfwsi_uri_values_t **) &( internal_item->value ),
 			     error ) != 1 )
@@ -1030,6 +1038,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_users_property_view_values_free;
+
 			if( libfwsi_users_property_view_values_initialize(
 			     (libfwsi_users_property_view_values_t **) &( internal_item->value ),
 			     error ) != 1 )
@@ -1064,6 +1074,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_VOLUME:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_volume_values_free;
+
 			if( libfwsi_volume_values_initialize(
 			     (libfwsi_volume_values_t **) &( internal_item->value ),
 			     error ) != 1 )
@@ -1098,6 +1110,8 @@ int libfwsi_item_copy_from_byte_stream(
 			break;
 
 		case LIBFWSI_ITEM_TYPE_UNKNOWN_0x74:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_unknown_0x74_values_free;
+
 			if( libfwsi_unknown_0x74_values_initialize(
 			     (libfwsi_unknown_0x74_values_t **) &( internal_item->value ),
 			     error ) != 1 )
