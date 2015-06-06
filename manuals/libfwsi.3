@@ -1,4 +1,4 @@
-.Dd January  5, 2015
+.Dd June  6, 2015
 .Dt libfwsi 3
 .Os libfwsi
 .Sh NAME
@@ -40,6 +40,8 @@ Item list functions
 .Fn libfwsi_item_list_get_item "libfwsi_item_list_t *item_list, int item_index, libfwsi_item_t **item, libfwsi_error_t **error"
 .Pp
 Item functions
+.Ft int
+.Fn libfwsi_item_initialize "libfwsi_item_t **item, libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_item_free "libfwsi_item_t **item, libfwsi_error_t **error"
 .Ft int

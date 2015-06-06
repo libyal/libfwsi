@@ -71,10 +71,19 @@ struct libfwsi_internal_item
 	/* The codepage of the extended ASCII strings
 	 */
 	int ascii_codepage;
+
+	/* Value to indicate if the item is managed by the list
+	 */
+	uint8_t is_managed;
 };
 
+LIBFWSI_EXTERN \
 int libfwsi_item_initialize(
      libfwsi_item_t **item,
+     libcerror_error_t **error );
+
+int libfwsi_internal_item_initialize(
+     libfwsi_internal_item_t **internal_item,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \

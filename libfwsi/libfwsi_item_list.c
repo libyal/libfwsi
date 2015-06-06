@@ -178,7 +178,7 @@ int libfwsi_item_list_copy_from_byte_stream(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_list_t *internal_item_list = NULL;
-	libfwsi_item_t *shell_item                       = NULL;
+	libfwsi_internal_item_t *internal_shell_item     = NULL;
 	static char *function                            = "libfwsi_item_list_copy_from_byte_stream";
 	uint16_t shell_item_size                         = 0;
 	int item_list_index                              = 0;
@@ -290,8 +290,8 @@ int libfwsi_item_list_copy_from_byte_stream(
 
 			break;
 		}
-		if( libfwsi_item_initialize(
-		     &shell_item,
+		if( libfwsi_internal_item_initialize(
+		     &internal_shell_item,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
@@ -303,8 +303,21 @@ int libfwsi_item_list_copy_from_byte_stream(
 
 			goto on_error;
 		}
+		if( internal_shell_item == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+			 "%s: missing shell item.",
+			 function );
+
+			goto on_error;
+		}
+		internal_shell_item->is_managed = 1;
+
 		if( libfwsi_item_copy_from_byte_stream(
-		     shell_item,
+		     (libfwsi_item_t *) internal_shell_item,
 		     byte_stream,
 		     byte_stream_size,
 		     ascii_codepage,
@@ -326,7 +339,7 @@ int libfwsi_item_list_copy_from_byte_stream(
 		if( libcdata_array_append_entry(
 		     internal_item_list->items_array,
 		     &item_list_index,
-		     (intptr_t *) shell_item,
+		     (intptr_t *) internal_shell_item,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
@@ -339,7 +352,7 @@ int libfwsi_item_list_copy_from_byte_stream(
 
 			goto on_error;
 		}
-		shell_item = NULL;
+		internal_shell_item = NULL;
 
 		shell_item_index++;
 	}
@@ -355,10 +368,10 @@ int libfwsi_item_list_copy_from_byte_stream(
 	return( 1 );
 
 on_error:
-	if( shell_item != NULL )
+	if( internal_shell_item != NULL )
 	{
 		libfwsi_internal_item_free(
-		 (libfwsi_internal_item_t **) &shell_item,
+		 &internal_shell_item,
 		 NULL );
 	}
 	return( -1 );

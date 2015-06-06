@@ -18,6 +18,9 @@ TODO
   - 0xbeef0025
 * add tests
 
+20150606
+* changes for shell item being created outside of list
+
 20150124
 * fix for missing libfwsi_notify_set_verbose
 

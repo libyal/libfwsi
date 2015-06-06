@@ -88,10 +88,60 @@ int libfwsi_item_initialize(
 
 		return( -1 );
 	}
-	internal_item = memory_allocate_structure(
-	                 libfwsi_internal_item_t );
+	if( libfwsi_internal_item_initialize(
+	     &internal_item,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+		 "%s: unable to create item.",
+		 function );
+
+		return( -1 );
+	}
+	*item = (libfwsi_item_t *) internal_item;
+
+	return( 1 );
+}
+
+/* Creates an item
+ * Make sure the value item is referencing, is set to NULL
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_internal_item_initialize(
+     libfwsi_internal_item_t **internal_item,
+     libcerror_error_t **error )
+{
+	static char *function = "libfwsi_internal_item_initialize";
 
 	if( internal_item == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid item.",
+		 function );
+
+		return( -1 );
+	}
+	if( *internal_item != NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
+		 "%s: invalid item value already set.",
+		 function );
+
+		return( -1 );
+	}
+	*internal_item = memory_allocate_structure(
+	                  libfwsi_internal_item_t );
+
+	if( *internal_item == NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -103,7 +153,7 @@ int libfwsi_item_initialize(
 		goto on_error;
 	}
 	if( memory_set(
-	     internal_item,
+	     *internal_item,
 	     0,
 	     sizeof( libfwsi_internal_item_t ) ) == NULL )
 	{
@@ -117,7 +167,7 @@ int libfwsi_item_initialize(
 		goto on_error;
 	}
 	if( libcdata_array_initialize(
-	     &( internal_item->extension_blocks_array ),
+	     &( ( *internal_item )->extension_blocks_array ),
 	     0,
 	     error ) != 1 )
 	{
@@ -130,15 +180,15 @@ int libfwsi_item_initialize(
 
 		goto on_error;
 	}
-	*item = (libfwsi_item_t *) internal_item;
-
 	return( 1 );
 
 on_error:
-	if( internal_item != NULL )
+	if( *internal_item != NULL )
 	{
 		memory_free(
-		 internal_item );
+		 *internal_item );
+
+		*internal_item = NULL;
 	}
 	return( -1 );
 }
@@ -150,7 +200,9 @@ int libfwsi_item_free(
      libfwsi_item_t **item,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_item_free";
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_item_free";
+	int result                             = 1;
 
 	if( item == NULL )
 	{
@@ -165,9 +217,27 @@ int libfwsi_item_free(
 	}
 	if( *item != NULL )
 	{
+		internal_item = (libfwsi_internal_item_t *) *item;
+
+		if( internal_item->is_managed == 0 )
+		{
+			if( libfwsi_internal_item_free(
+			     &internal_item,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free item.",
+				 function );
+
+				result = -1;
+			}
+		}
 		*item = NULL;
 	}
-	return( 1 );
+	return( result );
 }
 
 /* Frees an item

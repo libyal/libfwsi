@@ -155,6 +155,15 @@ int libfwsi_item_list_get_item(
  * Item functions
  * ------------------------------------------------------------------------- */
 
+/* Creates an item
+ * Make sure the value item_list is referencing, is set to NULL
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_item_initialize(
+     libfwsi_item_t **item,
+     libfwsi_error_t **error );
+
 /* Frees an item
  * Returns 1 if successful or -1 on error
  */
