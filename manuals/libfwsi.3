@@ -1,4 +1,4 @@
-.Dd June  6, 2015
+.Dd June 14, 2015
 .Dt libfwsi 3
 .Os libfwsi
 .Sh NAME
@@ -148,6 +148,10 @@ File entry extension functions
 .Fn libfwsi_file_entry_extension_get_utf16_localized_name_size "libfwsi_extension_block_t *extension_block, size_t *utf16_string_size, libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_file_entry_extension_get_utf16_localized_name "libfwsi_extension_block_t *extension_block, uint16_t *utf16_string, size_t utf16_string_size, libfwsi_error_t **error"
+.Pp
+Shell folder identifier functions
+.Ft const char *
+.Fn libfwsi_shell_folder_identifier_get_name "const uint8_t *shell_folder_identifier"
 .Sh DESCRIPTION
 The
 .Fn libfwsi_get_version

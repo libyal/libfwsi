@@ -18,6 +18,9 @@ TODO
   - 0xbeef0025
 * add tests
 
+20150614
+* bug fix for shared usage
+
 20150606
 * changes for shell item being created outside of list
 

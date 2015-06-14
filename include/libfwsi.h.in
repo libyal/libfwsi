@@ -635,6 +635,16 @@ int libfwsi_file_entry_extension_get_utf16_localized_name(
      size_t utf16_string_size,
      libfwsi_error_t **error );
 
+/* -------------------------------------------------------------------------
+ * Shell folder identifier functions
+ * ------------------------------------------------------------------------- */
+
+/* Retrieves a string containing the name of the folder identifier
+ */
+LIBFWSI_EXTERN \
+const char *libfwsi_shell_folder_identifier_get_name(
+             const uint8_t *shell_folder_identifier );
+
 #if defined( __cplusplus )
 }
 #endif
