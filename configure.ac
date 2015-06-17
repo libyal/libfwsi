@@ -72,6 +72,9 @@ AX_LIBCNOTIFY_CHECK_ENABLE
 dnl Check for enabling libuna for Unicode string support
 AX_LIBUNA_CHECK_ENABLE
 
+dnl Check for enabling libcfile for cross-platform C file functions
+AX_LIBCFILE_CHECK_ENABLE
+
 dnl Check for enabling libfdatetime for file date and time support
 AX_LIBFDATETIME_CHECK_ENABLE
 
@@ -164,6 +167,7 @@ AC_CONFIG_FILES([libcdata/Makefile])
 AC_CONFIG_FILES([libclocale/Makefile])
 AC_CONFIG_FILES([libcnotify/Makefile])
 AC_CONFIG_FILES([libuna/Makefile])
+AC_CONFIG_FILES([libcfile/Makefile])
 AC_CONFIG_FILES([libfdatetime/Makefile])
 AC_CONFIG_FILES([libfguid/Makefile])
 AC_CONFIG_FILES([libfole/Makefile])
@@ -203,6 +207,7 @@ Building:
    libclocale support:      $ac_cv_libclocale
    libcnotify support:      $ac_cv_libcnotify
    libuna support:          $ac_cv_libuna
+   libcfile support:        $ac_cv_libcfile
    libfdatetime support:    $ac_cv_libfdatetime
    libfole support:         $ac_cv_libfole
    libfguid support:        $ac_cv_libfguid
