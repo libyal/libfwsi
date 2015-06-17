@@ -20,6 +20,9 @@ TODO
   - add test program that helps with fuzzing that reads
     shell item data from a file
 
+20150617
+* worked on tests
+
 20150614
 * bug fix for shared usage
 

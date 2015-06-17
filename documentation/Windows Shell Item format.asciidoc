@@ -1,6 +1,11 @@
 = Windows Shell Item format specification
 Analysis of the Windows Shell Item format
 
+:toc:
+:toc-placement: manual
+:toc-title: 
+:toclevels: 4
+
 :numbered!:
 [abstract]
 == Summary
@@ -34,6 +39,10 @@ published by the Free Software Foundation; with no Invariant Sections, no
 Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included 
 in the section entitled "GNU Free Documentation License".
 ....
+
+[preface]
+== Table of contents
+toc::[]
 
 [preface]
 == Revision history
@@ -82,6 +91,7 @@ Updated information regarding the delegate shell item.
 | 0.0.29 | J.B. Metz | October 2014 | Additional information regarding CDBurn shell item and extension blocks 0xbeef000b, 0xbeef000e and 0xbeef0016 with thanks to E. Zimmerman.
 | 0.0.30 | J.B. Metz | December 2014 | Switched to asccidoc format.
 | 0.0.31 | J.B. Metz | February 2015 | Additional information compressed folder 0x52 shell item with thanks to D. White and various yet unknown shell items with thanks to E. Zimmerman.
+| 0.0.32 | J.B. Metz | June 2015 | Additional information regarding Windows 10 shell items from LNK files.
 |===
 
 :numbered:
@@ -120,6 +130,7 @@ document:
 * Windows 8
 * [yellow-background]*TODO: Windows 2012*
 * Windows 8.1
+* Windows 10
 
 == Shell Item list
 The Shell Item list (ITEMIDLIST) is variable of size and consists of:
@@ -763,6 +774,33 @@ For a list of control panel identifiers see: `[LIBFWSI-WIKI]`
 |===
 
 == Signature-based shell items
+=== Application shell item
+Seen in Windows 10 after root shell item with applications shell folder identifier.
+
+....
+libfwsi_item_list_copy_from_byte_stream: shell item: 1 size             : 290
+libfwsi_item_copy_from_byte_stream: size                                : 290
+libfwsi_item_copy_from_byte_stream: data:
+00000000: 00 00 1c 01 41 50 50 53  0a 01 08 00 03 00 00 00   ....APPS ........
+00000010: 01 00 00 00 31 00 00 00  31 53 50 53 30 f1 25 b7   ....1... 1SPS0.%.
+00000020: ef 47 1a 10 a5 f1 02 60  8c 9e eb ac 15 00 00 00   .G.....` ........
+00000030: 0a 00 00 00 00 1f 00 00  00 01 00 00 00 00 00 00   ........ ........
+00000040: 00 00 00 00 00 d5 00 00  00 31 53 50 53 55 28 4c   ........ .1SPSU(L
+00000050: 9f 79 9f 39 4b a8 d0 e1  d4 2d e1 d5 f3 b9 00 00   .y.9K... .-......
+00000060: 00 05 00 00 00 00 1f 00  00 00 54 00 00 00 77 00   ........ ..T...w.
+00000070: 69 00 6e 00 64 00 6f 00  77 00 73 00 2e 00 69 00   i.n.d.o. w.s...i.
+00000080: 6d 00 6d 00 65 00 72 00  73 00 69 00 76 00 65 00   m.m.e.r. s.i.v.e.
+00000090: 63 00 6f 00 6e 00 74 00  72 00 6f 00 6c 00 70 00   c.o.n.t. r.o.l.p.
+000000a0: 61 00 6e 00 65 00 6c 00  5f 00 63 00 77 00 35 00   a.n.e.l. _.c.w.5.
+000000b0: 6e 00 31 00 68 00 32 00  74 00 78 00 79 00 65 00   n.1.h.2. t.x.y.e.
+000000c0: 77 00 79 00 21 00 6d 00  69 00 63 00 72 00 6f 00   w.y.!.m. i.c.r.o.
+000000d0: 73 00 6f 00 66 00 74 00  2e 00 77 00 69 00 6e 00   s.o.f.t. ..w.i.n.
+000000e0: 64 00 6f 00 77 00 73 00  2e 00 69 00 6d 00 6d 00   d.o.w.s. ..i.m.m.
+000000f0: 65 00 72 00 73 00 69 00  76 00 65 00 63 00 6f 00   e.r.s.i. v.e.c.o.
+00000100: 6e 00 74 00 72 00 6f 00  6c 00 70 00 61 00 6e 00   n.t.r.o. l.p.a.n.
+00000110: 65 00 6c 00 00 00 00 00  00 00 00 00 00 00 00 00   e.l..... ........
+....
+
 === CDBurn shell item
 Seen in Windows XP after volume shell item pointing to CDBurn (related) CLSID.
 
@@ -1188,6 +1226,19 @@ Contains a GUID
 | ... | ... | | Extension block 0xbeef0004 +
 See section: <<extension_block_0xbeef004,File entry extension block (0xbeef0004)>>
 |===
+
+....
+libfwsi_item_copy_from_byte_stream: size                                : 130
+libfwsi_item_copy_from_byte_stream: data:
+00000000: 74 00 1c 00 43 46 53 46  16 00 31 00 00 00 00 00   t...CFSF ..1.....
+00000010: ae 46 24 b1 12 00 41 70  70 44 61 74 61 00 00 00   .F$...Ap pData...
+00000020: 74 1a 59 5e 96 df d3 48  8d 67 17 33 bc ee 28 ba   t.Y^...H .g.3..(.
+00000030: c5 cd fa df 9f 67 56 41  89 47 c5 c7 6b c0 b6 7f   .....gVA .G..k...
+00000040: 40 00 09 00 04 00 ef be  ae 46 24 b1 ae 46 24 b1   @....... .F$..F$.
+00000050: 2e 00 00 00 15 9d 02 00  00 00 01 00 00 00 00 00   ........ ........
+00000060: 00 00 00 00 00 00 00 00  00 00 ee e3 73 00 41 00   ........ ....s.A.
+00000070: 70 00 70 00 44 00 61 00  74 00 61 00 00 00 42 00   p.p.D.a. t.a...B.
+....
 
 === Users property view
 ==== Users property view shell item
@@ -1728,7 +1779,7 @@ Includes the 2 bytes of the size itself
 3 => Windows XP or 2003 +
 7 => Windows Vista (SP0) +
 8 => Windows 2008, 7, 8.0 +
-9 => Windows 8.1
+9 => Windows 8.1, 10
 | 4 | 4 | 0xbeef0004 | Extension signature
 | 8 | 4 | | Creation date and time +
 Contains a FAT date and time in UTC
@@ -1738,7 +1789,7 @@ Contains a FAT date and time in UTC
 [yellow-background]*0x14 => Windows XP or 2003* +
 [yellow-background]*0x26 => Windows Vista (SP0)* +
 [yellow-background]*0x2a => Windows 2008, 7, 8.0* +
-[yellow-background]*0x2e => Windows 8.1*
+[yellow-background]*0x2e => Windows 8.1, 10*
 4+| _If extension version >= 7_ 
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
 | ... | 8 | | File reference +

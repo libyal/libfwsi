@@ -247,7 +247,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 		 shell_item_data[ 9 ] );
 
 		libcnotify_printf(
-		 "%s: data size\t\t\t: %" PRIu16 "\n",
+		 "%s: data size\t\t\t\t: %" PRIu16 "\n",
 		 function,
 		 data_size );
 	}

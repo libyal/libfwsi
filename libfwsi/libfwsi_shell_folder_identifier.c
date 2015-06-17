@@ -26,6 +26,9 @@
 #include "libfwsi_libcerror.h"
 #include "libfwsi_shell_folder_identifier.h"
 
+uint8_t libfwsi_shell_folder_identifier_applications[ 16 ] = {
+	0x9b, 0xd4, 0x34, 0x42, 0x45, 0x02, 0xf3, 0x4d, 0xb7, 0x80, 0x38, 0x93, 0x94, 0x34, 0x56, 0xe1 };
+
 uint8_t libfwsi_shell_folder_identifier_briefcase[ 16 ] = {
 	0x20, 0xd9, 0xbb, 0x85, 0xa0, 0x42, 0x69, 0x10, 0xa2, 0xe4, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
 
@@ -137,6 +140,7 @@ uint8_t libfwsi_shell_folder_identifier_unknown[ 16 ] = {
 /* The shell folder identifiers
  */
 libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_definitions[ ] = {
+	{ libfwsi_shell_folder_identifier_applications,			"Applications" },
 	{ libfwsi_shell_folder_identifier_briefcase,			"Briefcase" },
 	{ libfwsi_shell_folder_identifier_computer_and_devices,		"Computer and Devices" },
 	{ libfwsi_shell_folder_identifier_common_places,		"Common Places" },
