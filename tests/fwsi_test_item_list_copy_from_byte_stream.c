@@ -109,11 +109,30 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
+	if( file_size > ( 4 * 1024 * 1024 ) )
+	{
+		fprintf(
+		 stderr,
+		 "File size exceeds maximum.\n" );
+
+		goto on_error;
+	}
+	file_data = (uint8_t *) memory_allocate(
+	                         sizeof( uint8_t ) * (size_t) file_size );
+
+	if( file_data == NULL )
+	{
+		fprintf(
+		 stderr,
+		 "Unable to create file data.\n" );
+
+		goto on_error;
+	}
 	if( libcfile_file_read_buffer(
 	     file,
 	     file_data,
 	     (size_t) file_size,
-	     &error ) != 0 )
+	     &error ) == -1 )
 	{
 		fprintf(
 		 stderr,
@@ -138,25 +157,6 @@ int main( int argc, char * const argv[] )
 		fprintf(
 		 stderr,
 		 "Unable to free file.\n" );
-
-		goto on_error;
-	}
-	if( file_size > ( 4 * 1024 * 1024 ) )
-	{
-		fprintf(
-		 stderr,
-		 "File size exceeds maximum.\n" );
-
-		goto on_error;
-	}
-	file_data = (uint8_t *) memory_allocate(
-	                         sizeof( uint8_t ) * (size_t) file_size );
-
-	if( file_data == NULL )
-	{
-		fprintf(
-		 stderr,
-		 "Unable to create file data.\n" );
 
 		goto on_error;
 	}
