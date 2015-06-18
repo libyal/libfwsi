@@ -678,7 +678,7 @@ The URI shell item is variable of size and consists of the following values:
 | 0 | 2 | | The size of the shell item +
 Includes the 2 bytes of the size itself
 | 2 | 1 | 0x61 | Class type indicator
-| 3 | 1 | [yellow-background]*Flags* +
+| 3 | 1 | | [yellow-background]*Flags* +
 [yellow-background]*0x01* +
 [yellow-background]*0x02* +
 0x80 set if URI string in Unicode
