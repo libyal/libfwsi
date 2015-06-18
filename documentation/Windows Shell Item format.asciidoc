@@ -107,7 +107,7 @@ MSDN-SHELLEXT
 |===
 | Characteristics | Description
 | Byte order | little-endian
-| Date and time values | 
+| Date and time values | FAT date and time and FILETIME
 | Character strings | ASCII strings are Single Byte Character (SBC) or Multi Byte Character (MBC) string stored with a codepage. Sometimes referred to as ANSI string representation. +
 Though technically maybe incorrect, this document will use term (extended) ASCII string. +
 Unicode strings are stored in UTF-16 little-endian without the byte order mark (BOM).
@@ -237,7 +237,7 @@ Includes the 2 bytes of the size itself
 | 3 | 1 | | Sort index
 | 4 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: `[LIBFWSI-WIKI]`
+For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 4+| _Present if shell item size > 20 (seen in Windows 7)_
 | 20 | ... | | Extension block 0xbeef0017 +
 See section: <<extension_block_0xbeef0017,Extension block 0xbeef0017>>
@@ -312,7 +312,7 @@ Remaining bytes are filled with 0 byte values
 3+ | [yellow-background]*Present if shell item size > 25 (seen in Windows 7) or is this indicated by another value?*
 | 25 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: `[LIBFWSI-WIKI]` +
+For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]] +
 [yellow-background]*Also seen in combination with Documents folder namespace CLSID, maybe this value should be Class identifier?*
 4+| _Present if shell item contains more data_
 | ... | ... | | Extension block +
@@ -394,7 +394,7 @@ Also see below.
 4+| _If class type indicator flag 0x80 is set_
 | ... | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: `[LIBFWSI-WIKI]`
+For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 |===
 
 The primary name contains the long name if available otherwise it contains the 
@@ -684,7 +684,7 @@ Includes the 2 bytes of the size itself
 0x80 set if URI string in Unicode
 | 4 | 2 | | Size of data +
 Includes the 2 bytes of the size itself 0 if no data +
-4+| _If size of data > 0 [yellow-background]*(or is this controlled by flag 0x01 or 0x02 ?*_
+4+| _If size of data > 0 (or is this controlled by flag 0x01 or 0x02?)_
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 8 | | [yellow-background]*Unknown timestamp* +
@@ -771,13 +771,31 @@ Includes the 2 bytes of the size itself
 | 4 | 10 | | [yellow-background]*Unknown (Empty values)*
 | 14 | 16 | | Control Panel Item identifier +
 Contains a GUID +
-For a list of control panel identifiers see: `[LIBFWSI-WIKI]`
+For a list of control panel identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 |===
 
 == Signature-based shell items
 === Application shell item
 Seen in Windows 10 after root shell item with applications shell folder identifier.
 
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | [yellow-background]*Unknown*
+| 4 | 2 | | [yellow-background]*Unknown (data size?)*
+| 6 | 4 | "APPS" +
+0x53505041 | Signature
+| 10 | 4 | | [yellow-background]*Unknown*
+| 14 | 4 | | [yellow-background]*Unknown*
+4+| _If data size > 0 ?_
+| ... | ... | | Property store data +
+Contains one or more property stores +
+See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+|===
+
+==== Notes
 ....
 libfwsi_item_list_copy_from_byte_stream: shell item: 1 size             : 290
 libfwsi_item_copy_from_byte_stream: size                                : 290
@@ -919,7 +937,7 @@ Only available in mobile version of Windows Vista
 
 === Game Folder shell item
 Seen after root folder shell item containing a My Games shell folder identifier 
-(ED228FDF-9EA8-4870-83B1-96B02CFE0D52).
+{ED228FDF-9EA8-4870-83B1-96B02CFE0D52}.
 
 The Game Folder Shell Item is 32 bytes of size and consists of:
 
@@ -1012,7 +1030,7 @@ The size of the following data, the extension block sizes not included
 | 22 | 4 | | [yellow-background]*Unknown*
 | 26 | 8 | | [yellow-background]*Last modification time?* +
 Contains a FILETIME
-| 34 | 8 | [yellow-background]*Creation time?* +
+| 34 | 8 | | [yellow-background]*Creation time?* +
 Contains a FILETIME
 | 42 | 16 | | Contains a GUID +
 WPD_CONTENT_TYPE_FOLDER
@@ -1052,7 +1070,7 @@ Contains an OLE defines property (variant) types. Also see `[LIBFOLE]`
 
 ===== Format class (or property set) identifiers
 The following format class (or property set) identifier are known to be used. 
-For more information about the property sets and values see: `[LIBFWPS]`.
+For more information about the property sets and values see: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 
 [cols="1,5",options="header"]
 |===
@@ -1084,7 +1102,7 @@ Contains a GUID +
 {5E591A74-DF96-48D3-8D67-1733BCEE28BA}
 | ... | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: `[LIBFWSI-WIKI]`
+For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 |===
 
 ==== Shell folder identifiers
@@ -1268,7 +1286,7 @@ Contains 0 if not present
 If size of shell property sheet list size > 0
 | ... | ... | | Property store data +
 Contains one or more property stores +
-See: `[LIBFWPS]`
+See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
 | ... | 2 | | [yellow-background]*Unknown (Empty values)* +
 Present if shell item contains more data
@@ -1285,14 +1303,14 @@ See sections: <<extension_block_0xbeef0000,Extension block 0xbeef0000>> and <<ex
 | 0x10141981 | 32 | [yellow-background]*Unknown*
 | 0x23febbee | 16 | Know folder identifier +
 Contains a GUID +
-For a list of known folder identifiers see: `[LIBFWSI-WIKI]`
+For a list of known folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 | 0x3b93afbb | 4 | Contains a 32-bit value
 | 0xbeebee00 | 4 | Contains a 32-bit value
 |===
 
 ===== Format class (or property set) identifiers
 The following format class (or property set) identifiers are known to be used. 
-For more information about the property sets and values see: `[LIBFWPS]`.
+For more information about the property sets and values see: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 
 [cols="1,5",options="header"]
 |===
@@ -1427,7 +1445,7 @@ Contains 0 if not present
 4+| _If size of shell property sheet list size > 0_
 | ... | ... | | Property store data +
 Contains one or more property stores +
-See: `[LIBFWPS]`
+See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
 | ... | 2 | | [yellow-background]*Unknown (Empty values)*
 | ... | 16 | | Delegate item identifier +
@@ -1757,7 +1775,7 @@ Includes the 2 bytes of the size itself
 | 4 | 4 | 0xbeef0003 | Extension signature
 | 8 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: `[LIBFWSI-WIKI]`
+For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 | 24 | 2 | | Extension version offset +
 The offset is relative from the start of the shell item.
 |===
@@ -2059,7 +2077,7 @@ Includes the 2 bytes of the size itself
 | 16 | ... | | Property store data +
 Contains one or more property stores +
 [yellow-background]*Note only seen one so far* +
-See: `[LIBFWPS]`
+See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 12 | | [yellow-background]*Unknown (empty values)*
@@ -2443,7 +2461,7 @@ Includes the 2 bytes of the size itself
 | 4 | 4 | 0xbeef0021 | Extension signature
 | 8 | ... | | Property store data +
 Contains one or more property stores +
-See: `[LIBFWPS]`
+See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
 | ... | 2 | | Extension version offset +
 The offset is relative from the start of the shell item.
