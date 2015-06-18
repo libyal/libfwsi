@@ -1,6 +1,7 @@
 MSVSCPP_FILES = \
 	libcdata/libcdata.vcproj \
 	libcerror/libcerror.vcproj \
+	libcfile/libcfile.vcproj \
 	libclocale/libclocale.vcproj \
 	libcnotify/libcnotify.vcproj \
 	libcstring/libcstring.vcproj \

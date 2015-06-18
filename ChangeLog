@@ -15,13 +15,13 @@ TODO
   - 0xbeef0017
   - 0xbeef0019, print folder type
   - 0xbeef001a
-  - 0xbeef0025
 * add tests
   - add test program that helps with fuzzing that reads
     shell item data from a file
 
 20150618
 * bug fixes after fuzzing with AFL
+* worked on format support
 
 20150617
 * worked on tests

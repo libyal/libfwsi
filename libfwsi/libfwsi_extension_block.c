@@ -33,6 +33,7 @@
 #include "libfwsi_extension_block_0xbeef0006_values.h"
 #include "libfwsi_extension_block_0xbeef0014_values.h"
 #include "libfwsi_extension_block_0xbeef0019_values.h"
+#include "libfwsi_extension_block_0xbeef0025_values.h"
 #include "libfwsi_file_entry_extension_values.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
@@ -589,6 +590,41 @@ int libfwsi_extension_block_copy_from_byte_stream(
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
 				 "%s: unable to copy byte stream to extension block 0xbeef0019 values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
+		case 0xbeef0025UL:
+			internal_extension_block->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_extension_block_0xbeef0025_values_free;
+
+			if( libfwsi_extension_block_0xbeef0025_values_initialize(
+			     (libfwsi_extension_block_0xbeef0025_values_t **) &( internal_extension_block->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create extension block 0xbeef0025 values.",
+				 function );
+
+				goto on_error;
+			}
+			read_count = libfwsi_extension_block_0xbeef0025_values_read(
+			              (libfwsi_extension_block_0xbeef0025_values_t *) internal_extension_block->value,
+			              byte_stream,
+			              internal_extension_block->data_size,
+			              error );
+
+			if( read_count == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy byte stream to extension block 0xbeef0025 values.",
 				 function );
 
 				goto on_error;

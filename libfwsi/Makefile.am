@@ -35,6 +35,7 @@ libfwsi_la_SOURCES = \
 	libfwsi_extension_block_0xbeef0006_values.c libfwsi_extension_block_0xbeef0006_values.h \
 	libfwsi_extension_block_0xbeef0014_values.c libfwsi_extension_block_0xbeef0014_values.h \
 	libfwsi_extension_block_0xbeef0019_values.c libfwsi_extension_block_0xbeef0019_values.h \
+	libfwsi_extension_block_0xbeef0025_values.c libfwsi_extension_block_0xbeef0025_values.h \
 	libfwsi_file_attributes.c libfwsi_file_attributes.h \
 	libfwsi_file_entry.c libfwsi_file_entry.h \
 	libfwsi_file_entry_extension.c libfwsi_file_entry_extension.h \

@@ -312,7 +312,8 @@ Remaining bytes are filled with 0 byte values
 3+ | [yellow-background]*Present if shell item size > 25 (seen in Windows 7) or is this indicated by another value?*
 | 25 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: `[LIBFWSI-WIKI]`
+For a list of shell folder identifiers see: `[LIBFWSI-WIKI]` +
+[yellow-background]*Also seen in combination with Documents folder namespace CLSID, maybe this value should be Class identifier?*
 4+| _Present if shell item contains more data_
 | ... | ... | | Extension block +
 [yellow-background]*Seen extension block 0xbeef0025.* +
@@ -2468,20 +2469,6 @@ Contains a FILETIME
 | 28 | 4 | | Extension version offset +
 The offset is relative from the start of the shell item.
 |===
-
-....
-Includes shell item size:
-00000000  3a 00 2e 80 3a cc bf b4  2c db 4c 42 b0 29 7f e9  |:...:...,.LB.)..|
-00000010  9a 87 c6 41 26 00 01 00  25 00 ef be 11 00 00 00  |...A&...%.......|
-00000020  a7 17 31 a6 e9 dd cf 01  6c bd e8 71 5d de cf 01  |..1.....l..q]...|
-00000030  6c bd e8 71 5d de cf 01  14 00 00 00              |l..q].......|
-
-Includes shell item size:
-00000000  3a 00 2e 80 90 e2 4d 37  3f 12 65 45 91 64 39 c4  |:.....M7?.eE.d9.|
-00000010  92 5e 46 7b 26 00 01 00  25 00 ef be 11 00 00 00  |.^F{&...%.......|
-00000020  a7 17 31 a6 e9 dd cf 01  ae 8e 98 d1 ed dd cf 01  |..1.............|
-00000030  ae 8e 98 d1 ed dd cf 01  14 00 00 00              |............|
-....
 
 == Windows definitions
 === [[file_attribute_flags]]File attribute flags
