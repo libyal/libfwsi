@@ -1704,7 +1704,7 @@ Includes the 2 bytes of the size itself
 [yellow-background]*Seen: 0*
 | 4 | 4 | 0xbeef0000 | Extension signature
 4+| _If size == 14_
-| 8 | 4 | [yellow-background]*Unknown*
+| 8 | 4 | | [yellow-background]*Unknown*
 4+| _Else if size == 42_
 | 8 | 16 | | Folder type +
 Contains a GUID
@@ -1907,12 +1907,12 @@ Includes the 2 bytes of the size itself
 | 8 | 8 | | [yellow-background]*Unknown*
 | 16 | 8 | | [yellow-background]*Deletion time?* +
 Contains a FILETIME
-| 24 | 520 | [yellow-background]*Original path?* +
+| 24 | 520 | | [yellow-background]*Original path?* +
 UTF-16 little-endian string with end-of-string character +
 Unused bytes can contain 0-byte values
-| 544 | ... | [yellow-background]*Recycle bin path?* +
+| 544 | ... | | [yellow-background]*Recycle bin path?* +
 UTF-16 little-endian string with end-of-string character
-| ... | ... | [yellow-background]*File extension?* +
+| ... | ... | | [yellow-background]*File extension?* +
 UTF-16 little-endian string with end-of-string character
 | ... | ... | | [yellow-background]*Unknown*
 | | | | 
