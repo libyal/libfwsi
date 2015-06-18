@@ -295,9 +295,12 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 
 	extension_block_data_offset = 24;
 
-/* TODO bounds check */
 	if( result == 0 )
 	{
+		if( extension_block_data_size < 58 )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -377,6 +380,10 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 		     property_index < number_of_properties;
 		     property_index++ )
 		{
+			if( extension_block_data_offset > ( extension_block_data_size - 8 ) )
+			{
+				return( 0 );
+			}
 			byte_stream_copy_to_uint32_little_endian(
 			 &( extension_block_data[ extension_block_data_offset ] ),
 			 property_type );
@@ -409,7 +416,11 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 #endif
 			extension_block_data_offset += 4;
 
-/* TODO check if property_size value is sane */
+			if( ( property_size > extension_block_data_size )
+			 || ( extension_block_data_offset > ( extension_block_data_size - property_size ) ) )
+			{
+				return( 0 );
+			}
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
 			{
