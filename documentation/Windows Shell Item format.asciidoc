@@ -454,7 +454,7 @@ The date and time values do not always seem to be set.
 ==== File entry shell item - SolidWorks
 Seen in Windows 7 in LastVisitedPidMRU and LNK files after shell item 0xb1 with 
 extension block 0xbeef0003 which contains the SolidWorks Enterprise PDM CLSID: 
-{0bd8e793-d371-11d1-b0b5-0060972919d7}.
+0bd8e793-d371-11d1-b0b5-0060972919d7.
 
 The file entry shell item is variable of size and consists of the following 
 values:
@@ -936,8 +936,8 @@ Only available in mobile version of Windows Vista
 |===
 
 === Game Folder shell item
-Seen after root folder shell item containing a My Games shell folder identifier 
-{ED228FDF-9EA8-4870-83B1-96B02CFE0D52}.
+Seen after root folder shell item containing a My Games shell folder identifier:
+ed228fdf-9ea8-4870-83b1-96b02cfe0d52.
 
 The Game Folder Shell Item is 32 bytes of size and consists of:
 
@@ -952,7 +952,7 @@ Includes the 2 bytes of the size itself
 0x49534647 | Signature
 | 8 | 16 | | Class identifier +
 Contains a GameExplorer related GUID +
-D1A7F7E0-D4E9-49e8-BF2C-CEAA01D2E670
+d1a7f7e0-d4e9-49e8-bf2c-ceaa01d2e670
 | 24 | 8 | | [yellow-background]*Unknown (Empty values)*
 |===
 
@@ -1099,7 +1099,7 @@ Does not includes the 2 bytes of the size itself
 | 6 | ... | | Data
 | ... | 16 | | Delegate item identifier +
 Contains a GUID +
-{5E591A74-DF96-48D3-8D67-1733BCEE28BA}
+5e591a74-df96-48d3-8d67-1733bcee28ba
 | ... | 16 | | Shell folder identifier +
 Contains a GUID +
 For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
@@ -1239,13 +1239,14 @@ This value is 16-bit aligned, so it can contain an additional zero byte
 4+| _Common_
 | ... | 16 | | Delegate item identifier +
 Contains a GUID +
-{5E591A74-DF96-48D3-8D67-1733BCEE28BA}
+5e591a74-df96-48d3-8d67-1733bcee28ba
 | ... | 16 | | Item (class) identifier +
 Contains a GUID
 | ... | ... | | Extension block 0xbeef0004 +
 See section: <<extension_block_0xbeef004,File entry extension block (0xbeef0004)>>
 |===
 
+==== Notes
 ....
 libfwsi_item_copy_from_byte_stream: size                                : 130
 libfwsi_item_copy_from_byte_stream: data:
@@ -1450,7 +1451,7 @@ See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Prope
 | ... | 2 | | [yellow-background]*Unknown (Empty values)*
 | ... | 16 | | Delegate item identifier +
 Contains a GUID +
-{5E591A74-DF96-48D3-8D67-1733BCEE28BA}
+5e591a74-df96-48d3-8d67-1733bcee28ba
 | ... | 16 | | Item (class) identifier +
 Contains a GUID +
 Present if shell item contains more data
@@ -2411,7 +2412,7 @@ Includes the 2 bytes of the size itself
 | 2 | 2 | 0 | Extension version
 | 4 | 4 | 0xbeef0019 | Extension signature
 | 8 | 16 | | Folder type identifier +
-Contains a GUID e.g. Documents Library {fbb3477e-c9e4-4b3b-a2ba-d3f5d3cd46f9}
+Contains a GUID e.g. Documents Library: fbb3477e-c9e4-4b3b-a2ba-d3f5d3cd46f9
 | 24 | 16 | | [yellow-background]*Unknown* +
 Contains a GUID ([yellow-background]*related to TopViews?*)
 | 40 | 2 | | Extension version offset +
