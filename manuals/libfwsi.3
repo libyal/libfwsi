@@ -1,4 +1,4 @@
-.Dd June 14, 2015
+.Dd July  1, 2015
 .Dt libfwsi 3
 .Os libfwsi
 .Sh NAME
@@ -44,6 +44,8 @@ Item functions
 .Fn libfwsi_item_initialize "libfwsi_item_t **item, libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_item_free "libfwsi_item_t **item, libfwsi_error_t **error"
+.Ft int
+.Fn libfwsi_item_copy_from_byte_stream "libfwsi_item_t *item, const uint8_t *byte_stream, size_t byte_stream_size, int ascii_codepage, libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_item_get_type "libfwsi_item_t *item, int *type, libfwsi_error_t **error"
 .Ft int
