@@ -10,7 +10,6 @@ SUBDIRS = \
 	libclocale \
 	libcnotify \
 	libuna \
-	libcfile \
 	libfdatetime \
 	libfguid \
 	libfole \
@@ -19,6 +18,7 @@ SUBDIRS = \
 	pyfwsi \
 	po \
 	manuals \
+	libcfile \
 	tests \
 	msvscpp
 

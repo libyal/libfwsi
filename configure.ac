@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20150618],
+ [20150701],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -167,7 +167,6 @@ AC_CONFIG_FILES([libcdata/Makefile])
 AC_CONFIG_FILES([libclocale/Makefile])
 AC_CONFIG_FILES([libcnotify/Makefile])
 AC_CONFIG_FILES([libuna/Makefile])
-AC_CONFIG_FILES([libcfile/Makefile])
 AC_CONFIG_FILES([libfdatetime/Makefile])
 AC_CONFIG_FILES([libfguid/Makefile])
 AC_CONFIG_FILES([libfole/Makefile])
@@ -177,6 +176,7 @@ AC_CONFIG_FILES([pyfwsi/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([po/Makevars])
 AC_CONFIG_FILES([manuals/Makefile])
+AC_CONFIG_FILES([libcfile/Makefile])
 AC_CONFIG_FILES([tests/Makefile])
 AC_CONFIG_FILES([msvscpp/Makefile])
 dnl Have configure make the include files

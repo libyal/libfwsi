@@ -172,6 +172,17 @@ int libfwsi_item_free(
      libfwsi_item_t **item,
      libfwsi_error_t **error );
 
+/* Copies a shell item from a byte stream
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_item_copy_from_byte_stream(
+     libfwsi_item_t *item,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int ascii_codepage,
+     libfwsi_error_t **error );
+
 /* Retrieves the type
  * Returns 1 if successful or -1 on error
  */

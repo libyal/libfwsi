@@ -34,7 +34,7 @@
 #include "fwsi_test_libfwsi.h"
 
 /* Define to make cfile_test_read generate verbose output
-#define FWSI_TEST_READ_VERBOSE
+#define FWSI_TEST_ITEM_LIST_COPY_FROM_BYTE_STREAM_VERBOSE
  */
 
 /* The main program
@@ -59,7 +59,7 @@ int main( int argc, char * const argv[] )
 
 		return( EXIT_FAILURE );
 	}
-#if defined( HAVE_DEBUG_OUTPUT ) && defined( FWSI_TEST_READ_VERBOSE )
+#if defined( HAVE_DEBUG_OUTPUT ) && defined( FWSI_TEST_ITEM_LIST_COPY_FROM_BYTE_STREAM_VERBOSE )
 	libfwsi_notify_set_verbose(
 	 1 );
 	libfwsi_notify_set_file(
