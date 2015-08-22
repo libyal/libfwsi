@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20150701],
+ [20150822],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -190,7 +190,6 @@ AC_CONFIG_FILES([common/types.h])
 AC_CONFIG_FILES([dpkg/changelog])
 AC_CONFIG_FILES([dpkg/copyright])
 AC_CONFIG_FILES([libfwsi/libfwsi.rc])
-AC_CONFIG_FILES([pyfwsi/setup.py])
 AC_CONFIG_FILES([libfwsi.pc])
 AC_CONFIG_FILES([libfwsi.spec])
 dnl Have configure write its configuration

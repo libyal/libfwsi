@@ -112,8 +112,8 @@ stamp-h[1-9]
 /include/libfwsi/types.h
 /libfwsi/libfwsi.rc
 /libfwsi/libfwsi_definitions.h
-/pyfwsi/setup.py
 /tests/fwsi_test_item_list_copy_from_byte_stream
+/tests/input
 /tests/tmp*
 
 # Local library dependencies specific files
