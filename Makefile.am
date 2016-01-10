@@ -16,8 +16,8 @@ SUBDIRS = \
 	libfwps \
 	libfwsi \
 	pyfwsi \
-	pyfwsi2 \
-	pyfwsi3 \
+	pyfwsi-python2 \
+	pyfwsi-python3 \
 	po \
 	manuals \
 	libcfile \

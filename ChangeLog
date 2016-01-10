@@ -19,6 +19,9 @@ TODO
   - add test program that helps with fuzzing that reads
     shell item data from a file
 
+20160110
+* worked on Python 3 support
+
 20160106
 * 2016 update
 
