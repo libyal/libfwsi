@@ -16,6 +16,8 @@ SUBDIRS = \
 	libfwps \
 	libfwsi \
 	pyfwsi \
+	pyfwsi2 \
+	pyfwsi3 \
 	po \
 	manuals \
 	libcfile \
@@ -30,8 +32,10 @@ DPKG_FILES = \
 	dpkg/copyright \
 	dpkg/copyright.in \
 	dpkg/rules \
-	dpkg/libfwsi-dev.docs \
 	dpkg/libfwsi.docs \
+	dpkg/libfwsi-dev.docs \
+	dpkg/libfwsi-python.docs \
+	dpkg/libfwsi-python3.docs \
 	dpkg/source/format
 
 GETTEXT_FILES = \

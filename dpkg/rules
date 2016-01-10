@@ -12,7 +12,7 @@ export DH_OPTIONS
 
 .PHONY: override_dh_auto_configure
 override_dh_auto_configure:
-	dh_auto_configure -- --enable-python CFLAGS="-g"
+	dh_auto_configure -- --enable-python2 --enable-python3 CFLAGS="-g"
 
 .PHONY: override_dh_auto_test
 override_dh_auto_test:
@@ -30,8 +30,11 @@ override_dh_install:
 	dh_install "debian/tmp/usr/lib/pkgconfig/*" -p libfwsi-dev
 	dh_install "debian/tmp/usr/share/man/man3/*" -p libfwsi-dev
 	# Create the libfwsi-python package.
-	dh_install -X"*_d.so" "debian/tmp/usr/lib/python*/*" -p libfwsi-python
-	# The libfwsi-dbg and libfwsi-python-dbg packages are created by dh_strip.
+	dh_install -X"*_d.so" "debian/tmp/usr/lib/python2*/*" -p libfwsi-python
+	# Create the libfwsi-python3 package.
+	dh_install -X"*_d.so" "debian/tmp/usr/lib/python3*/*" -p libfwsi-python3
+	# The libfwsi-dbg, libfwsi-python-dbg and libfwsi-python3-dbg packages
+	# are created by dh_strip.
 	dh_install
 
 .PHONY: override_dh_installmenu
@@ -81,6 +84,7 @@ override_dh_strip:
 ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
 	dh_strip -plibfwsi --dbg-package=libfwsi-dbg
 	dh_strip -plibfwsi-python --dbg-package=libfwsi-python-dbg
+	dh_strip -plibfwsi-python3 --dbg-package=libfwsi-python3-dbg
 endif
 
 .PHONY: override_dh_shlibdeps

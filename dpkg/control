@@ -2,7 +2,7 @@ Source: libfwsi
 Section: libs
 Priority: extra
 Maintainer: Joachim Metz <joachim.metz@gmail.com>
-Build-Depends: debhelper (>= 7), autotools-dev, python-dev
+Build-Depends: debhelper (>= 7), autotools-dev, python-dev, python3-dev
 Standards-Version: 3.9.5
 Homepage: https://github.com/libyal/libfwsi/
 
@@ -32,8 +32,8 @@ Section: python
 Architecture: any
 Depends: libfwsi (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Suggests: libfwsi-python-dbg
-Description: Python bindings for libfwsi
- Python bindings for libfwsi.
+Description: Python 2 bindings for libfwsi
+ Python 2 bindings for libfwsi.
 
 Package: libfwsi-python-dbg
 Section: debug
@@ -41,4 +41,19 @@ Architecture: any
 Depends: libfwsi-python (= ${binary:Version}), ${misc:Depends}
 Description: Debugging symbols for libfwsi-python
  Debugging symbols for libfwsi-python.
+
+Package: libfwsi-python3
+Section: python
+Architecture: any
+Depends: libfwsi (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Suggests: libfwsi-python3-dbg
+Description: Python 3 bindings for libfwsi
+ Python 3 bindings for libfwsi.
+
+Package: libfwsi-python3-dbg
+Section: debug
+Architecture: any
+Depends: libfwsi-python3 (= ${binary:Version}), ${misc:Depends}
+Description: Debugging symbols for libfwsi-python3
+ Debugging symbols for libfwsi-python3.
 

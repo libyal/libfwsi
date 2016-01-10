@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20160106],
+ [20160110],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -94,7 +94,10 @@ dnl Check if libfwsi should be build with debug output
 AX_COMMON_CHECK_ENABLE_DEBUG_OUTPUT
 
 dnl Check if libfwsi python bindings (pyfwsi) should be build
+AX_PYTHON_CHECK_PYPREFIX
 AX_PYTHON_CHECK_ENABLE
+AX_PYTHON2_CHECK_ENABLE
+AX_PYTHON3_CHECK_ENABLE
 
 dnl Headers included in various places
 AC_CHECK_HEADERS([stdarg.h varargs.h])
@@ -173,6 +176,8 @@ AC_CONFIG_FILES([libfole/Makefile])
 AC_CONFIG_FILES([libfwps/Makefile])
 AC_CONFIG_FILES([libfwsi/Makefile])
 AC_CONFIG_FILES([pyfwsi/Makefile])
+AC_CONFIG_FILES([pyfwsi2/Makefile])
+AC_CONFIG_FILES([pyfwsi3/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([po/Makevars])
 AC_CONFIG_FILES([manuals/Makefile])
@@ -199,23 +204,25 @@ AC_OUTPUT
 
 AC_MSG_NOTICE([
 Building:
-   libcstring support:      $ac_cv_libcstring
-   libcerror support:       $ac_cv_libcerror
-   libcthreads support:     $ac_cv_libcthreads
-   libcdata support:        $ac_cv_libcdata
-   libclocale support:      $ac_cv_libclocale
-   libcnotify support:      $ac_cv_libcnotify
-   libuna support:          $ac_cv_libuna
-   libcfile support:        $ac_cv_libcfile
-   libfdatetime support:    $ac_cv_libfdatetime
-   libfole support:         $ac_cv_libfole
-   libfguid support:        $ac_cv_libfguid
-   libfwps support:         $ac_cv_libfwps
+   libcstring support:                $ac_cv_libcstring
+   libcerror support:                 $ac_cv_libcerror
+   libcthreads support:               $ac_cv_libcthreads
+   libcdata support:                  $ac_cv_libcdata
+   libclocale support:                $ac_cv_libclocale
+   libcnotify support:                $ac_cv_libcnotify
+   libuna support:                    $ac_cv_libuna
+   libcfile support:                  $ac_cv_libcfile
+   libfdatetime support:              $ac_cv_libfdatetime
+   libfole support:                   $ac_cv_libfole
+   libfguid support:                  $ac_cv_libfguid
+   libfwps support:                   $ac_cv_libfwps
 
 Features:
-   Multi-threading support: $ac_cv_libcthreads_multi_threading
-   Python (pyfwsi) support: $ac_cv_enable_python
-   Verbose output:          $ac_cv_enable_verbose_output
-   Debug output:            $ac_cv_enable_debug_output
+   Multi-threading support:           $ac_cv_libcthreads_multi_threading
+   Python (pyfwsi) support:           $ac_cv_enable_python
+   Python version 2 (pyfwsi) support: $ac_cv_enable_python2
+   Python version 3 (pyfwsi) support: $ac_cv_enable_python3
+   Verbose output:                    $ac_cv_enable_verbose_output
+   Debug output:                      $ac_cv_enable_debug_output
 ]);
 
