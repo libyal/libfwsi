@@ -1,13 +1,13 @@
 include_HEADERS = \
-        libfwsi.h
+	libfwsi.h
 
 pkginclude_HEADERS = \
-        libfwsi/codepage.h \
-        libfwsi/definitions.h \
-        libfwsi/error.h \
-        libfwsi/extern.h \
-        libfwsi/features.h \
-        libfwsi/types.h
+	libfwsi/codepage.h \
+	libfwsi/definitions.h \
+	libfwsi/error.h \
+	libfwsi/extern.h \
+	libfwsi/features.h \
+	libfwsi/types.h
 
 EXTRA_DIST = \
 	libfwsi.h.in \

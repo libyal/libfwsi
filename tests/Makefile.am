@@ -3,10 +3,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common \
 	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
-        @LIBCLOCALE_CPPFLAGS@ \
-        @LIBCNOTIFY_CPPFLAGS@ \
-        @LIBUNA_CPPFLAGS@ \
-        @LIBCFILE_CPPFLAGS@ \
+	@LIBCLOCALE_CPPFLAGS@ \
+	@LIBCNOTIFY_CPPFLAGS@ \
+	@LIBUNA_CPPFLAGS@ \
+	@LIBCFILE_CPPFLAGS@ \
 	@LIBFWSI_DLL_IMPORT@
 
 if HAVE_PYTHON_TESTS
@@ -22,7 +22,7 @@ check_SCRIPTS = \
 EXTRA_DIST = \
 	$(check_SCRIPTS)
 
-check_PROGRAMS =  \
+check_PROGRAMS = \
 	fwsi_test_item_list_copy_from_byte_stream
 
 fwsi_test_item_list_copy_from_byte_stream_SOURCES = \
