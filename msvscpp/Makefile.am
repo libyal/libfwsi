@@ -1,4 +1,5 @@
 MSVSCPP_FILES = \
+	fwsi_test_item_list_copy_from_byte_stream/fwsi_test_item_list_copy_from_byte_stream.vcproj \
 	libcdata/libcdata.vcproj \
 	libcerror/libcerror.vcproj \
 	libcfile/libcfile.vcproj \

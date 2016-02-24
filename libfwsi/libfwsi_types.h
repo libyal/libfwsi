@@ -43,9 +43,9 @@ typedef intptr_t libfwsi_extension_block_t;
 typedef intptr_t libfwsi_item_t;
 typedef intptr_t libfwsi_item_list_t;
 
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) && !defined( WINAPI ) */
 
-#endif
+#endif /* defined( HAVE_LOCAL_LIBFWSI ) */
 
-#endif
+#endif /* !defined( _LIBFWSI_INTERNAL_TYPES_H ) */
 

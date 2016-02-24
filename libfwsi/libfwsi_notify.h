@@ -23,9 +23,8 @@
 #define _LIBFWSI_NOTIFY_H
 
 #include <common.h>
+#include <file_stream.h>
 #include <types.h>
-
-#include <stdio.h>
 
 #include "libfwsi_extern.h"
 #include "libfwsi_libcerror.h"
@@ -54,11 +53,11 @@ LIBFWSI_EXTERN \
 int libfwsi_notify_stream_close(
      libcerror_error_t **error );
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBFWSI ) */
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_NOTIFY_H ) */
 

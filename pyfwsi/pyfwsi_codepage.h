@@ -38,5 +38,5 @@ const char *pyfwsi_codepage_to_string(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_CODEPAGE_H */
 

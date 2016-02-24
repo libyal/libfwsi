@@ -28,7 +28,7 @@
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_python.h"
 
-#define PYFWSI_ERROR_STRING_SIZE		2048
+#define PYFWSI_ERROR_STRING_SIZE	2048
 
 #if defined( __cplusplus )
 extern "C" {
@@ -56,5 +56,5 @@ void pyfwsi_error_raise(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_ERROR_H ) */
 
