@@ -1,4 +1,6 @@
 TODO
+* Python
+  - implement pyfwsi_item_copy_from_byte_stream
 * cdburn:
   - parse sub shell item list
 * URI shell item
@@ -16,8 +18,10 @@ TODO
   - 0xbeef0019, print folder type
   - 0xbeef001a
 * add tests
+  - complete item_list_copy_from_byte_stream
   - add test program that helps with fuzzing that reads
     shell item data from a file
+  - add Python tests
 
 20160110
 * worked on Python 3 support

@@ -45,5 +45,5 @@
 
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_LIBFGUID_H ) */
 

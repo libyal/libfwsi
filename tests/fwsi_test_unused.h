@@ -1,5 +1,5 @@
 /*
- * The internal libcdata header
+ * The unused definition
  *
  * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,36 +19,32 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_LIBCDATA_H )
-#define _LIBFWSI_LIBCDATA_H
+#if !defined( _FWSI_TEST_UNUSED_H )
+#define _FWSI_TEST_UNUSED_H
 
 #include <common.h>
 
-/* Define HAVE_LOCAL_LIBCDATA for local use of libcdata
- */
-#if defined( HAVE_LOCAL_LIBCDATA )
+#if !defined( FWSI_TEST_ATTRIBUTE_UNUSED )
 
-#include <libcdata_array.h>
-#include <libcdata_btree.h>
-#include <libcdata_definitions.h>
-#include <libcdata_list.h>
-#include <libcdata_list_element.h>
-#include <libcdata_range_list.h>
-#include <libcdata_tree_node.h>
-#include <libcdata_types.h>
+#if defined( __GNUC__ ) && __GNUC__ >= 3
+#define FWSI_TEST_ATTRIBUTE_UNUSED	__attribute__ ((__unused__))
 
 #else
+#define FWSI_TEST_ATTRIBUTE_UNUSED
 
-/* If libtool DLL support is enabled set LIBCDATA_DLL_IMPORT
- * before including libcdata.h
- */
-#if defined( _WIN32 ) && defined( DLL_IMPORT )
-#define LIBCDATA_DLL_IMPORT
-#endif
+#endif /* defined( __GNUC__ ) && __GNUC__ >= 3 */
 
-#include <libcdata.h>
+#endif /* !defined( FWSI_TEST_ATTRIBUTE_UNUSED ) */
 
-#endif /* defined( HAVE_LOCAL_LIBCDATA ) */
+#if defined( _MSC_VER )
+#define FWSI_TEST_UNREFERENCED_PARAMETER( parameter ) \
+	UNREFERENCED_PARAMETER( parameter );
 
-#endif /* !defined( _LIBFWSI_LIBCDATA_H ) */
+#else
+#define FWSI_TEST_UNREFERENCED_PARAMETER( parameter ) \
+	/* parameter */
+
+#endif /* defined( _MSC_VER ) */
+
+#endif /* !defined( _FWSI_TEST_UNUSED_H ) */
 

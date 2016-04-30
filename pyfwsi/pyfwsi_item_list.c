@@ -464,7 +464,7 @@ PyObject *pyfwsi_item_list_copy_from_byte_stream(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to copy from byte stream.",
+		 "%s: unable to copy item list from byte stream.",
 		 function );
 
 		libcerror_error_free(

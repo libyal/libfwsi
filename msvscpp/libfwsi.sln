@@ -26,6 +26,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfguid", "libfguid\libfgu
 		{A0028F3E-BF42-4839-A17E-21D8089C78B8} = {A0028F3E-BF42-4839-A17E-21D8089C78B8}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_get_version", "fwsi_test_get_version\fwsi_test_get_version.vcproj", "{BD417DFD-9992-4FCC-9347-93D9E6374A46}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3} = {D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3}
+		{6FA95CC7-ADCD-4FCD-9EC8-4D178D4333CF} = {6FA95CC7-ADCD-4FCD-9EC8-4D178D4333CF}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_item_list_copy_from_byte_stream", "fwsi_test_item_list_copy_from_byte_stream\fwsi_test_item_list_copy_from_byte_stream.vcproj", "{9A217AC2-B323-4945-80F7-52949E0C133C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3} = {D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3}
@@ -132,6 +138,10 @@ Global
 		{BEC1C87D-3B70-47EF-BED4-5FDA31880A42}.Release|Win32.Build.0 = Release|Win32
 		{BEC1C87D-3B70-47EF-BED4-5FDA31880A42}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
 		{BEC1C87D-3B70-47EF-BED4-5FDA31880A42}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{BD417DFD-9992-4FCC-9347-93D9E6374A46}.Release|Win32.ActiveCfg = Release|Win32
+		{BD417DFD-9992-4FCC-9347-93D9E6374A46}.Release|Win32.Build.0 = Release|Win32
+		{BD417DFD-9992-4FCC-9347-93D9E6374A46}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{BD417DFD-9992-4FCC-9347-93D9E6374A46}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{9A217AC2-B323-4945-80F7-52949E0C133C}.Release|Win32.ActiveCfg = Release|Win32
 		{9A217AC2-B323-4945-80F7-52949E0C133C}.Release|Win32.Build.0 = Release|Win32
 		{9A217AC2-B323-4945-80F7-52949E0C133C}.VSDebug|Win32.ActiveCfg = VSDebug|Win32

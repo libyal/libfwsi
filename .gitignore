@@ -117,6 +117,7 @@ stamp-h[1-9]
 /libfwsi/libfwsi.rc
 /libfwsi/libfwsi_definitions.h
 /pyfwsi-python[23]/*.[ch]
+/tests/fwsi_test_get_version
 /tests/fwsi_test_item_list_copy_from_byte_stream
 /tests/input
 /tests/tmp*

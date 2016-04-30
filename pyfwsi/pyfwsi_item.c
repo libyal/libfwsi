@@ -41,6 +41,13 @@
 
 PyMethodDef pyfwsi_item_object_methods[] = {
 
+	{ "copy_from_byte_stream",
+	  (PyCFunction) pyfwsi_item_copy_from_byte_stream,
+	  METH_VARARGS | METH_KEYWORDS,
+	  "copy_from_byte_stream(byte_stream, ascii_codepage=cp1252)\n"
+	  "\n"
+	  "Copies the the item from the byte stream." },
+
 	/* Functions to access the item data */
 
 	{ "get_class_type",
@@ -377,6 +384,147 @@ void pyfwsi_item_free(
 	}
 	ob_type->tp_free(
 	 (PyObject*) pyfwsi_item );
+}
+
+/* Copies the item from a byte stream
+ * Returns a Python object if successful or NULL on error
+ */
+PyObject *pyfwsi_item_copy_from_byte_stream(
+           pyfwsi_item_t *pyfwsi_item,
+           PyObject *arguments,
+           PyObject *keywords )
+{
+	PyObject *string_object       = NULL;
+	libcerror_error_t *error      = NULL;
+	static char *function         = "pyfwsi_item_copy_from_byte_stream";
+	static char *keyword_list[]   = { "byte_stream", "ascii_codepage", NULL };
+	const char *byte_stream       = NULL;
+	char *codepage_string         = NULL;
+	Py_ssize_t byte_stream_size   = 0;
+	size_t codepage_string_length = 0;
+	uint32_t feature_flags        = 0;
+	int ascii_codepage            = LIBFWSI_CODEPAGE_WINDOWS_1252;
+	int result                    = 0;
+
+	if( pyfwsi_item == NULL )
+	{
+		PyErr_Format(
+		 PyExc_TypeError,
+		 "%s: invalid item.",
+		 function );
+
+		return( NULL );
+	}
+	if( PyArg_ParseTupleAndKeywords(
+	     arguments,
+	     keywords,
+	     "O|s",
+	     keyword_list,
+	     &string_object,
+	     &codepage_string ) == 0 )
+	{
+		return( NULL );
+	}
+	PyErr_Clear();
+
+#if PY_MAJOR_VERSION >= 3
+	result = PyObject_IsInstance(
+		  string_object,
+		  (PyObject *) &PyBytes_Type );
+#else
+	result = PyObject_IsInstance(
+		  string_object,
+		  (PyObject *) &PyString_Type );
+#endif
+	if( result == -1 )
+	{
+		pyfwsi_error_fetch_and_raise(
+	         PyExc_RuntimeError,
+		 "%s: unable to determine if string object is of type string.",
+		 function );
+
+		return( NULL );
+	}
+	else if( result == 0 )
+	{
+		PyErr_Format(
+		 PyExc_TypeError,
+		 "%s: unsupported string object type",
+		 function );
+
+		return( NULL );
+	}
+	if( codepage_string != NULL )
+	{
+		codepage_string_length = libcstring_narrow_string_length(
+		                          codepage_string );
+
+		feature_flags = LIBCLOCALE_CODEPAGE_FEATURE_FLAG_HAVE_WINDOWS;
+
+		if( libclocale_codepage_copy_from_string(
+		     &ascii_codepage,
+		     codepage_string,
+		     codepage_string_length,
+		     feature_flags,
+		     &error ) != 1 )
+		{
+			pyfwsi_error_raise(
+			 error,
+			 PyExc_RuntimeError,
+			 "%s: unable to determine ASCII codepage.",
+			 function );
+
+			libcerror_error_free(
+			 &error );
+
+			return( NULL );
+		}
+	}
+	PyErr_Clear();
+
+#if PY_MAJOR_VERSION >= 3
+	byte_stream = PyBytes_AsString(
+	               string_object );
+
+	byte_stream_size = PyBytes_Size(
+	                    string_object );
+#else
+	byte_stream = PyString_AsString(
+	               string_object );
+
+	byte_stream_size = PyString_Size(
+	                    string_object );
+#endif
+/* TODO size bounds check */
+
+	Py_BEGIN_ALLOW_THREADS
+
+	result = libfwsi_item_copy_from_byte_stream(
+	          pyfwsi_item->item,
+	          (uint8_t *) byte_stream,
+	          (size_t) byte_stream_size,
+	          ascii_codepage,
+	          &error );
+
+	Py_END_ALLOW_THREADS
+
+	if( result != 1 )
+	{
+		pyfwsi_error_raise(
+		 error,
+		 PyExc_IOError,
+		 "%s: unable to copy item from byte stream.",
+		 function );
+
+		libcerror_error_free(
+		 &error );
+
+		return( NULL );
+	}
+	Py_IncRef(
+	 Py_None );
+
+	return( Py_None );
 }
 
 /* Retrieves the class type

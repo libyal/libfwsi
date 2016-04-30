@@ -48,14 +48,14 @@ PyMethodDef pyfwsi_volume_object_methods[] = {
 	{ "get_identifier",
 	  (PyCFunction) pyfwsi_volume_get_identifier,
 	  METH_NOARGS,
-	  "get_identifier() -> Unicode string or None\n"
+	  "get_identifier() -> Unicode string\n"
 	  "\n"
 	  "Retrieves the identifier (GUID)." },
 
 	{ "get_shell_folder_identifier",
 	  (PyCFunction) pyfwsi_volume_get_shell_folder_identifier,
 	  METH_NOARGS,
-	  "get_shell_folder_identifier() -> Unicode string or None\n"
+	  "get_shell_folder_identifier() -> Unicode string\n"
 	  "\n"
 	  "Retrieves the shell folder identifier (GUID)." },
 
@@ -74,13 +74,13 @@ PyGetSetDef pyfwsi_volume_object_get_set_definitions[] = {
 	{ "identifier",
 	  (getter) pyfwsi_volume_get_identifier,
 	  (setter) 0,
-	  "The identifier.",
+	  "The identifier (GUID).",
 	  NULL },
 
 	{ "shell_folder_identifier",
 	  (getter) pyfwsi_volume_get_shell_folder_identifier,
 	  (setter) 0,
-	  "The shell folder identifier.",
+	  "The shell folder identifier (GUID).",
 	  NULL },
 
 	/* Sentinel */
@@ -331,7 +331,7 @@ PyObject *pyfwsi_volume_get_identifier(
 
 	Py_END_ALLOW_THREADS
 
-	if( result == -1 )
+	if( result != 1 )
 	{
 		pyfwsi_error_raise(
 		 error,
@@ -386,7 +386,7 @@ PyObject *pyfwsi_volume_get_shell_folder_identifier(
 
 	Py_END_ALLOW_THREADS
 
-	if( result == -1 )
+	if( result != 1 )
 	{
 		pyfwsi_error_raise(
 		 error,
