@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="fwsi_test_get_version"
-	ProjectGUID="{BD417DFD-9992-4FCC-9347-93D9E6374A46}"
-	RootNamespace="fwsi_test_get_version"
+	Name="fwsi_test_error"
+	ProjectGUID="{E3C43CA8-89C8-4A90-B24F-392032B01F12}"
+	RootNamespace="fwsi_test_error"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -176,7 +176,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\tests\fwsi_test_get_version.c"
+				RelativePath="..\..\tests\fwsi_test_error.c"
 				>
 			</File>
 		</Filter>

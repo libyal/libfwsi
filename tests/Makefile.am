@@ -25,13 +25,26 @@ EXTRA_DIST = \
 	$(check_SCRIPTS)
 
 check_PROGRAMS = \
+	fwsi_test_error \
 	fwsi_test_get_version \
 	fwsi_test_item_list_copy_from_byte_stream
+
+fwsi_test_error_SOURCES = \
+	fwsi_test_error.c \
+	fwsi_test_libcstring.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_unused.h
+
+fwsi_test_error_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCSTRING_LIBADD@
 
 fwsi_test_get_version_SOURCES = \
 	fwsi_test_get_version.c \
 	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
 	fwsi_test_unused.h
 
 fwsi_test_get_version_LDADD = \

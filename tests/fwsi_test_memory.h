@@ -1,5 +1,5 @@
 /*
- * Notification functions
+ * Memory allocation functions for testing
  *
  * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,45 +19,32 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_NOTIFY_H )
-#define _LIBFWSI_NOTIFY_H
+#if !defined( _FWSI_TEST_MEMORY_H )
+#define _FWSI_TEST_MEMORY_H
 
 #include <common.h>
-#include <file_stream.h>
-#include <types.h>
-
-#include "libfwsi_extern.h"
-#include "libfwsi_libcerror.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-#if !defined( HAVE_LOCAL_LIBFWSI )
+#if defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ )
 
-LIBFWSI_EXTERN \
-void libfwsi_notify_set_verbose(
-      int verbose );
+#define HAVE_FWSI_TEST_MEMORY		1
 
-LIBFWSI_EXTERN \
-int libfwsi_notify_set_stream(
-     FILE *stream,
-     libcerror_error_t **error );
+extern int fwsi_test_malloc_attempts_before_fail;
 
-LIBFWSI_EXTERN \
-int libfwsi_notify_stream_open(
-     const char *filename,
-     libcerror_error_t **error );
+extern int fwsi_test_memcpy_attempts_before_fail;
 
-LIBFWSI_EXTERN \
-int libfwsi_notify_stream_close(
-     libcerror_error_t **error );
+extern int fwsi_test_memset_attempts_before_fail;
 
-#endif /* !defined( HAVE_LOCAL_LIBFWSI ) */
+extern int fwsi_test_realloc_attempts_before_fail;
+
+#endif /* defined( HAVE_GNU_DL_DLSYM ) && defined( __GNUC__ ) && !defined( __clang__ ) */
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_NOTIFY_H ) */
+#endif /* !defined( _FWSI_TEST_MEMORY_H ) */
 

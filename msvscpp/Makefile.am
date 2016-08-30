@@ -1,4 +1,5 @@
 MSVSCPP_FILES = \
+	fwsi_test_error/fwsi_test_error.vcproj \
 	fwsi_test_get_version/fwsi_test_get_version.vcproj \
 	fwsi_test_item_list_copy_from_byte_stream/fwsi_test_item_list_copy_from_byte_stream.vcproj \
 	libcdata/libcdata.vcproj \
