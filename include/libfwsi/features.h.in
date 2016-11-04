@@ -38,5 +38,5 @@
 #endif
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_FEATURES_H ) */
 

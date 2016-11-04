@@ -21,6 +21,7 @@ MAINTAINERCLEANFILES = \
 distclean: clean
 	/bin/rm -f libfwsi.h
 	/bin/rm -f libfwsi/definitions.h
+	/bin/rm -f libfwsi/features.h
 	/bin/rm -f libfwsi/types.h
 	/bin/rm -f Makefile
 

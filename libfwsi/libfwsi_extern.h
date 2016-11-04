@@ -38,10 +38,9 @@
 #include <libfwsi/extern.h>
 
 #else
-
 #define LIBFWSI_EXTERN	extern
 
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_INTERNAL_EXTERN_H ) */
 

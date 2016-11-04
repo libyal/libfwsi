@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20160924],
+ [20161104],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -75,10 +75,10 @@ AX_LIBUNA_CHECK_ENABLE
 dnl Check for enabling libcfile for cross-platform C file functions
 AX_LIBCFILE_CHECK_ENABLE
 
-dnl Check for enabling libfdatetime for file date and time support
+dnl Check for enabling libfdatetime for date and time formats support
 AX_LIBFDATETIME_CHECK_ENABLE
 
-dnl Check for enabling libfguid for file GUID/UUID support
+dnl Check for enabling libfguid for GUID/UUID format support
 AX_LIBFGUID_CHECK_ENABLE
 
 dnl Check for enabling libfole for file OLE types support

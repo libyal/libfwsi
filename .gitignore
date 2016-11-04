@@ -1,6 +1,6 @@
 # Files to ignore by git
 #
-# Version: 20160507
+# Version: 20161030
 
 # Generic auto-generated build files
 *~
@@ -57,6 +57,7 @@ stamp-h[1-9]
 /test-driver
 /ylwrap
 /m4/codeset.m4
+/m4/extern-inline.m4
 /m4/fcntl-o.m4
 /m4/gettext.m4
 /m4/glibc2.m4
@@ -121,8 +122,11 @@ stamp-h[1-9]
 /libfwsi/libfwsi_definitions.h
 /pyfwsi-python[23]/*.[ch]
 /tests/fwsi_test_error
-/tests/fwsi_test_get_version
+/tests/fwsi_test_extension_block
+/tests/fwsi_test_item
+/tests/fwsi_test_item_list
 /tests/fwsi_test_item_list_copy_from_byte_stream
+/tests/fwsi_test_support
 /tests/input
 /tests/tmp*
 

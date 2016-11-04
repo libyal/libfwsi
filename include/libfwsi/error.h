@@ -39,7 +39,7 @@ enum LIBFWSI_ERROR_DOMAINS
 	LIBFWSI_ERROR_DOMAIN_INPUT			= (int) 'i',
 	LIBFWSI_ERROR_DOMAIN_MEMORY			= (int) 'm',
 	LIBFWSI_ERROR_DOMAIN_OUTPUT			= (int) 'o',
-	LIBFWSI_ERROR_DOMAIN_RUNTIME			= (int) 'r',
+	LIBFWSI_ERROR_DOMAIN_RUNTIME			= (int) 'r'
 };
 
 /* The argument error codes
@@ -208,6 +208,17 @@ enum LIBFWSI_MEMORY_ERROR
 	LIBFWSI_MEMORY_ERROR_SET_FAILED			= 3
 };
 
+/* The output error codes
+ */
+enum LIBFWSI_OUTPUT_ERROR
+{
+	LIBFWSI_OUTPUT_ERROR_GENERIC			= 0,
+
+	/* There is insuficient space to write the output
+	 */
+	LIBFWSI_OUTPUT_ERROR_INSUFFICIENT_SPACE		= 1
+};
+
 /* The runtime error codes
  * to signify errors regarding runtime processing
  */
@@ -276,16 +287,5 @@ enum LIBFWSI_RUNTIME_ERROR
 	LIBFWSI_RUNTIME_ERROR_ABORT_REQUESTED		= 15
 };
 
-/* The output error codes
- */
-enum LIBFWSI_OUTPUT_ERROR
-{
-	LIBFWSI_OUTPUT_ERROR_GENERIC			= 0,
-
-	/* There is insuficient space to write the output
-	 */
-	LIBFWSI_OUTPUT_ERROR_INSUFFICIENT_SPACE		= 1
-};
-
-#endif
+#endif /* !defined( _LIBFWSI_ERROR_H ) */
 

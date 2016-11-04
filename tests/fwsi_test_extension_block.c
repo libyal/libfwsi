@@ -1,5 +1,5 @@
 /*
- * Library error functions test program
+ * Library extension_block type testing program
  *
  * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -20,90 +20,56 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
 #endif
 
 #include "fwsi_test_libcerror.h"
+#include "fwsi_test_libcstring.h"
 #include "fwsi_test_libfwsi.h"
 #include "fwsi_test_macros.h"
+#include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
-/* Tests the libfwsi_error_free function
+/* Tests the libfwsi_extension_block_free function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_error_free(
+int fwsi_test_extension_block_free(
      void )
 {
-	/* Test invocation of function only
+	libcerror_error_t *error = NULL;
+	int result               = 0;
+
+	/* Test error cases
 	 */
-	libfwsi_error_free(
-	 NULL );
+	result = libfwsi_extension_block_free(
+	          NULL,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+        FWSI_TEST_ASSERT_IS_NOT_NULL(
+         "error",
+         error );
+
+	libcerror_error_free(
+	 &error );
 
 	return( 1 );
-}
 
-/* Tests the libfwsi_error_fprint function
- * Returns 1 if successful or 0 if not
- */
-int fwsi_test_error_fprint(
-     void )
-{
-	/* Test invocation of function only
-	 */
-	libfwsi_error_fprint(
-	 NULL,
-	 NULL );
-
-	return( 1 );
-}
-
-/* Tests the libfwsi_error_sprint function
- * Returns 1 if successful or 0 if not
- */
-int fwsi_test_error_sprint(
-     void )
-{
-	/* Test invocation of function only
-	 */
-	libfwsi_error_sprint(
-	 NULL,
-	 NULL,
-	 0 );
-
-	return( 1 );
-}
-
-/* Tests the libfwsi_error_backtrace_fprint function
- * Returns 1 if successful or 0 if not
- */
-int fwsi_test_error_backtrace_fprint(
-     void )
-{
-	/* Test invocation of function only
-	 */
-	libfwsi_error_backtrace_fprint(
-	 NULL,
-	 NULL );
-
-	return( 1 );
-}
-
-/* Tests the libfwsi_error_backtrace_sprint function
- * Returns 1 if successful or 0 if not
- */
-int fwsi_test_error_backtrace_sprint(
-     void )
-{
-	/* Test invocation of function only
-	 */
-	libfwsi_error_backtrace_sprint(
-	 NULL,
-	 NULL,
-	 0 );
-
-	return( 1 );
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	return( 0 );
 }
 
 /* The main program
@@ -122,24 +88,8 @@ int main(
 	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
 
 	FWSI_TEST_RUN(
-	 "libfwsi_error_free",
-	 fwsi_test_error_free );
-
-	FWSI_TEST_RUN(
-	 "libfwsi_error_fprint",
-	 fwsi_test_error_fprint );
-
-	FWSI_TEST_RUN(
-	 "libfwsi_error_sprint",
-	 fwsi_test_error_sprint );
-
-	FWSI_TEST_RUN(
-	 "libfwsi_error_backtrace_fprint",
-	 fwsi_test_error_backtrace_fprint );
-
-	FWSI_TEST_RUN(
-	 "libfwsi_error_backtrace_sprint",
-	 fwsi_test_error_backtrace_sprint );
+	 "libfwsi_extension_block_free",
+	 fwsi_test_extension_block_free );
 
 	return( EXIT_SUCCESS );
 

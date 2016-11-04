@@ -209,5 +209,5 @@ typedef intptr_t libfwsi_item_list_t;
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_TYPES_H ) */
 

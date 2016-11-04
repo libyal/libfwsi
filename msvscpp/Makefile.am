@@ -1,7 +1,10 @@
 MSVSCPP_FILES = \
 	fwsi_test_error/fwsi_test_error.vcproj \
-	fwsi_test_get_version/fwsi_test_get_version.vcproj \
+	fwsi_test_extension_block/fwsi_test_extension_block.vcproj \
+	fwsi_test_item/fwsi_test_item.vcproj \
+	fwsi_test_item_list/fwsi_test_item_list.vcproj \
 	fwsi_test_item_list_copy_from_byte_stream/fwsi_test_item_list_copy_from_byte_stream.vcproj \
+	fwsi_test_support/fwsi_test_support.vcproj \
 	libcdata/libcdata.vcproj \
 	libcerror/libcerror.vcproj \
 	libcfile/libcfile.vcproj \
