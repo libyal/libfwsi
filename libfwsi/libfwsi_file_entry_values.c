@@ -27,6 +27,7 @@
 #include <types.h>
 #include <wide_string.h>
 
+#include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
 #include "libfwsi_file_attributes.h"
 #include "libfwsi_file_entry_values.h"
@@ -156,27 +157,22 @@ ssize_t libfwsi_file_entry_values_read(
          int ascii_codepage,
          libcerror_error_t **error )
 {
-	static char *function                       = "libfwsi_file_entry_values_read";
-	size_t shell_item_data_offset               = 0;
-	size_t string_alignment_offset              = 0;
-	size_t string_alignment_size                = 0;
-	size_t string_size                          = 0;
-	uint16_t extension_size                     = 0;
-	uint8_t class_type_indicator                = 0;
-	int has_swn1                                = 0;
+	static char *function            = "libfwsi_file_entry_values_read";
+	size_t shell_item_data_offset    = 0;
+	size_t string_alignment_offset   = 0;
+	size_t string_alignment_size     = 0;
+	size_t string_size               = 0;
+	uint16_t extension_size          = 0;
+	uint8_t class_type_indicator     = 0;
+	int has_swn1                     = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t date_time_string[ 32 ];
-        system_character_t guid_string[ 48 ];
-
-	libfdatetime_fat_date_time_t *fat_date_time = NULL;
-        libfguid_identifier_t *guid                 = NULL;
-	system_character_t *value_string            = NULL;
-	size_t value_string_size                    = 0;
-	uint64_t value_64bit                        = 0;
-	uint32_t value_32bit                        = 0;
-	uint16_t value_16bit                        = 0;
-	int result                                  = 0;
+	system_character_t *value_string = NULL;
+	size_t value_string_size         = 0;
+	uint64_t value_64bit             = 0;
+	uint32_t value_32bit             = 0;
+	uint16_t value_16bit             = 0;
+	int result                       = 0;
 #endif
 
 	if( file_entry_values == NULL )
@@ -256,75 +252,20 @@ ssize_t libfwsi_file_entry_values_read(
 		 function,
 		 file_entry_values->file_size );
 
-		if( libfdatetime_fat_date_time_initialize(
-		     &fat_date_time,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create FAT date time.",
-			 function );
-
-			goto on_error;
-		}
-		if( libfdatetime_fat_date_time_copy_from_byte_stream(
-		     fat_date_time,
+		if( libfwsi_debug_print_fat_date_time_value(
+		     function,
+		     "modification time\t\t\t",
 		     &( shell_item_data[ 8 ] ),
 		     4,
 		     LIBFDATETIME_ENDIAN_LITTLE,
+		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy byte stream to FAT date time.",
-			 function );
-
-			goto on_error;
-		}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libfdatetime_fat_date_time_copy_to_utf16_string(
-			  fat_date_time,
-			  (uint16_t *) date_time_string,
-			  32,
-			  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			  error );
-#else
-		result = libfdatetime_fat_date_time_copy_to_utf8_string(
-			  fat_date_time,
-			  (uint8_t *) date_time_string,
-			  32,
-			  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			  error );
-#endif
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy FAT date time to string.",
-			 function );
-
-			goto on_error;
-		}
-		libcnotify_printf(
-		 "%s: modification time\t\t\t: %" PRIs_SYSTEM " UTC\n",
-		 function,
-		 date_time_string );
-
-		if( libfdatetime_fat_date_time_free(
-		     &fat_date_time,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free FAT date time.",
+			 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+			 "%s: unable to print FAT date time value.",
 			 function );
 
 			goto on_error;
@@ -869,84 +810,29 @@ ssize_t libfwsi_file_entry_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-			if( libfguid_identifier_initialize(
-			     &guid,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create GUID.",
-				 function );
-
-				goto on_error;
-			}
-			if( libfguid_identifier_copy_from_byte_stream(
-			     guid,
+			if( libfwsi_debug_print_guid_value(
+			     function,
+			     "shell folder identifier\t\t\t",
 			     &( shell_item_data[ shell_item_data_offset ] ),
 			     16,
 			     LIBFGUID_ENDIAN_LITTLE,
+			     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy byte stream to GUID.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print GUID value.",
 				 function );
 
 				goto on_error;
 			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libfguid_identifier_copy_to_utf16_string(
-				  guid,
-				  (uint16_t *) guid_string,
-				  48,
-			          LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-				  error );
-#else
-			result = libfguid_identifier_copy_to_utf8_string(
-				  guid,
-				  (uint8_t *) guid_string,
-				  48,
-			          LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy GUID to string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: shell folder identifier\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 guid_string );
 			libcnotify_printf(
 			 "%s: shell folder name\t\t\t: %s\n",
 			 function,
 			 libfwsi_shell_folder_identifier_get_name(
 			  &( shell_item_data[ shell_item_data_offset ] ) ) );
-
-			if( libfguid_identifier_free(
-			     &guid,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free GUID.",
-				 function );
-
-				goto on_error;
-			}
 		}
 #endif
 		shell_item_data_offset += 16;
@@ -962,22 +848,10 @@ ssize_t libfwsi_file_entry_values_read(
 
 on_error:
 #if defined( HAVE_DEBUG_OUTPUT )
-	if( guid != NULL )
-	{
-		libfguid_identifier_free(
-		 &guid,
-		 NULL );
-	}
 	if( value_string != NULL )
 	{
 		memory_free(
 		 value_string );
-	}
-	if( fat_date_time != NULL )
-	{
-		libfdatetime_fat_date_time_free(
-		 &fat_date_time,
-		 NULL );
 	}
 #endif
 	if( file_entry_values->name != NULL )

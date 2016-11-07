@@ -1,4 +1,6 @@
 TODO
+* Code clean up
+  - change code to use libfwsi_debug_print_string_value
 * Python
   - implement pyfwsi_item_copy_from_byte_stream
 * cdburn:
@@ -22,6 +24,9 @@ TODO
   - add test program that helps with fuzzing that reads
     shell item data from a file
   - add Python tests
+
+20161107
+* Code clean up
 
 20160830
 * worked on tests

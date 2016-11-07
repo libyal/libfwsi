@@ -27,6 +27,7 @@
 #include <types.h>
 #include <wide_string.h>
 
+#include "libfwsi_debug.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
 #include "libfwsi_libfdatetime.h"
@@ -146,22 +147,19 @@ ssize_t libfwsi_uri_values_read(
          int ascii_codepage,
          libcerror_error_t **error )
 {
-	static char *function             = "libfwsi_uri_values_read";
-	size_t shell_item_data_offset     = 0;
-	size_t string_size                = 0;
-	uint32_t string_data_size         = 0;
-	uint16_t data_size                = 0;
-	uint8_t flags                     = 0;
+	static char *function            = "libfwsi_uri_values_read";
+	size_t shell_item_data_offset    = 0;
+	size_t string_size               = 0;
+	uint32_t string_data_size        = 0;
+	uint16_t data_size               = 0;
+	uint8_t flags                    = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t date_time_string[ 32 ];
-
-	system_character_t *value_string  = NULL;
-	libfdatetime_filetime_t *filetime = NULL;
-	size_t value_string_size          = 0;
-	uint32_t value_32bit              = 0;
-	uint16_t value_16bit              = 0;
-	int result                        = 0;
+	system_character_t *value_string = NULL;
+	size_t value_string_size         = 0;
+	uint32_t value_32bit             = 0;
+	uint16_t value_16bit             = 0;
+	int result                       = 0;
 #endif
 
 	if( uri_values == NULL )
@@ -292,75 +290,20 @@ ssize_t libfwsi_uri_values_read(
 			 function,
 			 value_32bit );
 
-			if( libfdatetime_filetime_initialize(
-			     &filetime,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create filetime.",
-				 function );
-
-				goto on_error;
-			}
-			if( libfdatetime_filetime_copy_from_byte_stream(
-			     filetime,
+			if( libfwsi_debug_print_filetime_value(
+			     function,
+			     "unknown3 time\t\t\t\t\t",
 			     &( shell_item_data[ 14 ] ),
 			     8,
 			     LIBFDATETIME_ENDIAN_LITTLE,
+			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy byte stream to filetime.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libfdatetime_filetime_copy_to_utf16_string(
-				  filetime,
-				  (uint16_t *) date_time_string,
-				  32,
-				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,
-				  error );
-#else
-			result = libfdatetime_filetime_copy_to_utf8_string(
-				  filetime,
-				  (uint8_t *) date_time_string,
-				  32,
-				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy filetime to string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: unknown3 time\t\t\t\t\t: %" PRIs_SYSTEM " UTC\n",
-			 function,
-			 date_time_string );
-
-			if( libfdatetime_filetime_free(
-			     &filetime,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free filetime.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print filetime value.",
 				 function );
 
 				goto on_error;
@@ -635,12 +578,6 @@ on_error:
 	{
 		memory_free(
 		 value_string );
-	}
-	if( filetime != NULL )
-	{
-		libfdatetime_filetime_free(
-		 &filetime,
-		 NULL );
 	}
 #endif
 	return( -1 );

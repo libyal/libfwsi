@@ -27,6 +27,7 @@
 #include <types.h>
 #include <wide_string.h>
 
+#include "libfwsi_debug.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
 #include "libfwsi_libfguid.h"
@@ -161,10 +162,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 	uint16_t data_size               = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-        system_character_t guid_string[ 48 ];
-
 	system_character_t *value_string = NULL;
-        libfguid_identifier_t *guid      = NULL;
 	size_t value_string_size         = 0;
 	uint32_t value_32bit             = 0;
 	uint16_t value_16bit             = 0;
@@ -264,24 +262,6 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 		goto on_error;
 	}
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		if( libfguid_identifier_initialize(
-		     &guid,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create GUID.",
-			 function );
-
-			goto on_error;
-		}
-	}
-#endif
 	byte_stream_copy_to_uint32_little_endian(
 	 &( shell_item_data[ 38 ] ),
 	 name_string_size );
@@ -810,52 +790,24 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-			if( libfguid_identifier_copy_from_byte_stream(
-			     guid,
+			if( libfwsi_debug_print_guid_value(
+			     function,
+			     "class identifier\t\t\t",
 			     &( shell_item_data[ shell_item_data_offset ] ),
 			     16,
 			     LIBFGUID_ENDIAN_LITTLE,
+			     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy byte stream to GUID.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print GUID value.",
 				 function );
 
 				goto on_error;
 			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libfguid_identifier_copy_to_utf16_string(
-				  guid,
-				  (uint16_t *) guid_string,
-				  48,
-				  LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-				  error );
-#else
-			result = libfguid_identifier_copy_to_utf8_string(
-				  guid,
-				  (uint8_t *) guid_string,
-				  48,
-				  LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy GUID to string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: class identifier\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 guid_string );
 		}
 #endif
 		shell_item_data_offset += 16;
@@ -903,52 +855,24 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
 			{
-				if( libfguid_identifier_copy_from_byte_stream(
-				     guid,
+				if( libfwsi_debug_print_guid_value(
+				     function,
+				     "property set identifier\t\t\t",
 				     &( shell_item_data[ shell_item_data_offset ] ),
 				     16,
 				     LIBFGUID_ENDIAN_LITTLE,
+				     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
 				     error ) != 1 )
 				{
 					libcerror_error_set(
 					 error,
 					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-					 "%s: unable to copy byte stream to GUID.",
+					 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+					 "%s: unable to print GUID value.",
 					 function );
 
 					goto on_error;
 				}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libfguid_identifier_copy_to_utf16_string(
-					  guid,
-					  (uint16_t *) guid_string,
-					  48,
-					  LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-					  error );
-#else
-				result = libfguid_identifier_copy_to_utf8_string(
-					  guid,
-					  (uint8_t *) guid_string,
-					  48,
-					  LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-					  error );
-#endif
-				if( result != 1 )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-					 "%s: unable to copy GUID to string.",
-					 function );
-
-					goto on_error;
-				}
-				libcnotify_printf(
-				 "%s: property set identifier\t\t\t: %" PRIs_SYSTEM "\n",
-				 function,
-				 guid_string );
 			}
 #endif
 			shell_item_data_offset += 16;
@@ -1185,53 +1109,24 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 					if( libcnotify_verbose != 0 )
 					{
-						if( libfguid_identifier_copy_from_byte_stream(
-						     guid,
+						if( libfwsi_debug_print_guid_value(
+						     function,
+						     "GUID\t\t\t\t\t",
 						     &( shell_item_data[ shell_item_data_offset ] ),
 						     16,
 						     LIBFGUID_ENDIAN_LITTLE,
+						     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
 						     error ) != 1 )
 						{
 							libcerror_error_set(
 							 error,
 							 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-							 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-							 "%s: unable to copy byte stream to GUID.",
+							 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+							 "%s: unable to print GUID value.",
 							 function );
 
 							goto on_error;
 						}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-						result = libfguid_identifier_copy_to_utf16_string(
-							  guid,
-							  (uint16_t *) guid_string,
-							  48,
-							  LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-							  error );
-#else
-						result = libfguid_identifier_copy_to_utf8_string(
-							  guid,
-							  (uint8_t *) guid_string,
-							  48,
-							  LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
-							  error );
-#endif
-						if( result != 1 )
-						{
-							libcerror_error_set(
-							 error,
-							 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-							 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-							 "%s: unable to copy GUID to string.",
-							 function );
-
-							goto on_error;
-						}
-						libcnotify_printf(
-						 "%s: GUID\t\t\t\t\t: %" PRIs_SYSTEM "\n",
-						 function,
-						 guid_string );
-
 						libcnotify_printf(
 						 "\n" );
 					}
@@ -1246,19 +1141,6 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
-		if( libfguid_identifier_free(
-		     &guid,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free GUID.",
-			 function );
-
-			goto on_error;
-		}
 		libcnotify_printf(
 		 "\n" );
 	}
@@ -1271,12 +1153,6 @@ on_error:
 	{
 		memory_free(
 		 value_string );
-	}
-	if( guid != NULL )
-	{
-		libfguid_identifier_free(
-		 &guid,
-		 NULL );
 	}
 #endif
 	return( -1 );

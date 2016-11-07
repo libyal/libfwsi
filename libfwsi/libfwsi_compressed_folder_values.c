@@ -28,6 +28,7 @@
 #include <wide_string.h>
 
 #include "libfwsi_compressed_folder_values.h"
+#include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
@@ -147,20 +148,17 @@ ssize_t libfwsi_compressed_folder_values_read(
          size_t shell_item_data_size,
          libcerror_error_t **error )
 {
-	static char *function                       = "libfwsi_compressed_folder_values_read";
-	size_t shell_item_data_offset               = 0;
-	uint32_t string_size                        = 0;
+	static char *function            = "libfwsi_compressed_folder_values_read";
+	size_t shell_item_data_offset    = 0;
+	uint32_t string_size             = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t date_time_string[ 32 ];
-
-	libfdatetime_fat_date_time_t *fat_date_time = NULL;
-	system_character_t *value_string            = NULL;
-	size_t value_string_size                    = 0;
-	uint64_t value_64bit                        = 0;
-	uint32_t value_32bit                        = 0;
-	uint16_t value_16bit                        = 0;
-	int result                                  = 0;
+	system_character_t *value_string = NULL;
+	size_t value_string_size         = 0;
+	uint64_t value_64bit             = 0;
+	uint32_t value_32bit             = 0;
+	uint16_t value_16bit             = 0;
+	int result                       = 0;
 #endif
 
 	if( compressed_folder_values == NULL )
@@ -271,66 +269,24 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 function,
 			 value_32bit );
 
-			if( libfdatetime_fat_date_time_initialize(
-			     &fat_date_time,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create FAT date time.",
-				 function );
-
-				goto on_error;
-			}
-			if( libfdatetime_fat_date_time_copy_from_byte_stream(
-			     fat_date_time,
+			if( libfwsi_debug_print_fat_date_time_value(
+			     function,
+			     "unknown time1\t\t\t",
 			     &( shell_item_data[ 26 ] ),
 			     4,
 			     LIBFDATETIME_ENDIAN_LITTLE,
+			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy byte stream to FAT date time.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print FAT date time value.",
 				 function );
 
 				goto on_error;
 			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libfdatetime_fat_date_time_copy_to_utf16_string(
-				  fat_date_time,
-				  (uint16_t *) date_time_string,
-				  32,
-				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-				  error );
-#else
-			result = libfdatetime_fat_date_time_copy_to_utf8_string(
-				  fat_date_time,
-				  (uint8_t *) date_time_string,
-				  32,
-				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy FAT date time to string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: unknown time\t\t\t: %" PRIs_SYSTEM " UTC\n",
-			 function,
-			 date_time_string );
-
 			byte_stream_copy_to_uint32_little_endian(
 			 &( shell_item_data[ 30 ] ),
 			 value_32bit );
@@ -339,62 +295,20 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 function,
 			 value_32bit );
 
-			if( libfdatetime_fat_date_time_copy_from_byte_stream(
-			     fat_date_time,
+			if( libfwsi_debug_print_fat_date_time_value(
+			     function,
+			     "unknown time2\t\t\t",
 			     &( shell_item_data[ 34 ] ),
 			     4,
 			     LIBFDATETIME_ENDIAN_LITTLE,
+			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy byte stream to FAT date time.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libfdatetime_fat_date_time_copy_to_utf16_string(
-				  fat_date_time,
-				  (uint16_t *) date_time_string,
-				  32,
-				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-				  error );
-#else
-			result = libfdatetime_fat_date_time_copy_to_utf8_string(
-				  fat_date_time,
-				  (uint8_t *) date_time_string,
-				  32,
-				  LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-				 "%s: unable to copy FAT date time to string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: unknown time\t\t\t: %" PRIs_SYSTEM " UTC\n",
-			 function,
-			 date_time_string );
-
-			if( libfdatetime_fat_date_time_free(
-			     &fat_date_time,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free FAT date time.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print FAT date time value.",
 				 function );
 
 				goto on_error;
@@ -889,12 +803,6 @@ on_error:
 	{
 		memory_free(
 		 value_string );
-	}
-	if( fat_date_time != NULL )
-	{
-		libfdatetime_fat_date_time_free(
-		 &fat_date_time,
-		 NULL );
 	}
 #endif
 	return( -1 );

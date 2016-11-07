@@ -25,6 +25,8 @@
 #include <common.h>
 #include <types.h>
 
+#include "libfwsi_libcerror.h"
+
 #if defined( __cplusplus )
 extern "C" {
 #endif
@@ -34,11 +36,44 @@ extern "C" {
 const char *libfwsi_debug_print_control_panel_category(
              uint32_t control_panel_category );
 
+int libfwsi_debug_print_fat_date_time_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int byte_order,
+     uint32_t string_format_flags,
+     libcerror_error_t **error );
+
+int libfwsi_debug_print_filetime_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int byte_order,
+     uint32_t string_format_flags,
+     libcerror_error_t **error );
+
+int libfwsi_debug_print_guid_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int byte_order,
+     uint32_t string_format_flags,
+     libcerror_error_t **error );
+
+int libfwsi_debug_print_property_storage_value(
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
 #endif
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_DEBUG_H ) */
 
