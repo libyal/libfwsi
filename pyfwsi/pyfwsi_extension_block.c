@@ -30,7 +30,6 @@
 #include "pyfwsi_extension_block.h"
 #include "pyfwsi_item.h"
 #include "pyfwsi_libcerror.h"
-#include "pyfwsi_libcstring.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
 #include "pyfwsi_unused.h"

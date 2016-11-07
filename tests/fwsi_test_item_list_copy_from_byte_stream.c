@@ -20,17 +20,16 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
 #include <memory.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
 #endif
 
-#include <stdio.h>
-
 #include "fwsi_test_libcerror.h"
 #include "fwsi_test_libcfile.h"
-#include "fwsi_test_libcstring.h"
 #include "fwsi_test_libfwsi.h"
 
 /* Define to make cfile_test_read generate verbose output
@@ -39,7 +38,7 @@
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain( int argc, wchar_t * const argv[] )
 #else
 int main( int argc, char * const argv[] )
@@ -78,7 +77,7 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	if( libcfile_file_open_wide(
 	     file,
 	     argv[ 1 ],

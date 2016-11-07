@@ -22,7 +22,10 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfwsi_file_attributes.h"
 #include "libfwsi_libcerror.h"
@@ -153,12 +156,12 @@ ssize_t libfwsi_unknown_0x74_values_read(
 	uint16_t data_size                          = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	libcstring_system_character_t date_time_string[ 32 ];
-        libcstring_system_character_t guid_string[ 48 ];
+	system_character_t date_time_string[ 32 ];
+        system_character_t guid_string[ 48 ];
 
-	libcstring_system_character_t *value_string = NULL;
 	libfdatetime_fat_date_time_t *fat_date_time = NULL;
         libfguid_identifier_t *guid                 = NULL;
+	system_character_t *value_string            = NULL;
 	size_t value_string_size                    = 0;
 	uint32_t value_32bit                        = 0;
 	uint16_t value_16bit                        = 0;
@@ -341,7 +344,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfdatetime_fat_date_time_copy_to_utf16_string(
 				  fat_date_time,
 				  (uint16_t *) date_time_string,
@@ -368,7 +371,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: modification time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
+			 "%s: modification time\t\t\t: %" PRIs_SYSTEM " UTC\n",
 			 function,
 			 date_time_string );
 
@@ -418,7 +421,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_byte_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  string_size,
@@ -444,7 +447,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -455,7 +458,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -469,7 +472,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_byte_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -498,7 +501,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: primary name\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: primary name\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -573,7 +576,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -600,7 +603,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: delagate item class identifier\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: delagate item class identifier\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 	}
@@ -626,7 +629,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -653,7 +656,7 @@ ssize_t libfwsi_unknown_0x74_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: item class identifier\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: item class identifier\t\t\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 

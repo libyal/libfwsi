@@ -22,6 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <system_string.h>
 #include <types.h>
 
 #include "libfwsi_definitions.h"
@@ -147,7 +148,7 @@ ssize_t libfwsi_extension_block_0xbeef0003_values_read(
 	uint32_t signature          = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-        libcstring_system_character_t guid_string[ 48 ];
+        system_character_t guid_string[ 48 ];
 
         libfguid_identifier_t *guid = NULL;
 	int result                  = 0;
@@ -234,7 +235,7 @@ ssize_t libfwsi_extension_block_0xbeef0003_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -261,7 +262,7 @@ ssize_t libfwsi_extension_block_0xbeef0003_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: shell folder identifier\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: shell folder identifier\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 

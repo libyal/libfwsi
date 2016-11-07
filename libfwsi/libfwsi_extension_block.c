@@ -37,7 +37,6 @@
 #include "libfwsi_file_entry_extension_values.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
-#include "libfwsi_libcstring.h"
 #include "libfwsi_types.h"
 
 /* Creates an extension block

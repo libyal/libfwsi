@@ -22,6 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <system_string.h>
 #include <types.h>
 
 #include "libfwsi_definitions.h"
@@ -155,7 +156,7 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 	int result                         = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-        libcstring_system_character_t guid_string[ 48 ];
+        system_character_t guid_string[ 48 ];
 
         libfguid_identifier_t *guid        = NULL;
 	uint32_t value_32bit               = 0;
@@ -242,7 +243,7 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -269,7 +270,7 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: class identifier\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: class identifier\t\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 

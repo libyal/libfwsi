@@ -24,10 +24,6 @@
 
 /* The libfwsi type support features
  */
-#if defined( WINAPI ) || @HAVE_WIDE_CHARACTER_TYPE@
-#define LIBFWSI_HAVE_WIDE_CHARACTER_TYPE	1
-#endif
-
 #if !defined( LIBFWSI_DEPRECATED )
 #if defined( __GNUC__ ) && __GNUC__ >= 3
 #define LIBFWSI_DEPRECATED	__attribute__ ((__deprecated__))

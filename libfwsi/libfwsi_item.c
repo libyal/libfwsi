@@ -40,7 +40,6 @@
 #include "libfwsi_libcdata.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
-#include "libfwsi_libcstring.h"
 #include "libfwsi_libfdatetime.h"
 #include "libfwsi_libfguid.h"
 #include "libfwsi_libuna.h"

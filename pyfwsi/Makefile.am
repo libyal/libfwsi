@@ -2,7 +2,6 @@ if HAVE_PYTHON
 AM_CFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCDATA_CPPFLAGS@ \
 	@LIBCLOCALE_CPPFLAGS@ \
@@ -27,7 +26,6 @@ pyfwsi_la_SOURCES = \
 	pyfwsi_items.c pyfwsi_items.h \
 	pyfwsi_libcerror.h \
 	pyfwsi_libclocale.h \
-	pyfwsi_libcstring.h \
 	pyfwsi_libfguid.h \
 	pyfwsi_libfwsi.h \
 	pyfwsi_network_location.c pyfwsi_network_location.h \
@@ -37,7 +35,6 @@ pyfwsi_la_SOURCES = \
 	pyfwsi_volume.c pyfwsi_volume.h
 
 pyfwsi_la_LIBADD = \
-	@LIBCSTRING_LIBADD@ \
 	@LIBCERROR_LIBADD@ \
 	../libfwsi/libfwsi.la \
 	@LIBCDATA_LIBADD@ \

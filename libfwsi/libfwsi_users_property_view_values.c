@@ -22,6 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <system_string.h>
 #include <types.h>
 
 #include "libfwsi_known_folder_identifier.h"
@@ -153,7 +154,7 @@ ssize_t libfwsi_users_property_view_values_read(
 	uint16_t property_store_size        = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-        libcstring_system_character_t guid_string[ 48 ];
+        system_character_t guid_string[ 48 ];
 
         libfguid_identifier_t *guid         = NULL;
         libfwps_storage_t *property_storage = NULL;
@@ -358,7 +359,7 @@ ssize_t libfwsi_users_property_view_values_read(
 
 						goto on_error;
 					}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 					result = libfguid_identifier_copy_to_utf16_string(
 						  guid,
 						  (uint16_t *) guid_string,
@@ -385,7 +386,7 @@ ssize_t libfwsi_users_property_view_values_read(
 						goto on_error;
 					}
 					libcnotify_printf(
-					 "%s: known folder identifier\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+					 "%s: known folder identifier\t: %" PRIs_SYSTEM "\n",
 					 function,
 					 guid_string );
 					libcnotify_printf(
@@ -516,7 +517,7 @@ ssize_t libfwsi_users_property_view_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfguid_identifier_copy_to_utf16_string(
 				  guid,
 				  (uint16_t *) guid_string,
@@ -543,7 +544,7 @@ ssize_t libfwsi_users_property_view_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: delegate item identifier\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: delegate item identifier\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 guid_string );
 		}
@@ -569,7 +570,7 @@ ssize_t libfwsi_users_property_view_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfguid_identifier_copy_to_utf16_string(
 				  guid,
 				  (uint16_t *) guid_string,
@@ -596,7 +597,7 @@ ssize_t libfwsi_users_property_view_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: item class identifier\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: item class identifier\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 guid_string );
 			libcnotify_printf(

@@ -22,7 +22,10 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfwsi_compressed_folder_values.h"
 #include "libfwsi_definitions.h"
@@ -149,10 +152,10 @@ ssize_t libfwsi_compressed_folder_values_read(
 	uint32_t string_size                        = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	libcstring_system_character_t date_time_string[ 32 ];
+	system_character_t date_time_string[ 32 ];
 
-	libcstring_system_character_t *value_string = NULL;
 	libfdatetime_fat_date_time_t *fat_date_time = NULL;
+	system_character_t *value_string            = NULL;
 	size_t value_string_size                    = 0;
 	uint64_t value_64bit                        = 0;
 	uint32_t value_32bit                        = 0;
@@ -297,7 +300,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfdatetime_fat_date_time_copy_to_utf16_string(
 				  fat_date_time,
 				  (uint16_t *) date_time_string,
@@ -324,7 +327,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: unknown time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
+			 "%s: unknown time\t\t\t: %" PRIs_SYSTEM " UTC\n",
 			 function,
 			 date_time_string );
 
@@ -352,7 +355,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfdatetime_fat_date_time_copy_to_utf16_string(
 				  fat_date_time,
 				  (uint16_t *) date_time_string,
@@ -379,7 +382,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: unknown time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
+			 "%s: unknown time\t\t\t: %" PRIs_SYSTEM " UTC\n",
 			 function,
 			 date_time_string );
 
@@ -431,7 +434,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  string_size,
@@ -457,7 +460,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -468,7 +471,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -482,7 +485,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -511,7 +514,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -547,7 +550,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  string_size,
@@ -573,7 +576,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -584,7 +587,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -598,7 +601,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -627,7 +630,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -663,7 +666,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  string_size,
@@ -689,7 +692,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -700,7 +703,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -714,7 +717,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -743,7 +746,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -779,7 +782,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  string_size,
@@ -805,7 +808,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -816,7 +819,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -830,7 +833,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -859,7 +862,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 

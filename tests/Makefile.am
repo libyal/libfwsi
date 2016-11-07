@@ -1,7 +1,6 @@
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCLOCALE_CPPFLAGS@ \
 	@LIBCNOTIFY_CPPFLAGS@ \
@@ -36,19 +35,16 @@ check_PROGRAMS = \
 
 fwsi_test_error_SOURCES = \
 	fwsi_test_error.c \
-	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_macros.h \
 	fwsi_test_unused.h
 
 fwsi_test_error_LDADD = \
-	../libfwsi/libfwsi.la \
-	@LIBCSTRING_LIBADD@
+	../libfwsi/libfwsi.la
 
 fwsi_test_extension_block_SOURCES = \
 	fwsi_test_extension_block.c \
 	fwsi_test_libcerror.h \
-	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_macros.h \
 	fwsi_test_memory.c fwsi_test_memory.h \
@@ -56,13 +52,11 @@ fwsi_test_extension_block_SOURCES = \
 
 fwsi_test_extension_block_LDADD = \
 	../libfwsi/libfwsi.la \
-	@LIBCERROR_LIBADD@ \
-	@LIBCSTRING_LIBADD@
+	@LIBCERROR_LIBADD@
 
 fwsi_test_item_SOURCES = \
 	fwsi_test_item.c \
 	fwsi_test_libcerror.h \
-	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_macros.h \
 	fwsi_test_memory.c fwsi_test_memory.h \
@@ -70,13 +64,11 @@ fwsi_test_item_SOURCES = \
 
 fwsi_test_item_LDADD = \
 	../libfwsi/libfwsi.la \
-	@LIBCERROR_LIBADD@ \
-	@LIBCSTRING_LIBADD@
+	@LIBCERROR_LIBADD@
 
 fwsi_test_item_list_SOURCES = \
 	fwsi_test_item_list.c \
 	fwsi_test_libcerror.h \
-	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_macros.h \
 	fwsi_test_memory.c fwsi_test_memory.h \
@@ -84,24 +76,20 @@ fwsi_test_item_list_SOURCES = \
 
 fwsi_test_item_list_LDADD = \
 	../libfwsi/libfwsi.la \
-	@LIBCERROR_LIBADD@ \
-	@LIBCSTRING_LIBADD@
+	@LIBCERROR_LIBADD@
 
 fwsi_test_support_SOURCES = \
 	fwsi_test_support.c \
-	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_macros.h \
 	fwsi_test_unused.h
 
 fwsi_test_support_LDADD = \
-	../libfwsi/libfwsi.la \
-	@LIBCSTRING_LIBADD@
+	../libfwsi/libfwsi.la
 
 fwsi_test_item_list_copy_from_byte_stream_SOURCES = \
 	fwsi_test_libcfile.h \
 	fwsi_test_libcerror.h \
-	fwsi_test_libcstring.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_item_list_copy_from_byte_stream.c
 
@@ -111,8 +99,7 @@ fwsi_test_item_list_copy_from_byte_stream_LDADD = \
 	@LIBUNA_LIBADD@ \
 	@LIBCNOTIFY_LIBADD@ \
 	@LIBCLOCALE_LIBADD@ \
-	@LIBCERROR_LIBADD@ \
-	@LIBCSTRING_LIBADD@
+	@LIBCERROR_LIBADD@
 
 MAINTAINERCLEANFILES = \
 	Makefile.in

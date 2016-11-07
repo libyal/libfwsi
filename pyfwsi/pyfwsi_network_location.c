@@ -29,7 +29,6 @@
 #include "pyfwsi_error.h"
 #include "pyfwsi_item.h"
 #include "pyfwsi_libcerror.h"
-#include "pyfwsi_libcstring.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_network_location.h"
 #include "pyfwsi_python.h"

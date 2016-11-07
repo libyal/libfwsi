@@ -20,12 +20,14 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
+#include <narrow_string.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
 #endif
 
-#include "fwsi_test_libcstring.h"
 #include "fwsi_test_libfwsi.h"
 #include "fwsi_test_macros.h"
 #include "fwsi_test_unused.h"
@@ -41,7 +43,7 @@ int fwsi_test_get_version(
 
 	version_string = libfwsi_get_version();
 
-	result = libcstring_narrow_string_compare(
+	result = narrow_string_compare(
 	          version_string,
 	          LIBFWSI_VERSION_STRING,
 	          9 );
@@ -59,7 +61,7 @@ on_error:
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain(
      int argc FWSI_TEST_ATTRIBUTE_UNUSED,
      wchar_t * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )

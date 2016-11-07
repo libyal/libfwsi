@@ -1,7 +1,6 @@
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCDATA_CPPFLAGS@ \
 	@LIBCNOTIFY_CPPFLAGS@ \
@@ -48,7 +47,6 @@ libfwsi_la_SOURCES = \
 	libfwsi_libcdata.h \
 	libfwsi_libcerror.h \
 	libfwsi_libcnotify.h \
-	libfwsi_libcstring.h \
 	libfwsi_libfdatetime.h \
 	libfwsi_libfguid.h \
 	libfwsi_libfole.h \
@@ -72,7 +70,6 @@ libfwsi_la_SOURCES = \
 	libfwsi_volume_values.c libfwsi_volume_values.h
 
 libfwsi_la_LIBADD = \
-	@LIBCSTRING_LIBADD@ \
 	@LIBCERROR_LIBADD@ \
 	@LIBCDATA_LIBADD@ \
 	@LIBCNOTIFY_LIBADD@ \

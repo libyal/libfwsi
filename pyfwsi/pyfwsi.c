@@ -20,6 +20,7 @@
  */
 
 #include <common.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H )
@@ -36,7 +37,6 @@
 #include "pyfwsi_item_list.h"
 #include "pyfwsi_items.h"
 #include "pyfwsi_libcerror.h"
-#include "pyfwsi_libcstring.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_network_location.h"
 #include "pyfwsi_python.h"
@@ -81,7 +81,7 @@ PyObject *pyfwsi_get_version(
 
 	Py_END_ALLOW_THREADS
 
-	version_string_length = libcstring_narrow_string_length(
+	version_string_length = narrow_string_length(
 	                         version_string );
 
 	/* Pass the string length to PyUnicode_DecodeUTF8

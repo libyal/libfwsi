@@ -22,7 +22,10 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfwsi_definitions.h"
 #include "libfwsi_file_attributes.h"
@@ -163,12 +166,12 @@ ssize_t libfwsi_file_entry_values_read(
 	int has_swn1                                = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	libcstring_system_character_t date_time_string[ 32 ];
-        libcstring_system_character_t guid_string[ 48 ];
+	system_character_t date_time_string[ 32 ];
+        system_character_t guid_string[ 48 ];
 
-	libcstring_system_character_t *value_string = NULL;
 	libfdatetime_fat_date_time_t *fat_date_time = NULL;
         libfguid_identifier_t *guid                 = NULL;
+	system_character_t *value_string            = NULL;
 	size_t value_string_size                    = 0;
 	uint64_t value_64bit                        = 0;
 	uint32_t value_32bit                        = 0;
@@ -282,7 +285,7 @@ ssize_t libfwsi_file_entry_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfdatetime_fat_date_time_copy_to_utf16_string(
 			  fat_date_time,
 			  (uint16_t *) date_time_string,
@@ -309,7 +312,7 @@ ssize_t libfwsi_file_entry_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: modification time\t\t\t: %" PRIs_LIBCSTRING_SYSTEM " UTC\n",
+		 "%s: modification time\t\t\t: %" PRIs_SYSTEM " UTC\n",
 		 function,
 		 date_time_string );
 
@@ -439,7 +442,7 @@ ssize_t libfwsi_file_entry_values_read(
 	{
 		if( file_entry_values->is_unicode != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  file_entry_values->name,
 				  file_entry_values->name_size,
@@ -457,7 +460,7 @@ ssize_t libfwsi_file_entry_values_read(
 		}
 		else
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_byte_stream(
 				  file_entry_values->name,
 				  file_entry_values->name_size,
@@ -485,7 +488,7 @@ ssize_t libfwsi_file_entry_values_read(
 			goto on_error;
 		}
 		if( ( value_string_size > (size_t) SSIZE_MAX )
-		 || ( ( sizeof( libcstring_system_character_t ) * value_string_size ) > (size_t) SSIZE_MAX ) )
+		 || ( ( sizeof( system_character_t ) * value_string_size ) > (size_t) SSIZE_MAX ) )
 		{
 			libcerror_error_set(
 			 error,
@@ -496,7 +499,7 @@ ssize_t libfwsi_file_entry_values_read(
 
 			goto on_error;
 		}
-		value_string = libcstring_system_string_allocate(
+		value_string = system_string_allocate(
 				value_string_size );
 
 		if( value_string == NULL )
@@ -512,7 +515,7 @@ ssize_t libfwsi_file_entry_values_read(
 		}
 		if( file_entry_values->is_unicode != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -532,7 +535,7 @@ ssize_t libfwsi_file_entry_values_read(
 		}
 		else
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_byte_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -562,7 +565,7 @@ ssize_t libfwsi_file_entry_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: primary name\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: primary name\t\t\t\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 value_string );
 
@@ -630,7 +633,7 @@ ssize_t libfwsi_file_entry_values_read(
 		{
 			if( file_entry_values->is_unicode != 0 )
 			{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 				result = libuna_utf16_string_size_from_utf16_stream(
 					  &( shell_item_data[ shell_item_data_offset ] ),
 					  string_size,
@@ -648,7 +651,7 @@ ssize_t libfwsi_file_entry_values_read(
 			}
 			else
 			{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 				result = libuna_utf16_string_size_from_byte_stream(
 					  &( shell_item_data[ shell_item_data_offset ] ),
 					  string_size,
@@ -676,7 +679,7 @@ ssize_t libfwsi_file_entry_values_read(
 				goto on_error;
 			}
 			if( ( value_string_size > (size_t) SSIZE_MAX )
-			 || ( ( sizeof( libcstring_system_character_t ) * value_string_size )  > (size_t) SSIZE_MAX ) )
+			 || ( ( sizeof( system_character_t ) * value_string_size )  > (size_t) SSIZE_MAX ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -687,7 +690,7 @@ ssize_t libfwsi_file_entry_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -703,7 +706,7 @@ ssize_t libfwsi_file_entry_values_read(
 			}
 			if( file_entry_values->is_unicode != 0 )
 			{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 				result = libuna_utf16_string_copy_from_utf16_stream(
 					  (libuna_utf16_character_t *) value_string,
 					  value_string_size,
@@ -723,7 +726,7 @@ ssize_t libfwsi_file_entry_values_read(
 			}
 			else
 			{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 				result = libuna_utf16_string_copy_from_byte_stream(
 					  (libuna_utf16_character_t *) value_string,
 					  value_string_size,
@@ -753,7 +756,7 @@ ssize_t libfwsi_file_entry_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: secondary name\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: secondary name\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -895,7 +898,7 @@ ssize_t libfwsi_file_entry_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfguid_identifier_copy_to_utf16_string(
 				  guid,
 				  (uint16_t *) guid_string,
@@ -922,7 +925,7 @@ ssize_t libfwsi_file_entry_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: shell folder identifier\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: shell folder identifier\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 guid_string );
 			libcnotify_printf(

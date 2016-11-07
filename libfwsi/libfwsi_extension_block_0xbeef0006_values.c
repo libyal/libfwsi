@@ -22,7 +22,10 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfwsi_definitions.h"
 #include "libfwsi_extension_block_0xbeef0006_values.h"
@@ -142,15 +145,15 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
          size_t extension_block_data_size,
          libcerror_error_t **error )
 {
-	static char *function                       = "libfwsi_extension_block_0xbeef0006_values_read";
-	size_t extension_block_data_offset          = 0;
-	size_t string_size                          = 0;
-	uint32_t signature                          = 0;
+	static char *function              = "libfwsi_extension_block_0xbeef0006_values_read";
+	size_t extension_block_data_offset = 0;
+	size_t string_size                 = 0;
+	uint32_t signature                 = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	libcstring_system_character_t *value_string = NULL;
-	size_t value_string_size                    = 0;
-	int result                                  = 0;
+	system_character_t *value_string   = NULL;
+	size_t value_string_size           = 0;
+	int result                         = 0;
 #endif
 
 	if( extension_block_0xbeef0006_values == NULL )
@@ -221,7 +224,7 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libuna_utf16_string_size_from_utf16_stream(
 			  &( extension_block_data[ extension_block_data_offset ] ),
 			  string_size,
@@ -247,7 +250,7 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 
 			goto on_error;
 		}
-		if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+		if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 		{
 			libcerror_error_set(
 			 error,
@@ -258,7 +261,7 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 
 			goto on_error;
 		}
-		value_string = libcstring_system_string_allocate(
+		value_string = system_string_allocate(
 				value_string_size );
 
 		if( value_string == NULL )
@@ -272,7 +275,7 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libuna_utf16_string_copy_from_utf16_stream(
 			  (libuna_utf16_character_t *) value_string,
 			  value_string_size,
@@ -301,7 +304,7 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: username\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: username\t\t\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 value_string );
 

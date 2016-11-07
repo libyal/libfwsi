@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H )
@@ -34,7 +35,6 @@
 #include "pyfwsi_items.h"
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libclocale.h"
-#include "pyfwsi_libcstring.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_network_location.h"
 #include "pyfwsi_python.h"
@@ -407,7 +407,7 @@ PyObject *pyfwsi_item_list_copy_from_byte_stream(
 	}
 	if( codepage_string != NULL )
 	{
-		codepage_string_length = libcstring_narrow_string_length(
+		codepage_string_length = narrow_string_length(
 		                          codepage_string );
 
 		feature_flags = LIBCLOCALE_CODEPAGE_FEATURE_FLAG_HAVE_WINDOWS;

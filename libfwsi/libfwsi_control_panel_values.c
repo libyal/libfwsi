@@ -22,6 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <system_string.h>
 #include <types.h>
 
 #include "libfwsi_control_panel_identifier.h"
@@ -145,7 +146,7 @@ ssize_t libfwsi_control_panel_values_read(
 	static char *function       = "libfwsi_control_panel_values_read";
 
 #if defined( HAVE_DEBUG_OUTPUT )
-        libcstring_system_character_t guid_string[ 48 ];
+        system_character_t guid_string[ 48 ];
 
         libfguid_identifier_t *guid = NULL;
 	int result                  = 0;
@@ -241,7 +242,7 @@ ssize_t libfwsi_control_panel_values_read(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -268,7 +269,7 @@ ssize_t libfwsi_control_panel_values_read(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: control panel identifier\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: control panel identifier\t\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 		libcnotify_printf(

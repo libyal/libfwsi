@@ -8,7 +8,6 @@ if HAVE_PYTHON3
 AM_CFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCDATA_CPPFLAGS@ \
 	@LIBCLOCALE_CPPFLAGS@ \
@@ -33,7 +32,6 @@ BUILT_SOURCES = \
 	pyfwsi_items.c pyfwsi_items.h \
 	pyfwsi_libcerror.h \
 	pyfwsi_libclocale.h \
-	pyfwsi_libcstring.h \
 	pyfwsi_libfguid.h \
 	pyfwsi_libfwsi.h \
 	pyfwsi_network_location.c pyfwsi_network_location.h \
@@ -47,7 +45,6 @@ pyexec_LTLIBRARIES = pyfwsi.la
 nodist_pyfwsi_la_SOURCES = $(BUILT_SOURCES)
 
 pyfwsi_la_LIBADD = \
-	@LIBCSTRING_LIBADD@ \
 	@LIBCERROR_LIBADD@ \
 	../libfwsi/libfwsi.la \
 	@LIBCDATA_LIBADD@ \

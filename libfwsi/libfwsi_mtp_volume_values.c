@@ -22,7 +22,10 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
@@ -143,29 +146,29 @@ ssize_t libfwsi_mtp_volume_values_read(
          size_t shell_item_data_size,
          libcerror_error_t **error )
 {
-	static char *function                       = "libfwsi_mtp_volume_values_read";
-	size_t shell_item_data_offset               = 0;
-        uint32_t signature                          = 0;
-	uint32_t file_system_string_size            = 0;
-	uint32_t guid_string_index                  = 0;
-	uint32_t identifier_string_size             = 0;
-	uint32_t name_string_size                   = 0;
-	uint32_t number_of_guid_strings             = 0;
-	uint32_t number_of_properties               = 0;
-	uint32_t property_index                     = 0;
-	uint32_t property_value_type                = 0;
-	uint32_t string_size                        = 0;
-	uint16_t data_size                          = 0;
+	static char *function            = "libfwsi_mtp_volume_values_read";
+	size_t shell_item_data_offset    = 0;
+        uint32_t signature               = 0;
+	uint32_t file_system_string_size = 0;
+	uint32_t guid_string_index       = 0;
+	uint32_t identifier_string_size  = 0;
+	uint32_t name_string_size        = 0;
+	uint32_t number_of_guid_strings  = 0;
+	uint32_t number_of_properties    = 0;
+	uint32_t property_index          = 0;
+	uint32_t property_value_type     = 0;
+	uint32_t string_size             = 0;
+	uint16_t data_size               = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-        libcstring_system_character_t guid_string[ 48 ];
+        system_character_t guid_string[ 48 ];
 
-	libcstring_system_character_t *value_string = NULL;
-        libfguid_identifier_t *guid                 = NULL;
-	size_t value_string_size                    = 0;
-	uint32_t value_32bit                        = 0;
-	uint16_t value_16bit                        = 0;
-	int result                                  = 0;
+	system_character_t *value_string = NULL;
+        libfguid_identifier_t *guid      = NULL;
+	size_t value_string_size         = 0;
+	uint32_t value_32bit             = 0;
+	uint16_t value_16bit             = 0;
+	int result                       = 0;
 #endif
 
 	if( mtp_volume_values == NULL )
@@ -393,7 +396,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  name_string_size,
@@ -419,7 +422,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -430,7 +433,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -444,7 +447,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -473,7 +476,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: name\t\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: name\t\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -493,7 +496,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  identifier_string_size,
@@ -519,7 +522,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -530,7 +533,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -544,7 +547,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -573,7 +576,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: identifier\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: identifier\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -593,7 +596,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  file_system_string_size,
@@ -619,7 +622,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -630,7 +633,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -644,7 +647,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -673,7 +676,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: file system\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: file system\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -693,7 +696,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_size_from_utf16_stream(
 				  &( shell_item_data[ shell_item_data_offset ] ),
 				  78,
@@ -719,7 +722,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 			{
 				libcerror_error_set(
 				 error,
@@ -730,7 +733,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-			value_string = libcstring_system_string_allocate(
+			value_string = system_string_allocate(
 					value_string_size );
 
 			if( value_string == NULL )
@@ -744,7 +747,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libuna_utf16_string_copy_from_utf16_stream(
 				  (libuna_utf16_character_t *) value_string,
 				  value_string_size,
@@ -773,7 +776,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: GUID\t\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: GUID\t\t\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 value_string );
 
@@ -823,7 +826,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 				goto on_error;
 			}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = libfguid_identifier_copy_to_utf16_string(
 				  guid,
 				  (uint16_t *) guid_string,
@@ -850,7 +853,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				goto on_error;
 			}
 			libcnotify_printf(
-			 "%s: class identifier\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+			 "%s: class identifier\t\t\t: %" PRIs_SYSTEM "\n",
 			 function,
 			 guid_string );
 		}
@@ -916,7 +919,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 					goto on_error;
 				}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 				result = libfguid_identifier_copy_to_utf16_string(
 					  guid,
 					  (uint16_t *) guid_string,
@@ -943,7 +946,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 					goto on_error;
 				}
 				libcnotify_printf(
-				 "%s: property set identifier\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+				 "%s: property set identifier\t\t\t: %" PRIs_SYSTEM "\n",
 				 function,
 				 guid_string );
 			}
@@ -1078,7 +1081,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 						if( libcnotify_verbose != 0 )
 						{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 							result = libuna_utf16_string_size_from_utf16_stream(
 								  &( shell_item_data[ shell_item_data_offset ] ),
 								  string_size,
@@ -1104,7 +1107,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 								goto on_error;
 							}
-							if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( libcstring_system_character_t ) ) )
+							if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
 							{
 								libcerror_error_set(
 								 error,
@@ -1115,7 +1118,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 								goto on_error;
 							}
-							value_string = libcstring_system_string_allocate(
+							value_string = system_string_allocate(
 									value_string_size );
 
 							if( value_string == NULL )
@@ -1129,7 +1132,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 								goto on_error;
 							}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 							result = libuna_utf16_string_copy_from_utf16_stream(
 								  (libuna_utf16_character_t *) value_string,
 								  value_string_size,
@@ -1158,7 +1161,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 								goto on_error;
 							}
 							libcnotify_printf(
-							 "%s: string\t\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+							 "%s: string\t\t\t\t\t: %" PRIs_SYSTEM "\n",
 							 function,
 							 value_string );
 
@@ -1198,7 +1201,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 							goto on_error;
 						}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 						result = libfguid_identifier_copy_to_utf16_string(
 							  guid,
 							  (uint16_t *) guid_string,
@@ -1225,7 +1228,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 							goto on_error;
 						}
 						libcnotify_printf(
-						 "%s: GUID\t\t\t\t\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+						 "%s: GUID\t\t\t\t\t: %" PRIs_SYSTEM "\n",
 						 function,
 						 guid_string );
 
