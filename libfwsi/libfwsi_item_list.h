@@ -92,5 +92,5 @@ int libfwsi_item_list_get_item(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_INTERNAL_LIST_H ) */
 

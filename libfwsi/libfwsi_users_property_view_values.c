@@ -22,9 +22,9 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <system_string.h>
 #include <types.h>
 
+#include "libfwsi_debug.h"
 #include "libfwsi_known_folder_identifier.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
@@ -155,7 +155,6 @@ ssize_t libfwsi_users_property_view_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint32_t value_32bit          = 0;
 	uint16_t value_16bit          = 0;
-	int result                    = 0;
 #endif
 
 	if( users_property_view_values == NULL )

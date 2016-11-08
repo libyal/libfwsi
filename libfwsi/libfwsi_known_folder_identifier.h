@@ -74,5 +74,5 @@ const char *libfwsi_known_folder_identifier_get_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_KNOWN_FOLDER_IDENTIFIER_H ) */
 

@@ -107,5 +107,5 @@ int libfwsi_file_entry_extension_get_utf16_localized_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_FILE_ENTRY_EXTENSION_H ) */
 

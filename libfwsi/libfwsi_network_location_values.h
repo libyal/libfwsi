@@ -83,5 +83,5 @@ ssize_t libfwsi_network_location_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_NETWORK_LOCATION_VALUES_H ) */
 

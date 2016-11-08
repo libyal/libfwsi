@@ -22,10 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <narrow_string.h>
-#include <system_string.h>
 #include <types.h>
-#include <wide_string.h>
 
 #include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
@@ -157,22 +154,19 @@ ssize_t libfwsi_file_entry_values_read(
          int ascii_codepage,
          libcerror_error_t **error )
 {
-	static char *function            = "libfwsi_file_entry_values_read";
-	size_t shell_item_data_offset    = 0;
-	size_t string_alignment_offset   = 0;
-	size_t string_alignment_size     = 0;
-	size_t string_size               = 0;
-	uint16_t extension_size          = 0;
-	uint8_t class_type_indicator     = 0;
-	int has_swn1                     = 0;
+	static char *function          = "libfwsi_file_entry_values_read";
+	size_t shell_item_data_offset  = 0;
+	size_t string_alignment_offset = 0;
+	size_t string_alignment_size   = 0;
+	size_t string_size             = 0;
+	uint16_t extension_size        = 0;
+	uint8_t class_type_indicator   = 0;
+	int has_swn1                   = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t *value_string = NULL;
-	size_t value_string_size         = 0;
-	uint64_t value_64bit             = 0;
-	uint32_t value_32bit             = 0;
-	uint16_t value_16bit             = 0;
-	int result                       = 0;
+	uint64_t value_64bit           = 0;
+	uint32_t value_32bit           = 0;
+	uint16_t value_16bit           = 0;
 #endif
 
 	if( file_entry_values == NULL )
@@ -383,137 +377,44 @@ ssize_t libfwsi_file_entry_values_read(
 	{
 		if( file_entry_values->is_unicode != 0 )
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_utf16_stream(
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_utf16_stream(
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#endif
+			if( libfwsi_debug_print_utf16_string_value(
+			     function,
+			     "primary name\t\t\t\t",
+			     file_entry_values->name,
+			     file_entry_values->name_size,
+			     LIBUNA_ENDIAN_LITTLE,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print UTF-16 string value.",
+				 function );
+
+				goto on_error;
+			}
 		}
 		else
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_byte_stream(
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  ascii_codepage,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_byte_stream(
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  ascii_codepage,
-				  &value_string_size,
-				  error );
-#endif
-		}
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to determine size of primary name string.",
-			 function );
+			if( libfwsi_debug_print_string_value(
+			     function,
+			     "primary name\t\t\t\t",
+			     file_entry_values->name,
+			     file_entry_values->name_size,
+			     ascii_codepage,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print string value.",
+				 function );
 
-			goto on_error;
+				goto on_error;
+			}
 		}
-		if( ( value_string_size > (size_t) SSIZE_MAX )
-		 || ( ( sizeof( system_character_t ) * value_string_size ) > (size_t) SSIZE_MAX ) )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-			 "%s: invalid primary name string size value exceeds maximum.",
-			 function );
-
-			goto on_error;
-		}
-		value_string = system_string_allocate(
-				value_string_size );
-
-		if( value_string == NULL )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_MEMORY,
-			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-			 "%s: unable to create primary name string.",
-			 function );
-
-			goto on_error;
-		}
-		if( file_entry_values->is_unicode != 0 )
-		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_utf16_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_utf16_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#endif
-		}
-		else
-		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_byte_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  ascii_codepage,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_byte_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  file_entry_values->name,
-				  file_entry_values->name_size,
-				  ascii_codepage,
-				  error );
-#endif
-		}
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-			 "%s: unable to set primary name string.",
-			 function );
-
-			goto on_error;
-		}
-		libcnotify_printf(
-		 "%s: primary name\t\t\t\t: %" PRIs_SYSTEM "\n",
-		 function,
-		 value_string );
-
-		memory_free(
-		 value_string );
-
-		value_string = NULL;
 	}
 #endif
 	shell_item_data_offset += string_size;
@@ -574,137 +475,44 @@ ssize_t libfwsi_file_entry_values_read(
 		{
 			if( file_entry_values->is_unicode != 0 )
 			{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_size_from_utf16_stream(
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  &value_string_size,
-					  error );
-#else
-				result = libuna_utf8_string_size_from_utf16_stream(
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  &value_string_size,
-					  error );
-#endif
+				if( libfwsi_debug_print_utf16_string_value(
+				     function,
+				     "secondary name\t\t\t\t",
+				     &( shell_item_data[ shell_item_data_offset ] ),
+				     string_size,
+				     LIBUNA_ENDIAN_LITTLE,
+				     error ) != 1 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+					 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+					 "%s: unable to print UTF-16 string value.",
+					 function );
+
+					goto on_error;
+				}
 			}
 			else
 			{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_size_from_byte_stream(
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  ascii_codepage,
-					  &value_string_size,
-					  error );
-#else
-				result = libuna_utf8_string_size_from_byte_stream(
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  ascii_codepage,
-					  &value_string_size,
-					  error );
-#endif
-			}
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to determine size of secondary name string.",
-				 function );
+				if( libfwsi_debug_print_string_value(
+				     function,
+				     "secondary name\t\t\t\t",
+				     &( shell_item_data[ shell_item_data_offset ] ),
+				     string_size,
+				     ascii_codepage,
+				     error ) != 1 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+					 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+					 "%s: unable to print string value.",
+					 function );
 
-				goto on_error;
+					goto on_error;
+				}
 			}
-			if( ( value_string_size > (size_t) SSIZE_MAX )
-			 || ( ( sizeof( system_character_t ) * value_string_size )  > (size_t) SSIZE_MAX ) )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-				 "%s: invalid secondary name string size value exceeds maximum.",
-				 function );
-
-				goto on_error;
-			}
-			value_string = system_string_allocate(
-					value_string_size );
-
-			if( value_string == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-				 "%s: unable to create secondary name string.",
-				 function );
-
-				goto on_error;
-			}
-			if( file_entry_values->is_unicode != 0 )
-			{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_copy_from_utf16_stream(
-					  (libuna_utf16_character_t *) value_string,
-					  value_string_size,
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  error );
-#else
-				result = libuna_utf8_string_copy_from_utf16_stream(
-					  (libuna_utf8_character_t *) value_string,
-					  value_string_size,
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  error );
-#endif
-			}
-			else
-			{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_copy_from_byte_stream(
-					  (libuna_utf16_character_t *) value_string,
-					  value_string_size,
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  ascii_codepage,
-					  error );
-#else
-				result = libuna_utf8_string_copy_from_byte_stream(
-					  (libuna_utf8_character_t *) value_string,
-					  value_string_size,
-					  &( shell_item_data[ shell_item_data_offset ] ),
-					  string_size,
-					  ascii_codepage,
-					  error );
-#endif
-			}
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-				 "%s: unable to set secondary name string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: secondary name\t\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 value_string );
-
-			memory_free(
-			 value_string );
-
-			value_string = NULL;
 		}
 #endif
 		shell_item_data_offset += string_size;
@@ -847,13 +655,6 @@ ssize_t libfwsi_file_entry_values_read(
 	return( (ssize_t) shell_item_data_offset );
 
 on_error:
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( value_string != NULL )
-	{
-		memory_free(
-		 value_string );
-	}
-#endif
 	if( file_entry_values->name != NULL )
 	{
 		memory_free(

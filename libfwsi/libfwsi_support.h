@@ -43,5 +43,5 @@ const char *libfwsi_get_version(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_SUPPORT_H ) */
 

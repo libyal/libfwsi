@@ -144,5 +144,5 @@ int libfwsi_item_get_extension_block(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_INTERNAL_ITEM_H ) */
 

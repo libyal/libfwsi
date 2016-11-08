@@ -22,10 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <narrow_string.h>
-#include <system_string.h>
 #include <types.h>
-#include <wide_string.h>
 
 #include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
@@ -149,16 +146,13 @@ ssize_t libfwsi_volume_values_read(
          int ascii_codepage,
          libcerror_error_t **error )
 {
-	static char *function            = "libfwsi_volume_values_read";
-	size_t shell_item_data_offset    = 0;
-	size_t string_size               = 0;
-	uint8_t class_type_indicator     = 0;
+	static char *function         = "libfwsi_volume_values_read";
+	size_t shell_item_data_offset = 0;
+	size_t string_size            = 0;
+	uint8_t class_type_indicator  = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t *value_string = NULL;
-	size_t value_string_size         = 0;
-	uint16_t value_16bit             = 0;
-	int result                       = 0;
+	uint16_t value_16bit          = 0;
 #endif
 
 	if( volume_values == NULL )
@@ -240,7 +234,7 @@ ssize_t libfwsi_volume_values_read(
 			 "%s: unable to copy volume identifier.",
 			 function );
 
-			goto on_error;
+			return( -1 );
 		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -261,7 +255,7 @@ ssize_t libfwsi_volume_values_read(
 				 "%s: unable to print GUID value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
 			libcnotify_printf(
 			 "%s: shell folder name\t\t\t\t: %s\n",
@@ -294,7 +288,7 @@ ssize_t libfwsi_volume_values_read(
 			 "%s: unable to copy volume name.",
 			 function );
 
-			goto on_error;
+			return( -1 );
 		}
 		for( string_size = 0;
 		     string_size < 20;
@@ -310,94 +304,23 @@ ssize_t libfwsi_volume_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_byte_stream(
-				  volume_values->name,
-				  volume_values->name_size,
-				  volume_values->ascii_codepage,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_byte_stream(
-				  volume_values->name,
-				  volume_values->name_size,
-				  volume_values->ascii_codepage,
-				  &value_string_size,
-				  error );
-#endif
-			if( result != 1 )
+			if( libfwsi_debug_print_string_value(
+			     function,
+			     "volume name\t\t\t\t\t",
+			     volume_values->name,
+			     volume_values->name_size,
+			     ascii_codepage,
+			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to determine size of volume name string.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print string value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-				 "%s: invalid volume name string size value exceeds maximum.",
-				 function );
-
-				goto on_error;
-			}
-			value_string = system_string_allocate(
-					value_string_size );
-
-			if( value_string == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-				 "%s: unable to create volume name string.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_byte_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  volume_values->name,
-				  volume_values->name_size,
-				  volume_values->ascii_codepage,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_byte_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  volume_values->name,
-				  volume_values->name_size,
-				  volume_values->ascii_codepage,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-				 "%s: unable to set volume name string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: volume name\t\t\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 value_string );
-
-			memory_free(
-			 value_string );
-
-			value_string = NULL;
 		}
 #endif
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -428,7 +351,7 @@ ssize_t libfwsi_volume_values_read(
 				 "%s: unable to copy shell folder identifier.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
@@ -449,7 +372,7 @@ ssize_t libfwsi_volume_values_read(
 					 "%s: unable to print GUID value.",
 					 function );
 
-					goto on_error;
+					return( -1 );
 				}
 				libcnotify_printf(
 				 "%s: shell folder name\t\t\t\t: %s\n",
@@ -469,15 +392,5 @@ ssize_t libfwsi_volume_values_read(
 	}
 #endif
 	return( (ssize_t) shell_item_data_offset );
-
-on_error:
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( value_string != NULL )
-	{
-		memory_free(
-		 value_string );
-	}
-#endif
-	return( -1 );
 }
 

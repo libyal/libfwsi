@@ -59,5 +59,5 @@ ssize_t libfwsi_unknown_0x74_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_UNKNOWN_0x74_VALUES_H ) */
 

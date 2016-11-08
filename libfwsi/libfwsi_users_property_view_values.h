@@ -59,5 +59,5 @@ ssize_t libfwsi_users_property_view_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H ) */
 

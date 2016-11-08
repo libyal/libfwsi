@@ -77,5 +77,5 @@ int libfwsi_volume_get_shell_folder_identifier(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_VOLUME_H ) */
 

@@ -22,7 +22,6 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <system_string.h>
 #include <types.h>
 
 #include "libfwsi_debug.h"

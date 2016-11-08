@@ -83,5 +83,5 @@ ssize_t libfwsi_file_entry_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_FILE_ENTRY_VALUES_H ) */
 

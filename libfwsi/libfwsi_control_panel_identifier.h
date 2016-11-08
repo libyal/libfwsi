@@ -61,5 +61,5 @@ const char *libfwsi_control_panel_identifier_get_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_CONTROL_PANEL_IDENTIFIER_H ) */
 

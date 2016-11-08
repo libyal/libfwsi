@@ -21,7 +21,10 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfwsi_debug.h"
 #include "libfwsi_libcerror.h"
@@ -29,6 +32,7 @@
 #include "libfwsi_libfdatetime.h"
 #include "libfwsi_libfguid.h"
 #include "libfwsi_libfwps.h"
+#include "libfwsi_libuna.h"
 
 #if defined( HAVE_DEBUG_OUTPUT )
 
@@ -141,7 +145,7 @@ int libfwsi_debug_print_fat_date_time_value(
 		goto on_error;
 	}
 	libcnotify_printf(
-	 "%s: %s%s: %s UTC\n",
+	 "%s: %s: %s UTC\n",
 	 function_name,
 	 value_name,
 	 date_time_string );
@@ -234,7 +238,7 @@ int libfwsi_debug_print_filetime_value(
 		goto on_error;
 	}
 	libcnotify_printf(
-	 "%s: %s%s: %s UTC\n",
+	 "%s: %s: %s UTC\n",
 	 function_name,
 	 value_name,
 	 date_time_string );
@@ -327,7 +331,7 @@ int libfwsi_debug_print_guid_value(
 		goto on_error;
 	}
 	libcnotify_printf(
-	 "%s: %s%s: %s\n",
+	 "%s: %s: %s\n",
 	 function_name,
 	 value_name,
 	 guid_string );
@@ -419,6 +423,238 @@ on_error:
 		libfwps_storage_free(
 		 &property_storage,
 		 NULL );
+	}
+	return( -1 );
+}
+
+/* Prints a string value
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_debug_print_string_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
+{
+	system_character_t *string = NULL;
+	static char *function      = "libfwsi_debug_print_string_value";
+	size_t string_size         = 0;
+	int result                 = 0;
+
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
+	result = libuna_utf16_string_size_from_byte_stream(
+		  byte_stream,
+		  byte_stream_size,
+		  ascii_codepage,
+		  &string_size,
+		  error );
+#else
+	result = libuna_utf8_string_size_from_byte_stream(
+		  byte_stream,
+		  byte_stream_size,
+		  ascii_codepage,
+		  &string_size,
+		  error );
+#endif
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to determine size of string.",
+		 function );
+
+		goto on_error;
+	}
+	if( ( string_size > (size_t) SSIZE_MAX )
+	 || ( ( sizeof( system_character_t ) * string_size ) > (size_t) SSIZE_MAX ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid string size value exceeds maximum.",
+		 function );
+
+		goto on_error;
+	}
+	string = system_string_allocate(
+			string_size );
+
+	if( string == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to create string.",
+		 function );
+
+		goto on_error;
+	}
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
+	result = libuna_utf16_string_copy_from_byte_stream(
+		  (libuna_utf16_character_t *) string,
+		  string_size,
+		  byte_stream,
+		  byte_stream_size,
+		  ascii_codepage,
+		  error );
+#else
+	result = libuna_utf8_string_copy_from_byte_stream(
+		  (libuna_utf8_character_t *) string,
+		  string_size,
+		  byte_stream,
+		  byte_stream_size,
+		  ascii_codepage,
+		  error );
+#endif
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set string.",
+		 function );
+
+		goto on_error;
+	}
+	libcnotify_printf(
+	 "%s: %s: %s\n",
+	 function_name,
+	 value_name,
+	 string );
+
+	memory_free(
+	 string );
+
+	return( 1 );
+
+on_error:
+	if( string != NULL )
+	{
+		memory_free(
+		 string );
+	}
+	return( -1 );
+}
+
+/* Prints an UTF-16 string value
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_debug_print_utf16_string_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int byte_order,
+     libcerror_error_t **error )
+{
+	system_character_t *string = NULL;
+	static char *function      = "libfwsi_debug_print_utf16_string_value";
+	size_t string_size         = 0;
+	int result                 = 0;
+
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
+	result = libuna_utf16_string_size_from_utf16_stream(
+		  byte_stream,
+		  byte_stream_size,
+		  byte_order,
+		  &string_size,
+		  error );
+#else
+	result = libuna_utf8_string_size_from_utf16_stream(
+		  byte_stream,
+		  byte_stream_size,
+		  byte_order,
+		  &string_size,
+		  error );
+#endif
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to determine size of string.",
+		 function );
+
+		goto on_error;
+	}
+	if( ( string_size > (size_t) SSIZE_MAX )
+	 || ( ( sizeof( system_character_t ) * string_size ) > (size_t) SSIZE_MAX ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid string size value exceeds maximum.",
+		 function );
+
+		goto on_error;
+	}
+	string = system_string_allocate(
+	          string_size );
+
+	if( string == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to create string.",
+		 function );
+
+		goto on_error;
+	}
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
+	result = libuna_utf16_string_copy_from_utf16_stream(
+		  (libuna_utf16_character_t *) string,
+		  string_size,
+		  byte_stream,
+		  byte_stream_size,
+		  byte_order,
+		  error );
+#else
+	result = libuna_utf8_string_copy_from_utf16_stream(
+		  (libuna_utf8_character_t *) string,
+		  string_size,
+		  byte_stream,
+		  byte_stream_size,
+		  byte_order,
+		  error );
+#endif
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set string.",
+		 function );
+
+		goto on_error;
+	}
+	libcnotify_printf(
+	 "%s: %s: %s\n",
+	 function_name,
+	 value_name,
+	 string );
+
+	memory_free(
+	 string );
+
+	return( 1 );
+
+on_error:
+	if( string != NULL )
+	{
+		memory_free(
+		 string );
 	}
 	return( -1 );
 }

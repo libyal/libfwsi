@@ -69,7 +69,23 @@ int libfwsi_debug_print_property_storage_value(
      int ascii_codepage,
      libcerror_error_t **error );
 
-#endif
+int libfwsi_debug_print_string_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
+int libfwsi_debug_print_utf16_string_value(
+     const char *function_name,
+     const char *value_name,
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int byte_order,
+     libcerror_error_t **error );
+
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
 #if defined( __cplusplus )
 }

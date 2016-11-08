@@ -58,5 +58,5 @@ ssize_t libfwsi_cdburn_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_CDBURN_VALUES_H ) */
 

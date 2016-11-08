@@ -58,5 +58,5 @@ ssize_t libfwsi_game_folder_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_GAME_FOLDER_VALUES_H ) */
 

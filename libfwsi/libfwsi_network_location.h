@@ -115,5 +115,5 @@ int libfwsi_network_location_get_utf16_comments(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_NETWORK_LOCATION_H ) */
 

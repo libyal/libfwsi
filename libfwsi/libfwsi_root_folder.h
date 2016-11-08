@@ -44,5 +44,5 @@ int libfwsi_root_folder_get_shell_folder_identifier(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_ROOT_FOLDER_H ) */
 

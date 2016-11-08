@@ -96,5 +96,5 @@ int libfwsi_extension_block_get_data_size(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_INTERNAL_EXTENSION_BLOCK_H ) */
 

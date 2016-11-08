@@ -59,5 +59,5 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_EXTENSION_BLOCK_0xBEEF0014_VALUES_H ) */
 

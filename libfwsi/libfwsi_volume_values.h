@@ -79,5 +79,5 @@ ssize_t libfwsi_volume_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_VOLUME_VALUES_H ) */
 

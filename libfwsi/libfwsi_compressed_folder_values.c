@@ -22,10 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <narrow_string.h>
-#include <system_string.h>
 #include <types.h>
-#include <wide_string.h>
 
 #include "libfwsi_compressed_folder_values.h"
 #include "libfwsi_debug.h"
@@ -148,17 +145,14 @@ ssize_t libfwsi_compressed_folder_values_read(
          size_t shell_item_data_size,
          libcerror_error_t **error )
 {
-	static char *function            = "libfwsi_compressed_folder_values_read";
-	size_t shell_item_data_offset    = 0;
-	uint32_t string_size             = 0;
+	static char *function         = "libfwsi_compressed_folder_values_read";
+	size_t shell_item_data_offset = 0;
+	uint32_t string_size          = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t *value_string = NULL;
-	size_t value_string_size         = 0;
-	uint64_t value_64bit             = 0;
-	uint32_t value_32bit             = 0;
-	uint16_t value_16bit             = 0;
-	int result                       = 0;
+	uint64_t value_64bit          = 0;
+	uint32_t value_32bit          = 0;
+	uint16_t value_16bit          = 0;
 #endif
 
 	if( compressed_folder_values == NULL )
@@ -285,7 +279,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				 "%s: unable to print FAT date time value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
 			byte_stream_copy_to_uint32_little_endian(
 			 &( shell_item_data[ 30 ] ),
@@ -311,7 +305,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				 "%s: unable to print FAT date time value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
 			byte_stream_copy_to_uint64_little_endian(
 			 &( shell_item_data[ 38 ] ),
@@ -348,94 +342,23 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#endif
-			if( result != 1 )
+			if( libfwsi_debug_print_utf16_string_value(
+			     function,
+			     "string\t\t\t\t",
+			     &( shell_item_data[ shell_item_data_offset ] ),
+			     string_size,
+			     LIBUNA_ENDIAN_LITTLE,
+			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to determine size of value string.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print UTF-16 string value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-				 "%s: invalid value string size value exceeds maximum.",
-				 function );
-
-				goto on_error;
-			}
-			value_string = system_string_allocate(
-					value_string_size );
-
-			if( value_string == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-				 "%s: unable to create value string.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_utf16_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_utf16_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-				 "%s: unable to set value string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 value_string );
-
-			memory_free(
-			 value_string );
-
-			value_string = NULL;
 		}
 #endif
 		shell_item_data_offset += string_size;
@@ -464,94 +387,23 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#endif
-			if( result != 1 )
+			if( libfwsi_debug_print_utf16_string_value(
+			     function,
+			     "string\t\t\t\t",
+			     &( shell_item_data[ shell_item_data_offset ] ),
+			     string_size,
+			     LIBUNA_ENDIAN_LITTLE,
+			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to determine size of value string.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print UTF-16 string value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-				 "%s: invalid value string size value exceeds maximum.",
-				 function );
-
-				goto on_error;
-			}
-			value_string = system_string_allocate(
-					value_string_size );
-
-			if( value_string == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-				 "%s: unable to create value string.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_utf16_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_utf16_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-				 "%s: unable to set value string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 value_string );
-
-			memory_free(
-			 value_string );
-
-			value_string = NULL;
 		}
 #endif
 		shell_item_data_offset += string_size;
@@ -580,94 +432,23 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#endif
-			if( result != 1 )
+			if( libfwsi_debug_print_utf16_string_value(
+			     function,
+			     "string\t\t\t\t",
+			     &( shell_item_data[ shell_item_data_offset ] ),
+			     string_size,
+			     LIBUNA_ENDIAN_LITTLE,
+			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to determine size of value string.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print UTF-16 string value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-				 "%s: invalid value string size value exceeds maximum.",
-				 function );
-
-				goto on_error;
-			}
-			value_string = system_string_allocate(
-					value_string_size );
-
-			if( value_string == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-				 "%s: unable to create value string.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_utf16_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_utf16_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-				 "%s: unable to set value string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 value_string );
-
-			memory_free(
-			 value_string );
-
-			value_string = NULL;
 		}
 #endif
 		shell_item_data_offset += string_size;
@@ -696,97 +477,25 @@ ssize_t libfwsi_compressed_folder_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#else
-			result = libuna_utf8_string_size_from_utf16_stream(
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  &value_string_size,
-				  error );
-#endif
-			if( result != 1 )
+			if( libfwsi_debug_print_utf16_string_value(
+			     function,
+			     "string\t\t\t\t",
+			     &( shell_item_data[ shell_item_data_offset ] ),
+			     string_size,
+			     LIBUNA_ENDIAN_LITTLE,
+			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to determine size of value string.",
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print UTF-16 string value.",
 				 function );
 
-				goto on_error;
+				return( -1 );
 			}
-			if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-				 "%s: invalid value string size value exceeds maximum.",
-				 function );
-
-				goto on_error;
-			}
-			value_string = system_string_allocate(
-					value_string_size );
-
-			if( value_string == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-				 "%s: unable to create value string.",
-				 function );
-
-				goto on_error;
-			}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-			result = libuna_utf16_string_copy_from_utf16_stream(
-				  (libuna_utf16_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#else
-			result = libuna_utf8_string_copy_from_utf16_stream(
-				  (libuna_utf8_character_t *) value_string,
-				  value_string_size,
-				  &( shell_item_data[ shell_item_data_offset ] ),
-				  string_size,
-				  LIBUNA_ENDIAN_LITTLE,
-				  error );
-#endif
-			if( result != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-				 "%s: unable to set value string.",
-				 function );
-
-				goto on_error;
-			}
-			libcnotify_printf(
-			 "%s: string\t\t\t\t: %" PRIs_SYSTEM "\n",
-			 function,
-			 value_string );
-
-			memory_free(
-			 value_string );
-
-			value_string = NULL;
 		}
 #endif
-		shell_item_data_offset += string_size;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -796,15 +505,5 @@ ssize_t libfwsi_compressed_folder_values_read(
 	}
 #endif
 	return( (ssize_t) shell_item_data_offset );
-
-on_error:
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( value_string != NULL )
-	{
-		memory_free(
-		 value_string );
-	}
-#endif
-	return( -1 );
 }
 

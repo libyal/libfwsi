@@ -59,5 +59,5 @@ ssize_t libfwsi_uri_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_URI_VALUES_H ) */
 

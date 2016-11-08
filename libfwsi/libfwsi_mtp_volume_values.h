@@ -58,5 +58,5 @@ ssize_t libfwsi_mtp_volume_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_MTP_VOLUME_VALUES_H ) */
 

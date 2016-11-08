@@ -58,5 +58,5 @@ ssize_t libfwsi_root_folder_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_ROOT_FOLDER_VALUES_H ) */
 

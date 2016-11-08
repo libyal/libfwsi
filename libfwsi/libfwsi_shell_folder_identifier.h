@@ -89,5 +89,5 @@ const char *libfwsi_shell_folder_identifier_get_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_SHELL_FOLDER_IDENTIFIER_H ) */
 

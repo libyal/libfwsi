@@ -22,10 +22,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <narrow_string.h>
-#include <system_string.h>
 #include <types.h>
-#include <wide_string.h>
 
 #include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
@@ -166,10 +163,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	uint16_t version                   = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t *value_string   = NULL;
-	size_t value_string_size           = 0;
 	uint16_t value_16bit               = 0;
-	int result                         = 0;
 #endif
 
 	if( file_entry_extension_values == NULL )
@@ -447,94 +441,23 @@ ssize_t libfwsi_file_entry_extension_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libuna_utf16_string_size_from_utf16_stream(
-			  file_entry_extension_values->long_name,
-			  file_entry_extension_values->long_name_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  &value_string_size,
-			  error );
-#else
-		result = libuna_utf8_string_size_from_utf16_stream(
-			  file_entry_extension_values->long_name,
-			  file_entry_extension_values->long_name_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  &value_string_size,
-			  error );
-#endif
-		if( result != 1 )
+		if( libfwsi_debug_print_utf16_string_value(
+		     function,
+		     "long name\t\t\t",
+		     file_entry_extension_values->long_name,
+		     file_entry_extension_values->long_name_size,
+		     LIBUNA_ENDIAN_LITTLE,
+		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to determine size of long name string.",
+			 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+			 "%s: unable to print UTF-16 string value.",
 			 function );
 
 			goto on_error;
 		}
-		if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-			 "%s: invalid long name string size value exceeds maximum.",
-			 function );
-
-			goto on_error;
-		}
-		value_string = system_string_allocate(
-				value_string_size );
-
-		if( value_string == NULL )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_MEMORY,
-			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-			 "%s: unable to create long name string.",
-			 function );
-
-			goto on_error;
-		}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libuna_utf16_string_copy_from_utf16_stream(
-			  (libuna_utf16_character_t *) value_string,
-			  value_string_size,
-			  file_entry_extension_values->long_name,
-			  file_entry_extension_values->long_name_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  error );
-#else
-		result = libuna_utf8_string_copy_from_utf16_stream(
-			  (libuna_utf8_character_t *) value_string,
-			  value_string_size,
-			  file_entry_extension_values->long_name,
-			  file_entry_extension_values->long_name_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  error );
-#endif
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-			 "%s: unable to set long name string.",
-			 function );
-
-			goto on_error;
-		}
-		libcnotify_printf(
-		 "%s: long name\t\t\t: %" PRIs_SYSTEM "\n",
-		 function,
-		 value_string );
-
-		memory_free(
-		 value_string );
-
-		value_string = NULL;
 	}
 #endif
 	extension_block_data_offset += string_size;
@@ -592,94 +515,23 @@ ssize_t libfwsi_file_entry_extension_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
 			{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_size_from_utf16_stream(
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  &value_string_size,
-					  error );
-#else
-				result = libuna_utf8_string_size_from_utf16_stream(
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  &value_string_size,
-					  error );
-#endif
-				if( result != 1 )
+				if( libfwsi_debug_print_utf16_string_value(
+				     function,
+				     "localized name\t\t",
+				     file_entry_extension_values->localized_name,
+				     file_entry_extension_values->localized_name_size,
+				     LIBUNA_ENDIAN_LITTLE,
+				     error ) != 1 )
 				{
 					libcerror_error_set(
 					 error,
 					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-					 "%s: unable to determine size of localized name string.",
+					 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+					 "%s: unable to print UTF-16 string value.",
 					 function );
 
 					goto on_error;
 				}
-				if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-					 "%s: invalid localized name string size value exceeds maximum.",
-					 function );
-
-					goto on_error;
-				}
-				value_string = system_string_allocate(
-						value_string_size );
-
-				if( value_string == NULL )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_MEMORY,
-					 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-					 "%s: unable to create localized name string.",
-					 function );
-
-					goto on_error;
-				}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_copy_from_utf16_stream(
-					  (libuna_utf16_character_t *) value_string,
-					  value_string_size,
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  error );
-#else
-				result = libuna_utf8_string_copy_from_utf16_stream(
-					  (libuna_utf8_character_t *) value_string,
-					  value_string_size,
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  LIBUNA_ENDIAN_LITTLE,
-					  error );
-#endif
-				if( result != 1 )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-					 "%s: unable to set localized name string.",
-					 function );
-
-					goto on_error;
-				}
-				libcnotify_printf(
-				 "%s: localized name\t\t: %" PRIs_SYSTEM "\n",
-				 function,
-				 value_string );
-
-				memory_free(
-				 value_string );
-
-				value_string = NULL;
 			}
 #endif
 		}
@@ -733,94 +585,23 @@ ssize_t libfwsi_file_entry_extension_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
 			{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_size_from_byte_stream(
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  ascii_codepage,
-					  &value_string_size,
-					  error );
-#else
-				result = libuna_utf8_string_size_from_byte_stream(
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  ascii_codepage,
-					  &value_string_size,
-					  error );
-#endif
-				if( result != 1 )
+				if( libfwsi_debug_print_string_value(
+				     function,
+				     "localized name\t\t",
+				     file_entry_extension_values->localized_name,
+				     file_entry_extension_values->localized_name_size,
+				     ascii_codepage,
+				     error ) != 1 )
 				{
 					libcerror_error_set(
 					 error,
 					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-					 "%s: unable to determine size of localized name string.",
+					 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+					 "%s: unable to print string value.",
 					 function );
 
 					goto on_error;
 				}
-				if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-					 "%s: invalid localized name string size value exceeds maximum.",
-					 function );
-
-					goto on_error;
-				}
-				value_string = system_string_allocate(
-						value_string_size );
-
-				if( value_string == NULL )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_MEMORY,
-					 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-					 "%s: unable to create localized name string.",
-					 function );
-
-					goto on_error;
-				}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-				result = libuna_utf16_string_copy_from_byte_stream(
-					  (libuna_utf16_character_t *) value_string,
-					  value_string_size,
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  ascii_codepage,
-					  error );
-#else
-				result = libuna_utf8_string_copy_from_byte_stream(
-					  (libuna_utf8_character_t *) value_string,
-					  value_string_size,
-					  file_entry_extension_values->localized_name,
-					  file_entry_extension_values->localized_name_size,
-					  ascii_codepage,
-					  error );
-#endif
-				if( result != 1 )
-				{
-					libcerror_error_set(
-					 error,
-					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-					 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-					 "%s: unable to set localized name string.",
-					 function );
-
-					goto on_error;
-				}
-				libcnotify_printf(
-				 "%s: localized name\t\t: %" PRIs_SYSTEM "\n",
-				 function,
-				 value_string );
-
-				memory_free(
-				 value_string );
-
-				value_string = NULL;
 			}
 #endif
 		}
@@ -829,13 +610,6 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	return( (ssize_t) extension_block_data_offset );
 
 on_error:
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( value_string != NULL )
-	{
-		memory_free(
-		 value_string );
-	}
-#endif
 	if( file_entry_extension_values->localized_name != NULL )
 	{
 		memory_free(

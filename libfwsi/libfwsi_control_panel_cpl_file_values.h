@@ -58,5 +58,5 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_CONTROL_PANEL_CPL_FILE_VALUES_H ) */
 

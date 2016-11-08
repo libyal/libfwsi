@@ -58,5 +58,5 @@ ssize_t libfwsi_control_panel_category_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H ) */
 

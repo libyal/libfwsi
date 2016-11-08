@@ -60,5 +60,5 @@ ssize_t libfwsi_delegate_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_DELEGATE_VALUES_H ) */
 

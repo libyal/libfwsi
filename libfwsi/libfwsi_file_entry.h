@@ -81,5 +81,5 @@ int libfwsi_file_entry_get_utf16_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_FILE_ENTRY_H ) */
 

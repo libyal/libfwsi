@@ -40,5 +40,5 @@ void libfwsi_file_attributes_print(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_FILE_ATTRIBUTES_H ) */
 

@@ -58,5 +58,5 @@ ssize_t libfwsi_mtp_file_entry_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_MTP_FILE_ENTRY_VALUES_H ) */
 

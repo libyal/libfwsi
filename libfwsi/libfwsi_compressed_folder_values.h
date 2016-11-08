@@ -58,5 +58,5 @@ ssize_t libfwsi_compressed_folder_values_read(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_COMPRESSED_FOLDER_VALUES_H ) */
 

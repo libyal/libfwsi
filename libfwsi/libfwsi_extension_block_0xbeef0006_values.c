@@ -22,11 +22,9 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
-#include <narrow_string.h>
-#include <system_string.h>
 #include <types.h>
-#include <wide_string.h>
 
+#include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
 #include "libfwsi_extension_block_0xbeef0006_values.h"
 #include "libfwsi_libcerror.h"
@@ -150,12 +148,6 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 	size_t string_size                 = 0;
 	uint32_t signature                 = 0;
 
-#if defined( HAVE_DEBUG_OUTPUT )
-	system_character_t *value_string   = NULL;
-	size_t value_string_size           = 0;
-	int result                         = 0;
-#endif
-
 	if( extension_block_0xbeef0006_values == NULL )
 	{
 		libcerror_error_set(
@@ -224,94 +216,23 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libuna_utf16_string_size_from_utf16_stream(
-			  &( extension_block_data[ extension_block_data_offset ] ),
-			  string_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  &value_string_size,
-			  error );
-#else
-		result = libuna_utf8_string_size_from_utf16_stream(
-			  &( extension_block_data[ extension_block_data_offset ] ),
-			  string_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  &value_string_size,
-			  error );
-#endif
-		if( result != 1 )
+		if( libfwsi_debug_print_utf16_string_value(
+		     function,
+		     "username\t\t\t",
+		     &( extension_block_data[ extension_block_data_offset ] ),
+		     string_size,
+		     LIBUNA_ENDIAN_LITTLE,
+		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to determine size of username string.",
+			 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+			 "%s: unable to print UTF-16 string value.",
 			 function );
 
-			goto on_error;
+			return( -1 );
 		}
-		if( value_string_size > (size_t) ( SSIZE_MAX / sizeof( system_character_t ) ) )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-			 "%s: invalid username string size value exceeds maximum.",
-			 function );
-
-			goto on_error;
-		}
-		value_string = system_string_allocate(
-				value_string_size );
-
-		if( value_string == NULL )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_MEMORY,
-			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-			 "%s: unable to create username string.",
-			 function );
-
-			goto on_error;
-		}
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-		result = libuna_utf16_string_copy_from_utf16_stream(
-			  (libuna_utf16_character_t *) value_string,
-			  value_string_size,
-			  &( extension_block_data[ extension_block_data_offset ] ),
-			  string_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  error );
-#else
-		result = libuna_utf8_string_copy_from_utf16_stream(
-			  (libuna_utf8_character_t *) value_string,
-			  value_string_size,
-			  &( extension_block_data[ extension_block_data_offset ] ),
-			  string_size,
-			  LIBUNA_ENDIAN_LITTLE,
-			  error );
-#endif
-		if( result != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-			 "%s: unable to set username string.",
-			 function );
-
-			goto on_error;
-		}
-		libcnotify_printf(
-		 "%s: username\t\t\t: %" PRIs_SYSTEM "\n",
-		 function,
-		 value_string );
-
-		memory_free(
-		 value_string );
-
-		value_string = NULL;
 	}
 #endif
 	extension_block_data_offset += string_size;
@@ -324,15 +245,5 @@ ssize_t libfwsi_extension_block_0xbeef0006_values_read(
 	}
 #endif
 	return( (ssize_t) extension_block_data_offset );
-
-on_error:
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( value_string != NULL )
-	{
-		memory_free(
-		 value_string );
-	}
-#endif
-	return( -1 );
 }
 
