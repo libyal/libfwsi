@@ -1,7 +1,7 @@
 /*
  * Wide character string functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -33,6 +33,15 @@
 #if defined( __cplusplus )
 extern "C" {
 #endif
+
+/* Intermediate version of the macro required
+ * for correct evaluation predefined string
+ */
+#define _WIDE_STRING_INTERMEDIATE( string ) \
+	L ## string
+
+#define _WIDE_STRING( string ) \
+	_WIDE_STRING_INTERMEDIATE( string )
 
 /* String allocation
  */
@@ -68,7 +77,7 @@ extern "C" {
 #define wide_string_compare_no_case( string1, string2, size ) \
 	_wcsnicmp( string1, string2, size )
 
-#elif defined( WINAPI ) || defined( HAVE_WCSNICMP )
+#elif ( defined( WINAPI ) && !defined( __CYGWIN__ ) ) || defined( HAVE_WCSNICMP )
 #define wide_string_compare_no_case( string1, string2, size ) \
 	wcsnicmp( string1, string2, size )
 

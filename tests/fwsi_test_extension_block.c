@@ -1,7 +1,7 @@
 /*
- * Library extension_block type testing program
+ * Library extension_block type test program
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -32,6 +32,207 @@
 #include "fwsi_test_macros.h"
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
+
+#include "../libfwsi/libfwsi_extension_block.h"
+
+#if defined( __GNUC__ )
+
+/* Tests the libfwsi_extension_block_initialize function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_extension_block_initialize(
+     void )
+{
+	libcerror_error_t *error                   = NULL;
+	libfwsi_extension_block_t *extension_block = NULL;
+	int result                                 = 0;
+
+#if defined( HAVE_FWSI_TEST_MEMORY )
+	int number_of_malloc_fail_tests            = 1;
+	int number_of_memset_fail_tests            = 1;
+	int test_number                            = 0;
+#endif
+
+	/* Test regular cases
+	 */
+	result = libfwsi_extension_block_initialize(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+        FWSI_TEST_ASSERT_IS_NOT_NULL(
+         "extension_block",
+         extension_block );
+
+        FWSI_TEST_ASSERT_IS_NULL(
+         "error",
+         error );
+
+	result = libfwsi_extension_block_free(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+        FWSI_TEST_ASSERT_IS_NULL(
+         "extension_block",
+         extension_block );
+
+        FWSI_TEST_ASSERT_IS_NULL(
+         "error",
+         error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_extension_block_initialize(
+	          NULL,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+        FWSI_TEST_ASSERT_IS_NOT_NULL(
+         "error",
+         error );
+
+	libcerror_error_free(
+	 &error );
+
+	extension_block = (libfwsi_extension_block_t *) 0x12345678UL;
+
+	result = libfwsi_extension_block_initialize(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+        FWSI_TEST_ASSERT_IS_NOT_NULL(
+         "error",
+         error );
+
+	libcerror_error_free(
+	 &error );
+
+	extension_block = NULL;
+
+#if defined( HAVE_FWSI_TEST_MEMORY )
+
+	for( test_number = 0;
+	     test_number < number_of_malloc_fail_tests;
+	     test_number++ )
+	{
+		/* Test libfwsi_extension_block_initialize with malloc failing
+		 */
+		fwsi_test_malloc_attempts_before_fail = test_number;
+
+		result = libfwsi_extension_block_initialize(
+		          &extension_block,
+		          &error );
+
+		if( fwsi_test_malloc_attempts_before_fail != -1 )
+		{
+			fwsi_test_malloc_attempts_before_fail = -1;
+
+			if( extension_block != NULL )
+			{
+				libfwsi_extension_block_free(
+				 &extension_block,
+				 NULL );
+			}
+		}
+		else
+		{
+			FWSI_TEST_ASSERT_EQUAL_INT(
+			 "result",
+			 result,
+			 -1 );
+
+			FWSI_TEST_ASSERT_IS_NULL(
+			 "extension_block",
+			 extension_block );
+
+			FWSI_TEST_ASSERT_IS_NOT_NULL(
+			 "error",
+			 error );
+
+			libcerror_error_free(
+			 &error );
+		}
+	}
+	for( test_number = 0;
+	     test_number < number_of_memset_fail_tests;
+	     test_number++ )
+	{
+		/* Test libfwsi_extension_block_initialize with memset failing
+		 */
+		fwsi_test_memset_attempts_before_fail = test_number;
+
+		result = libfwsi_extension_block_initialize(
+		          &extension_block,
+		          &error );
+
+		if( fwsi_test_memset_attempts_before_fail != -1 )
+		{
+			fwsi_test_memset_attempts_before_fail = -1;
+
+			if( extension_block != NULL )
+			{
+				libfwsi_extension_block_free(
+				 &extension_block,
+				 NULL );
+			}
+		}
+		else
+		{
+			FWSI_TEST_ASSERT_EQUAL_INT(
+			 "result",
+			 result,
+			 -1 );
+
+			FWSI_TEST_ASSERT_IS_NULL(
+			 "extension_block",
+			 extension_block );
+
+			FWSI_TEST_ASSERT_IS_NOT_NULL(
+			 "error",
+			 error );
+
+			libcerror_error_free(
+			 &error );
+		}
+	}
+#endif /* defined( HAVE_FWSI_TEST_MEMORY ) */
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( extension_block != NULL )
+	{
+		libfwsi_extension_block_free(
+		 &extension_block,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) */
 
 /* Tests the libfwsi_extension_block_free function
  * Returns 1 if successful or 0 if not
@@ -71,6 +272,256 @@ on_error:
 	return( 0 );
 }
 
+#if defined( __GNUC__ )
+
+/* Tests the libfwsi_extension_block_get_signature function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_extension_block_get_signature(
+     void )
+{
+	libcerror_error_t *error                   = NULL;
+	libfwsi_extension_block_t *extension_block = NULL;
+	uint32_t signature                         = 0;
+	int result                                 = 0;
+	int signature_is_set                       = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_extension_block_initialize(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "extension_block",
+	 extension_block );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_extension_block_get_signature(
+	          extension_block,
+	          &signature,
+	          &error );
+
+	FWSI_TEST_ASSERT_NOT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	signature_is_set = result;
+
+	/* Test error cases
+	 */
+	result = libfwsi_extension_block_get_signature(
+	          NULL,
+	          &signature,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	if( signature_is_set != 0 )
+	{
+		result = libfwsi_extension_block_get_signature(
+		          extension_block,
+		          NULL,
+		          &error );
+
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 -1 );
+
+		FWSI_TEST_ASSERT_IS_NOT_NULL(
+		 "error",
+		 error );
+
+		libcerror_error_free(
+		 &error );
+	}
+	/* Clean up
+	 */
+	result = libfwsi_extension_block_free(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "extension_block",
+	 extension_block );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( extension_block != NULL )
+	{
+		libfwsi_extension_block_free(
+		 &extension_block,
+		 NULL );
+	}
+	return( 0 );
+}
+
+/* Tests the libfwsi_extension_block_get_data_size function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_extension_block_get_data_size(
+     void )
+{
+	libcerror_error_t *error                   = NULL;
+	libfwsi_extension_block_t *extension_block = NULL;
+	size_t data_size                           = 0;
+	int data_size_is_set                       = 0;
+	int result                                 = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_extension_block_initialize(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "extension_block",
+	 extension_block );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_extension_block_get_data_size(
+	          extension_block,
+	          &data_size,
+	          &error );
+
+	FWSI_TEST_ASSERT_NOT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	data_size_is_set = result;
+
+	/* Test error cases
+	 */
+	result = libfwsi_extension_block_get_data_size(
+	          NULL,
+	          &data_size,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	if( data_size_is_set != 0 )
+	{
+		result = libfwsi_extension_block_get_data_size(
+		          extension_block,
+		          NULL,
+		          &error );
+
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 -1 );
+
+		FWSI_TEST_ASSERT_IS_NOT_NULL(
+		 "error",
+		 error );
+
+		libcerror_error_free(
+		 &error );
+	}
+	/* Clean up
+	 */
+	result = libfwsi_extension_block_free(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "extension_block",
+	 extension_block );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( extension_block != NULL )
+	{
+		libfwsi_extension_block_free(
+		 &extension_block,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) */
+
 /* The main program
  */
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )
@@ -86,9 +537,31 @@ int main(
 	FWSI_TEST_UNREFERENCED_PARAMETER( argc )
 	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
 
+#if defined( __GNUC__ )
+
+	FWSI_TEST_RUN(
+	 "libfwsi_extension_block_initialize",
+	 fwsi_test_extension_block_initialize );
+
+#endif /* defined( __GNUC__ ) */
+
 	FWSI_TEST_RUN(
 	 "libfwsi_extension_block_free",
 	 fwsi_test_extension_block_free );
+
+#if defined( __GNUC__ )
+
+	/* TODO: add tests for libfwsi_extension_block_copy_from_byte_stream */
+
+	FWSI_TEST_RUN(
+	 "libfwsi_extension_block_get_signature",
+	 fwsi_test_extension_block_get_signature );
+
+	FWSI_TEST_RUN(
+	 "libfwsi_extension_block_get_data_size",
+	 fwsi_test_extension_block_get_data_size );
+
+#endif /* defined( __GNUC__ ) */
 
 	return( EXIT_SUCCESS );
 

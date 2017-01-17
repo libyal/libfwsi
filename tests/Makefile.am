@@ -13,13 +13,11 @@ TESTS_PYFWSI =
 endif
 
 TESTS = \
-	test_api_functions.sh \
-	test_api_types.sh \
+	test_library.sh \
 	$(TESTS_PYFWSI)
 
 check_SCRIPTS = \
-	test_api_functions.sh \
-	test_api_types.sh \
+	test_library.sh \
 	test_runner.sh
 
 EXTRA_DIST = \

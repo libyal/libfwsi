@@ -1,7 +1,7 @@
 /*
  * Library to access the Windows Shell Item format
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -660,5 +660,5 @@ const char *libfwsi_shell_folder_identifier_get_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFWSI_H ) */
 

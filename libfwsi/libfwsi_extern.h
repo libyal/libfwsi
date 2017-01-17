@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,9 +38,9 @@
 #include <libfwsi/extern.h>
 
 #else
-#define LIBFWSI_EXTERN	extern
+#define LIBFWSI_EXTERN	/* extern */
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBFWSI ) */
 
 #endif /* !defined( _LIBFWSI_INTERNAL_EXTERN_H ) */
 
