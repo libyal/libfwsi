@@ -59,5 +59,5 @@ PyObject *pyfwsi_file_entry_get_name(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_FILE_ENTRY_H ) */
 

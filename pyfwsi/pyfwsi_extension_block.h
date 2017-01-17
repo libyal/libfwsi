@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi extension block
+ * Python object wrapper of libfwsi_extension_block_t
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *

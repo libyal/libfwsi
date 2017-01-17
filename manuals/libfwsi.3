@@ -59,11 +59,11 @@ Item functions
 .Ft int
 .Fn libfwsi_item_get_extension_block "libfwsi_item_t *item, int extension_block_index, libfwsi_extension_block_t **extension_block, libfwsi_error_t **error"
 .Pp
-Root folder (item) functions
+Root folder item functions
 .Ft int
 .Fn libfwsi_root_folder_get_shell_folder_identifier "libfwsi_item_t *item, uint8_t *shell_folder_identifier, size_t size, libfwsi_error_t **error"
 .Pp
-Volume (item) functions
+Volume item functions
 .Ft int
 .Fn libfwsi_volume_get_utf8_name_size "libfwsi_item_t *item, size_t *utf8_string_size, libfwsi_error_t **error"
 .Ft int
@@ -77,7 +77,7 @@ Volume (item) functions
 .Ft int
 .Fn libfwsi_volume_get_shell_folder_identifier "libfwsi_item_t *item, uint8_t *shell_folder_identifier, size_t size, libfwsi_error_t **error"
 .Pp
-File entry (item) functions
+File entry item functions
 .Ft int
 .Fn libfwsi_file_entry_get_file_size "libfwsi_item_t *item, uint32_t *file_size, libfwsi_error_t **error"
 .Ft int
@@ -93,7 +93,7 @@ File entry (item) functions
 .Ft int
 .Fn libfwsi_file_entry_get_utf16_name "libfwsi_item_t *item, uint16_t *utf16_string, size_t utf16_string_size, libfwsi_error_t **error"
 .Pp
-Network location (item) functions
+Network location item functions
 .Ft int
 .Fn libfwsi_network_location_get_utf8_location_size "libfwsi_item_t *item, size_t *utf8_string_size, libfwsi_error_t **error"
 .Ft int

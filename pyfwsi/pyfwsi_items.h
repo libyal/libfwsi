@@ -1,5 +1,5 @@
 /*
- * Python object definition of the items sequence and iterator
+ * Python object definition of the sequence and iterator object of items
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -25,8 +25,6 @@
 #include <common.h>
 #include <types.h>
 
-#include "pyfwsi_item.h"
-#include "pyfwsi_item_list.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
 
@@ -42,19 +40,19 @@ struct pyfwsi_items
 	 */
 	PyObject_HEAD
 
-	/* The item list object
+	/* The parent object
 	 */
-	pyfwsi_item_list_t *item_list_object;
+	PyObject *parent_object;
 
 	/* The get item by index callback function
 	 */
 	PyObject* (*get_item_by_index)(
-	             pyfwsi_item_list_t *item_list_object,
-	             int item_index );
+	             PyObject *parent_object,
+	             int index );
 
-	/* The (current) item index
+	/* The current index
 	 */
-	int item_index;
+	int current_index;
 
 	/* The number of items
 	 */
@@ -64,34 +62,34 @@ struct pyfwsi_items
 extern PyTypeObject pyfwsi_items_type_object;
 
 PyObject *pyfwsi_items_new(
-           pyfwsi_item_list_t *item_list_object,
+           PyObject *parent_object,
            PyObject* (*get_item_by_index)(
-                        pyfwsi_item_list_t *item_list_object,
-                        int item_index ),
+                        PyObject *parent_object,
+                        int index ),
            int number_of_items );
 
 int pyfwsi_items_init(
-     pyfwsi_items_t *pyfwsi_items );
+     pyfwsi_items_t *items_object );
 
 void pyfwsi_items_free(
-      pyfwsi_items_t *pyfwsi_items );
+      pyfwsi_items_t *items_object );
 
 Py_ssize_t pyfwsi_items_len(
-            pyfwsi_items_t *pyfwsi_items );
+            pyfwsi_items_t *items_object );
 
 PyObject *pyfwsi_items_getitem(
-           pyfwsi_items_t *pyfwsi_items,
+           pyfwsi_items_t *items_object,
            Py_ssize_t item_index );
 
 PyObject *pyfwsi_items_iter(
-           pyfwsi_items_t *pyfwsi_items );
+           pyfwsi_items_t *items_object );
 
 PyObject *pyfwsi_items_iternext(
-           pyfwsi_items_t *pyfwsi_items );
+           pyfwsi_items_t *items_object );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_ITEMS_H ) */
 

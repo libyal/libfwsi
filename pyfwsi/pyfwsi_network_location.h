@@ -51,5 +51,5 @@ PyObject *pyfwsi_network_location_get_comments(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_NETWORK_LOCATION_H ) */
 

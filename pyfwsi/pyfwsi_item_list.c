@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi item list
+ * Python object wrapper of libfwsi_item_list_t
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -538,7 +538,7 @@ PyObject *pyfwsi_item_list_get_number_of_items(
  * Returns a Python object if successful or NULL on error
  */
 PyObject *pyfwsi_item_list_get_item_by_index(
-           pyfwsi_item_list_t *pyfwsi_item_list,
+           PyObject *pyfwsi_item_list,
            int item_index )
 {
 	libcerror_error_t *error  = NULL;
@@ -561,7 +561,7 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 	Py_BEGIN_ALLOW_THREADS
 
 	result = libfwsi_item_list_get_item(
-	          pyfwsi_item_list->item_list,
+	          ( (pyfwsi_item_list_t *) pyfwsi_item_list )->item_list,
 	          item_index,
 	          &item,
 	          &error );
@@ -637,7 +637,7 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 	item_object = pyfwsi_item_new(
 	               type_object,
 	               item,
-	               pyfwsi_item_list );
+	               (pyfwsi_item_list_t *) pyfwsi_item_list );
 
 	if( item_object == NULL )
 	{
@@ -682,7 +682,7 @@ PyObject *pyfwsi_item_list_get_item(
 		return( NULL );
 	}
 	item_object = pyfwsi_item_list_get_item_by_index(
-	               pyfwsi_item_list,
+	               (PyObject *) pyfwsi_item_list,
 	               item_index );
 
 	return( item_object );
@@ -735,7 +735,7 @@ PyObject *pyfwsi_item_list_get_items(
 		return( NULL );
 	}
 	items_object = pyfwsi_items_new(
-	                pyfwsi_item_list,
+	                (PyObject *) pyfwsi_item_list,
 	                &pyfwsi_item_list_get_item_by_index,
 	                number_of_items );
 

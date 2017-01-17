@@ -1,5 +1,5 @@
 /*
- * Python object definition of the extension blocks sequence and iterator
+ * Python object definition of the sequence and iterator object of extension blocks
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -25,8 +25,6 @@
 #include <common.h>
 #include <types.h>
 
-#include "pyfwsi_extension_block.h"
-#include "pyfwsi_item.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
 
@@ -42,56 +40,56 @@ struct pyfwsi_extension_blocks
 	 */
 	PyObject_HEAD
 
-	/* The item object
+	/* The parent object
 	 */
-	pyfwsi_item_t *item_object;
+	PyObject *parent_object;
 
-	/* The get extension block by index callback function
+	/* The get item by index callback function
 	 */
-	PyObject* (*get_extension_block_by_index)(
-	             pyfwsi_item_t *item_object,
-	             int extension_block_index );
+	PyObject* (*get_item_by_index)(
+	             PyObject *parent_object,
+	             int index );
 
-	/* The (current) extension block index
+	/* The current index
 	 */
-	int extension_block_index;
+	int current_index;
 
-	/* The number of extension blocks
+	/* The number of items
 	 */
-	int number_of_extension_blocks;
+	int number_of_items;
 };
 
 extern PyTypeObject pyfwsi_extension_blocks_type_object;
 
 PyObject *pyfwsi_extension_blocks_new(
-           pyfwsi_item_t *item_object,
-           PyObject* (*get_extension_block_by_index)(
-                        pyfwsi_item_t *item_object,
-                        int extension_block_index ),
-           int number_of_extension_blocks );
+           PyObject *parent_object,
+           PyObject* (*get_item_by_index)(
+                        PyObject *parent_object,
+                        int index ),
+           int number_of_items );
 
 int pyfwsi_extension_blocks_init(
-     pyfwsi_extension_blocks_t *pyfwsi_extension_blocks );
+     pyfwsi_extension_blocks_t *extension_blocks_object );
 
 void pyfwsi_extension_blocks_free(
-      pyfwsi_extension_blocks_t *pyfwsi_extension_blocks );
+      pyfwsi_extension_blocks_t *extension_blocks_object );
 
 Py_ssize_t pyfwsi_extension_blocks_len(
-            pyfwsi_extension_blocks_t *pyfwsi_extension_blocks );
+            pyfwsi_extension_blocks_t *extension_blocks_object );
 
 PyObject *pyfwsi_extension_blocks_getitem(
-           pyfwsi_extension_blocks_t *pyfwsi_extension_blocks,
-           Py_ssize_t extension_block_index );
+           pyfwsi_extension_blocks_t *extension_blocks_object,
+           Py_ssize_t item_index );
 
 PyObject *pyfwsi_extension_blocks_iter(
-           pyfwsi_extension_blocks_t *pyfwsi_extension_blocks );
+           pyfwsi_extension_blocks_t *extension_blocks_object );
 
 PyObject *pyfwsi_extension_blocks_iternext(
-           pyfwsi_extension_blocks_t *pyfwsi_extension_blocks );
+           pyfwsi_extension_blocks_t *extension_blocks_object );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_EXTENSION_BLOCKS_H ) */
 

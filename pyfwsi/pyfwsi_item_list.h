@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi item list
+ * Python object wrapper of libfwsi_item_list_t
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -68,7 +68,7 @@ PyObject *pyfwsi_item_list_get_number_of_items(
            PyObject *arguments );
 
 PyObject *pyfwsi_item_list_get_item_by_index(
-           pyfwsi_item_list_t *pyfwsi_item_list,
+           PyObject *pyfwsi_item_list,
            int item_index );
 
 PyObject *pyfwsi_item_list_get_item(

@@ -67,5 +67,5 @@ PyObject *pyfwsi_file_entry_extension_get_file_reference(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_FILE_ENTRY_EXTENSION_H ) */
 

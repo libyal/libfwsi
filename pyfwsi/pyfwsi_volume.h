@@ -51,5 +51,5 @@ PyObject *pyfwsi_volume_get_shell_folder_identifier(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_VOLUME_H ) */
 

@@ -43,5 +43,5 @@ PyObject *pyfwsi_root_folder_get_shell_folder_identifier(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_ROOT_FOLDER_H ) */
 

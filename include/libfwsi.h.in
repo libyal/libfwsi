@@ -241,7 +241,7 @@ int libfwsi_item_get_extension_block(
      libfwsi_error_t **error );
 
 /* -------------------------------------------------------------------------
- * Root folder (item) functions
+ * Root folder item functions
  * ------------------------------------------------------------------------- */
 
 /* Retrieves the shell folder identifier
@@ -256,7 +256,7 @@ int libfwsi_root_folder_get_shell_folder_identifier(
      libfwsi_error_t **error );
 
 /* -------------------------------------------------------------------------
- * Volume (item) functions
+ * Volume item functions
  * ------------------------------------------------------------------------- */
 
 /* Retrieves the size of the UTF-8 formatted name
@@ -320,7 +320,7 @@ int libfwsi_volume_get_shell_folder_identifier(
      libfwsi_error_t **error );
 
 /* -------------------------------------------------------------------------
- * File entry (item) functions
+ * File entry item functions
  * ------------------------------------------------------------------------- */
 
 /* Retrieves the file size
@@ -390,7 +390,7 @@ int libfwsi_file_entry_get_utf16_name(
      libfwsi_error_t **error );
 
 /* -------------------------------------------------------------------------
- * Network location (item) functions
+ * Network location item functions
  * ------------------------------------------------------------------------- */
 
 /* Retrieves the size of the UTF-8 formatted location

@@ -1,5 +1,5 @@
 /*
- * Python object definition of the items sequence and iterator
+ * Python object definition of the sequence and iterator object of items
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -97,7 +97,7 @@ PyTypeObject pyfwsi_items_type_object = {
 	/* tp_flags */
 	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_ITER,
 	/* tp_doc */
-	"internal pyfwsi items sequence and iterator object",
+	"pyfwsi internal sequence and iterator object of items",
 	/* tp_traverse */
 	0,
 	/* tp_clear */
@@ -142,7 +142,7 @@ PyTypeObject pyfwsi_items_type_object = {
 	NULL,
 	/* tp_cache */
 	NULL,
-	/* tp_lasses */
+	/* tp_subclasses */
 	NULL,
 	/* tp_weaklist */
 	NULL,
@@ -154,20 +154,20 @@ PyTypeObject pyfwsi_items_type_object = {
  * Returns a Python object if successful or NULL on error
  */
 PyObject *pyfwsi_items_new(
-           pyfwsi_item_list_t *item_list_object,
+           PyObject *parent_object,
            PyObject* (*get_item_by_index)(
-                        pyfwsi_item_list_t *item_list_object,
-                        int item_index ),
+                        PyObject *parent_object,
+                        int index ),
            int number_of_items )
 {
-	pyfwsi_items_t *pyfwsi_items = NULL;
+	pyfwsi_items_t *items_object = NULL;
 	static char *function        = "pyfwsi_items_new";
 
-	if( item_list_object == NULL )
+	if( parent_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid item list object.",
+		 "%s: invalid parent object.",
 		 function );
 
 		return( NULL );
@@ -183,43 +183,43 @@ PyObject *pyfwsi_items_new(
 	}
 	/* Make sure the items values are initialized
 	 */
-	pyfwsi_items = PyObject_New(
+	items_object = PyObject_New(
 	                struct pyfwsi_items,
 	                &pyfwsi_items_type_object );
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_MemoryError,
-		 "%s: unable to initialize items.",
+		 "%s: unable to create items object.",
 		 function );
 
 		goto on_error;
 	}
 	if( pyfwsi_items_init(
-	     pyfwsi_items ) != 0 )
+	     items_object ) != 0 )
 	{
 		PyErr_Format(
 		 PyExc_MemoryError,
-		 "%s: unable to initialize items.",
+		 "%s: unable to initialize items object.",
 		 function );
 
 		goto on_error;
 	}
-	pyfwsi_items->item_list_object  = item_list_object;
-	pyfwsi_items->get_item_by_index = get_item_by_index;
-	pyfwsi_items->number_of_items   = number_of_items;
+	items_object->parent_object     = parent_object;
+	items_object->get_item_by_index = get_item_by_index;
+	items_object->number_of_items   = number_of_items;
 
 	Py_IncRef(
-	 (PyObject *) pyfwsi_items->item_list_object );
+	 (PyObject *) items_object->parent_object );
 
-	return( (PyObject *) pyfwsi_items );
+	return( (PyObject *) items_object );
 
 on_error:
-	if( pyfwsi_items != NULL )
+	if( items_object != NULL )
 	{
 		Py_DecRef(
-		 (PyObject *) pyfwsi_items );
+		 (PyObject *) items_object );
 	}
 	return( NULL );
 }
@@ -228,25 +228,25 @@ on_error:
  * Returns 0 if successful or -1 on error
  */
 int pyfwsi_items_init(
-     pyfwsi_items_t *pyfwsi_items )
+     pyfwsi_items_t *items_object )
 {
 	static char *function = "pyfwsi_items_init";
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items.",
+		 "%s: invalid items object.",
 		 function );
 
 		return( -1 );
 	}
 	/* Make sure the items values are initialized
 	 */
-	pyfwsi_items->item_list_object  = NULL;
-	pyfwsi_items->get_item_by_index = NULL;
-	pyfwsi_items->item_index        = 0;
-	pyfwsi_items->number_of_items   = 0;
+	items_object->parent_object     = NULL;
+	items_object->get_item_by_index = NULL;
+	items_object->current_index     = 0;
+	items_object->number_of_items   = 0;
 
 	return( 0 );
 }
@@ -254,22 +254,22 @@ int pyfwsi_items_init(
 /* Frees an items object
  */
 void pyfwsi_items_free(
-      pyfwsi_items_t *pyfwsi_items )
+      pyfwsi_items_t *items_object )
 {
 	struct _typeobject *ob_type = NULL;
 	static char *function       = "pyfwsi_items_free";
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items.",
+		 "%s: invalid items object.",
 		 function );
 
 		return;
 	}
 	ob_type = Py_TYPE(
-	           pyfwsi_items );
+	           items_object );
 
 	if( ob_type == NULL )
 	{
@@ -289,72 +289,72 @@ void pyfwsi_items_free(
 
 		return;
 	}
-	if( pyfwsi_items->item_list_object != NULL )
+	if( items_object->parent_object != NULL )
 	{
 		Py_DecRef(
-		 (PyObject *) pyfwsi_items->item_list_object );
+		 (PyObject *) items_object->parent_object );
 	}
 	ob_type->tp_free(
-	 (PyObject*) pyfwsi_items );
+	 (PyObject*) items_object );
 }
 
 /* The items len() function
  */
 Py_ssize_t pyfwsi_items_len(
-            pyfwsi_items_t *pyfwsi_items )
+            pyfwsi_items_t *items_object )
 {
 	static char *function = "pyfwsi_items_len";
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items.",
+		 "%s: invalid items object.",
 		 function );
 
 		return( -1 );
 	}
-	return( (Py_ssize_t) pyfwsi_items->number_of_items );
+	return( (Py_ssize_t) items_object->number_of_items );
 }
 
 /* The items getitem() function
  */
 PyObject *pyfwsi_items_getitem(
-           pyfwsi_items_t *pyfwsi_items,
+           pyfwsi_items_t *items_object,
            Py_ssize_t item_index )
 {
 	PyObject *item_object = NULL;
 	static char *function = "pyfwsi_items_getitem";
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items.",
+		 "%s: invalid items object.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_items->get_item_by_index == NULL )
+	if( items_object->get_item_by_index == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - missing get item by index function.",
+		 "%s: invalid items object - missing get item by index function.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_items->number_of_items < 0 )
+	if( items_object->number_of_items < 0 )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - invalid number of items.",
+		 "%s: invalid items object - invalid number of items.",
 		 function );
 
 		return( NULL );
 	}
 	if( ( item_index < 0 )
-	 || ( item_index >= (Py_ssize_t) pyfwsi_items->number_of_items ) )
+	 || ( item_index >= (Py_ssize_t) items_object->number_of_items ) )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
@@ -363,8 +363,8 @@ PyObject *pyfwsi_items_getitem(
 
 		return( NULL );
 	}
-	item_object = pyfwsi_items->get_item_by_index(
-	               pyfwsi_items->item_list_object,
+	item_object = items_object->get_item_by_index(
+	               items_object->parent_object,
 	               (int) item_index );
 
 	return( item_object );
@@ -373,83 +373,83 @@ PyObject *pyfwsi_items_getitem(
 /* The items iter() function
  */
 PyObject *pyfwsi_items_iter(
-           pyfwsi_items_t *pyfwsi_items )
+           pyfwsi_items_t *items_object )
 {
 	static char *function = "pyfwsi_items_iter";
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items.",
+		 "%s: invalid items object.",
 		 function );
 
 		return( NULL );
 	}
 	Py_IncRef(
-	 (PyObject *) pyfwsi_items );
+	 (PyObject *) items_object );
 
-	return( (PyObject *) pyfwsi_items );
+	return( (PyObject *) items_object );
 }
 
 /* The items iternext() function
  */
 PyObject *pyfwsi_items_iternext(
-           pyfwsi_items_t *pyfwsi_items )
+           pyfwsi_items_t *items_object )
 {
 	PyObject *item_object = NULL;
 	static char *function = "pyfwsi_items_iternext";
 
-	if( pyfwsi_items == NULL )
+	if( items_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items.",
+		 "%s: invalid items object.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_items->get_item_by_index == NULL )
+	if( items_object->get_item_by_index == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - missing get item by index function.",
+		 "%s: invalid items object - missing get item by index function.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_items->item_index < 0 )
+	if( items_object->current_index < 0 )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - invalid item index.",
+		 "%s: invalid items object - invalid current index.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_items->number_of_items < 0 )
+	if( items_object->number_of_items < 0 )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid items - invalid number of items.",
+		 "%s: invalid items object - invalid number of items.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_items->item_index >= pyfwsi_items->number_of_items )
+	if( items_object->current_index >= items_object->number_of_items )
 	{
 		PyErr_SetNone(
 		 PyExc_StopIteration );
 
 		return( NULL );
 	}
-	item_object = pyfwsi_items->get_item_by_index(
-	               pyfwsi_items->item_list_object,
-	               pyfwsi_items->item_index );
+	item_object = items_object->get_item_by_index(
+	               items_object->parent_object,
+	               items_object->current_index );
 
 	if( item_object != NULL )
 	{
-		pyfwsi_items->item_index++;
+		items_object->current_index++;
 	}
 	return( item_object );
 }

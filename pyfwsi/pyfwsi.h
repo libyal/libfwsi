@@ -47,5 +47,5 @@ PyMODINIT_FUNC initpyfwsi(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_H ) */
 

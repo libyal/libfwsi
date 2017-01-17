@@ -1,5 +1,5 @@
 /*
- * Python object definition of the extension blocks sequence and iterator
+ * Python object definition of the sequence and iterator object of extension blocks
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -26,8 +26,8 @@
 #include <stdlib.h>
 #endif
 
+#include "pyfwsi_extension_block.h"
 #include "pyfwsi_extension_blocks.h"
-#include "pyfwsi_item.h"
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
@@ -97,7 +97,7 @@ PyTypeObject pyfwsi_extension_blocks_type_object = {
 	/* tp_flags */
 	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_ITER,
 	/* tp_doc */
-	"internal pyfwsi extension blocks sequence and iterator object",
+	"pyfwsi internal sequence and iterator object of extension blocks",
 	/* tp_traverse */
 	0,
 	/* tp_clear */
@@ -142,7 +142,7 @@ PyTypeObject pyfwsi_extension_blocks_type_object = {
 	NULL,
 	/* tp_cache */
 	NULL,
-	/* tp_lasses */
+	/* tp_subclasses */
 	NULL,
 	/* tp_weaklist */
 	NULL,
@@ -154,72 +154,72 @@ PyTypeObject pyfwsi_extension_blocks_type_object = {
  * Returns a Python object if successful or NULL on error
  */
 PyObject *pyfwsi_extension_blocks_new(
-           pyfwsi_item_t *item_object,
-           PyObject* (*get_extension_block_by_index)(
-                        pyfwsi_item_t *item_object,
-                        int extension_block_index ),
-           int number_of_extension_blocks )
+           PyObject *parent_object,
+           PyObject* (*get_item_by_index)(
+                        PyObject *parent_object,
+                        int index ),
+           int number_of_items )
 {
-	pyfwsi_extension_blocks_t *pyfwsi_extension_blocks = NULL;
+	pyfwsi_extension_blocks_t *extension_blocks_object = NULL;
 	static char *function                              = "pyfwsi_extension_blocks_new";
 
-	if( item_object == NULL )
+	if( parent_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid item object.",
+		 "%s: invalid parent object.",
 		 function );
 
 		return( NULL );
 	}
-	if( get_extension_block_by_index == NULL )
+	if( get_item_by_index == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid get extension block by index function.",
+		 "%s: invalid get item by index function.",
 		 function );
 
 		return( NULL );
 	}
 	/* Make sure the extension blocks values are initialized
 	 */
-	pyfwsi_extension_blocks = PyObject_New(
+	extension_blocks_object = PyObject_New(
 	                           struct pyfwsi_extension_blocks,
 	                           &pyfwsi_extension_blocks_type_object );
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_MemoryError,
-		 "%s: unable to initialize extension blocks.",
+		 "%s: unable to create extension blocks object.",
 		 function );
 
 		goto on_error;
 	}
 	if( pyfwsi_extension_blocks_init(
-	     pyfwsi_extension_blocks ) != 0 )
+	     extension_blocks_object ) != 0 )
 	{
 		PyErr_Format(
 		 PyExc_MemoryError,
-		 "%s: unable to initialize extension blocks.",
+		 "%s: unable to initialize extension blocks object.",
 		 function );
 
 		goto on_error;
 	}
-	pyfwsi_extension_blocks->item_object                  = item_object;
-	pyfwsi_extension_blocks->get_extension_block_by_index = get_extension_block_by_index;
-	pyfwsi_extension_blocks->number_of_extension_blocks   = number_of_extension_blocks;
+	extension_blocks_object->parent_object     = parent_object;
+	extension_blocks_object->get_item_by_index = get_item_by_index;
+	extension_blocks_object->number_of_items   = number_of_items;
 
 	Py_IncRef(
-	 (PyObject *) pyfwsi_extension_blocks->item_object );
+	 (PyObject *) extension_blocks_object->parent_object );
 
-	return( (PyObject *) pyfwsi_extension_blocks );
+	return( (PyObject *) extension_blocks_object );
 
 on_error:
-	if( pyfwsi_extension_blocks != NULL )
+	if( extension_blocks_object != NULL )
 	{
 		Py_DecRef(
-		 (PyObject *) pyfwsi_extension_blocks );
+		 (PyObject *) extension_blocks_object );
 	}
 	return( NULL );
 }
@@ -228,25 +228,25 @@ on_error:
  * Returns 0 if successful or -1 on error
  */
 int pyfwsi_extension_blocks_init(
-     pyfwsi_extension_blocks_t *pyfwsi_extension_blocks )
+     pyfwsi_extension_blocks_t *extension_blocks_object )
 {
 	static char *function = "pyfwsi_extension_blocks_init";
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks.",
+		 "%s: invalid extension blocks object.",
 		 function );
 
 		return( -1 );
 	}
 	/* Make sure the extension blocks values are initialized
 	 */
-	pyfwsi_extension_blocks->item_object                  = NULL;
-	pyfwsi_extension_blocks->get_extension_block_by_index = NULL;
-	pyfwsi_extension_blocks->extension_block_index        = 0;
-	pyfwsi_extension_blocks->number_of_extension_blocks   = 0;
+	extension_blocks_object->parent_object     = NULL;
+	extension_blocks_object->get_item_by_index = NULL;
+	extension_blocks_object->current_index     = 0;
+	extension_blocks_object->number_of_items   = 0;
 
 	return( 0 );
 }
@@ -254,22 +254,22 @@ int pyfwsi_extension_blocks_init(
 /* Frees an extension blocks object
  */
 void pyfwsi_extension_blocks_free(
-      pyfwsi_extension_blocks_t *pyfwsi_extension_blocks )
+      pyfwsi_extension_blocks_t *extension_blocks_object )
 {
 	struct _typeobject *ob_type = NULL;
 	static char *function       = "pyfwsi_extension_blocks_free";
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks.",
+		 "%s: invalid extension blocks object.",
 		 function );
 
 		return;
 	}
 	ob_type = Py_TYPE(
-	           pyfwsi_extension_blocks );
+	           extension_blocks_object );
 
 	if( ob_type == NULL )
 	{
@@ -289,83 +289,83 @@ void pyfwsi_extension_blocks_free(
 
 		return;
 	}
-	if( pyfwsi_extension_blocks->item_object != NULL )
+	if( extension_blocks_object->parent_object != NULL )
 	{
 		Py_DecRef(
-		 (PyObject *) pyfwsi_extension_blocks->item_object );
+		 (PyObject *) extension_blocks_object->parent_object );
 	}
 	ob_type->tp_free(
-	 (PyObject*) pyfwsi_extension_blocks );
+	 (PyObject*) extension_blocks_object );
 }
 
 /* The extension blocks len() function
  */
 Py_ssize_t pyfwsi_extension_blocks_len(
-            pyfwsi_extension_blocks_t *pyfwsi_extension_blocks )
+            pyfwsi_extension_blocks_t *extension_blocks_object )
 {
 	static char *function = "pyfwsi_extension_blocks_len";
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks.",
+		 "%s: invalid extension blocks object.",
 		 function );
 
 		return( -1 );
 	}
-	return( (Py_ssize_t) pyfwsi_extension_blocks->number_of_extension_blocks );
+	return( (Py_ssize_t) extension_blocks_object->number_of_items );
 }
 
 /* The extension blocks getitem() function
  */
 PyObject *pyfwsi_extension_blocks_getitem(
-           pyfwsi_extension_blocks_t *pyfwsi_extension_blocks,
-           Py_ssize_t extension_block_index )
+           pyfwsi_extension_blocks_t *extension_blocks_object,
+           Py_ssize_t item_index )
 {
 	PyObject *extension_block_object = NULL;
 	static char *function            = "pyfwsi_extension_blocks_getitem";
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks.",
+		 "%s: invalid extension blocks object.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_extension_blocks->get_extension_block_by_index == NULL )
+	if( extension_blocks_object->get_item_by_index == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - missing get extension block by index function.",
+		 "%s: invalid extension blocks object - missing get item by index function.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_extension_blocks->number_of_extension_blocks < 0 )
+	if( extension_blocks_object->number_of_items < 0 )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - invalid number of extension blocks.",
+		 "%s: invalid extension blocks object - invalid number of items.",
 		 function );
 
 		return( NULL );
 	}
-	if( ( extension_block_index < 0 )
-	 || ( extension_block_index >= (Py_ssize_t) pyfwsi_extension_blocks->number_of_extension_blocks ) )
+	if( ( item_index < 0 )
+	 || ( item_index >= (Py_ssize_t) extension_blocks_object->number_of_items ) )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid invalid extension block index value out of bounds.",
+		 "%s: invalid invalid item index value out of bounds.",
 		 function );
 
 		return( NULL );
 	}
-	extension_block_object = pyfwsi_extension_blocks->get_extension_block_by_index(
-	                          pyfwsi_extension_blocks->item_object,
-	                          (int) extension_block_index );
+	extension_block_object = extension_blocks_object->get_item_by_index(
+	                          extension_blocks_object->parent_object,
+	                          (int) item_index );
 
 	return( extension_block_object );
 }
@@ -373,83 +373,83 @@ PyObject *pyfwsi_extension_blocks_getitem(
 /* The extension blocks iter() function
  */
 PyObject *pyfwsi_extension_blocks_iter(
-           pyfwsi_extension_blocks_t *pyfwsi_extension_blocks )
+           pyfwsi_extension_blocks_t *extension_blocks_object )
 {
 	static char *function = "pyfwsi_extension_blocks_iter";
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks.",
+		 "%s: invalid extension blocks object.",
 		 function );
 
 		return( NULL );
 	}
 	Py_IncRef(
-	 (PyObject *) pyfwsi_extension_blocks );
+	 (PyObject *) extension_blocks_object );
 
-	return( (PyObject *) pyfwsi_extension_blocks );
+	return( (PyObject *) extension_blocks_object );
 }
 
 /* The extension blocks iternext() function
  */
 PyObject *pyfwsi_extension_blocks_iternext(
-           pyfwsi_extension_blocks_t *pyfwsi_extension_blocks )
+           pyfwsi_extension_blocks_t *extension_blocks_object )
 {
 	PyObject *extension_block_object = NULL;
 	static char *function            = "pyfwsi_extension_blocks_iternext";
 
-	if( pyfwsi_extension_blocks == NULL )
+	if( extension_blocks_object == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks.",
+		 "%s: invalid extension blocks object.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_extension_blocks->get_extension_block_by_index == NULL )
+	if( extension_blocks_object->get_item_by_index == NULL )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - missing get extension block by index function.",
+		 "%s: invalid extension blocks object - missing get item by index function.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_extension_blocks->extension_block_index < 0 )
+	if( extension_blocks_object->current_index < 0 )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - invalid extension block index.",
+		 "%s: invalid extension blocks object - invalid current index.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_extension_blocks->number_of_extension_blocks < 0 )
+	if( extension_blocks_object->number_of_items < 0 )
 	{
 		PyErr_Format(
 		 PyExc_ValueError,
-		 "%s: invalid extension blocks - invalid number of extension blocks.",
+		 "%s: invalid extension blocks object - invalid number of items.",
 		 function );
 
 		return( NULL );
 	}
-	if( pyfwsi_extension_blocks->extension_block_index >= pyfwsi_extension_blocks->number_of_extension_blocks )
+	if( extension_blocks_object->current_index >= extension_blocks_object->number_of_items )
 	{
 		PyErr_SetNone(
 		 PyExc_StopIteration );
 
 		return( NULL );
 	}
-	extension_block_object = pyfwsi_extension_blocks->get_extension_block_by_index(
-	                          pyfwsi_extension_blocks->item_object,
-	                          pyfwsi_extension_blocks->extension_block_index );
+	extension_block_object = extension_blocks_object->get_item_by_index(
+	                          extension_blocks_object->parent_object,
+	                          extension_blocks_object->current_index );
 
 	if( extension_block_object != NULL )
 	{
-		pyfwsi_extension_blocks->extension_block_index++;
+		extension_blocks_object->current_index++;
 	}
 	return( extension_block_object );
 }

@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi item
+ * Python object wrapper of libfwsi_item_t
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -89,7 +89,7 @@ PyObject *pyfwsi_item_get_number_of_extension_blocks(
            PyObject *arguments );
 
 PyObject *pyfwsi_item_get_extension_block_by_index(
-           pyfwsi_item_t *pyfwsi_item,
+           PyObject *pyfwsi_item,
            int extension_block_index );
 
 PyObject *pyfwsi_item_get_extension_block(

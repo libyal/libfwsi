@@ -37,6 +37,9 @@ PyObject *pyfwsi_datetime_new_from_fat_date_time(
 PyObject *pyfwsi_datetime_new_from_filetime(
            uint64_t filetime );
 
+PyObject *pyfwsi_datetime_new_from_floatingtime(
+           uint64_t floatingtime );
+
 PyObject *pyfwsi_datetime_new_from_posix_time(
            uint32_t posix_time );
 
@@ -44,5 +47,5 @@ PyObject *pyfwsi_datetime_new_from_posix_time(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_DATETIME_H ) */
 

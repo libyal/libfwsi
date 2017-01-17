@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi item
+ * Python object wrapper of libfwsi_item_t
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -800,7 +800,7 @@ PyObject *pyfwsi_item_get_number_of_extension_blocks(
  * Returns a Python object if successful or NULL on error
  */
 PyObject *pyfwsi_item_get_extension_block_by_index(
-           pyfwsi_item_t *pyfwsi_item,
+           PyObject *pyfwsi_item,
            int extension_block_index )
 {
 	libcerror_error_t *error                   = NULL;
@@ -823,7 +823,7 @@ PyObject *pyfwsi_item_get_extension_block_by_index(
 	Py_BEGIN_ALLOW_THREADS
 
 	result = libfwsi_item_get_extension_block(
-	          pyfwsi_item->item,
+	          ( (pyfwsi_item_t *) pyfwsi_item )->item,
 	          extension_block_index,
 	          &extension_block,
 	          &error );
@@ -880,7 +880,7 @@ PyObject *pyfwsi_item_get_extension_block_by_index(
 	extension_block_object = pyfwsi_extension_block_new(
 	                          type_object,
 	                          extension_block,
-	                          pyfwsi_item );
+	                          (pyfwsi_item_t *) pyfwsi_item );
 
 	if( extension_block_object == NULL )
 	{
@@ -925,7 +925,7 @@ PyObject *pyfwsi_item_get_extension_block(
 		return( NULL );
 	}
 	extension_block_object = pyfwsi_item_get_extension_block_by_index(
-	                          pyfwsi_item,
+	                          (PyObject *) pyfwsi_item,
 	                          extension_block_index );
 
 	return( extension_block_object );
@@ -978,7 +978,7 @@ PyObject *pyfwsi_item_get_extension_blocks(
 		return( NULL );
 	}
 	extension_blocks_object = pyfwsi_extension_blocks_new(
-	                           pyfwsi_item,
+	                           (PyObject *) pyfwsi_item,
 	                           &pyfwsi_item_get_extension_block_by_index,
 	                           number_of_extension_blocks );
 
