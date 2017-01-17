@@ -1,4 +1,6 @@
 TODO
+* Tests
+  - remove fwsi_test_item_list_copy_from_byte_stream.c ?
 * Code clean up
   - change code to use libfwsi_debug_print_string_value
 * Python
@@ -25,59 +27,8 @@ TODO
     shell item data from a file
   - add Python tests
 
-20161107
-* Code clean up
-
-20160830
-* worked on tests
-
-20160110
-* worked on Python 3 support
-
-20160106
-* 2016 update
-
-20151222
-* applied updates
-
-20150822
-* worked on setup.py
-
-20150701
-* bug fix for shared usage
-
-20150618
-* bug fixes after fuzzing with AFL
-* worked on format support
-
-20150617
-* worked on tests
-
-20150614
-* bug fix for shared usage
-
-20150606
-* changes for shell item being created outside of list
-
-20150124
-* fix for missing libfwsi_notify_set_verbose
-
-20150101
-* 2015 update
-
-20141223
-* worked on Python 3 support
-
-20141116
-* updated version for release
-
-20141018
-* changes for deployment
-
-20141012
-* worked on utility scripts
-
 20140921
+* see `git log' for more recent change log
 * changes for project site move
 
 20140827

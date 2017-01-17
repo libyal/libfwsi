@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="fwsi_test_support"
-	ProjectGUID="{BAA2DB88-5C19-4743-92E4-F3DD74476EE8}"
-	RootNamespace="fwsi_test_support"
+	Name="fwsi_test_extension_block_0xbeef0005_values"
+	ProjectGUID="{C82A9587-453D-4129-9577-1CC5F6736132}"
+	RootNamespace="fwsi_test_extension_block_0xbeef0005_values"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -176,7 +176,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\tests\fwsi_test_support.c"
+				RelativePath="..\..\tests\fwsi_test_extension_block_0xbeef0005_values.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\tests\fwsi_test_memory.c"
 				>
 			</File>
 		</Filter>
@@ -186,11 +190,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\tests\fwsi_test_libcerror.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\tests\fwsi_test_libfwsi.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\tests\fwsi_test_macros.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\tests\fwsi_test_memory.h"
 				>
 			</File>
 			<File

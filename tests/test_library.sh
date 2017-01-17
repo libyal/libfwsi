@@ -11,7 +11,7 @@ TEST_PREFIX=`dirname ${PWD}`;
 TEST_PREFIX=`basename ${TEST_PREFIX} | sed 's/^lib\([^-]*\).*$/\1/'`;
 
 TEST_PROFILE="lib${TEST_PREFIX}";
-LIBRARY_TESTS="extension_block error item item_list support";
+LIBRARY_TESTS="cdburn_values compressed_folder_values control_panel_category_values control_panel_cpl_file_values delegate_values error extension_block extension_block_0xbeef0000_values extension_block_0xbeef0001_values extension_block_0xbeef0003_values extension_block_0xbeef0005_values extension_block_0xbeef0006_values extension_block_0xbeef0014_values extension_block_0xbeef0019_values extension_block_0xbeef0025_values file_entry_extension_values file_entry_values game_folder_values item item_list mtp_volume_values network_location_values root_folder_values support uri_values users_property_view_values volume_values";
 LIBRARY_TESTS_WITH_INPUT="";
 OPTION_SETS="";
 
