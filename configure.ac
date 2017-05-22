@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20170117],
+ [20170522],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -196,7 +196,6 @@ AC_CONFIG_FILES([libfwsi/libfwsi_definitions.h])
 dnl Have configure make distribution specific files
 AC_CONFIG_FILES([common/types.h])
 AC_CONFIG_FILES([dpkg/changelog])
-AC_CONFIG_FILES([dpkg/copyright])
 AC_CONFIG_FILES([libfwsi/libfwsi.rc])
 AC_CONFIG_FILES([libfwsi.pc])
 AC_CONFIG_FILES([libfwsi.spec])

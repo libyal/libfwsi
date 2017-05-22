@@ -29,12 +29,11 @@ DPKG_FILES = \
 	dpkg/compat \
 	dpkg/control \
 	dpkg/copyright \
-	dpkg/copyright.in \
 	dpkg/rules \
-	dpkg/libfwsi.docs \
-	dpkg/libfwsi-dev.docs \
-	dpkg/libfwsi-python.docs \
-	dpkg/libfwsi-python3.docs \
+	dpkg/libfwsi.install \
+	dpkg/libfwsi-dev.install \
+	dpkg/libfwsi-python.install \
+	dpkg/libfwsi-python3.install \
 	dpkg/source/format
 
 GETTEXT_FILES = \
