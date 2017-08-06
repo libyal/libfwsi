@@ -35,7 +35,7 @@
 
 #include "../libfwsi/libfwsi_extension_block.h"
 
-#if defined( __GNUC__ )
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_extension_block_initialize function
  * Returns 1 if successful or 0 if not
@@ -232,7 +232,7 @@ on_error:
 	return( 0 );
 }
 
-#endif /* defined( __GNUC__ ) */
+#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* Tests the libfwsi_extension_block_free function
  * Returns 1 if successful or 0 if not
@@ -272,7 +272,7 @@ on_error:
 	return( 0 );
 }
 
-#if defined( __GNUC__ )
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_extension_block_get_signature function
  * Returns 1 if successful or 0 if not
@@ -520,7 +520,7 @@ on_error:
 	return( 0 );
 }
 
-#endif /* defined( __GNUC__ ) */
+#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -537,19 +537,19 @@ int main(
 	FWSI_TEST_UNREFERENCED_PARAMETER( argc )
 	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
 
-#if defined( __GNUC__ )
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	FWSI_TEST_RUN(
 	 "libfwsi_extension_block_initialize",
 	 fwsi_test_extension_block_initialize );
 
-#endif /* defined( __GNUC__ ) */
+#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	FWSI_TEST_RUN(
 	 "libfwsi_extension_block_free",
 	 fwsi_test_extension_block_free );
 
-#if defined( __GNUC__ )
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	/* TODO: add tests for libfwsi_extension_block_copy_from_byte_stream */
 
@@ -561,7 +561,7 @@ int main(
 	 "libfwsi_extension_block_get_data_size",
 	 fwsi_test_extension_block_get_data_size );
 
-#endif /* defined( __GNUC__ ) */
+#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 
