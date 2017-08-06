@@ -22,7 +22,14 @@ TESTS = \
 	$(TESTS_PYFWSI)
 
 check_SCRIPTS = \
+	pyfwsi_test_extension_block.py \
+	pyfwsi_test_file_entry.py \
+	pyfwsi_test_item.py \
+	pyfwsi_test_item_list.py \
+	pyfwsi_test_network_location.py \
+	pyfwsi_test_root_folder.py \
 	pyfwsi_test_support.py \
+	pyfwsi_test_volume.py \
 	test_library.sh \
 	test_python_module.sh \
 	test_runner.sh
