@@ -57,7 +57,6 @@ check_PROGRAMS = \
 	fwsi_test_file_entry_values \
 	fwsi_test_game_folder_values \
 	fwsi_test_item \
-	fwsi_test_item_list_copy_from_byte_stream \
 	fwsi_test_item_list \
 	fwsi_test_mtp_volume_values \
 	fwsi_test_network_location_values \
@@ -290,20 +289,6 @@ fwsi_test_item_SOURCES = \
 
 fwsi_test_item_LDADD = \
 	../libfwsi/libfwsi.la \
-	@LIBCERROR_LIBADD@
-
-fwsi_test_item_list_copy_from_byte_stream_SOURCES = \
-	fwsi_test_libcfile.h \
-	fwsi_test_libcerror.h \
-	fwsi_test_libfwsi.h \
-	fwsi_test_item_list_copy_from_byte_stream.c
-
-fwsi_test_item_list_copy_from_byte_stream_LDADD = \
-	../libfwsi/libfwsi.la \
-	@LIBCFILE_LIBADD@ \
-	@LIBUNA_LIBADD@ \
-	@LIBCNOTIFY_LIBADD@ \
-	@LIBCLOCALE_LIBADD@ \
 	@LIBCERROR_LIBADD@
 
 fwsi_test_item_list_SOURCES = \

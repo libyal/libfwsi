@@ -19,7 +19,6 @@ MSVSCPP_FILES = \
 	fwsi_test_game_folder_values/fwsi_test_game_folder_values.vcproj \
 	fwsi_test_item/fwsi_test_item.vcproj \
 	fwsi_test_item_list/fwsi_test_item_list.vcproj \
-	fwsi_test_item_list_copy_from_byte_stream/fwsi_test_item_list_copy_from_byte_stream.vcproj \
 	fwsi_test_mtp_volume_values/fwsi_test_mtp_volume_values.vcproj \
 	fwsi_test_network_location_values/fwsi_test_network_location_values.vcproj \
 	fwsi_test_root_folder_values/fwsi_test_root_folder_values.vcproj \
