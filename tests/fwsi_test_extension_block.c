@@ -72,8 +72,8 @@ int fwsi_test_extension_block_initialize(
          "error",
          error );
 
-	result = libfwsi_extension_block_free(
-	          &extension_block,
+	result = libfwsi_internal_extension_block_free(
+	          (libfwsi_internal_extension_block_t **) &extension_block,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -147,8 +147,8 @@ int fwsi_test_extension_block_initialize(
 
 			if( extension_block != NULL )
 			{
-				libfwsi_extension_block_free(
-				 &extension_block,
+				libfwsi_internal_extension_block_free(
+				 (libfwsi_internal_extension_block_t **) &extension_block,
 				 NULL );
 			}
 		}
@@ -189,8 +189,8 @@ int fwsi_test_extension_block_initialize(
 
 			if( extension_block != NULL )
 			{
-				libfwsi_extension_block_free(
-				 &extension_block,
+				libfwsi_internal_extension_block_free(
+				 (libfwsi_internal_extension_block_t **) &extension_block,
 				 NULL );
 			}
 		}
@@ -225,8 +225,8 @@ on_error:
 	}
 	if( extension_block != NULL )
 	{
-		libfwsi_extension_block_free(
-		 &extension_block,
+		libfwsi_internal_extension_block_free(
+		 (libfwsi_internal_extension_block_t **) &extension_block,
 		 NULL );
 	}
 	return( 0 );
@@ -363,8 +363,8 @@ int fwsi_test_extension_block_get_signature(
 	}
 	/* Clean up
 	 */
-	result = libfwsi_extension_block_free(
-	          &extension_block,
+	result = libfwsi_internal_extension_block_free(
+	          (libfwsi_internal_extension_block_t **) &extension_block,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -390,8 +390,8 @@ on_error:
 	}
 	if( extension_block != NULL )
 	{
-		libfwsi_extension_block_free(
-		 &extension_block,
+		libfwsi_internal_extension_block_free(
+		 (libfwsi_internal_extension_block_t **) &extension_block,
 		 NULL );
 	}
 	return( 0 );
@@ -486,8 +486,8 @@ int fwsi_test_extension_block_get_data_size(
 	}
 	/* Clean up
 	 */
-	result = libfwsi_extension_block_free(
-	          &extension_block,
+	result = libfwsi_internal_extension_block_free(
+	          (libfwsi_internal_extension_block_t **) &extension_block,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -513,8 +513,8 @@ on_error:
 	}
 	if( extension_block != NULL )
 	{
-		libfwsi_extension_block_free(
-		 &extension_block,
+		libfwsi_internal_extension_block_free(
+		 (libfwsi_internal_extension_block_t **) &extension_block,
 		 NULL );
 	}
 	return( 0 );
