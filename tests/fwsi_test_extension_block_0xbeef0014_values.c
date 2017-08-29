@@ -64,13 +64,13 @@ int fwsi_test_extension_block_0xbeef0014_values_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "extension_block_0xbeef0014_values",
-         extension_block_0xbeef0014_values );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "extension_block_0xbeef0014_values",
+	 extension_block_0xbeef0014_values );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	result = libfwsi_extension_block_0xbeef0014_values_free(
 	          &extension_block_0xbeef0014_values,
@@ -81,13 +81,13 @@ int fwsi_test_extension_block_0xbeef0014_values_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "extension_block_0xbeef0014_values",
-         extension_block_0xbeef0014_values );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "extension_block_0xbeef0014_values",
+	 extension_block_0xbeef0014_values );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -100,9 +100,9 @@ int fwsi_test_extension_block_0xbeef0014_values_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -118,9 +118,9 @@ int fwsi_test_extension_block_0xbeef0014_values_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -252,9 +252,9 @@ int fwsi_test_extension_block_0xbeef0014_values_free(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );

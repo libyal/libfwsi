@@ -60,13 +60,13 @@ int fwsi_test_item_list_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "item_list",
-         item_list );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "item_list",
+	 item_list );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	result = libfwsi_item_list_free(
 	          &item_list,
@@ -77,13 +77,13 @@ int fwsi_test_item_list_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "item_list",
-         item_list );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "item_list",
+	 item_list );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -96,9 +96,9 @@ int fwsi_test_item_list_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -114,9 +114,9 @@ int fwsi_test_item_list_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -248,9 +248,9 @@ int fwsi_test_item_list_free(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );

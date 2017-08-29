@@ -64,13 +64,13 @@ int fwsi_test_cdburn_values_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "cdburn_values",
-         cdburn_values );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "cdburn_values",
+	 cdburn_values );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	result = libfwsi_cdburn_values_free(
 	          &cdburn_values,
@@ -81,13 +81,13 @@ int fwsi_test_cdburn_values_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "cdburn_values",
-         cdburn_values );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "cdburn_values",
+	 cdburn_values );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -100,9 +100,9 @@ int fwsi_test_cdburn_values_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -118,9 +118,9 @@ int fwsi_test_cdburn_values_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -252,9 +252,9 @@ int fwsi_test_cdburn_values_free(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );

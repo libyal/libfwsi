@@ -64,13 +64,13 @@ int fwsi_test_volume_values_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "volume_values",
-         volume_values );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "volume_values",
+	 volume_values );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	result = libfwsi_volume_values_free(
 	          &volume_values,
@@ -81,13 +81,13 @@ int fwsi_test_volume_values_initialize(
 	 result,
 	 1 );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "volume_values",
-         volume_values );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "volume_values",
+	 volume_values );
 
-        FWSI_TEST_ASSERT_IS_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -100,9 +100,9 @@ int fwsi_test_volume_values_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -118,9 +118,9 @@ int fwsi_test_volume_values_initialize(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
@@ -252,9 +252,9 @@ int fwsi_test_volume_values_free(
 	 result,
 	 -1 );
 
-        FWSI_TEST_ASSERT_IS_NOT_NULL(
-         "error",
-         error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
 	libcerror_error_free(
 	 &error );
