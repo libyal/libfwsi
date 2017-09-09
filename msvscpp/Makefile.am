@@ -28,7 +28,6 @@ MSVSCPP_FILES = \
 	fwsi_test_volume_values/fwsi_test_volume_values.vcproj \
 	libcdata/libcdata.vcproj \
 	libcerror/libcerror.vcproj \
-	libcfile/libcfile.vcproj \
 	libclocale/libclocale.vcproj \
 	libcnotify/libcnotify.vcproj \
 	libcthreads/libcthreads.vcproj \

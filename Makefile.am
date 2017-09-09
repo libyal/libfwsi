@@ -19,7 +19,6 @@ SUBDIRS = \
 	pyfwsi-python3 \
 	po \
 	manuals \
-	libcfile \
 	tests \
 	msvscpp
 
@@ -111,6 +110,5 @@ splint:
 	(cd $(srcdir)/libfwsi && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/pyfwsi && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/po && $(MAKE) splint $(AM_MAKEFLAGS))
-	(cd $(srcdir)/libcfile && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/tests && $(MAKE) splint $(AM_MAKEFLAGS))
 
