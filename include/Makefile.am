@@ -2,6 +2,7 @@ include_HEADERS = \
 	libfwsi.h
 
 pkginclude_HEADERS = \
+	libfwsi/codepage.h \
 	libfwsi/definitions.h \
 	libfwsi/error.h \
 	libfwsi/extern.h \
