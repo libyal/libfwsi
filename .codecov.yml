@@ -7,4 +7,14 @@ coverage:
     patch: true
     changes: false
   ignore:
+    - "libcdata/*"
+    - "libcerror/*"
+    - "libclocale/*"
+    - "libcnotify/*"
+    - "libcthreads/*"
+    - "libfdatetime/*"
+    - "libfguid/*"
+    - "libfole/*"
+    - "libfwps/*"
+    - "libuna/*"
     - "tests/*"
