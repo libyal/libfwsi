@@ -1,6 +1,9 @@
 TODO
 * Tests
   - remove fwsi_test_item_list_copy_from_byte_stream.c ?
+  - add compressed_folder_values data
+  - add control_panel_values data
+  - add control_panel_category_values data
 * Code clean up
   - change code to use libfwsi_debug_print_string_value
 * Python

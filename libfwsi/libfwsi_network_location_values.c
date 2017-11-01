@@ -152,20 +152,20 @@ int libfwsi_network_location_values_free(
 /* Reads the network location values
  * Returns the number of bytes read, 0 if not able to read or -1 on error
  */
-ssize_t libfwsi_network_location_values_read(
+ssize_t libfwsi_network_location_values_read_data(
          libfwsi_network_location_values_t *network_location_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
+         const uint8_t *data,
+         size_t data_size,
          int ascii_codepage,
          libcerror_error_t **error )
 {
-	static char *function         = "libfwsi_network_location_values_read";
-	size_t shell_item_data_offset = 0;
-	size_t string_size            = 0;
-	uint8_t flags                 = 0;
+	static char *function = "libfwsi_network_location_values_read_data";
+	size_t data_offset    = 0;
+	size_t string_size    = 0;
+	uint8_t flags         = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint16_t value_16bit          = 0;
+	uint16_t value_16bit  = 0;
 #endif
 
 	if( network_location_values == NULL )
@@ -179,48 +179,48 @@ ssize_t libfwsi_network_location_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 6 )
+	if( data_size < 6 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unknown class type indicators
 	 */
-	if( ( shell_item_data[ 2 ] != 0x41 )
-	 && ( shell_item_data[ 2 ] != 0x42 )
-	 && ( shell_item_data[ 2 ] != 0x46 )
-	 && ( shell_item_data[ 2 ] != 0x47 )
-	 && ( shell_item_data[ 2 ] != 0x4c )
-	 && ( shell_item_data[ 2 ] != 0xc3 ) )
+	if( ( data[ 2 ] != 0x41 )
+	 && ( data[ 2 ] != 0x42 )
+	 && ( data[ 2 ] != 0x46 )
+	 && ( data[ 2 ] != 0x47 )
+	 && ( data[ 2 ] != 0x4c )
+	 && ( data[ 2 ] != 0xc3 ) )
 	{
 		return( 0 );
 	}
 	network_location_values->ascii_codepage = ascii_codepage;
 
-	flags = shell_item_data[ 4 ];
+	flags = data[ 4 ];
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -228,7 +228,7 @@ ssize_t libfwsi_network_location_values_read(
 		libcnotify_printf(
 		 "%s: unknown0\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		libcnotify_printf(
 		 "%s: flags\t\t\t\t: 0x%02" PRIx8 "\n",
@@ -236,22 +236,22 @@ ssize_t libfwsi_network_location_values_read(
 		 flags );
 	}
 #endif
-	shell_item_data_offset = 5;
+	data_offset = 5;
 
 	/* Determine the network location
 	 */
-	for( string_size = shell_item_data_offset;
-	     string_size < shell_item_data_size;
+	for( string_size = data_offset;
+	     string_size < data_size;
 	     string_size++ )
 	{
-		if( shell_item_data[ string_size ] == 0 )
+		if( data[ string_size ] == 0 )
 		{
 			string_size++;
 
 			break;
 		}
 	}
-	string_size -= shell_item_data_offset;
+	string_size -= data_offset;
 
 	network_location_values->location = (uint8_t *) memory_allocate(
 	                                                 sizeof( uint8_t ) * string_size );
@@ -269,7 +269,7 @@ ssize_t libfwsi_network_location_values_read(
 	}
 	if( memory_copy(
 	     network_location_values->location,
-	     &( shell_item_data[ shell_item_data_offset ] ),
+	     &( data[ data_offset ] ),
 	     string_size ) == NULL )
 	{
 		libcerror_error_set(
@@ -305,25 +305,25 @@ ssize_t libfwsi_network_location_values_read(
 		}
 	}
 #endif
-	shell_item_data_offset += string_size;
+	data_offset += string_size;
 
 	if( ( ( flags & 0x80 ) != 0 )
-	 && ( shell_item_data_offset < shell_item_data_size ) )
+	 && ( data_offset < data_size ) )
 	{
 		/* Determine the network description
 		 */
-		for( string_size = shell_item_data_offset;
-		     string_size < shell_item_data_size;
+		for( string_size = data_offset;
+		     string_size < data_size;
 		     string_size++ )
 		{
-			if( shell_item_data[ string_size ] == 0 )
+			if( data[ string_size ] == 0 )
 			{
 				string_size++;
 
 				break;
 			}
 		}
-		string_size -= shell_item_data_offset;
+		string_size -= data_offset;
 
 		network_location_values->description = (uint8_t *) memory_allocate(
 		                                                    sizeof( uint8_t ) * string_size );
@@ -341,7 +341,7 @@ ssize_t libfwsi_network_location_values_read(
 		}
 		if( memory_copy(
 		     network_location_values->description,
-		     &( shell_item_data[ shell_item_data_offset ] ),
+		     &( data[ data_offset ] ),
 		     string_size ) == NULL )
 		{
 			libcerror_error_set(
@@ -377,25 +377,25 @@ ssize_t libfwsi_network_location_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
 	if( ( ( flags & 0x40 ) != 0 )
-	 && ( shell_item_data_size > 0 ) )
+	 && ( data_size > 0 ) )
 	{
 		/* Determine the network comments
 		 */
-		for( string_size = shell_item_data_offset;
-		     string_size < shell_item_data_size;
+		for( string_size = data_offset;
+		     string_size < data_size;
 		     string_size++ )
 		{
-			if( shell_item_data[ string_size ] == 0 )
+			if( data[ string_size ] == 0 )
 			{
 				string_size++;
 
 				break;
 			}
 		}
-		string_size -= shell_item_data_offset;
+		string_size -= data_offset;
 
 		network_location_values->comments = (uint8_t *) memory_allocate(
 		                                                 sizeof( uint8_t ) * string_size );
@@ -413,7 +413,7 @@ ssize_t libfwsi_network_location_values_read(
 		}
 		if( memory_copy(
 		     network_location_values->comments,
-		     &( shell_item_data[ shell_item_data_offset ] ),
+		     &( data[ data_offset ] ),
 		     string_size ) == NULL )
 		{
 			libcerror_error_set(
@@ -449,15 +449,15 @@ ssize_t libfwsi_network_location_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
-	if( shell_item_data_offset <= ( shell_item_data_size - 2 ) )
+	if( data_offset <= ( data_size - 2 ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			byte_stream_copy_to_uint16_little_endian(
-			 &( shell_item_data[ shell_item_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 value_16bit );
 
 			libcnotify_printf(
@@ -466,7 +466,7 @@ ssize_t libfwsi_network_location_values_read(
 			 value_16bit );
 		}
 #endif
-		shell_item_data_offset += 2;
+		data_offset += 2;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -475,7 +475,7 @@ ssize_t libfwsi_network_location_values_read(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) shell_item_data_offset );
+	return( (ssize_t) data_offset );
 
 on_error:
 	if( network_location_values->comments != NULL )

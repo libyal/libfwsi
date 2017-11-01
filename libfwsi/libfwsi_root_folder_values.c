@@ -139,13 +139,13 @@ int libfwsi_root_folder_values_free(
 /* Reads the root folder values
  * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
  */
-ssize_t libfwsi_root_folder_values_read(
+ssize_t libfwsi_root_folder_values_read_data(
          libfwsi_root_folder_values_t *root_folder_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
+         const uint8_t *data,
+         size_t data_size,
          libcerror_error_t **error )
 {
-	static char *function = "libfwsi_root_folder_values_read";
+	static char *function = "libfwsi_root_folder_values_read_data";
 
 	if( root_folder_values == NULL )
 	{
@@ -158,43 +158,43 @@ ssize_t libfwsi_root_folder_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 20 )
+	if( data_size < 20 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unknown class type indicators
 	 */
-	if( shell_item_data[ 2 ] != 0x1f )
+	if( data[ 2 ] != 0x1f )
 	{
 		return( 0 );
 	}
 	if( memory_copy(
 	     root_folder_values->shell_folder_identifier,
-	     &( shell_item_data[ 4 ] ),
+	     &( data[ 4 ] ),
 	     16 ) == NULL )
 	{
 		libcerror_error_set(
@@ -212,7 +212,7 @@ ssize_t libfwsi_root_folder_values_read(
 		libcnotify_printf(
 		 "%s: sort order\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		if( libfwsi_debug_print_guid_value(
 		     function,

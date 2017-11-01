@@ -72,10 +72,10 @@ int libfwsi_file_entry_values_free(
      libfwsi_file_entry_values_t **file_entry_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_file_entry_values_read(
+ssize_t libfwsi_file_entry_values_read_data(
          libfwsi_file_entry_values_t *file_entry_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
+         const uint8_t *data,
+         size_t data_size,
          int ascii_codepage,
          libcerror_error_t **error );
 

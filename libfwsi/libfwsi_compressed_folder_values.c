@@ -137,22 +137,22 @@ int libfwsi_compressed_folder_values_free(
 }
 
 /* Reads the compressed folder values
- * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_compressed_folder_values_read(
-         libfwsi_compressed_folder_values_t *compressed_folder_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
-         libcerror_error_t **error )
+int libfwsi_compressed_folder_values_read_data(
+     libfwsi_compressed_folder_values_t *compressed_folder_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
-	static char *function         = "libfwsi_compressed_folder_values_read";
-	size_t shell_item_data_offset = 0;
-	uint32_t string_size          = 0;
+	static char *function = "libfwsi_compressed_folder_values_read_data";
+	size_t data_offset    = 0;
+	uint32_t string_size  = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint64_t value_64bit          = 0;
-	uint32_t value_32bit          = 0;
-	uint16_t value_16bit          = 0;
+	uint64_t value_64bit  = 0;
+	uint32_t value_32bit  = 0;
+	uint16_t value_16bit  = 0;
 #endif
 
 	if( compressed_folder_values == NULL )
@@ -166,52 +166,52 @@ ssize_t libfwsi_compressed_folder_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 6 )
+	if( data_size < 6 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unknown class type indicators
 	 */
-	if( shell_item_data[ 2 ] != 0x52 )
+	if( data[ 2 ] != 0x52 )
 	{
 		return( 0 );
 	}
 /* TODO: other variants not supported yet */
-	if( ( shell_item_data[ 3 ] != 0x67 )
-	 || ( shell_item_data[ 4 ] != 0xb1 )
-	 || ( shell_item_data[ 5 ] != 0xac ) )
+	if( ( data[ 3 ] != 0x67 )
+	 || ( data[ 4 ] != 0xb1 )
+	 || ( data[ 5 ] != 0xac ) )
 	{
 		return( 0 );
 	}
-	if( ( shell_item_data[ 3 ] == 0x67 )
-	 && ( shell_item_data[ 4 ] == 0xb1 )
-	 && ( shell_item_data[ 5 ] == 0xac ) )
+	if( ( data[ 3 ] == 0x67 )
+	 && ( data[ 4 ] == 0xb1 )
+	 && ( data[ 5 ] == 0xac ) )
 	{
-		if( shell_item_data_size < 50 )
+		if( data_size < 50 )
 		{
 			return( 0 );
 		}
@@ -221,10 +221,10 @@ ssize_t libfwsi_compressed_folder_values_read(
 			libcnotify_printf(
 			 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
 			 function,
-			 shell_item_data[ 3 ] );
+			 data[ 3 ] );
 
 			byte_stream_copy_to_uint16_little_endian(
-			 &( shell_item_data[ 4 ] ),
+			 &( data[ 4 ] ),
 			 value_16bit );
 			libcnotify_printf(
 			 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
@@ -232,7 +232,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 value_16bit );
 
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ 6 ] ),
+			 &( data[ 6 ] ),
 			 value_32bit );
 			libcnotify_printf(
 			 "%s: unknown3\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -240,7 +240,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 value_32bit );
 
 			byte_stream_copy_to_uint64_little_endian(
-			 &( shell_item_data[ 10 ] ),
+			 &( data[ 10 ] ),
 			 value_64bit );
 			libcnotify_printf(
 			 "%s: unknown4\t\t\t\t: 0x%08" PRIx64 "\n",
@@ -248,7 +248,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 value_64bit );
 
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ 18 ] ),
+			 &( data[ 18 ] ),
 			 value_32bit );
 			libcnotify_printf(
 			 "%s: unknown5\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -256,7 +256,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 value_32bit );
 
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ 22 ] ),
+			 &( data[ 22 ] ),
 			 value_32bit );
 			libcnotify_printf(
 			 "%s: unknown6\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -266,7 +266,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			if( libfwsi_debug_print_fat_date_time_value(
 			     function,
 			     "unknown time1\t\t\t",
-			     &( shell_item_data[ 26 ] ),
+			     &( data[ 26 ] ),
 			     4,
 			     LIBFDATETIME_ENDIAN_LITTLE,
 			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
@@ -282,7 +282,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				return( -1 );
 			}
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ 30 ] ),
+			 &( data[ 30 ] ),
 			 value_32bit );
 			libcnotify_printf(
 			 "%s: unknown7\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -292,7 +292,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			if( libfwsi_debug_print_fat_date_time_value(
 			     function,
 			     "unknown time2\t\t\t",
-			     &( shell_item_data[ 34 ] ),
+			     &( data[ 34 ] ),
 			     4,
 			     LIBFDATETIME_ENDIAN_LITTLE,
 			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
@@ -308,7 +308,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 				return( -1 );
 			}
 			byte_stream_copy_to_uint64_little_endian(
-			 &( shell_item_data[ 38 ] ),
+			 &( data[ 38 ] ),
 			 value_64bit );
 			libcnotify_printf(
 			 "%s: unknown8\t\t\t\t: 0x%08" PRIx64 "\n",
@@ -316,10 +316,10 @@ ssize_t libfwsi_compressed_folder_values_read(
 			 value_64bit );
 		}
 #endif
-		shell_item_data_offset = 46;
+		data_offset = 46;
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ shell_item_data_offset ] ),
+	 &( data[ data_offset ] ),
 	 string_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -331,13 +331,13 @@ ssize_t libfwsi_compressed_folder_values_read(
 		 string_size );
 	}
 #endif
-	shell_item_data_offset += 4;
+	data_offset += 4;
 
 	string_size *= 2;
 
 	if( ( string_size > 0 )
-         && ( string_size <= shell_item_data_size )
-	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
+         && ( string_size <= data_size )
+	 && ( data_offset <= ( data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -345,7 +345,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "string\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -361,10 +361,10 @@ ssize_t libfwsi_compressed_folder_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ shell_item_data_offset ] ),
+	 &( data[ data_offset ] ),
 	 string_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -376,13 +376,13 @@ ssize_t libfwsi_compressed_folder_values_read(
 		 string_size );
 	}
 #endif
-	shell_item_data_offset += 4;
+	data_offset += 4;
 
 	string_size *= 2;
 
 	if( ( string_size > 0 )
-         && ( string_size <= shell_item_data_size )
-	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
+         && ( string_size <= data_size )
+	 && ( data_offset <= ( data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -390,7 +390,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "string\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -406,10 +406,10 @@ ssize_t libfwsi_compressed_folder_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ shell_item_data_offset ] ),
+	 &( data[ data_offset ] ),
 	 string_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -421,13 +421,13 @@ ssize_t libfwsi_compressed_folder_values_read(
 		 string_size );
 	}
 #endif
-	shell_item_data_offset += 4;
+	data_offset += 4;
 
 	string_size *= 2;
 
 	if( ( string_size > 0 )
-         && ( string_size <= shell_item_data_size )
-	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
+         && ( string_size <= data_size )
+	 && ( data_offset <= ( data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -435,7 +435,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "string\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -451,10 +451,10 @@ ssize_t libfwsi_compressed_folder_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ shell_item_data_offset ] ),
+	 &( data[ data_offset ] ),
 	 string_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -466,13 +466,13 @@ ssize_t libfwsi_compressed_folder_values_read(
 		 string_size );
 	}
 #endif
-	shell_item_data_offset += 4;
+	data_offset += 4;
 
 	string_size *= 2;
 
 	if( ( string_size > 0 )
-         && ( string_size <= shell_item_data_size )
-	 && ( shell_item_data_offset <= ( shell_item_data_size - string_size ) ) )
+         && ( string_size <= data_size )
+	 && ( data_offset <= ( data_size - string_size ) ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -480,7 +480,7 @@ ssize_t libfwsi_compressed_folder_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "string\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -504,6 +504,6 @@ ssize_t libfwsi_compressed_folder_values_read(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) shell_item_data_offset );
+	return( 1 );
 }
 

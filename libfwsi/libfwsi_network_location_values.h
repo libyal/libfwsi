@@ -72,10 +72,10 @@ int libfwsi_network_location_values_free(
      libfwsi_network_location_values_t **network_location_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_network_location_values_read(
+ssize_t libfwsi_network_location_values_read_data(
          libfwsi_network_location_values_t *network_location_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
+         const uint8_t *data,
+         size_t data_size,
          int ascii_codepage,
          libcerror_error_t **error );
 

@@ -138,14 +138,14 @@ int libfwsi_mtp_volume_values_free(
 /* Reads the MTP volume values
  * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
  */
-ssize_t libfwsi_mtp_volume_values_read(
+ssize_t libfwsi_mtp_volume_values_read_data(
          libfwsi_mtp_volume_values_t *mtp_volume_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
+         const uint8_t *data,
+         size_t data_size,
          libcerror_error_t **error )
 {
-	static char *function            = "libfwsi_mtp_volume_values_read";
-	size_t shell_item_data_offset    = 0;
+	static char *function            = "libfwsi_mtp_volume_values_read_data";
+	size_t data_offset               = 0;
 	uint32_t file_system_string_size = 0;
 	uint32_t guid_string_index       = 0;
 	uint32_t identifier_string_size  = 0;
@@ -156,7 +156,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 	uint32_t property_value_type     = 0;
         uint32_t signature               = 0;
 	uint32_t string_size             = 0;
-	uint16_t data_size               = 0;
+	uint16_t item_data_size          = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint32_t value_32bit             = 0;
@@ -174,38 +174,38 @@ ssize_t libfwsi_mtp_volume_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 10 )
+	if( data_size < 10 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported shell item signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 6 ] ),
+	 &( data[ 6 ] ),
 	 signature );
 
 	if( signature != 0x10312005UL )
@@ -213,8 +213,8 @@ ssize_t libfwsi_mtp_volume_values_read(
 		return( 0 );
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 4 ] ),
-	 data_size );
+	 &( data[ 4 ] ),
+	 item_data_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -222,17 +222,17 @@ ssize_t libfwsi_mtp_volume_values_read(
 		libcnotify_printf(
 		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 2 ] );
+		 data[ 2 ] );
 
 		libcnotify_printf(
 		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		libcnotify_printf(
 		 "%s: data size\t\t\t\t: %" PRIu16 "\n",
 		 function,
-		 data_size );
+		 item_data_size );
 
 		libcnotify_printf(
 		 "%s: signature\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -240,12 +240,12 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 signature );
 	}
 #endif
-	if( data_size == 0 )
+	if( item_data_size == 0 )
 	{
 		return( 10 );
 	}
-	if( ( data_size < 44 )
-	 && ( data_size > ( shell_item_data_size - 10 ) ) )
+	if( ( item_data_size < 44 )
+	 && ( item_data_size > ( data_size - 10 ) ) )
 	{
 		libcerror_error_set(
 		 error,
@@ -257,26 +257,26 @@ ssize_t libfwsi_mtp_volume_values_read(
 		return( -1 );
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 38 ] ),
+	 &( data[ 38 ] ),
 	 name_string_size );
 
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 42 ] ),
+	 &( data[ 42 ] ),
 	 identifier_string_size );
 
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 46 ] ),
+	 &( data[ 46 ] ),
 	 file_system_string_size );
 
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 50 ] ),
+	 &( data[ 50 ] ),
 	 number_of_guid_strings );
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 10 ] ),
+		 &( data[ 10 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown2\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -284,7 +284,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 value_32bit );
 
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 14 ] ),
+		 &( data[ 14 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown3\t\t\t\t: 0x%04" PRIx16 "\n",
@@ -292,7 +292,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 value_16bit );
 
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 16 ] ),
+		 &( data[ 16 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown4\t\t\t\t: 0x%04" PRIx16 "\n",
@@ -300,7 +300,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 value_16bit );
 
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 18 ] ),
+		 &( data[ 18 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown5\t\t\t\t: 0x%04" PRIx16 "\n",
@@ -308,7 +308,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 value_16bit );
 
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 20 ] ),
+		 &( data[ 20 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown6\t\t\t\t: 0x%04" PRIx16 "\n",
@@ -316,7 +316,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 value_16bit );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 22 ] ),
+		 &( data[ 22 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown7\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -327,12 +327,12 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 "%s: unknown8:\n",
 		 function );
 		libcnotify_print_data(
-		 &( shell_item_data[ 26 ] ),
+		 &( data[ 26 ] ),
 		 8,
 		 0 );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 34 ] ),
+		 &( data[ 34 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown9\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -360,7 +360,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 number_of_guid_strings );
 	}
 #endif
-	shell_item_data_offset = 54;
+	data_offset = 54;
 
 	if( name_string_size > 0 )
 	{
@@ -373,7 +373,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "name\t\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     name_string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -389,7 +389,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += name_string_size;
+		data_offset += name_string_size;
 	}
 	if( identifier_string_size > 0 )
 	{
@@ -402,7 +402,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "identifier\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     identifier_string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -418,7 +418,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += identifier_string_size;
+		data_offset += identifier_string_size;
 	}
 	if( file_system_string_size > 0 )
 	{
@@ -431,7 +431,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "file system\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     file_system_string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -447,7 +447,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += file_system_string_size;
+		data_offset += file_system_string_size;
 	}
 	for( guid_string_index = 0;
 	     guid_string_index < number_of_guid_strings;
@@ -460,7 +460,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "GUID\t\t\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     78,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -476,16 +476,16 @@ ssize_t libfwsi_mtp_volume_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += 78;
+		data_offset += 78;
 	}
 /* TODO move to common MTP property values function */
-	if( shell_item_data_offset < ( shell_item_data_size - 4 ) )
+	if( data_offset < ( data_size - 4 ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ shell_item_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 value_32bit );
 			libcnotify_printf(
 			 "%s: unknown10\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -493,9 +493,9 @@ ssize_t libfwsi_mtp_volume_values_read(
 			 value_32bit );
 		}
 #endif
-		shell_item_data_offset += 4;
+		data_offset += 4;
 	}
-	if( shell_item_data_offset < ( shell_item_data_size - 16 ) )
+	if( data_offset < ( data_size - 16 ) )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -503,7 +503,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			if( libfwsi_debug_print_guid_value(
 			     function,
 			     "class identifier\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     16,
 			     LIBFGUID_ENDIAN_LITTLE,
 			     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
@@ -520,12 +520,12 @@ ssize_t libfwsi_mtp_volume_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += 16;
+		data_offset += 16;
 	}
-	if( shell_item_data_offset < ( shell_item_data_size - 4 ) )
+	if( data_offset < ( data_size - 4 ) )
 	{
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ shell_item_data_offset ] ),
+		 &( data[ data_offset ] ),
 		 number_of_properties );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -537,7 +537,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 			 number_of_properties );
 		}
 #endif
-		shell_item_data_offset += 4;
+		data_offset += 4;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -560,7 +560,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 		}
 #endif
 /* TODO at least 24 bytes in size ? */
-		if( shell_item_data_offset < ( shell_item_data_size - 16 ) )
+		if( data_offset < ( data_size - 16 ) )
 		{
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
@@ -568,7 +568,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				if( libfwsi_debug_print_guid_value(
 				     function,
 				     "property set identifier\t\t\t",
-				     &( shell_item_data[ shell_item_data_offset ] ),
+				     &( data[ data_offset ] ),
 				     16,
 				     LIBFGUID_ENDIAN_LITTLE,
 				     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
@@ -585,15 +585,15 @@ ssize_t libfwsi_mtp_volume_values_read(
 				}
 			}
 #endif
-			shell_item_data_offset += 16;
+			data_offset += 16;
 		}
-		if( shell_item_data_offset < ( shell_item_data_size - 4 ) )
+		if( data_offset < ( data_size - 4 ) )
 		{
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
 			{
 				byte_stream_copy_to_uint32_little_endian(
-				 &( shell_item_data[ shell_item_data_offset ] ),
+				 &( data[ data_offset ] ),
 				 value_32bit );
 				libcnotify_printf(
 				 "%s: property value identifier\t\t: %" PRIu32 "\n",
@@ -601,12 +601,12 @@ ssize_t libfwsi_mtp_volume_values_read(
 				 value_32bit );
 			}
 #endif
-			shell_item_data_offset += 4;
+			data_offset += 4;
 		}
-		if( shell_item_data_offset < ( shell_item_data_size - 4 ) )
+		if( data_offset < ( data_size - 4 ) )
 		{
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ shell_item_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 property_value_type );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -622,7 +622,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 				  property_value_type ) );
 			}
 #endif
-			shell_item_data_offset += 4;
+			data_offset += 4;
 		}
 /* TODO merge with FOLE */
 		switch( property_value_type )
@@ -637,24 +637,24 @@ ssize_t libfwsi_mtp_volume_values_read(
 					 "%s: value data:\n",
 					 function );
 					libcnotify_print_data(
-					 &( shell_item_data[ shell_item_data_offset ] ),
+					 &( data[ data_offset ] ),
 					 8,
 					 0 );
 				}
 #endif
-				shell_item_data_offset += 8;
+				data_offset += 8;
 
 				break;
 
 			case 0x0000000bUL:
 			case 0x00000012UL:
-				if( shell_item_data_offset < ( shell_item_data_size - 2 ) )
+				if( data_offset < ( data_size - 2 ) )
 				{
 #if defined( HAVE_DEBUG_OUTPUT )
 					if( libcnotify_verbose != 0 )
 					{
 						byte_stream_copy_to_uint16_little_endian(
-						 &( shell_item_data[ shell_item_data_offset ] ),
+						 &( data[ data_offset ] ),
 						 value_16bit );
 						libcnotify_printf(
 						 "%s: value\t\t\t\t\t: 0x%04" PRIx16 "\n",
@@ -665,19 +665,19 @@ ssize_t libfwsi_mtp_volume_values_read(
 						 "\n" );
 					}
 #endif
-					shell_item_data_offset += 2;
+					data_offset += 2;
 				}
 				break;
 
 			case 0x0000000aUL:
 			case 0x00000013UL:
-				if( shell_item_data_offset < ( shell_item_data_size - 4 ) )
+				if( data_offset < ( data_size - 4 ) )
 				{
 #if defined( HAVE_DEBUG_OUTPUT )
 					if( libcnotify_verbose != 0 )
 					{
 						byte_stream_copy_to_uint32_little_endian(
-						 &( shell_item_data[ shell_item_data_offset ] ),
+						 &( data[ data_offset ] ),
 						 value_32bit );
 						libcnotify_printf(
 						 "%s: value\t\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -688,15 +688,15 @@ ssize_t libfwsi_mtp_volume_values_read(
 						 "\n" );
 					}
 #endif
-					shell_item_data_offset += 4;
+					data_offset += 4;
 				}
 				break;
 
 			case 0x0000001fUL:
-				if( shell_item_data_offset < ( shell_item_data_size - 4 ) )
+				if( data_offset < ( data_size - 4 ) )
 				{
 					byte_stream_copy_to_uint32_little_endian(
-					 &( shell_item_data[ shell_item_data_offset ] ),
+					 &( data[ data_offset ] ),
 					 string_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -708,7 +708,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 						 string_size );
 					}
 #endif
-					shell_item_data_offset += 4;
+					data_offset += 4;
 
 					if( string_size > 0 )
 					{
@@ -718,7 +718,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 							if( libfwsi_debug_print_utf16_string_value(
 							     function,
 							     "string\t\t\t\t\t",
-							     &( shell_item_data[ shell_item_data_offset ] ),
+							     &( data[ data_offset ] ),
 							     string_size,
 							     LIBUNA_ENDIAN_LITTLE,
 							     error ) != 1 )
@@ -736,13 +736,13 @@ ssize_t libfwsi_mtp_volume_values_read(
 							 "\n" );
 						}
 #endif
-						shell_item_data_offset += string_size;
+						data_offset += string_size;
 					}
 				}
 				break;
 
 			case 0x00000048UL:
-				if( shell_item_data_offset < ( shell_item_data_size - 16 ) )
+				if( data_offset < ( data_size - 16 ) )
 				{
 #if defined( HAVE_DEBUG_OUTPUT )
 					if( libcnotify_verbose != 0 )
@@ -750,7 +750,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 						if( libfwsi_debug_print_guid_value(
 						     function,
 						     "GUID\t\t\t\t\t",
-						     &( shell_item_data[ shell_item_data_offset ] ),
+						     &( data[ data_offset ] ),
 						     16,
 						     LIBFGUID_ENDIAN_LITTLE,
 						     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
@@ -769,7 +769,7 @@ ssize_t libfwsi_mtp_volume_values_read(
 						 "\n" );
 					}
 #endif
-					shell_item_data_offset += 16;
+					data_offset += 16;
 				}
 				break;
 		}
@@ -783,6 +783,6 @@ ssize_t libfwsi_mtp_volume_values_read(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) shell_item_data_offset );
+	return( (ssize_t) data_offset );
 }
 

@@ -134,22 +134,22 @@ int libfwsi_control_panel_cpl_file_values_free(
 }
 
 /* Reads the control panel CPL file values
- * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_control_panel_cpl_file_values_read(
-         libfwsi_control_panel_cpl_file_values_t *control_panel_cpl_file_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
-         libcerror_error_t **error )
+int libfwsi_control_panel_cpl_file_values_read_data(
+     libfwsi_control_panel_cpl_file_values_t *control_panel_cpl_file_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
-	static char *function         = "libfwsi_control_panel_cpl_file_values_read";
-	size_t shell_item_data_offset = 0;
-	size_t string_size            = 0;
-	uint32_t signature            = 0;
+	static char *function = "libfwsi_control_panel_cpl_file_values_read_data";
+	size_t data_offset    = 0;
+	size_t string_size    = 0;
+	uint32_t signature    = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint32_t value_32bit          = 0;
-	uint16_t value_16bit          = 0;
+	uint32_t value_32bit  = 0;
+	uint16_t value_16bit  = 0;
 #endif
 
 	if( control_panel_cpl_file_values == NULL )
@@ -163,38 +163,38 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 24 )
+	if( data_size < 24 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported shell item signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 4 ] ),
+	 &( data[ 4 ] ),
 	 signature );
 
 	if( signature != 0xffffff38UL )
@@ -207,12 +207,12 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		libcnotify_printf(
 		 "%s: class type indicator\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 2 ] );
+		 data[ 2 ] );
 
 		libcnotify_printf(
 		 "%s: unknown1\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		libcnotify_printf(
 		 "%s: signature\t\t\t: 0x%08" PRIx32 "\n",
@@ -220,7 +220,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 signature );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 8 ] ),
+		 &( data[ 8 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown2\t\t\t: 0x%08" PRIx32 "\n",
@@ -228,7 +228,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 value_32bit );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 12 ] ),
+		 &( data[ 12 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown3\t\t\t: 0x%08" PRIx32 "\n",
@@ -236,7 +236,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 value_32bit );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 16 ] ),
+		 &( data[ 16 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown4\t\t\t: 0x%08" PRIx32 "\n",
@@ -244,7 +244,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 value_32bit );
 
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 20 ] ),
+		 &( data[ 20 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown5\t\t\t: 0x%04" PRIx16 "\n",
@@ -252,7 +252,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 value_16bit );
 
 		byte_stream_copy_to_uint16_little_endian(
-		 &( shell_item_data[ 22 ] ),
+		 &( data[ 22 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown6\t\t\t: 0x%04" PRIx16 "\n",
@@ -260,22 +260,22 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 value_16bit );
 	}
 #endif
-	shell_item_data_offset = 24;
+	data_offset = 24;
 
-	if( shell_item_data_offset <= ( shell_item_data_size - 2 ) )
+	if( data_offset <= ( data_size - 2 ) )
 	{
-		for( string_size = shell_item_data_offset;
-		     string_size < shell_item_data_size;
+		for( string_size = data_offset;
+		     string_size < data_size;
 		     string_size += 2 )
 		{
-			if( shell_item_data[ string_size ] == 0 )
+			if( data[ string_size ] == 0 )
 			{
 				string_size += 2;
 
 				break;
 			}
 		}
-		string_size -= shell_item_data_offset;
+		string_size -= data_offset;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -283,7 +283,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "CPL file path\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -299,22 +299,22 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
-	if( shell_item_data_offset <= ( shell_item_data_size - 2 ) )
+	if( data_offset <= ( data_size - 2 ) )
 	{
-		for( string_size = shell_item_data_offset;
-		     string_size < shell_item_data_size;
+		for( string_size = data_offset;
+		     string_size < data_size;
 		     string_size += 2 )
 		{
-			if( shell_item_data[ string_size ] == 0 )
+			if( data[ string_size ] == 0 )
 			{
 				string_size += 2;
 
 				break;
 			}
 		}
-		string_size -= shell_item_data_offset;
+		string_size -= data_offset;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -322,7 +322,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "name\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -338,22 +338,22 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
-	if( shell_item_data_offset <= ( shell_item_data_size - 2 ) )
+	if( data_offset <= ( data_size - 2 ) )
 	{
-		for( string_size = shell_item_data_offset;
-		     string_size < shell_item_data_size;
+		for( string_size = data_offset;
+		     string_size < data_size;
 		     string_size += 2 )
 		{
-			if( shell_item_data[ string_size ] == 0 )
+			if( data[ string_size ] == 0 )
 			{
 				string_size += 2;
 
 				break;
 			}
 		}
-		string_size -= shell_item_data_offset;
+		string_size -= data_offset;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -361,7 +361,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
 			     "comments\t\t\t",
-			     &( shell_item_data[ shell_item_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,
 			     error ) != 1 )
@@ -377,7 +377,7 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 			}
 		}
 #endif
-		shell_item_data_offset += string_size;
+		data_offset += string_size;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -386,6 +386,6 @@ ssize_t libfwsi_control_panel_cpl_file_values_read(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) shell_item_data_offset );
+	return( 1 );
 }
 

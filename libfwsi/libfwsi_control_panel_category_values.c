@@ -133,15 +133,15 @@ int libfwsi_control_panel_category_values_free(
 }
 
 /* Reads the control panel category values
- * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_control_panel_category_values_read(
-         libfwsi_control_panel_category_values_t *control_panel_category_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
-         libcerror_error_t **error )
+int libfwsi_control_panel_category_values_read_data(
+     libfwsi_control_panel_category_values_t *control_panel_category_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
-	static char *function = "libfwsi_control_panel_category_values_read";
+	static char *function = "libfwsi_control_panel_category_values_read_data";
         uint32_t signature    = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -159,38 +159,38 @@ ssize_t libfwsi_control_panel_category_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 12 )
+	if( data_size < 12 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported shell item signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 4 ] ),
+	 &( data[ 4 ] ),
 	 signature );
 
 	if( signature != 0x39de2184UL )
@@ -203,12 +203,12 @@ ssize_t libfwsi_control_panel_category_values_read(
 		libcnotify_printf(
 		 "%s: class type indicator\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 2 ] );
+		 data[ 2 ] );
 
 		libcnotify_printf(
 		 "%s: unknown1\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		libcnotify_printf(
 		 "%s: signature\t\t\t: 0x%08" PRIx32 "\n",
@@ -216,7 +216,7 @@ ssize_t libfwsi_control_panel_category_values_read(
 		 signature );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 8 ] ),
+		 &( data[ 8 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: control panel category\t: %" PRIu32 " (%s)\n",
@@ -229,6 +229,6 @@ ssize_t libfwsi_control_panel_category_values_read(
 		 "\n" );
 	}
 #endif
-	return( 12 );
+	return( 1 );
 }
 

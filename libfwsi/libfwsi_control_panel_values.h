@@ -48,11 +48,11 @@ int libfwsi_control_panel_values_free(
      libfwsi_control_panel_values_t **control_panel_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_control_panel_values_read(
-         libfwsi_control_panel_values_t *control_panel_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
-         libcerror_error_t **error );
+int libfwsi_control_panel_values_read_data(
+     libfwsi_control_panel_values_t *control_panel_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }

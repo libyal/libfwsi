@@ -132,20 +132,20 @@ int libfwsi_cdburn_values_free(
 }
 
 /* Reads the CD burn values
- * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_cdburn_values_read(
-         libfwsi_cdburn_values_t *cdburn_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
-         libcerror_error_t **error )
+int libfwsi_cdburn_values_read_data(
+     libfwsi_cdburn_values_t *cdburn_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
-	static char *function         = "libfwsi_cdburn_values_read";
-	size_t shell_item_data_offset = 0;
-	uint32_t unknown2             = 0;
+	static char *function = "libfwsi_cdburn_values_read_data";
+	size_t data_offset    = 0;
+	uint32_t unknown2     = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint32_t value_32bit          = 0;
+	uint32_t value_32bit  = 0;
 #endif
 
 	if( cdburn_values == NULL )
@@ -159,45 +159,45 @@ ssize_t libfwsi_cdburn_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 18 )
+	if( data_size < 18 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported shell item signatures
 	 */
 	if( memory_compare(
-	     &( shell_item_data[ 4 ] ),
+	     &( data[ 4 ] ),
 	     "AugM",
 	     4 ) != 0 )
 	{
 		return( 0 );
 	}
 	byte_stream_copy_to_uint32_little_endian(
-	 &( shell_item_data[ 8 ] ),
+	 &( data[ 8 ] ),
 	 unknown2 );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -206,20 +206,20 @@ ssize_t libfwsi_cdburn_values_read(
 		libcnotify_printf(
 		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 2 ] );
+		 data[ 2 ] );
 
 		libcnotify_printf(
 		 "%s: unknown1\t\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		libcnotify_printf(
 		 "%s: signature\t\t\t\t\t: %c%c%c%c\n",
 		 function,
-		 shell_item_data[ 4 ],
-		 shell_item_data[ 5 ],
-		 shell_item_data[ 6 ],
-		 shell_item_data[ 7 ] );
+		 data[ 4 ],
+		 data[ 5 ],
+		 data[ 6 ],
+		 data[ 7 ] );
 
 		libcnotify_printf(
 		 "%s: unknown2\t\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -227,7 +227,7 @@ ssize_t libfwsi_cdburn_values_read(
 		 unknown2 );
 
 		byte_stream_copy_to_uint32_little_endian(
-		 &( shell_item_data[ 12 ] ),
+		 &( data[ 12 ] ),
 		 value_32bit );
 		libcnotify_printf(
 		 "%s: unknown3\t\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -235,10 +235,10 @@ ssize_t libfwsi_cdburn_values_read(
 		 value_32bit );
 
 		if( ( unknown2 == 4 )
-		 && ( shell_item_data_size >= 22 ) )
+		 && ( data_size >= 22 ) )
 		{
 			byte_stream_copy_to_uint32_little_endian(
-			 &( shell_item_data[ 16 ] ),
+			 &( data[ 16 ] ),
 			 value_32bit );
 			libcnotify_printf(
 			 "%s: unknown4\t\t\t\t\t: 0x%08" PRIx32 "\n",
@@ -251,13 +251,13 @@ ssize_t libfwsi_cdburn_values_read(
 	 */
 	if( unknown2 == 2 )
 	{
-		shell_item_data_offset = 16;
+		data_offset = 16;
 	}
 	else if( unknown2 == 4 )
 	{
-		shell_item_data_offset = 20;
+		data_offset = 20;
 	}
-	if( shell_item_data_offset > 0 )
+	if( data_offset > 0 )
 	{
 /* TODO parse sub shell item list */
 	}
@@ -268,6 +268,6 @@ ssize_t libfwsi_cdburn_values_read(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) shell_item_data_offset );
+	return( 1 );
 }
 

@@ -589,13 +589,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_cdburn_values_read(
-			              (libfwsi_cdburn_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_cdburn_values_read_data(
+			          (libfwsi_cdburn_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -625,13 +625,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_compressed_folder_values_read(
-			              (libfwsi_compressed_folder_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_compressed_folder_values_read_data(
+			          (libfwsi_compressed_folder_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -660,7 +660,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_control_panel_values_read(
+			read_count = libfwsi_control_panel_values_read_data(
 			              (libfwsi_control_panel_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -695,7 +695,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_control_panel_category_values_read(
+			read_count = libfwsi_control_panel_category_values_read_data(
 			              (libfwsi_control_panel_category_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -730,7 +730,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_control_panel_cpl_file_values_read(
+			read_count = libfwsi_control_panel_cpl_file_values_read_data(
 			              (libfwsi_control_panel_cpl_file_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -766,7 +766,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_delegate_values_read(
+			read_count = libfwsi_delegate_values_read_data(
 			              (libfwsi_delegate_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -801,7 +801,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_file_entry_values_read(
+			read_count = libfwsi_file_entry_values_read_data(
 			              (libfwsi_file_entry_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -838,7 +838,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_game_folder_values_read(
+			read_count = libfwsi_game_folder_values_read_data(
 			              (libfwsi_game_folder_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -873,7 +873,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_network_location_values_read(
+			read_count = libfwsi_network_location_values_read_data(
 			              (libfwsi_network_location_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -910,7 +910,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_mtp_file_entry_values_read(
+			read_count = libfwsi_mtp_file_entry_values_read_data(
 			              (libfwsi_mtp_file_entry_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -946,7 +946,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_mtp_volume_values_read(
+			read_count = libfwsi_mtp_volume_values_read_data(
 			              (libfwsi_mtp_volume_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -981,7 +981,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_root_folder_values_read(
+			read_count = libfwsi_root_folder_values_read_data(
 				      (libfwsi_root_folder_values_t *) internal_item->value,
 				      byte_stream,
 				      internal_item->data_size,
@@ -1016,7 +1016,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_uri_values_read(
+			read_count = libfwsi_uri_values_read_data(
 			              (libfwsi_uri_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -1052,7 +1052,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_users_property_view_values_read(
+			read_count = libfwsi_users_property_view_values_read_data(
 			              (libfwsi_users_property_view_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -1088,7 +1088,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_volume_values_read(
+			read_count = libfwsi_volume_values_read_data(
 			              (libfwsi_volume_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,
@@ -1124,7 +1124,7 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_unknown_0x74_values_read(
+			read_count = libfwsi_unknown_0x74_values_read_data(
 			              (libfwsi_unknown_0x74_values_t *) internal_item->value,
 			              byte_stream,
 			              internal_item->data_size,

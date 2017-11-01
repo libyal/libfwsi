@@ -136,13 +136,13 @@ int libfwsi_game_folder_values_free(
 /* Reads the game folder values
  * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
  */
-ssize_t libfwsi_game_folder_values_read(
+ssize_t libfwsi_game_folder_values_read_data(
          libfwsi_game_folder_values_t *game_folder_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
+         const uint8_t *data,
+         size_t data_size,
          libcerror_error_t **error )
 {
-	static char *function = "libfwsi_game_folder_values_read";
+	static char *function = "libfwsi_game_folder_values_read_data";
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint64_t value_64bit  = 0;
@@ -159,38 +159,38 @@ ssize_t libfwsi_game_folder_values_read(
 
 		return( -1 );
 	}
-	if( shell_item_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell item data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( shell_item_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: shell item data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported shell item data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( shell_item_data_size < 32 )
+	if( data_size < 32 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported shell item signatures
 	 */
 	if( memory_compare(
-	     &( shell_item_data[ 4 ] ),
+	     &( data[ 4 ] ),
 	     "GFSI",
 	     4 ) != 0 )
 	{
@@ -202,25 +202,25 @@ ssize_t libfwsi_game_folder_values_read(
 		libcnotify_printf(
 		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 2 ] );
+		 data[ 2 ] );
 
 		libcnotify_printf(
 		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
-		 shell_item_data[ 3 ] );
+		 data[ 3 ] );
 
 		libcnotify_printf(
 		 "%s: signature\t\t\t\t: %c%c%c%c\n",
 		 function,
-		 shell_item_data[ 4 ],
-		 shell_item_data[ 5 ],
-		 shell_item_data[ 6 ],
-		 shell_item_data[ 7 ] );
+		 data[ 4 ],
+		 data[ 5 ],
+		 data[ 6 ],
+		 data[ 7 ] );
 
 		if( libfwsi_debug_print_guid_value(
 		     function,
 		     "class identifier\t\t\t",
-		     &( shell_item_data[ 8 ] ),
+		     &( data[ 8 ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
 		     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
@@ -236,7 +236,7 @@ ssize_t libfwsi_game_folder_values_read(
 			return( -1 );
 		}
 		byte_stream_copy_to_uint64_little_endian(
-		 &( shell_item_data[ 24 ] ),
+		 &( data[ 24 ] ),
 		 value_64bit );
 		libcnotify_printf(
 		 "%s: unknown2\t\t\t\t: 0x%08" PRIx64 "\n",

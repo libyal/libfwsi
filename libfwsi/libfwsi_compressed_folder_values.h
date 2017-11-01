@@ -48,11 +48,11 @@ int libfwsi_compressed_folder_values_free(
      libfwsi_compressed_folder_values_t **compressed_folder_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_compressed_folder_values_read(
-         libfwsi_compressed_folder_values_t *compressed_folder_values,
-         const uint8_t *shell_item_data,
-         size_t shell_item_data_size,
-         libcerror_error_t **error );
+int libfwsi_compressed_folder_values_read_data(
+     libfwsi_compressed_folder_values_t *compressed_folder_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }
