@@ -297,6 +297,150 @@ on_error:
 	return( 0 );
 }
 
+/* Tests the libfwsi_uri_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_uri_values_read_data(
+     void )
+{
+	libcerror_error_t *error         = NULL;
+	libfwsi_uri_values_t *uri_values = NULL;
+	int result                       = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_uri_values_initialize(
+	          &uri_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "uri_values",
+	 uri_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          fwsi_test_uri_values_data1,
+	          390,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_uri_values_read_data(
+	          NULL,
+	          fwsi_test_uri_values_data1,
+	          390,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          NULL,
+	          390,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          fwsi_test_uri_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* TODO: test with invalid codepage */
+
+	/* Clean up
+	 */
+	result = libfwsi_uri_values_free(
+	          &uri_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "uri_values",
+	 uri_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( uri_values != NULL )
+	{
+		libfwsi_uri_values_free(
+		 &uri_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
@@ -324,7 +468,9 @@ int main(
 	 "libfwsi_uri_values_free",
 	 fwsi_test_uri_values_free );
 
-	/* TODO: add tests for libfwsi_uri_values_read_data */
+	FWSI_TEST_RUN(
+	 "libfwsi_uri_values_read_data",
+	 fwsi_test_uri_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

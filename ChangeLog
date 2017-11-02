@@ -4,10 +4,6 @@ TODO
   - add compressed_folder_values data
   - add control_panel_values data
   - add control_panel_category_values data
-  - add mtp_file_entry_values data
-  - add mtp_volume_values data
-  - add control_panel_values tests
-  - add unknown_0x74_values tests
 * Python
   - implement pyfwsi_item_copy_from_byte_stream
 * cdburn:
