@@ -48,12 +48,12 @@ int libfwsi_unknown_0x74_values_free(
      libfwsi_unknown_0x74_values_t **unknown_0x74_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_unknown_0x74_values_read_data(
-         libfwsi_unknown_0x74_values_t *unknown_0x74_values,
-         const uint8_t *data,
-         size_t data_size,
-         int ascii_codepage,
-         libcerror_error_t **error );
+int libfwsi_unknown_0x74_values_read_data(
+     libfwsi_unknown_0x74_values_t *unknown_0x74_values,
+     const uint8_t *data,
+     size_t data_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }

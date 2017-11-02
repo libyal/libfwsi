@@ -35,6 +35,10 @@
 
 #include "../libfwsi/libfwsi_volume_values.h"
 
+uint8_t fwsi_test_volume_values_data1[ 25 ] = {
+	0x19, 0x00, 0x2f, 0x43, 0x3a, 0x5c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_volume_values_initialize function
@@ -270,7 +274,151 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+/* Tests the libfwsi_volume_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_volume_values_read_data(
+     void )
+{
+	libcerror_error_t *error               = NULL;
+	libfwsi_volume_values_t *volume_values = NULL;
+	int result                             = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_volume_values_initialize(
+	          &volume_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "volume_values",
+	 volume_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          fwsi_test_volume_values_data1,
+	          25,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_volume_values_read_data(
+	          NULL,
+	          fwsi_test_volume_values_data1,
+	          25,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          NULL,
+	          25,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          fwsi_test_volume_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* TODO: test with invalid codepage */
+
+	/* Clean up
+	 */
+	result = libfwsi_volume_values_free(
+	          &volume_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "volume_values",
+	 volume_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( volume_values != NULL )
+	{
+		libfwsi_volume_values_free(
+		 &volume_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -297,9 +445,11 @@ int main(
 	 "libfwsi_volume_values_free",
 	 fwsi_test_volume_values_free );
 
-	/* TODO: add tests for libfwsi_volume_values_read */
+	FWSI_TEST_RUN(
+	 "libfwsi_volume_values_read_data",
+	 fwsi_test_volume_values_read_data );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 

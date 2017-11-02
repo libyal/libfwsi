@@ -318,7 +318,6 @@ int libfwsi_item_copy_from_byte_stream(
 	static char *function                               = "libfwsi_item_copy_from_byte_stream";
 	size_t byte_stream_offset                           = 0;
 	size_t shell_item_data_size                         = 0;
-	ssize_t read_count                                  = 0;
 	uint32_t signature                                  = 0;
 	int entry_index                                     = 0;
 	int result                                          = 0;
@@ -660,13 +659,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_control_panel_values_read_data(
-			              (libfwsi_control_panel_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_control_panel_values_read_data(
+			          (libfwsi_control_panel_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -695,13 +694,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_control_panel_category_values_read_data(
-			              (libfwsi_control_panel_category_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_control_panel_category_values_read_data(
+			          (libfwsi_control_panel_category_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -730,13 +729,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_control_panel_cpl_file_values_read_data(
-			              (libfwsi_control_panel_cpl_file_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_control_panel_cpl_file_values_read_data(
+			          (libfwsi_control_panel_cpl_file_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -766,13 +765,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_delegate_values_read_data(
-			              (libfwsi_delegate_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_delegate_values_read_data(
+			          (libfwsi_delegate_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -801,14 +800,14 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_file_entry_values_read_data(
-			              (libfwsi_file_entry_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              ascii_codepage,
-			              error );
+			result = libfwsi_file_entry_values_read_data(
+			          (libfwsi_file_entry_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -838,55 +837,19 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_game_folder_values_read_data(
-			              (libfwsi_game_folder_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_game_folder_values_read_data(
+			          (libfwsi_game_folder_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
 				 "%s: unable to read game folder values.",
-				 function );
-
-				goto on_error;
-			}
-			break;
-
-		case LIBFWSI_ITEM_TYPE_NETWORK_LOCATION:
-			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_network_location_values_free;
-
-			if( libfwsi_network_location_values_initialize(
-			     (libfwsi_network_location_values_t **) &( internal_item->value ),
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create network location values.",
-				 function );
-
-				goto on_error;
-			}
-			read_count = libfwsi_network_location_values_read_data(
-			              (libfwsi_network_location_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              ascii_codepage,
-			              error );
-
-			if( read_count == -1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_IO,
-				 LIBCERROR_IO_ERROR_READ_FAILED,
-				 "%s: unable to read network location values.",
 				 function );
 
 				goto on_error;
@@ -910,13 +873,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_mtp_file_entry_values_read_data(
-			              (libfwsi_mtp_file_entry_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_mtp_file_entry_values_read_data(
+			          (libfwsi_mtp_file_entry_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -946,19 +909,55 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_mtp_volume_values_read_data(
-			              (libfwsi_mtp_volume_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              error );
+			result = libfwsi_mtp_volume_values_read_data(
+			          (libfwsi_mtp_volume_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
 				 "%s: unable to read MTP volume values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
+		case LIBFWSI_ITEM_TYPE_NETWORK_LOCATION:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_network_location_values_free;
+
+			if( libfwsi_network_location_values_initialize(
+			     (libfwsi_network_location_values_t **) &( internal_item->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create network location values.",
+				 function );
+
+				goto on_error;
+			}
+			result = libfwsi_network_location_values_read_data(
+			          (libfwsi_network_location_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
+
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_IO,
+				 LIBCERROR_IO_ERROR_READ_FAILED,
+				 "%s: unable to read network location values.",
 				 function );
 
 				goto on_error;
@@ -981,13 +980,13 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_root_folder_values_read_data(
-				      (libfwsi_root_folder_values_t *) internal_item->value,
-				      byte_stream,
-				      internal_item->data_size,
-				      error );
+			result = libfwsi_root_folder_values_read_data(
+				  (libfwsi_root_folder_values_t *) internal_item->value,
+				  byte_stream,
+				  internal_item->data_size,
+				  error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -1016,14 +1015,14 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_uri_values_read_data(
-			              (libfwsi_uri_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              ascii_codepage,
-			              error );
+			result = libfwsi_uri_values_read_data(
+			          (libfwsi_uri_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -1052,14 +1051,14 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_users_property_view_values_read_data(
-			              (libfwsi_users_property_view_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              ascii_codepage,
-			              error );
+			result = libfwsi_users_property_view_values_read_data(
+			          (libfwsi_users_property_view_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -1088,14 +1087,14 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_volume_values_read_data(
-			              (libfwsi_volume_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              ascii_codepage,
-			              error );
+			result = libfwsi_volume_values_read_data(
+			          (libfwsi_volume_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -1124,14 +1123,14 @@ int libfwsi_item_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_unknown_0x74_values_read_data(
-			              (libfwsi_unknown_0x74_values_t *) internal_item->value,
-			              byte_stream,
-			              internal_item->data_size,
-			              ascii_codepage,
-			              error );
+			result = libfwsi_unknown_0x74_values_read_data(
+			          (libfwsi_unknown_0x74_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -1148,7 +1147,7 @@ int libfwsi_item_copy_from_byte_stream(
 		default:
 			break;
 	}
-	if( read_count == 0 )
+	if( result == 0 )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -1158,13 +1157,11 @@ int libfwsi_item_copy_from_byte_stream(
 			 function );
 		}
 #endif
-		read_count = internal_item->data_size;
-
 		internal_item->type       = LIBFWSI_ITEM_TYPE_UNKNOWN;
 		internal_item->class_type = 0;
 		internal_item->signature  = 0;
 	}
-	byte_stream_offset += read_count;
+	byte_stream_offset += internal_item->data_size;
 
 	shell_item_data_size = internal_item->data_size - byte_stream_offset;
 

@@ -68,12 +68,12 @@ int libfwsi_volume_values_free(
      libfwsi_volume_values_t **volume_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_volume_values_read_data(
-         libfwsi_volume_values_t *volume_values,
-         const uint8_t *data,
-         size_t data_size,
-         int ascii_codepage,
-         libcerror_error_t **error );
+int libfwsi_volume_values_read_data(
+     libfwsi_volume_values_t *volume_values,
+     const uint8_t *data,
+     size_t data_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }

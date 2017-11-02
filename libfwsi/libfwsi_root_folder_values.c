@@ -137,13 +137,13 @@ int libfwsi_root_folder_values_free(
 }
 
 /* Reads the root folder values
- * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_root_folder_values_read_data(
-         libfwsi_root_folder_values_t *root_folder_values,
-         const uint8_t *data,
-         size_t data_size,
-         libcerror_error_t **error )
+int libfwsi_root_folder_values_read_data(
+     libfwsi_root_folder_values_t *root_folder_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
 	static char *function = "libfwsi_root_folder_values_read_data";
 
@@ -242,6 +242,6 @@ ssize_t libfwsi_root_folder_values_read_data(
 		 "\n" );
 	}
 #endif
-	return( 20 );
+	return( 1 );
 }
 

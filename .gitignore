@@ -125,6 +125,7 @@ stamp-h[1-9]
 /tests/fwsi_test_compressed_folder_values
 /tests/fwsi_test_control_panel_category_values
 /tests/fwsi_test_control_panel_cpl_file_values
+/tests/fwsi_test_control_panel_values
 /tests/fwsi_test_delegate_values
 /tests/fwsi_test_error
 /tests/fwsi_test_extension_block
@@ -141,10 +142,12 @@ stamp-h[1-9]
 /tests/fwsi_test_game_folder_values
 /tests/fwsi_test_item
 /tests/fwsi_test_item_list
+/tests/fwsi_test_mtp_file_entry_values
 /tests/fwsi_test_mtp_volume_values
 /tests/fwsi_test_network_location_values
 /tests/fwsi_test_root_folder_values
 /tests/fwsi_test_support
+/tests/fwsi_test_unknown_0x74_values
 /tests/fwsi_test_uri_values
 /tests/fwsi_test_users_property_view_values
 /tests/fwsi_test_volume_values

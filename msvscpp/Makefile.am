@@ -3,6 +3,7 @@ MSVSCPP_FILES = \
 	fwsi_test_compressed_folder_values/fwsi_test_compressed_folder_values.vcproj \
 	fwsi_test_control_panel_category_values/fwsi_test_control_panel_category_values.vcproj \
 	fwsi_test_control_panel_cpl_file_values/fwsi_test_control_panel_cpl_file_values.vcproj \
+	fwsi_test_control_panel_values/fwsi_test_control_panel_values.vcproj \
 	fwsi_test_delegate_values/fwsi_test_delegate_values.vcproj \
 	fwsi_test_error/fwsi_test_error.vcproj \
 	fwsi_test_extension_block/fwsi_test_extension_block.vcproj \
@@ -19,10 +20,12 @@ MSVSCPP_FILES = \
 	fwsi_test_game_folder_values/fwsi_test_game_folder_values.vcproj \
 	fwsi_test_item/fwsi_test_item.vcproj \
 	fwsi_test_item_list/fwsi_test_item_list.vcproj \
+	fwsi_test_mtp_file_entry_values/fwsi_test_mtp_file_entry_values.vcproj \
 	fwsi_test_mtp_volume_values/fwsi_test_mtp_volume_values.vcproj \
 	fwsi_test_network_location_values/fwsi_test_network_location_values.vcproj \
 	fwsi_test_root_folder_values/fwsi_test_root_folder_values.vcproj \
 	fwsi_test_support/fwsi_test_support.vcproj \
+	fwsi_test_unknown_0x74_values/fwsi_test_unknown_0x74_values.vcproj \
 	fwsi_test_uri_values/fwsi_test_uri_values.vcproj \
 	fwsi_test_users_property_view_values/fwsi_test_users_property_view_values.vcproj \
 	fwsi_test_volume_values/fwsi_test_volume_values.vcproj \

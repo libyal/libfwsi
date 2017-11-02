@@ -134,13 +134,13 @@ int libfwsi_game_folder_values_free(
 }
 
 /* Reads the game folder values
- * Returns the number of bytes read if successful, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_game_folder_values_read_data(
-         libfwsi_game_folder_values_t *game_folder_values,
-         const uint8_t *data,
-         size_t data_size,
-         libcerror_error_t **error )
+int libfwsi_game_folder_values_read_data(
+     libfwsi_game_folder_values_t *game_folder_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
 	static char *function = "libfwsi_game_folder_values_read_data";
 
@@ -246,7 +246,8 @@ ssize_t libfwsi_game_folder_values_read_data(
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
-	return( 32 );
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
+	return( 1 );
 }
 

@@ -48,11 +48,11 @@ int libfwsi_root_folder_values_free(
      libfwsi_root_folder_values_t **root_folder_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_root_folder_values_read_data(
-         libfwsi_root_folder_values_t *root_folder_values,
-         const uint8_t *data,
-         size_t data_size,
-         libcerror_error_t **error );
+int libfwsi_root_folder_values_read_data(
+     libfwsi_root_folder_values_t *root_folder_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }

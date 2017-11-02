@@ -35,6 +35,10 @@
 
 #include "../libfwsi/libfwsi_users_property_view_values.h"
 
+uint8_t fwsi_test_users_property_view_values_data1[ 32 ] = {
+	0x20, 0x00, 0x00, 0x00, 0x1a, 0x00, 0xee, 0xbb, 0xfe, 0x23, 0x00, 0x00, 0x10, 0x00, 0x71, 0xd5,
+	0xd8, 0x4b, 0x19, 0x6d, 0xd3, 0x48, 0xbe, 0x97, 0x42, 0x22, 0x20, 0x08, 0x0e, 0x43, 0x00, 0x00, };
+
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_users_property_view_values_initialize function
@@ -270,7 +274,151 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+/* Tests the libfwsi_users_property_view_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_users_property_view_values_read_data(
+     void )
+{
+	libcerror_error_t *error                                         = NULL;
+	libfwsi_users_property_view_values_t *users_property_view_values = NULL;
+	int result                                                       = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_users_property_view_values_initialize(
+	          &users_property_view_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "users_property_view_values",
+	 users_property_view_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          fwsi_test_users_property_view_values_data1,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          NULL,
+	          fwsi_test_users_property_view_values_data1,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          NULL,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          fwsi_test_users_property_view_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* TODO: test with invalid codepage */
+
+	/* Clean up
+	 */
+	result = libfwsi_users_property_view_values_free(
+	          &users_property_view_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "users_property_view_values",
+	 users_property_view_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( users_property_view_values != NULL )
+	{
+		libfwsi_users_property_view_values_free(
+		 &users_property_view_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -297,9 +445,11 @@ int main(
 	 "libfwsi_users_property_view_values_free",
 	 fwsi_test_users_property_view_values_free );
 
-	/* TODO: add tests for libfwsi_users_property_view_values_read */
+	FWSI_TEST_RUN(
+	 "libfwsi_users_property_view_values_read_data",
+	 fwsi_test_users_property_view_values_read_data );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 

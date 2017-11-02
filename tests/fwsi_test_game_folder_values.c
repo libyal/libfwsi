@@ -35,6 +35,10 @@
 
 #include "../libfwsi/libfwsi_game_folder_values.h"
 
+uint8_t fwsi_test_game_folder_values_data1[ 32 ] = {
+	0x20, 0x00, 0x00, 0x00, 0x47, 0x46, 0x53, 0x49, 0xe6, 0x20, 0xe5, 0x1f, 0xfe, 0x95, 0xa6, 0x48,
+	0x99, 0x56, 0xd7, 0xfb, 0xc3, 0x47, 0xa4, 0x72, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_game_folder_values_initialize function
@@ -270,7 +274,145 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+/* Tests the libfwsi_game_folder_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_game_folder_values_read_data(
+     void )
+{
+	libcerror_error_t *error                         = NULL;
+	libfwsi_game_folder_values_t *game_folder_values = NULL;
+	int result                                       = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_game_folder_values_initialize(
+	          &game_folder_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "game_folder_values",
+	 game_folder_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_game_folder_values_read_data(
+	          game_folder_values,
+	          fwsi_test_game_folder_values_data1,
+	          32,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_game_folder_values_read_data(
+	          NULL,
+	          fwsi_test_game_folder_values_data1,
+	          32,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_game_folder_values_read_data(
+	          game_folder_values,
+	          NULL,
+	          32,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_game_folder_values_read_data(
+	          game_folder_values,
+	          fwsi_test_game_folder_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* Clean up
+	 */
+	result = libfwsi_game_folder_values_free(
+	          &game_folder_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "game_folder_values",
+	 game_folder_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( game_folder_values != NULL )
+	{
+		libfwsi_game_folder_values_free(
+		 &game_folder_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -297,9 +439,11 @@ int main(
 	 "libfwsi_game_folder_values_free",
 	 fwsi_test_game_folder_values_free );
 
-	/* TODO: add tests for libfwsi_game_folder_values_read */
+	FWSI_TEST_RUN(
+	 "libfwsi_game_folder_values_read_data",
+	 fwsi_test_game_folder_values_read_data );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 

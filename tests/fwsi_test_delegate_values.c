@@ -35,6 +35,12 @@
 
 #include "../libfwsi/libfwsi_delegate_values.h"
 
+uint8_t fwsi_test_delegate_values_data1[ 50 ] = {
+	0x32, 0x00, 0x2e, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x74, 0x1a, 0x59, 0x5e, 0x96, 0xdf, 0xd3, 0x48, 0x8d, 0x67, 0x17, 0x33, 0xbc, 0xee,
+	0x28, 0xba, 0x47, 0x1a, 0x03, 0x59, 0x72, 0x3f, 0xa7, 0x44, 0x89, 0xc5, 0x55, 0x95, 0xfe, 0x6b,
+	0x30, 0xee };
+
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_delegate_values_initialize function
@@ -270,7 +276,145 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+/* Tests the libfwsi_delegate_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_delegate_values_read_data(
+     void )
+{
+	libcerror_error_t *error                   = NULL;
+	libfwsi_delegate_values_t *delegate_values = NULL;
+	int result                                 = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_delegate_values_initialize(
+	          &delegate_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "delegate_values",
+	 delegate_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_delegate_values_read_data(
+	          delegate_values,
+	          fwsi_test_delegate_values_data1,
+	          50,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_delegate_values_read_data(
+	          NULL,
+	          fwsi_test_delegate_values_data1,
+	          50,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_delegate_values_read_data(
+	          delegate_values,
+	          NULL,
+	          50,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_delegate_values_read_data(
+	          delegate_values,
+	          fwsi_test_delegate_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* Clean up
+	 */
+	result = libfwsi_delegate_values_free(
+	          &delegate_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "delegate_values",
+	 delegate_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( delegate_values != NULL )
+	{
+		libfwsi_delegate_values_free(
+		 &delegate_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -297,9 +441,11 @@ int main(
 	 "libfwsi_delegate_values_free",
 	 fwsi_test_delegate_values_free );
 
-	/* TODO: add tests for libfwsi_delegate_values_read */
+	FWSI_TEST_RUN(
+	 "libfwsi_delegate_values_read_data",
+	 fwsi_test_delegate_values_read_data );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 

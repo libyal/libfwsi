@@ -1,5 +1,5 @@
 /*
- * Library uri_values type test program
+ * Library mtp_file_entry_values type test program
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -33,57 +33,30 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
-#include "../libfwsi/libfwsi_uri_values.h"
-
-uint8_t fwsi_test_uri_values_data1[ 390 ] = {
-	0x86, 0x01, 0x61, 0x80, 0x00, 0x00, 0x00, 0x00, 0x68, 0x00, 0x74, 0x00, 0x74, 0x00, 0x70, 0x00,
-	0x3a, 0x00, 0x2f, 0x00, 0x2f, 0x00, 0x67, 0x00, 0x6f, 0x00, 0x2e, 0x00, 0x6d, 0x00, 0x69, 0x00,
-	0x63, 0x00, 0x72, 0x00, 0x6f, 0x00, 0x73, 0x00, 0x6f, 0x00, 0x66, 0x00, 0x74, 0x00, 0x2e, 0x00,
-	0x63, 0x00, 0x6f, 0x00, 0x6d, 0x00, 0x2f, 0x00, 0x66, 0x00, 0x77, 0x00, 0x6c, 0x00, 0x69, 0x00,
-	0x6e, 0x00, 0x6b, 0x00, 0x2f, 0x00, 0x3f, 0x00, 0x4c, 0x00, 0x69, 0x00, 0x6e, 0x00, 0x6b, 0x00,
-	0x49, 0x00, 0x64, 0x00, 0x3d, 0x00, 0x36, 0x00, 0x38, 0x00, 0x31, 0x00, 0x39, 0x00, 0x39, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x22, 0x01, 0x00, 0x00, 0x14, 0x00, 0xef, 0xbe, 0x13, 0xce, 0x2f, 0xdf,
-	0xec, 0x25, 0xbb, 0x45, 0x9d, 0x4c, 0xce, 0xcd, 0x47, 0xc2, 0x43, 0x0c, 0x0a, 0x01, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x84, 0x2b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00, 0x00,
-	0x5a, 0x00, 0x00, 0x00, 0x68, 0x00, 0x74, 0x00, 0x74, 0x00, 0x70, 0x00, 0x3a, 0x00, 0x2f, 0x00,
-	0x2f, 0x00, 0x67, 0x00, 0x6f, 0x00, 0x2e, 0x00, 0x6d, 0x00, 0x69, 0x00, 0x63, 0x00, 0x72, 0x00,
-	0x6f, 0x00, 0x73, 0x00, 0x6f, 0x00, 0x66, 0x00, 0x74, 0x00, 0x2e, 0x00, 0x63, 0x00, 0x6f, 0x00,
-	0x6d, 0x00, 0x2f, 0x00, 0x66, 0x00, 0x77, 0x00, 0x6c, 0x00, 0x69, 0x00, 0x6e, 0x00, 0x6b, 0x00,
-	0x2f, 0x00, 0x3f, 0x00, 0x4c, 0x00, 0x69, 0x00, 0x6e, 0x00, 0x6b, 0x00, 0x49, 0x00, 0x64, 0x00,
-	0x3d, 0x00, 0x36, 0x00, 0x38, 0x00, 0x31, 0x00, 0x39, 0x00, 0x39, 0x00, 0x00, 0x00, 0x06, 0x00,
-	0x00, 0x00, 0x22, 0x00, 0x00, 0x00, 0x67, 0x00, 0x6f, 0x00, 0x2e, 0x00, 0x6d, 0x00, 0x69, 0x00,
-	0x63, 0x00, 0x72, 0x00, 0x6f, 0x00, 0x73, 0x00, 0x6f, 0x00, 0x66, 0x00, 0x74, 0x00, 0x2e, 0x00,
-	0x63, 0x00, 0x6f, 0x00, 0x6d, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00, 0x00,
-	0x2f, 0x00, 0x66, 0x00, 0x77, 0x00, 0x6c, 0x00, 0x69, 0x00, 0x6e, 0x00, 0x6b, 0x00, 0x2f, 0x00,
-	0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x50, 0x00, 0x00, 0x00, 0x0a, 0x00,
-	0x00, 0x00, 0x1c, 0x00, 0x00, 0x00, 0x3f, 0x00, 0x4c, 0x00, 0x69, 0x00, 0x6e, 0x00, 0x6b, 0x00,
-	0x49, 0x00, 0x64, 0x00, 0x3d, 0x00, 0x36, 0x00, 0x38, 0x00, 0x31, 0x00, 0x39, 0x00, 0x39, 0x00,
-	0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x68, 0x00, 0x74, 0x00, 0x74, 0x00,
-	0x70, 0x00, 0x00, 0x00, 0x64, 0x00 };
+#include "../libfwsi/libfwsi_mtp_file_entry_values.h"
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
-/* Tests the libfwsi_uri_values_initialize function
+/* Tests the libfwsi_mtp_file_entry_values_initialize function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_uri_values_initialize(
+int fwsi_test_mtp_file_entry_values_initialize(
      void )
 {
-	libcerror_error_t *error         = NULL;
-	libfwsi_uri_values_t *uri_values = NULL;
-	int result                       = 0;
+	libcerror_error_t *error                               = NULL;
+	libfwsi_mtp_file_entry_values_t *mtp_file_entry_values = NULL;
+	int result                                             = 0;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
-	int number_of_malloc_fail_tests  = 1;
-	int number_of_memset_fail_tests  = 1;
-	int test_number                  = 0;
+	int number_of_malloc_fail_tests                        = 1;
+	int number_of_memset_fail_tests                        = 1;
+	int test_number                                        = 0;
 #endif
 
 	/* Test regular cases
 	 */
-	result = libfwsi_uri_values_initialize(
-	          &uri_values,
+	result = libfwsi_mtp_file_entry_values_initialize(
+	          &mtp_file_entry_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -92,15 +65,15 @@ int fwsi_test_uri_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "uri_values",
-	 uri_values );
+	 "mtp_file_entry_values",
+	 mtp_file_entry_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	result = libfwsi_uri_values_free(
-	          &uri_values,
+	result = libfwsi_mtp_file_entry_values_free(
+	          &mtp_file_entry_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -109,8 +82,8 @@ int fwsi_test_uri_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "uri_values",
-	 uri_values );
+	 "mtp_file_entry_values",
+	 mtp_file_entry_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -118,7 +91,7 @@ int fwsi_test_uri_values_initialize(
 
 	/* Test error cases
 	 */
-	result = libfwsi_uri_values_initialize(
+	result = libfwsi_mtp_file_entry_values_initialize(
 	          NULL,
 	          &error );
 
@@ -134,10 +107,10 @@ int fwsi_test_uri_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	uri_values = (libfwsi_uri_values_t *) 0x12345678UL;
+	mtp_file_entry_values = (libfwsi_mtp_file_entry_values_t *) 0x12345678UL;
 
-	result = libfwsi_uri_values_initialize(
-	          &uri_values,
+	result = libfwsi_mtp_file_entry_values_initialize(
+	          &mtp_file_entry_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -152,7 +125,7 @@ int fwsi_test_uri_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	uri_values = NULL;
+	mtp_file_entry_values = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -160,22 +133,22 @@ int fwsi_test_uri_values_initialize(
 	     test_number < number_of_malloc_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_uri_values_initialize with malloc failing
+		/* Test libfwsi_mtp_file_entry_values_initialize with malloc failing
 		 */
 		fwsi_test_malloc_attempts_before_fail = test_number;
 
-		result = libfwsi_uri_values_initialize(
-		          &uri_values,
+		result = libfwsi_mtp_file_entry_values_initialize(
+		          &mtp_file_entry_values,
 		          &error );
 
 		if( fwsi_test_malloc_attempts_before_fail != -1 )
 		{
 			fwsi_test_malloc_attempts_before_fail = -1;
 
-			if( uri_values != NULL )
+			if( mtp_file_entry_values != NULL )
 			{
-				libfwsi_uri_values_free(
-				 &uri_values,
+				libfwsi_mtp_file_entry_values_free(
+				 &mtp_file_entry_values,
 				 NULL );
 			}
 		}
@@ -187,8 +160,8 @@ int fwsi_test_uri_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "uri_values",
-			 uri_values );
+			 "mtp_file_entry_values",
+			 mtp_file_entry_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -202,22 +175,22 @@ int fwsi_test_uri_values_initialize(
 	     test_number < number_of_memset_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_uri_values_initialize with memset failing
+		/* Test libfwsi_mtp_file_entry_values_initialize with memset failing
 		 */
 		fwsi_test_memset_attempts_before_fail = test_number;
 
-		result = libfwsi_uri_values_initialize(
-		          &uri_values,
+		result = libfwsi_mtp_file_entry_values_initialize(
+		          &mtp_file_entry_values,
 		          &error );
 
 		if( fwsi_test_memset_attempts_before_fail != -1 )
 		{
 			fwsi_test_memset_attempts_before_fail = -1;
 
-			if( uri_values != NULL )
+			if( mtp_file_entry_values != NULL )
 			{
-				libfwsi_uri_values_free(
-				 &uri_values,
+				libfwsi_mtp_file_entry_values_free(
+				 &mtp_file_entry_values,
 				 NULL );
 			}
 		}
@@ -229,8 +202,8 @@ int fwsi_test_uri_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "uri_values",
-			 uri_values );
+			 "mtp_file_entry_values",
+			 mtp_file_entry_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -250,19 +223,19 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( uri_values != NULL )
+	if( mtp_file_entry_values != NULL )
 	{
-		libfwsi_uri_values_free(
-		 &uri_values,
+		libfwsi_mtp_file_entry_values_free(
+		 &mtp_file_entry_values,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libfwsi_uri_values_free function
+/* Tests the libfwsi_mtp_file_entry_values_free function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_uri_values_free(
+int fwsi_test_mtp_file_entry_values_free(
      void )
 {
 	libcerror_error_t *error = NULL;
@@ -270,7 +243,7 @@ int fwsi_test_uri_values_free(
 
 	/* Test error cases
 	 */
-	result = libfwsi_uri_values_free(
+	result = libfwsi_mtp_file_entry_values_free(
 	          NULL,
 	          &error );
 
@@ -317,14 +290,14 @@ int main(
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	FWSI_TEST_RUN(
-	 "libfwsi_uri_values_initialize",
-	 fwsi_test_uri_values_initialize );
+	 "libfwsi_mtp_file_entry_values_initialize",
+	 fwsi_test_mtp_file_entry_values_initialize );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_uri_values_free",
-	 fwsi_test_uri_values_free );
+	 "libfwsi_mtp_file_entry_values_free",
+	 fwsi_test_mtp_file_entry_values_free );
 
-	/* TODO: add tests for libfwsi_uri_values_read_data */
+	/* TODO: add tests for libfwsi_mtp_file_entry_values_read_data */
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

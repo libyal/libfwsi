@@ -150,14 +150,14 @@ int libfwsi_network_location_values_free(
 }
 
 /* Reads the network location values
- * Returns the number of bytes read, 0 if not able to read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_network_location_values_read_data(
-         libfwsi_network_location_values_t *network_location_values,
-         const uint8_t *data,
-         size_t data_size,
-         int ascii_codepage,
-         libcerror_error_t **error )
+int libfwsi_network_location_values_read_data(
+     libfwsi_network_location_values_t *network_location_values,
+     const uint8_t *data,
+     size_t data_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
 {
 	static char *function = "libfwsi_network_location_values_read_data";
 	size_t data_offset    = 0;
@@ -475,7 +475,7 @@ ssize_t libfwsi_network_location_values_read_data(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) data_offset );
+	return( 1 );
 
 on_error:
 	if( network_location_values->comments != NULL )

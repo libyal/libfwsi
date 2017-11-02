@@ -48,12 +48,12 @@ int libfwsi_users_property_view_values_free(
      libfwsi_users_property_view_values_t **users_property_view_values,
      libcerror_error_t **error );
 
-ssize_t libfwsi_users_property_view_values_read_data(
-         libfwsi_users_property_view_values_t *users_property_view_values,
-         const uint8_t *data,
-         size_t data_size,
-         int ascii_codepage,
-         libcerror_error_t **error );
+int libfwsi_users_property_view_values_read_data(
+     libfwsi_users_property_view_values_t *users_property_view_values,
+     const uint8_t *data,
+     size_t data_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }
