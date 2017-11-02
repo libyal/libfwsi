@@ -46,9 +46,9 @@ struct pyfwsi_item
 	 */
 	libfwsi_item_t *item;
 
-	/* The item list object
+	/* The parent object
 	 */
-	pyfwsi_item_list_t *item_list_object;
+	PyObject *parent_object;
 };
 
 extern PyMethodDef pyfwsi_item_object_methods[];
@@ -57,7 +57,7 @@ extern PyTypeObject pyfwsi_item_type_object;
 PyObject *pyfwsi_item_new(
            PyTypeObject *type_object,
            libfwsi_item_t *item,
-           pyfwsi_item_list_t *item_list_object );
+           PyObject *parent_object );
 
 int pyfwsi_item_init(
      pyfwsi_item_t *pyfwsi_item );
@@ -105,5 +105,5 @@ PyObject *pyfwsi_item_get_extension_blocks(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_ITEM_H ) */
 

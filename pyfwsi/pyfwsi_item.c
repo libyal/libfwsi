@@ -232,7 +232,7 @@ PyTypeObject pyfwsi_item_type_object = {
 PyObject *pyfwsi_item_new(
            PyTypeObject *type_object,
            libfwsi_item_t *item,
-           pyfwsi_item_list_t *item_list_object )
+           PyObject *parent_object )
 {
 	pyfwsi_item_t *pyfwsi_item = NULL;
 	static char *function      = "pyfwsi_item_new";
@@ -259,21 +259,11 @@ PyObject *pyfwsi_item_new(
 
 		goto on_error;
 	}
-	if( pyfwsi_item_init(
-	     pyfwsi_item ) != 0 )
-	{
-		PyErr_Format(
-		 PyExc_MemoryError,
-		 "%s: unable to initialize item.",
-		 function );
-
-		goto on_error;
-	}
-	pyfwsi_item->item             = item;
-	pyfwsi_item->item_list_object = item_list_object;
+	pyfwsi_item->item          = item;
+	pyfwsi_item->parent_object = parent_object;
 
 	Py_IncRef(
-	 (PyObject *) pyfwsi_item->item_list_object );
+	 (PyObject *) pyfwsi_item->parent_object );
 
 	return( (PyObject *) pyfwsi_item );
 
@@ -292,7 +282,8 @@ on_error:
 int pyfwsi_item_init(
      pyfwsi_item_t *pyfwsi_item )
 {
-	static char *function = "pyfwsi_item_init";
+	libcerror_error_t *error = NULL;
+	static char *function    = "pyfwsi_item_init";
 
 	if( pyfwsi_item == NULL )
 	{
@@ -303,9 +294,24 @@ int pyfwsi_item_init(
 
 		return( -1 );
 	}
-	pyfwsi_item->item             = NULL;
-	pyfwsi_item->item_list_object = NULL;
+	pyfwsi_item->item          = NULL;
+	pyfwsi_item->parent_object = NULL;
 
+	if( libfwsi_item_initialize(
+	     &( pyfwsi_item->item ),
+	     &error ) != 1 )
+	{
+		pyfwsi_error_raise(
+		 error,
+		 PyExc_MemoryError,
+		 "%s: unable to initialize item.",
+		 function );
+
+		libcerror_error_free(
+		 &error );
+
+		return( -1 );
+	}
 	return( 0 );
 }
 
@@ -377,10 +383,10 @@ void pyfwsi_item_free(
 		libcerror_error_free(
 		 &error );
 	}
-	if( pyfwsi_item->item_list_object != NULL )
+	if( pyfwsi_item->parent_object != NULL )
 	{
 		Py_DecRef(
-		 (PyObject *) pyfwsi_item->item_list_object );
+		 (PyObject *) pyfwsi_item->parent_object );
 	}
 	ob_type->tp_free(
 	 (PyObject*) pyfwsi_item );
@@ -880,7 +886,7 @@ PyObject *pyfwsi_item_get_extension_block_by_index(
 	extension_block_object = pyfwsi_extension_block_new(
 	                          type_object,
 	                          extension_block,
-	                          (pyfwsi_item_t *) pyfwsi_item );
+	                          pyfwsi_item );
 
 	if( extension_block_object == NULL )
 	{

@@ -46,9 +46,9 @@ struct pyfwsi_extension_block
 	 */
 	libfwsi_extension_block_t *extension_block;
 
-	/* The item object
+	/* The parent object
 	 */
-	pyfwsi_item_t *item_object;
+	PyObject *parent_object;
 };
 
 extern PyMethodDef pyfwsi_extension_block_object_methods[];
@@ -57,7 +57,7 @@ extern PyTypeObject pyfwsi_extension_block_type_object;
 PyObject *pyfwsi_extension_block_new(
            PyTypeObject *type_object,
            libfwsi_extension_block_t *extension_block,
-           pyfwsi_item_t *item_object );
+           PyObject *parent_object );
 
 int pyfwsi_extension_block_init(
      pyfwsi_extension_block_t *pyfwsi_extension_block );
@@ -83,5 +83,5 @@ PyObject *pyfwsi_extension_block_get_data(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFWSI_EXTENSION_BLOCK_H ) */
 

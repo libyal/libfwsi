@@ -637,7 +637,7 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 	item_object = pyfwsi_item_new(
 	               type_object,
 	               item,
-	               (pyfwsi_item_list_t *) pyfwsi_item_list );
+	               pyfwsi_item_list );
 
 	if( item_object == NULL )
 	{

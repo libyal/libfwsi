@@ -192,7 +192,7 @@ PyTypeObject pyfwsi_extension_block_type_object = {
 PyObject *pyfwsi_extension_block_new(
            PyTypeObject *type_object,
            libfwsi_extension_block_t *extension_block,
-           pyfwsi_item_t *item_object )
+           PyObject *parent_object )
 {
 	pyfwsi_extension_block_t *pyfwsi_extension_block = NULL;
 	static char *function                            = "pyfwsi_extension_block_new";
@@ -230,10 +230,10 @@ PyObject *pyfwsi_extension_block_new(
 		goto on_error;
 	}
 	pyfwsi_extension_block->extension_block = extension_block;
-	pyfwsi_extension_block->item_object     = item_object;
+	pyfwsi_extension_block->parent_object   = parent_object;
 
 	Py_IncRef(
-	 (PyObject *) pyfwsi_extension_block->item_object );
+	 (PyObject *) pyfwsi_extension_block->parent_object );
 
 	return( (PyObject *) pyfwsi_extension_block );
 
@@ -338,10 +338,10 @@ void pyfwsi_extension_block_free(
 		libcerror_error_free(
 		 &error );
 	}
-	if( pyfwsi_extension_block->item_object != NULL )
+	if( pyfwsi_extension_block->parent_object != NULL )
 	{
 		Py_DecRef(
-		 (PyObject *) pyfwsi_extension_block->item_object );
+		 (PyObject *) pyfwsi_extension_block->parent_object );
 	}
 	ob_type->tp_free(
 	 (PyObject*) pyfwsi_extension_block );
