@@ -35,6 +35,10 @@
 
 #include "../libfwsi/libfwsi_control_panel_values.h"
 
+uint8_t fwsi_test_control_panel_values_data1[ 32 ] = {
+	0x1e, 0x00, 0x71, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe1, 0xa4,
+	0x0e, 0xd2, 0x57, 0x39, 0xd2, 0x11, 0xa4, 0x0b, 0x0c, 0x50, 0x20, 0x52, 0x41, 0x53, 0x00, 0x00, };
+
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_control_panel_values_initialize function
@@ -270,6 +274,144 @@ on_error:
 	return( 0 );
 }
 
+/* Tests the libfwsi_control_panel_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_control_panel_values_read_data(
+     void )
+{
+	libcerror_error_t *error                             = NULL;
+	libfwsi_control_panel_values_t *control_panel_values = NULL;
+	int result                                           = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_control_panel_values_initialize(
+	          &control_panel_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "control_panel_values",
+	 control_panel_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_control_panel_values_read_data(
+	          control_panel_values,
+	          fwsi_test_control_panel_values_data1,
+	          32,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_control_panel_values_read_data(
+	          NULL,
+	          fwsi_test_control_panel_values_data1,
+	          32,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_control_panel_values_read_data(
+	          control_panel_values,
+	          NULL,
+	          32,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_control_panel_values_read_data(
+	          control_panel_values,
+	          fwsi_test_control_panel_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* Clean up
+	 */
+	result = libfwsi_control_panel_values_free(
+	          &control_panel_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "control_panel_values",
+	 control_panel_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( control_panel_values != NULL )
+	{
+		libfwsi_control_panel_values_free(
+		 &control_panel_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
@@ -297,7 +439,9 @@ int main(
 	 "libfwsi_control_panel_values_free",
 	 fwsi_test_control_panel_values_free );
 
-	/* TODO: add tests for libfwsi_control_panel_values_read_data */
+	FWSI_TEST_RUN(
+	 "libfwsi_control_panel_values_read_data",
+	 fwsi_test_control_panel_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
