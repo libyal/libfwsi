@@ -51,6 +51,7 @@ check_PROGRAMS = \
 	fwsi_test_extension_block_0xbeef0005_values \
 	fwsi_test_extension_block_0xbeef0006_values \
 	fwsi_test_extension_block_0xbeef000a_values \
+	fwsi_test_extension_block_0xbeef0013_values \
 	fwsi_test_extension_block_0xbeef0014_values \
 	fwsi_test_extension_block_0xbeef0019_values \
 	fwsi_test_extension_block_0xbeef0025_values \
@@ -231,6 +232,18 @@ fwsi_test_extension_block_0xbeef000a_values_SOURCES = \
 	fwsi_test_unused.h
 
 fwsi_test_extension_block_0xbeef000a_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_extension_block_0xbeef0013_values_SOURCES = \
+	fwsi_test_extension_block_0xbeef0013_values.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_extension_block_0xbeef0013_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 

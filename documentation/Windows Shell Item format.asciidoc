@@ -86,7 +86,7 @@ Updated information regarding the delegate shell item.
 | 0.0.30 | J.B. Metz | December 2014 | Switched to asccidoc format.
 | 0.0.31 | J.B. Metz | February 2015 | Additional information compressed folder 0x52 shell item with thanks to D. White and various yet unknown shell items with thanks to E. Zimmerman.
 | 0.0.32 | J.B. Metz | June 2015 | Additional information regarding Windows 10 shell items from LNK files.
-| 0.0.33 | J.B. Metz | November 2017 | Additional information regarding extension blocks.
+| 0.0.33 | J.B. Metz | November 2017 | Additional information regarding extension blocks and extension block 0xbeef0013
 |===
 
 :numbered:
@@ -2164,15 +2164,22 @@ The offset is relative from the start of the shell item.
 ....
 
 === [[extension_block_0xbeef0013]]Extension block 0xbeef0013
-The extension block 0xbeef0013 is variable of size and consists of:
+The extension block 0xbeef0013 is 42 bytes of size and consists of:
 
-[yellow-background]*TODO*
-
-....
-00000020: 2a 00 00 00 13 00 ef be  00 00 00 20 00 00 00 00   *....... ... ....
-00000030: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ........ ........
-00000040: 00 00 00 00 01 00 00 00  4f 28                     ........ O(
-....
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | Extension size +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | Extension version +
+[yellow-background]*Seen 0x0000*
+| 4 | 4 | 0xbeef0013 | Extension signature
+| 8 | 4 | | [yellow-background]*Unknown (flags?)*
+| 12 | 24 | | [yellow-background]*Unknown (Empty values)*
+| 36 | 4 | | [yellow-background]*Unknown*
+| 40 | 2 | | First extension block version offset +
+The offset is relative from the start of the shell item.
+|===
 
 === [[extension_block_0xbeef0014]]Extension block 0xbeef0014
 The extension block 0xbeef0014 is variable of size and consists of:
