@@ -100,6 +100,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_extension_block_0
 		{A0028F3E-BF42-4839-A17E-21D8089C78B8} = {A0028F3E-BF42-4839-A17E-21D8089C78B8}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_extension_block_0xbeef000a_values", "fwsi_test_extension_block_0xbeef000a_values\fwsi_test_extension_block_0xbeef000a_values.vcproj", "{1FFD9485-16B7-424C-96F9-570A23EBA6A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3} = {D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3}
+		{A0028F3E-BF42-4839-A17E-21D8089C78B8} = {A0028F3E-BF42-4839-A17E-21D8089C78B8}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_extension_block_0xbeef0014_values", "fwsi_test_extension_block_0xbeef0014_values\fwsi_test_extension_block_0xbeef0014_values.vcproj", "{4D63AA8F-6EBD-4FAC-8F89-28489CEB97F4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3} = {D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3}
@@ -326,6 +332,10 @@ Global
 		{E3E8700F-7C9D-4F42-984A-A8808C9BACE3}.Release|Win32.Build.0 = Release|Win32
 		{E3E8700F-7C9D-4F42-984A-A8808C9BACE3}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
 		{E3E8700F-7C9D-4F42-984A-A8808C9BACE3}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{1FFD9485-16B7-424C-96F9-570A23EBA6A5}.Release|Win32.ActiveCfg = Release|Win32
+		{1FFD9485-16B7-424C-96F9-570A23EBA6A5}.Release|Win32.Build.0 = Release|Win32
+		{1FFD9485-16B7-424C-96F9-570A23EBA6A5}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{1FFD9485-16B7-424C-96F9-570A23EBA6A5}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{4D63AA8F-6EBD-4FAC-8F89-28489CEB97F4}.Release|Win32.ActiveCfg = Release|Win32
 		{4D63AA8F-6EBD-4FAC-8F89-28489CEB97F4}.Release|Win32.Build.0 = Release|Win32
 		{4D63AA8F-6EBD-4FAC-8F89-28489CEB97F4}.VSDebug|Win32.ActiveCfg = VSDebug|Win32

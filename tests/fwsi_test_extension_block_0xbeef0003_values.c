@@ -35,6 +35,10 @@
 
 #include "../libfwsi/libfwsi_extension_block_0xbeef0003_values.h"
 
+uint8_t fwsi_test_extension_block_0xbeef0003_values_data1[ 26 ] = {
+	0x1a, 0x00, 0x00, 0x00, 0x03, 0x00, 0xef, 0xbe, 0xd1, 0xce, 0xfa, 0x0a, 0x28, 0xe8, 0xd1, 0x11,
+	0x91, 0x87, 0xb5, 0x32, 0xf1, 0xe9, 0x57, 0x5d, 0x1c, 0x00 };
+
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 /* Tests the libfwsi_extension_block_0xbeef0003_values_initialize function
@@ -270,7 +274,145 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+/* Tests the libfwsi_extension_block_0xbeef0003_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_extension_block_0xbeef0003_values_read_data(
+     void )
+{
+	libcerror_error_t *error                                                       = NULL;
+	libfwsi_extension_block_0xbeef0003_values_t *extension_block_0xbeef0003_values = NULL;
+	int result                                                                     = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_extension_block_0xbeef0003_values_initialize(
+	          &extension_block_0xbeef0003_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "extension_block_0xbeef0003_values",
+	 extension_block_0xbeef0003_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test regular cases
+	 */
+	result = libfwsi_extension_block_0xbeef0003_values_read_data(
+	          extension_block_0xbeef0003_values,
+	          fwsi_test_extension_block_0xbeef0003_values_data1,
+	          26,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_extension_block_0xbeef0003_values_read_data(
+	          NULL,
+	          fwsi_test_extension_block_0xbeef0003_values_data1,
+	          26,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_extension_block_0xbeef0003_values_read_data(
+	          extension_block_0xbeef0003_values,
+	          NULL,
+	          26,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_extension_block_0xbeef0003_values_read_data(
+	          extension_block_0xbeef0003_values,
+	          fwsi_test_extension_block_0xbeef0003_values_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* Clean up
+	 */
+	result = libfwsi_extension_block_0xbeef0003_values_free(
+	          &extension_block_0xbeef0003_values,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "extension_block_0xbeef0003_values",
+	 extension_block_0xbeef0003_values );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( extension_block_0xbeef0003_values != NULL )
+	{
+		libfwsi_extension_block_0xbeef0003_values_free(
+		 &extension_block_0xbeef0003_values,
+		 NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -297,9 +439,11 @@ int main(
 	 "libfwsi_extension_block_0xbeef0003_values_free",
 	 fwsi_test_extension_block_0xbeef0003_values_free );
 
-	/* TODO: add tests for libfwsi_extension_block_0xbeef0003_values_read */
+	FWSI_TEST_RUN(
+	 "libfwsi_extension_block_0xbeef0003_values_read_data",
+	 fwsi_test_extension_block_0xbeef0003_values_read_data );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 

@@ -1,5 +1,5 @@
 /*
- * Library extension_block_0xbeef0006_values type test program
+ * Library extension_block_0xbeef000a_values type test program
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -33,22 +33,21 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
-#include "../libfwsi/libfwsi_extension_block_0xbeef0006_values.h"
+#include "../libfwsi/libfwsi_extension_block_0xbeef000a_values.h"
 
-uint8_t fwsi_test_extension_block_0xbeef0006_values_data1[ 28 ] = {
-	0x1e, 0x00, 0x05, 0x00, 0x06, 0x00, 0xef, 0xbe, 0x75, 0x00, 0x73, 0x00, 0x65, 0x00, 0x72, 0x00,
-	0x6e, 0x00, 0x61, 0x00, 0x6d, 0x00, 0x65, 0x00, 0x00, 0x00, 0x18, 0x00 };
+uint8_t fwsi_test_extension_block_0xbeef000a_values_data1[ 14 ] = {
+	0x0e, 0x00, 0x00, 0x00, 0x0a, 0x00, 0xef, 0xbe, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00 };
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
-/* Tests the libfwsi_extension_block_0xbeef0006_values_initialize function
+/* Tests the libfwsi_extension_block_0xbeef000a_values_initialize function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_extension_block_0xbeef0006_values_initialize(
+int fwsi_test_extension_block_0xbeef000a_values_initialize(
      void )
 {
 	libcerror_error_t *error                                                       = NULL;
-	libfwsi_extension_block_0xbeef0006_values_t *extension_block_0xbeef0006_values = NULL;
+	libfwsi_extension_block_0xbeef000a_values_t *extension_block_0xbeef000a_values = NULL;
 	int result                                                                     = 0;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
@@ -59,8 +58,8 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 
 	/* Test regular cases
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_initialize(
-	          &extension_block_0xbeef0006_values,
+	result = libfwsi_extension_block_0xbeef000a_values_initialize(
+	          &extension_block_0xbeef000a_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -69,15 +68,15 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "extension_block_0xbeef0006_values",
-	 extension_block_0xbeef0006_values );
+	 "extension_block_0xbeef000a_values",
+	 extension_block_0xbeef000a_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	result = libfwsi_extension_block_0xbeef0006_values_free(
-	          &extension_block_0xbeef0006_values,
+	result = libfwsi_extension_block_0xbeef000a_values_free(
+	          &extension_block_0xbeef000a_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -86,8 +85,8 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "extension_block_0xbeef0006_values",
-	 extension_block_0xbeef0006_values );
+	 "extension_block_0xbeef000a_values",
+	 extension_block_0xbeef000a_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -95,7 +94,7 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 
 	/* Test error cases
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_initialize(
+	result = libfwsi_extension_block_0xbeef000a_values_initialize(
 	          NULL,
 	          &error );
 
@@ -111,10 +110,10 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	extension_block_0xbeef0006_values = (libfwsi_extension_block_0xbeef0006_values_t *) 0x12345678UL;
+	extension_block_0xbeef000a_values = (libfwsi_extension_block_0xbeef000a_values_t *) 0x12345678UL;
 
-	result = libfwsi_extension_block_0xbeef0006_values_initialize(
-	          &extension_block_0xbeef0006_values,
+	result = libfwsi_extension_block_0xbeef000a_values_initialize(
+	          &extension_block_0xbeef000a_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -129,7 +128,7 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	extension_block_0xbeef0006_values = NULL;
+	extension_block_0xbeef000a_values = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -137,22 +136,22 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 	     test_number < number_of_malloc_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_extension_block_0xbeef0006_values_initialize with malloc failing
+		/* Test libfwsi_extension_block_0xbeef000a_values_initialize with malloc failing
 		 */
 		fwsi_test_malloc_attempts_before_fail = test_number;
 
-		result = libfwsi_extension_block_0xbeef0006_values_initialize(
-		          &extension_block_0xbeef0006_values,
+		result = libfwsi_extension_block_0xbeef000a_values_initialize(
+		          &extension_block_0xbeef000a_values,
 		          &error );
 
 		if( fwsi_test_malloc_attempts_before_fail != -1 )
 		{
 			fwsi_test_malloc_attempts_before_fail = -1;
 
-			if( extension_block_0xbeef0006_values != NULL )
+			if( extension_block_0xbeef000a_values != NULL )
 			{
-				libfwsi_extension_block_0xbeef0006_values_free(
-				 &extension_block_0xbeef0006_values,
+				libfwsi_extension_block_0xbeef000a_values_free(
+				 &extension_block_0xbeef000a_values,
 				 NULL );
 			}
 		}
@@ -164,8 +163,8 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "extension_block_0xbeef0006_values",
-			 extension_block_0xbeef0006_values );
+			 "extension_block_0xbeef000a_values",
+			 extension_block_0xbeef000a_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -179,22 +178,22 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 	     test_number < number_of_memset_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_extension_block_0xbeef0006_values_initialize with memset failing
+		/* Test libfwsi_extension_block_0xbeef000a_values_initialize with memset failing
 		 */
 		fwsi_test_memset_attempts_before_fail = test_number;
 
-		result = libfwsi_extension_block_0xbeef0006_values_initialize(
-		          &extension_block_0xbeef0006_values,
+		result = libfwsi_extension_block_0xbeef000a_values_initialize(
+		          &extension_block_0xbeef000a_values,
 		          &error );
 
 		if( fwsi_test_memset_attempts_before_fail != -1 )
 		{
 			fwsi_test_memset_attempts_before_fail = -1;
 
-			if( extension_block_0xbeef0006_values != NULL )
+			if( extension_block_0xbeef000a_values != NULL )
 			{
-				libfwsi_extension_block_0xbeef0006_values_free(
-				 &extension_block_0xbeef0006_values,
+				libfwsi_extension_block_0xbeef000a_values_free(
+				 &extension_block_0xbeef000a_values,
 				 NULL );
 			}
 		}
@@ -206,8 +205,8 @@ int fwsi_test_extension_block_0xbeef0006_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "extension_block_0xbeef0006_values",
-			 extension_block_0xbeef0006_values );
+			 "extension_block_0xbeef000a_values",
+			 extension_block_0xbeef000a_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -227,19 +226,19 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( extension_block_0xbeef0006_values != NULL )
+	if( extension_block_0xbeef000a_values != NULL )
 	{
-		libfwsi_extension_block_0xbeef0006_values_free(
-		 &extension_block_0xbeef0006_values,
+		libfwsi_extension_block_0xbeef000a_values_free(
+		 &extension_block_0xbeef000a_values,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libfwsi_extension_block_0xbeef0006_values_free function
+/* Tests the libfwsi_extension_block_0xbeef000a_values_free function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_extension_block_0xbeef0006_values_free(
+int fwsi_test_extension_block_0xbeef000a_values_free(
      void )
 {
 	libcerror_error_t *error = NULL;
@@ -247,7 +246,7 @@ int fwsi_test_extension_block_0xbeef0006_values_free(
 
 	/* Test error cases
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_free(
+	result = libfwsi_extension_block_0xbeef000a_values_free(
 	          NULL,
 	          &error );
 
@@ -274,20 +273,20 @@ on_error:
 	return( 0 );
 }
 
-/* Tests the libfwsi_extension_block_0xbeef0006_values_read_data function
+/* Tests the libfwsi_extension_block_0xbeef000a_values_read_data function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_extension_block_0xbeef0006_values_read_data(
+int fwsi_test_extension_block_0xbeef000a_values_read_data(
      void )
 {
 	libcerror_error_t *error                                                       = NULL;
-	libfwsi_extension_block_0xbeef0006_values_t *extension_block_0xbeef0006_values = NULL;
+	libfwsi_extension_block_0xbeef000a_values_t *extension_block_0xbeef000a_values = NULL;
 	int result                                                                     = 0;
 
 	/* Initialize test
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_initialize(
-	          &extension_block_0xbeef0006_values,
+	result = libfwsi_extension_block_0xbeef000a_values_initialize(
+	          &extension_block_0xbeef000a_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -296,8 +295,8 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "extension_block_0xbeef0006_values",
-	 extension_block_0xbeef0006_values );
+	 "extension_block_0xbeef000a_values",
+	 extension_block_0xbeef000a_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -305,10 +304,10 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 
 	/* Test regular cases
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_read_data(
-	          extension_block_0xbeef0006_values,
-	          fwsi_test_extension_block_0xbeef0006_values_data1,
-	          28,
+	result = libfwsi_extension_block_0xbeef000a_values_read_data(
+	          extension_block_0xbeef000a_values,
+	          fwsi_test_extension_block_0xbeef000a_values_data1,
+	          14,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -322,10 +321,10 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 
 	/* Test error cases
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_read_data(
+	result = libfwsi_extension_block_0xbeef000a_values_read_data(
 	          NULL,
-	          fwsi_test_extension_block_0xbeef0006_values_data1,
-	          28,
+	          fwsi_test_extension_block_0xbeef000a_values_data1,
+	          14,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -340,10 +339,10 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	result = libfwsi_extension_block_0xbeef0006_values_read_data(
-	          extension_block_0xbeef0006_values,
+	result = libfwsi_extension_block_0xbeef000a_values_read_data(
+	          extension_block_0xbeef000a_values,
 	          NULL,
-	          28,
+	          14,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -358,9 +357,9 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	result = libfwsi_extension_block_0xbeef0006_values_read_data(
-	          extension_block_0xbeef0006_values,
-	          fwsi_test_extension_block_0xbeef0006_values_data1,
+	result = libfwsi_extension_block_0xbeef000a_values_read_data(
+	          extension_block_0xbeef000a_values,
+	          fwsi_test_extension_block_0xbeef000a_values_data1,
 	          (size_t) SSIZE_MAX + 1,
 	          &error );
 
@@ -378,8 +377,8 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 
 	/* Clean up
 	 */
-	result = libfwsi_extension_block_0xbeef0006_values_free(
-	          &extension_block_0xbeef0006_values,
+	result = libfwsi_extension_block_0xbeef000a_values_free(
+	          &extension_block_0xbeef000a_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -388,8 +387,8 @@ int fwsi_test_extension_block_0xbeef0006_values_read_data(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "extension_block_0xbeef0006_values",
-	 extension_block_0xbeef0006_values );
+	 "extension_block_0xbeef000a_values",
+	 extension_block_0xbeef000a_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -403,10 +402,10 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( extension_block_0xbeef0006_values != NULL )
+	if( extension_block_0xbeef000a_values != NULL )
 	{
-		libfwsi_extension_block_0xbeef0006_values_free(
-		 &extension_block_0xbeef0006_values,
+		libfwsi_extension_block_0xbeef000a_values_free(
+		 &extension_block_0xbeef000a_values,
 		 NULL );
 	}
 	return( 0 );
@@ -432,16 +431,16 @@ int main(
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	FWSI_TEST_RUN(
-	 "libfwsi_extension_block_0xbeef0006_values_initialize",
-	 fwsi_test_extension_block_0xbeef0006_values_initialize );
+	 "libfwsi_extension_block_0xbeef000a_values_initialize",
+	 fwsi_test_extension_block_0xbeef000a_values_initialize );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_extension_block_0xbeef0006_values_free",
-	 fwsi_test_extension_block_0xbeef0006_values_free );
+	 "libfwsi_extension_block_0xbeef000a_values_free",
+	 fwsi_test_extension_block_0xbeef000a_values_free );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_extension_block_0xbeef0006_values_read_data",
-	 fwsi_test_extension_block_0xbeef0006_values_read_data );
+	 "libfwsi_extension_block_0xbeef000a_values_read_data",
+	 fwsi_test_extension_block_0xbeef000a_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

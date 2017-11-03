@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libfwsi\libfwsi_extension_block_0xbeef000a_values.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libfwsi\libfwsi_extension_block_0xbeef0014_values.c"
 				>
 			</File>
@@ -409,6 +413,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_extension_block_0xbeef0006_values.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_extension_block_0xbeef000a_values.h"
 				>
 			</File>
 			<File
