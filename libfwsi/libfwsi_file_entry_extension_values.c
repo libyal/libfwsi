@@ -146,24 +146,24 @@ int libfwsi_file_entry_extension_values_free(
 }
 
 /* Reads the file entry extension values
- * Returns the number of bytes read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_file_entry_extension_values_read(
-         libfwsi_file_entry_extension_values_t *file_entry_extension_values,
-         const uint8_t *extension_block_data,
-         size_t extension_block_data_size,
-         int ascii_codepage,
-         libcerror_error_t **error )
+int libfwsi_file_entry_extension_values_read_data(
+     libfwsi_file_entry_extension_values_t *file_entry_extension_values,
+     const uint8_t *data,
+     size_t data_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
 {
-	static char *function              = "libfwsi_file_entry_extension_values_read";
-	size_t extension_block_data_offset = 0;
-	size_t string_size                 = 0;
-	uint32_t signature                 = 0;
-	uint16_t long_string_size          = 0;
-	uint16_t version                   = 0;
+	static char *function     = "libfwsi_file_entry_extension_values_read_data";
+	size_t data_offset        = 0;
+	size_t string_size        = 0;
+	uint32_t signature        = 0;
+	uint16_t long_string_size = 0;
+	uint16_t version          = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint16_t value_16bit               = 0;
+	uint16_t value_16bit      = 0;
 #endif
 
 	if( file_entry_extension_values == NULL )
@@ -177,38 +177,38 @@ ssize_t libfwsi_file_entry_extension_values_read(
 
 		return( -1 );
 	}
-	if( extension_block_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( extension_block_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: extension block data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported extension block data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( extension_block_data_size < 20 )
+	if( data_size < 20 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported extension block signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( extension_block_data[ 4 ] ),
+	 &( data[ 4 ] ),
 	 signature );
 
 	if( signature != 0xbeef0004 )
@@ -218,7 +218,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	/* Do not try to parse unsupported version values
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( extension_block_data[ 2 ] ),
+	 &( data[ 2 ] ),
 	 version );
 
 	if( ( version != 3 )
@@ -231,11 +231,11 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	file_entry_extension_values->ascii_codepage = ascii_codepage;
 
 	byte_stream_copy_to_uint32_little_endian(
-	 &( extension_block_data[ 8 ] ),
+	 &( data[ 8 ] ),
 	 file_entry_extension_values->creation_time );
 
 	byte_stream_copy_to_uint32_little_endian(
-	 &( extension_block_data[ 12 ] ),
+	 &( data[ 12 ] ),
 	 file_entry_extension_values->access_time );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -243,8 +243,8 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	{
 		if( libfwsi_debug_print_fat_date_time_value(
 		     function,
-		     "creation time\t\t\t",
-		     &( extension_block_data[ 8 ] ),
+		     "creation time\t\t",
+		     &( data[ 8 ] ),
 		     4,
 		     LIBFDATETIME_ENDIAN_LITTLE,
 		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
@@ -261,8 +261,8 @@ ssize_t libfwsi_file_entry_extension_values_read(
 		}
 		if( libfwsi_debug_print_fat_date_time_value(
 		     function,
-		     "access time\t\t\t",
-		     &( extension_block_data[ 12 ] ),
+		     "access time\t\t",
+		     &( data[ 12 ] ),
 		     4,
 		     LIBFDATETIME_ENDIAN_LITTLE,
 		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
@@ -278,7 +278,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			goto on_error;
 		}
 		byte_stream_copy_to_uint16_little_endian(
-		 &( extension_block_data[ 16 ] ),
+		 &( data[ 16 ] ),
 		 value_16bit );
 		libcnotify_printf(
 		 "%s: unknown1\t\t\t: 0x%04" PRIx16 "\n",
@@ -286,7 +286,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 		 value_16bit );
 	}
 #endif
-	extension_block_data_offset = 18;
+	data_offset = 18;
 
 	if( version >= 7 )
 	{
@@ -294,7 +294,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 		if( libcnotify_verbose != 0 )
 		{
 			byte_stream_copy_to_uint16_little_endian(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 value_16bit );
 
 			libcnotify_printf(
@@ -303,10 +303,10 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			 value_16bit );
 		}
 #endif
-		extension_block_data_offset += 2;
+		data_offset += 2;
 
 		byte_stream_copy_to_uint64_little_endian(
-		 &( extension_block_data[ extension_block_data_offset ] ),
+		 &( data[ data_offset ] ),
 		 file_entry_extension_values->file_reference );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -329,7 +329,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			}
 		}
 #endif
-		extension_block_data_offset += 8;
+		data_offset += 8;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -338,27 +338,27 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			 "%s: unknown4:\n",
 			 function );
 			libcnotify_print_data(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 8,
 			 0 );
 		}
 #endif
-		extension_block_data_offset += 8;
+		data_offset += 8;
 	}
 	byte_stream_copy_to_uint16_little_endian(
-	 &( extension_block_data[ extension_block_data_offset ] ),
+	 &( data[ data_offset ] ),
 	 long_string_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: long string size\t\t: %" PRIu16 "\n",
+		 "%s: long name size\t\t: %" PRIu16 "\n",
 		 function,
 		 long_string_size );
 	}
 #endif
-	extension_block_data_offset += 2;
+	data_offset += 2;
 
 	if( version >= 9 )
 	{
@@ -369,12 +369,12 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			 "%s: unknown5:\n",
 			 function );
 			libcnotify_print_data(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 4,
 			 0 );
 		}
 #endif
-		extension_block_data_offset += 4;
+		data_offset += 4;
 	}
 	if( version >= 8 )
 	{
@@ -385,28 +385,28 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			 "%s: unknown6:\n",
 			 function );
 			libcnotify_print_data(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 4,
 			 0 );
 		}
 #endif
-		extension_block_data_offset += 4;
+		data_offset += 4;
 	}
 	/* Determine the long name size
 	 */
-	for( string_size = extension_block_data_offset;
-	     ( string_size + 1 ) < extension_block_data_size - 2;
+	for( string_size = data_offset;
+	     ( string_size + 1 ) < data_size - 2;
 	     string_size += 2 )
 	{
-		if( ( extension_block_data[ string_size ] == 0 )
-		 && ( extension_block_data[ string_size + 1 ] == 0 ) )
+		if( ( data[ string_size ] == 0 )
+		 && ( data[ string_size + 1 ] == 0 ) )
 		{
 			string_size += 2;
 
 			break;
 		}
 	}
-	string_size -= extension_block_data_offset;
+	string_size -= data_offset;
 
 	file_entry_extension_values->long_name = (uint8_t *) memory_allocate(
 	                                                      sizeof( uint8_t ) * string_size );
@@ -424,7 +424,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	}
 	if( memory_copy(
 	     file_entry_extension_values->long_name,
-	     &( extension_block_data[ extension_block_data_offset ] ),
+	     &( data[ data_offset ] ),
 	     string_size ) == NULL )
 	{
 		libcerror_error_set(
@@ -443,7 +443,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 	{
 		if( libfwsi_debug_print_utf16_string_value(
 		     function,
-		     "long name\t\t\t",
+		     "long name\t\t",
 		     file_entry_extension_values->long_name,
 		     file_entry_extension_values->long_name_size,
 		     LIBUNA_ENDIAN_LITTLE,
@@ -460,7 +460,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 		}
 	}
 #endif
-	extension_block_data_offset += string_size;
+	data_offset += string_size;
 
 	if( long_string_size > 0 )
 	{
@@ -468,19 +468,19 @@ ssize_t libfwsi_file_entry_extension_values_read(
 		{
 			/* Determine the localized name size
 			 */
-			for( string_size = extension_block_data_offset;
-			     ( string_size + 1 ) < extension_block_data_size - 2;
+			for( string_size = data_offset;
+			     ( string_size + 1 ) < data_size - 2;
 			     string_size += 2 )
 			{
-				if( ( extension_block_data[ string_size ] == 0 )
-				 && ( extension_block_data[ string_size + 1 ] == 0 ) )
+				if( ( data[ string_size ] == 0 )
+				 && ( data[ string_size + 1 ] == 0 ) )
 				{
 					string_size += 2;
 
 					break;
 				}
 			}
-			string_size -= extension_block_data_offset;
+			string_size -= data_offset;
 
 			file_entry_extension_values->localized_name = (uint8_t *) memory_allocate(
 			                                                           sizeof( uint8_t ) * string_size );
@@ -498,7 +498,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			}
 			if( memory_copy(
 			     file_entry_extension_values->localized_name,
-			     &( extension_block_data[ extension_block_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size ) == NULL )
 			{
 				libcerror_error_set(
@@ -539,18 +539,18 @@ ssize_t libfwsi_file_entry_extension_values_read(
 		{
 			/* Determine the localized name size
 			 */
-			for( string_size = extension_block_data_offset;
-			     string_size < extension_block_data_size - 2;
+			for( string_size = data_offset;
+			     string_size < data_size - 2;
 			     string_size += 1 )
 			{
-				if( extension_block_data[ string_size ] == 0 )
+				if( data[ string_size ] == 0 )
 				{
 					string_size += 1;
 
 					break;
 				}
 			}
-			string_size -= extension_block_data_offset;
+			string_size -= data_offset;
 
 			file_entry_extension_values->localized_name = (uint8_t *) memory_allocate(
 			                                                           sizeof( uint8_t ) * string_size );
@@ -568,7 +568,7 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			}
 			if( memory_copy(
 			     file_entry_extension_values->localized_name,
-			     &( extension_block_data[ extension_block_data_offset ] ),
+			     &( data[ data_offset ] ),
 			     string_size ) == NULL )
 			{
 				libcerror_error_set(
@@ -605,9 +605,9 @@ ssize_t libfwsi_file_entry_extension_values_read(
 			}
 #endif
 		}
-		extension_block_data_offset += string_size;
+		data_offset += string_size;
 	}
-	return( (ssize_t) extension_block_data_offset );
+	return( 1 );
 
 on_error:
 	if( file_entry_extension_values->localized_name != NULL )

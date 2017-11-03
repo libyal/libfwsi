@@ -319,6 +319,7 @@ int libfwsi_item_copy_from_byte_stream(
 	size_t byte_stream_offset                           = 0;
 	size_t shell_item_data_size                         = 0;
 	uint32_t signature                                  = 0;
+	uint16_t first_extension_block_offset               = 0;
 	int entry_index                                     = 0;
 	int result                                          = 0;
 
@@ -1161,102 +1162,109 @@ int libfwsi_item_copy_from_byte_stream(
 		internal_item->class_type = 0;
 		internal_item->signature  = 0;
 	}
-	byte_stream_offset += internal_item->data_size;
+	byte_stream_copy_to_uint16_little_endian(
+	 &( byte_stream[ internal_item->data_size - 2 ] ),
+	 first_extension_block_offset );
 
-	shell_item_data_size = internal_item->data_size - byte_stream_offset;
-
-	while( shell_item_data_size > 2 )
+	if( ( first_extension_block_offset >= 4 )
+	 && ( first_extension_block_offset < ( internal_item->data_size - 2 ) ) )
 	{
-		if( libfwsi_extension_block_initialize(
-		     (libfwsi_extension_block_t **) &extension_block,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create extension block.",
-			 function );
+		byte_stream_offset   = (size_t) first_extension_block_offset;
+		shell_item_data_size = internal_item->data_size - byte_stream_offset;
 
-			goto on_error;
-		}
-		result = libfwsi_extension_block_copy_from_byte_stream(
-		          extension_block,
-		          &( byte_stream[ byte_stream_offset ] ),
-		          shell_item_data_size,
-		          ascii_codepage,
-		          error );
-
-		if( result == -1 )
+		while( shell_item_data_size > 2 )
 		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy byte stream to extension block.",
-			 function );
+			if( libfwsi_extension_block_initialize(
+			     (libfwsi_extension_block_t **) &extension_block,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create extension block.",
+				 function );
 
-			goto on_error;
-		}
-		else if( result == 0 )
-		{
-			break;
-		}
-		byte_stream_offset   += extension_block->data_size;
-		shell_item_data_size -= extension_block->data_size;
+				goto on_error;
+			}
+			result = libfwsi_extension_block_copy_from_byte_stream(
+				  extension_block,
+				  &( byte_stream[ byte_stream_offset ] ),
+				  shell_item_data_size,
+				  ascii_codepage,
+				  error );
 
-		if( extension_block->data_size == 2 )
-		{
-			break;
-		}
-		if( libcdata_array_append_entry(
-		     internal_item->extension_blocks_array,
-		     &entry_index,
-		     (intptr_t *) extension_block,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_APPEND_FAILED,
-			 "%s: unable to append extension block.",
-			 function );
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy byte stream to extension block.",
+				 function );
 
-			goto on_error;
-		}
-		extension_block = NULL;
-	}
-	if( extension_block != NULL )
-	{
-		if( libfwsi_internal_extension_block_free(
-		     &extension_block,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free extension block.",
-			 function );
+				goto on_error;
+			}
+			else if( result == 0 )
+			{
+				break;
+			}
+			byte_stream_offset   += extension_block->data_size;
+			shell_item_data_size -= extension_block->data_size;
 
-			goto on_error;
+			if( extension_block->data_size == 2 )
+			{
+				break;
+			}
+			if( libcdata_array_append_entry(
+			     internal_item->extension_blocks_array,
+			     &entry_index,
+			     (intptr_t *) extension_block,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_APPEND_FAILED,
+				 "%s: unable to append extension block.",
+				 function );
+
+				goto on_error;
+			}
+			extension_block = NULL;
 		}
-	}
+		if( extension_block != NULL )
+		{
+			if( libfwsi_internal_extension_block_free(
+			     &extension_block,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free extension block.",
+				 function );
+
+				goto on_error;
+			}
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		if( shell_item_data_size > 0 )
+		if( libcnotify_verbose != 0 )
 		{
-			libcnotify_printf(
-			 "%s: trailing data:\n",
-			 function );
-			libcnotify_print_data(
-			 &( byte_stream[ byte_stream_offset ] ),
-			 shell_item_data_size,
-			 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
+			if( shell_item_data_size > 0 )
+			{
+				libcnotify_printf(
+				 "%s: trailing data:\n",
+				 function );
+				libcnotify_print_data(
+				 &( byte_stream[ byte_stream_offset ] ),
+				 shell_item_data_size,
+				 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
+			}
 		}
-	}
 #endif
+	}
 	internal_item->ascii_codepage = ascii_codepage;
 
 	return( 1 );

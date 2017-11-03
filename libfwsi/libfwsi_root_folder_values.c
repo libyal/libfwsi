@@ -210,7 +210,7 @@ int libfwsi_root_folder_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: sort order\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: sort order\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 

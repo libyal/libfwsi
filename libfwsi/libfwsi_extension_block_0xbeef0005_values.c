@@ -133,15 +133,15 @@ int libfwsi_extension_block_0xbeef0005_values_free(
 }
 
 /* Reads the extension block 0xbeef0005 values
- * Returns the number of bytes read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_extension_block_0xbeef0005_values_read(
-         libfwsi_extension_block_0xbeef0005_values_t *extension_block_0xbeef0005_values,
-         const uint8_t *extension_block_data,
-         size_t extension_block_data_size,
-         libcerror_error_t **error )
+int libfwsi_extension_block_0xbeef0005_values_read_data(
+     libfwsi_extension_block_0xbeef0005_values_t *extension_block_0xbeef0005_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0005_values_read";
+	static char *function = "libfwsi_extension_block_0xbeef0005_values_read_data";
 	uint32_t signature    = 0;
 
 	if( extension_block_0xbeef0005_values == NULL )
@@ -155,38 +155,38 @@ ssize_t libfwsi_extension_block_0xbeef0005_values_read(
 
 		return( -1 );
 	}
-	if( extension_block_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( extension_block_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: extension block data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported extension block data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( extension_block_data_size < 26 )
+	if( data_size < 26 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported extension block signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( extension_block_data[ 4 ] ),
+	 &( data[ 4 ] ),
 	 signature );
 
 	if( signature != 0xbeef0005 )
@@ -200,13 +200,13 @@ ssize_t libfwsi_extension_block_0xbeef0005_values_read(
 		 "%s: unknown1:\n",
 		 function );
 		libcnotify_print_data(
-		 &( extension_block_data[ 8 ] ),
+		 &( data[ 8 ] ),
 		 16,
 		 0 );
 	}
 #endif
 	/* TODO parse embedded shell item list */
 
-	return( 24 );
+	return( 1 );
 }
 

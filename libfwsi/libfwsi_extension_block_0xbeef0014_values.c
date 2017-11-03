@@ -138,25 +138,25 @@ int libfwsi_extension_block_0xbeef0014_values_free(
 }
 
 /* Reads the extension block 0xbeef0014 values
- * Returns the number of bytes read or -1 on error
+ * Returns 1 if successful, 0 if not supported or -1 on error
  */
-ssize_t libfwsi_extension_block_0xbeef0014_values_read(
-         libfwsi_extension_block_0xbeef0014_values_t *extension_block_0xbeef0014_values,
-         const uint8_t *extension_block_data,
-         size_t extension_block_data_size,
-         libcerror_error_t **error )
+int libfwsi_extension_block_0xbeef0014_values_read_data(
+     libfwsi_extension_block_0xbeef0014_values_t *extension_block_0xbeef0014_values,
+     const uint8_t *data,
+     size_t data_size,
+     libcerror_error_t **error )
 {
-	static char *function              = "libfwsi_extension_block_0xbeef0014_values_read";
-	size_t extension_block_data_offset = 0;
-	uint32_t number_of_properties      = 0;
-	uint32_t property_index            = 0;
-	uint32_t property_size             = 0;
-	uint32_t property_type             = 0;
-	uint32_t signature                 = 0;
-	int result                         = 0;
+	static char *function         = "libfwsi_extension_block_0xbeef0014_values_read_data";
+	size_t data_offset            = 0;
+	uint32_t number_of_properties = 0;
+	uint32_t property_index       = 0;
+	uint32_t property_size        = 0;
+	uint32_t property_type        = 0;
+	uint32_t signature            = 0;
+	int result                    = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint32_t value_32bit               = 0;
+	uint32_t value_32bit          = 0;
 #endif
 
 	if( extension_block_0xbeef0014_values == NULL )
@@ -170,38 +170,38 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 
 		return( -1 );
 	}
-	if( extension_block_data == NULL )
+	if( data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block data.",
+		 "%s: invalid data.",
 		 function );
 
 		return( -1 );
 	}
-	if( extension_block_data_size > (size_t) SSIZE_MAX )
+	if( data_size > (size_t) SSIZE_MAX )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: extension block data size exceeds maximum.",
+		 "%s: data size exceeds maximum.",
 		 function );
 
 		return( -1 );
 	}
-	/* Do not try to parse unsupported extension block data sizes
+	/* Do not try to parse unsupported data sizes
 	 */
-	if( extension_block_data_size < 26 )
+	if( data_size < 26 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unsupported extension block signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( extension_block_data[ 4 ] ),
+	 &( data[ 4 ] ),
 	 signature );
 
 	if( signature != 0xbeef0014 )
@@ -214,7 +214,7 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 		if( libfwsi_debug_print_guid_value(
 		     function,
 		     "class identifier\t\t",
-		     &( extension_block_data[ 8 ] ),
+		     &( data[ 8 ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
 		     LIBFGUID_STRING_FORMAT_FLAG_USE_LOWER_CASE,
@@ -232,15 +232,15 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 	}
 #endif
 	result = memory_compare(
-	          &( extension_block_data[ 8 ] ),
+	          &( data[ 8 ] ),
 	          curi_class_identifier,
 	          16 );
 
-	extension_block_data_offset = 24;
+	data_offset = 24;
 
 	if( result == 0 )
 	{
-		if( extension_block_data_size < 58 )
+		if( data_size < 58 )
 		{
 			return( 0 );
 		}
@@ -248,16 +248,16 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 		if( libcnotify_verbose != 0 )
 		{
 			byte_stream_copy_to_uint32_little_endian(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 value_32bit );
 
 			libcnotify_printf(
-			 "%s: data size\t\t: %" PRIu32 "\n",
+			 "%s: data size\t\t\t: %" PRIu32 "\n",
 			 function,
 			 value_32bit );
 		}
 #endif
-		extension_block_data_offset += 4;
+		data_offset += 4;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -266,18 +266,18 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 			 "%s: unknown1:\n",
 			 function );
 			libcnotify_print_data(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 8,
 			 0 );
 		}
 #endif
-		extension_block_data_offset += 8;
+		data_offset += 8;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			byte_stream_copy_to_uint32_little_endian(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 value_32bit );
 
 			libcnotify_printf(
@@ -286,7 +286,7 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 			 value_32bit );
 		}
 #endif
-		extension_block_data_offset += 4;
+		data_offset += 4;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -295,17 +295,17 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 			 "%s: unknown3:\n",
 			 function );
 			libcnotify_print_data(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 12,
 			 0 );
 		}
 #endif
-		extension_block_data_offset += 12;
+		data_offset += 12;
 
 		/* Property table
 		 */
 		byte_stream_copy_to_uint32_little_endian(
-		 &( extension_block_data[ extension_block_data_offset ] ),
+		 &( data[ data_offset ] ),
 		 number_of_properties );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -317,18 +317,18 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 			 number_of_properties );
 		}
 #endif
-		extension_block_data_offset += 4;
+		data_offset += 4;
 
 		for( property_index = 0;
 		     property_index < number_of_properties;
 		     property_index++ )
 		{
-			if( extension_block_data_offset > ( extension_block_data_size - 8 ) )
+			if( data_offset > ( data_size - 8 ) )
 			{
 				return( 0 );
 			}
 			byte_stream_copy_to_uint32_little_endian(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 property_type );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -341,10 +341,10 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 				 property_type );
 			}
 #endif
-			extension_block_data_offset += 4;
+			data_offset += 4;
 
 			byte_stream_copy_to_uint32_little_endian(
-			 &( extension_block_data[ extension_block_data_offset ] ),
+			 &( data[ data_offset ] ),
 			 property_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -357,10 +357,10 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 				 property_size );
 			}
 #endif
-			extension_block_data_offset += 4;
+			data_offset += 4;
 
-			if( ( property_size > extension_block_data_size )
-			 || ( extension_block_data_offset > ( extension_block_data_size - property_size ) ) )
+			if( ( property_size > data_size )
+			 || ( data_offset > ( data_size - property_size ) ) )
 			{
 				return( 0 );
 			}
@@ -372,12 +372,12 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 				 function,
 				 property_index );
 				libcnotify_print_data(
-				 &( extension_block_data[ extension_block_data_offset ] ),
+				 &( data[ data_offset ] ),
 				 property_size,
 				 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 			}
 #endif
-			extension_block_data_offset += property_size;
+			data_offset += property_size;
 		}
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -387,6 +387,6 @@ ssize_t libfwsi_extension_block_0xbeef0014_values_read(
 		 "\n" );
 	}
 #endif
-	return( (ssize_t) extension_block_data_offset );
+	return( 1 );
 }
 

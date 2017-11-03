@@ -215,7 +215,7 @@ int libfwsi_volume_values_read_data(
 		if( libcnotify_verbose != 0 )
 		{
 			libcnotify_printf(
-			 "%s: unknown1\t\t\t\t\t: 0x%02" PRIx8 "\n",
+			 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
 			 function,
 			 data[ 3 ] );
 		}
@@ -241,7 +241,7 @@ int libfwsi_volume_values_read_data(
 		{
 			if( libfwsi_debug_print_guid_value(
 			     function,
-			     "shell folder identifier\t\t\t",
+			     "shell folder identifier\t\t",
 			     volume_values->identifier,
 			     16,
 			     LIBFGUID_ENDIAN_LITTLE,
@@ -258,7 +258,7 @@ int libfwsi_volume_values_read_data(
 				return( -1 );
 			}
 			libcnotify_printf(
-			 "%s: shell folder name\t\t\t\t: %s\n",
+			 "%s: shell folder name\t\t\t: %s\n",
 			 function,
 			 libfwsi_shell_folder_identifier_get_name(
 			  volume_values->identifier ) );
@@ -306,7 +306,7 @@ int libfwsi_volume_values_read_data(
 		{
 			if( libfwsi_debug_print_string_value(
 			     function,
-			     "volume name\t\t\t\t\t",
+			     "volume name\t\t\t\t",
 			     volume_values->name,
 			     volume_values->name_size,
 			     ascii_codepage,
@@ -330,7 +330,7 @@ int libfwsi_volume_values_read_data(
 			 &( data[ 23 ] ),
 			 value_16bit );
 			libcnotify_printf(
-			 "%s: unknown2\t\t\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 		}
@@ -358,7 +358,7 @@ int libfwsi_volume_values_read_data(
 			{
 				if( libfwsi_debug_print_guid_value(
 				     function,
-				     "shell folder identifier\t\t\t",
+				     "shell folder identifier\t\t",
 				     volume_values->shell_folder_identifier,
 				     16,
 				     LIBFGUID_ENDIAN_LITTLE,
@@ -375,7 +375,7 @@ int libfwsi_volume_values_read_data(
 					return( -1 );
 				}
 				libcnotify_printf(
-				 "%s: shell folder name\t\t\t\t: %s\n",
+				 "%s: shell folder name\t\t\t: %s\n",
 				 function,
 				 libfwsi_shell_folder_identifier_get_name(
 				  &( data[ data_offset ] ) ) );

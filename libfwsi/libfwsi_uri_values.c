@@ -211,7 +211,7 @@ int libfwsi_uri_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: flags\t\t\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: flags\t\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 flags );
 
@@ -407,7 +407,7 @@ int libfwsi_uri_values_read_data(
 		{
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
-			     "URI\t\t\t\t\t\t",
+			     "URI\t\t\t\t\t",
 			     &( data[ data_offset ] ),
 			     string_size,
 			     LIBUNA_ENDIAN_LITTLE,

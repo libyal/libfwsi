@@ -265,7 +265,7 @@ int libfwsi_file_entry_values_read_data(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: file attribute flags\t\t\t: 0x%04" PRIx16 "\n",
+		 "%s: file attribute flags\t\t: 0x%04" PRIx16 "\n",
 		 function,
 		 file_entry_values->file_attribute_flags );
 		libfwsi_file_attributes_print(
@@ -379,7 +379,7 @@ int libfwsi_file_entry_values_read_data(
 		{
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
-			     "primary name\t\t\t\t",
+			     "primary name\t\t\t",
 			     file_entry_values->name,
 			     file_entry_values->name_size,
 			     LIBUNA_ENDIAN_LITTLE,
@@ -399,7 +399,7 @@ int libfwsi_file_entry_values_read_data(
 		{
 			if( libfwsi_debug_print_string_value(
 			     function,
-			     "primary name\t\t\t\t",
+			     "primary name\t\t\t",
 			     file_entry_values->name,
 			     file_entry_values->name_size,
 			     ascii_codepage,

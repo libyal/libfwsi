@@ -202,9 +202,9 @@ int libfwsi_extension_block_copy_from_byte_stream(
 {
 	static char *function     = "libfwsi_extension_block_copy_from_byte_stream";
 	size_t byte_stream_offset = 0;
-	ssize_t read_count        = 0;
 	uint32_t signature        = 0;
 	uint16_t data_size        = 0;
+	int result                = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint16_t value_16bit      = 0;
@@ -330,13 +330,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0000_values_read(
-			              (libfwsi_extension_block_0xbeef0000_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0000_values_read_data(
+			          (libfwsi_extension_block_0xbeef0000_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -365,13 +365,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0001_values_read(
-			              (libfwsi_extension_block_0xbeef0001_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0001_values_read_data(
+			          (libfwsi_extension_block_0xbeef0001_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -400,13 +400,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0003_values_read(
-			              (libfwsi_extension_block_0xbeef0003_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0003_values_read_data(
+			          (libfwsi_extension_block_0xbeef0003_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -435,14 +435,14 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_file_entry_extension_values_read(
-			              (libfwsi_file_entry_extension_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              ascii_codepage,
-			              error );
+			result = libfwsi_file_entry_extension_values_read_data(
+			          (libfwsi_file_entry_extension_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          ascii_codepage,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -471,13 +471,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0005_values_read(
-			              (libfwsi_extension_block_0xbeef0005_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0005_values_read_data(
+			          (libfwsi_extension_block_0xbeef0005_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -506,13 +506,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0006_values_read(
-			              (libfwsi_extension_block_0xbeef0006_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0006_values_read_data(
+			          (libfwsi_extension_block_0xbeef0006_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -541,13 +541,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0014_values_read(
-			              (libfwsi_extension_block_0xbeef0014_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0014_values_read_data(
+			          (libfwsi_extension_block_0xbeef0014_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -576,13 +576,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0019_values_read(
-			              (libfwsi_extension_block_0xbeef0019_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0019_values_read_data(
+			          (libfwsi_extension_block_0xbeef0019_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -611,13 +611,13 @@ int libfwsi_extension_block_copy_from_byte_stream(
 
 				goto on_error;
 			}
-			read_count = libfwsi_extension_block_0xbeef0025_values_read(
-			              (libfwsi_extension_block_0xbeef0025_values_t *) internal_extension_block->value,
-			              byte_stream,
-			              internal_extension_block->data_size,
-			              error );
+			result = libfwsi_extension_block_0xbeef0025_values_read_data(
+			          (libfwsi_extension_block_0xbeef0025_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          error );
 
-			if( read_count == -1 )
+			if( result == -1 )
 			{
 				libcerror_error_set(
 				 error,
@@ -633,7 +633,7 @@ int libfwsi_extension_block_copy_from_byte_stream(
 		default:
 			break;
 	}
-	if( read_count == 0 )
+	if( result == 0 )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -643,9 +643,8 @@ int libfwsi_extension_block_copy_from_byte_stream(
 			 function );
 		}
 #endif
-		read_count = internal_extension_block->data_size - 2;
 	}
-	byte_stream_offset += read_count;
+	byte_stream_offset += internal_extension_block->data_size - 2;
 
 	if( byte_stream_offset > (size_t) ( internal_extension_block->data_size - 2 ) )
 	{
