@@ -1,5 +1,5 @@
 /*
- * Extension block 0xbeef0025 values functions
+ * URI sub (shell item) values functions
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -25,68 +25,67 @@
 #include <types.h>
 
 #include "libfwsi_debug.h"
-#include "libfwsi_definitions.h"
-#include "libfwsi_extension_block_0xbeef0025_values.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
 #include "libfwsi_libfdatetime.h"
+#include "libfwsi_uri_sub_values.h"
 
-/* Creates extension block 0xbeef0025 values
- * Make sure the value extension_block_0xbeef0025_values is referencing, is set to NULL
+/* Creates URI sub values
+ * Make sure the value uri_sub_values is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_extension_block_0xbeef0025_values_initialize(
-     libfwsi_extension_block_0xbeef0025_values_t **extension_block_0xbeef0025_values,
+int libfwsi_uri_sub_values_initialize(
+     libfwsi_uri_sub_values_t **uri_sub_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0025_values_initialize";
+	static char *function = "libfwsi_uri_sub_values_initialize";
 
-	if( extension_block_0xbeef0025_values == NULL )
+	if( uri_sub_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block 0xbeef0025 values.",
+		 "%s: invalid URI sub values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *extension_block_0xbeef0025_values != NULL )
+	if( *uri_sub_values != NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
-		 "%s: invalid extension block 0xbeef0025 values value already set.",
+		 "%s: invalid URI sub values value already set.",
 		 function );
 
 		return( -1 );
 	}
-	*extension_block_0xbeef0025_values = memory_allocate_structure(
-	                                      libfwsi_extension_block_0xbeef0025_values_t );
+	*uri_sub_values = memory_allocate_structure(
+	                   libfwsi_uri_sub_values_t );
 
-	if( *extension_block_0xbeef0025_values == NULL )
+	if( *uri_sub_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-		 "%s: unable to create extension block 0xbeef0025 values.",
+		 "%s: unable to create URI sub values.",
 		 function );
 
 		goto on_error;
 	}
 	if( memory_set(
-	     *extension_block_0xbeef0025_values,
+	     *uri_sub_values,
 	     0,
-	     sizeof( libfwsi_extension_block_0xbeef0025_values_t ) ) == NULL )
+	     sizeof( libfwsi_uri_sub_values_t ) ) == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
-		 "%s: unable to clear extension block 0xbeef0025 values.",
+		 "%s: unable to clear URI sub values.",
 		 function );
 
 		goto on_error;
@@ -94,69 +93,70 @@ int libfwsi_extension_block_0xbeef0025_values_initialize(
 	return( 1 );
 
 on_error:
-	if( *extension_block_0xbeef0025_values != NULL )
+	if( *uri_sub_values != NULL )
 	{
 		memory_free(
-		 *extension_block_0xbeef0025_values );
+		 *uri_sub_values );
 
-		*extension_block_0xbeef0025_values = NULL;
+		*uri_sub_values = NULL;
 	}
 	return( -1 );
 }
 
-/* Frees extension block 0xbeef0025 values
+/* Frees URI sub values
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_extension_block_0xbeef0025_values_free(
-     libfwsi_extension_block_0xbeef0025_values_t **extension_block_0xbeef0025_values,
+int libfwsi_uri_sub_values_free(
+     libfwsi_uri_sub_values_t **uri_sub_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0025_values_free";
+	static char *function = "libfwsi_uri_sub_values_free";
 
-	if( extension_block_0xbeef0025_values == NULL )
+	if( uri_sub_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block 0xbeef0025 values.",
+		 "%s: invalid URI sub values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *extension_block_0xbeef0025_values != NULL )
+	if( *uri_sub_values != NULL )
 	{
 		memory_free(
-		 *extension_block_0xbeef0025_values );
+		 *uri_sub_values );
 
-		*extension_block_0xbeef0025_values = NULL;
+		*uri_sub_values = NULL;
 	}
 	return( 1 );
 }
 
-/* Reads the extension block 0xbeef0025 values
+/* Reads the URI sub values
  * Returns 1 if successful, 0 if not supported or -1 on error
  */
-int libfwsi_extension_block_0xbeef0025_values_read_data(
-     libfwsi_extension_block_0xbeef0025_values_t *extension_block_0xbeef0025_values,
+int libfwsi_uri_sub_values_read_data(
+     libfwsi_uri_sub_values_t *uri_sub_values,
      const uint8_t *data,
      size_t data_size,
+     int ascii_codepage,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0025_values_read_data";
-	uint32_t signature    = 0;
+	static char *function = "libfwsi_uri_sub_values_read_data";
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint32_t value_32bit  = 0;
+	uint16_t value_16bit  = 0;
 #endif
 
-	if( extension_block_0xbeef0025_values == NULL )
+	if( uri_sub_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block 0xbeef0025 values.",
+		 "%s: invalid URI sub values.",
 		 function );
 
 		return( -1 );
@@ -185,35 +185,75 @@ int libfwsi_extension_block_0xbeef0025_values_read_data(
 	}
 	/* Do not try to parse unsupported data sizes
 	 */
-	if( data_size != 30 )
-	{
-		return( 0 );
-	}
-	/* Do not try to parse unsupported extension block signatures
-	 */
-	byte_stream_copy_to_uint32_little_endian(
-	 &( data[ 4 ] ),
-	 signature );
-
-	if( signature != 0xbeef0025 )
+	if( data_size < 38 )
 	{
 		return( 0 );
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
-		byte_stream_copy_to_uint32_little_endian(
+		libcnotify_printf(
+		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
+		 function,
+		 data[ 2 ] );
+
+		libcnotify_printf(
+		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
+		 function,
+		 data[ 3 ] );
+
+		byte_stream_copy_to_uint16_little_endian(
+		 &( data[ 4 ] ),
+		 value_16bit );
+		libcnotify_printf(
+		 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
+		 function,
+		 value_16bit );
+
+		byte_stream_copy_to_uint16_little_endian(
+		 &( data[ 6 ] ),
+		 value_16bit );
+		libcnotify_printf(
+		 "%s: unknown3\t\t\t\t: 0x%04" PRIx16 "\n",
+		 function,
+		 value_16bit );
+
+		byte_stream_copy_to_uint16_little_endian(
 		 &( data[ 8 ] ),
+		 value_16bit );
+		libcnotify_printf(
+		 "%s: unknown4\t\t\t\t: 0x%04" PRIx16 "\n",
+		 function,
+		 value_16bit );
+
+		byte_stream_copy_to_uint32_little_endian(
+		 &( data[ 10 ] ),
 		 value_32bit );
 		libcnotify_printf(
-		 "%s: unknown1\t\t: 0x%08" PRIx32 "\n",
+		 "%s: unknown5\t\t\t\t: 0x%08" PRIx32 "\n",
+		 function,
+		 value_32bit );
+
+		byte_stream_copy_to_uint32_little_endian(
+		 &( data[ 14 ] ),
+		 value_32bit );
+		libcnotify_printf(
+		 "%s: unknown6\t\t\t\t: 0x%08" PRIx32 "\n",
+		 function,
+		 value_32bit );
+
+		byte_stream_copy_to_uint32_little_endian(
+		 &( data[ 18 ] ),
+		 value_32bit );
+		libcnotify_printf(
+		 "%s: unknown7\t\t\t\t: 0x%08" PRIx32 "\n",
 		 function,
 		 value_32bit );
 
 		if( libfwsi_debug_print_filetime_value(
 		     function,
-		     "unknown2 time\t",
-		     &( data[ 12 ] ),
+		     "unknown8 time\t\t\t\t",
+		     &( data[ 22 ] ),
 		     8,
 		     LIBFDATETIME_ENDIAN_LITTLE,
 		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,
@@ -228,28 +268,32 @@ int libfwsi_extension_block_0xbeef0025_values_read_data(
 
 			return( -1 );
 		}
-		if( libfwsi_debug_print_filetime_value(
-		     function,
-		     "unknown3 time\t",
-		     &( data[ 20 ] ),
-		     8,
-		     LIBFDATETIME_ENDIAN_LITTLE,
-		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-			 "%s: unable to print FILETIME value.",
-			 function );
-
-			return( -1 );
-		}
+		byte_stream_copy_to_uint32_little_endian(
+		 &( data[ 30 ] ),
+		 value_32bit );
 		libcnotify_printf(
-		 "\n" );
+		 "%s: unknown9\t\t\t\t: 0x%08" PRIx32 "\n",
+		 function,
+		 value_32bit );
+
+		byte_stream_copy_to_uint32_little_endian(
+		 &( data[ 34 ] ),
+		 value_32bit );
+		libcnotify_printf(
+		 "%s: unknown10\t\t\t\t: 0x%08" PRIx32 "\n",
+		 function,
+		 value_32bit );
+
+		libcnotify_printf(
+		 "%s: unknown11:\n",
+		 function );
+		libcnotify_print_data(
+		 &( data[ 38 ] ),
+		 data_size - 38,
+		 0 );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	return( 1 );
 }
 

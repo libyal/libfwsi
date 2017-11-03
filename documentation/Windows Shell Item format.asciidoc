@@ -86,7 +86,8 @@ Updated information regarding the delegate shell item.
 | 0.0.30 | J.B. Metz | December 2014 | Switched to asccidoc format.
 | 0.0.31 | J.B. Metz | February 2015 | Additional information compressed folder 0x52 shell item with thanks to D. White and various yet unknown shell items with thanks to E. Zimmerman.
 | 0.0.32 | J.B. Metz | June 2015 | Additional information regarding Windows 10 shell items from LNK files.
-| 0.0.33 | J.B. Metz | November 2017 | Additional information regarding extension blocks and extension block 0xbeef0013
+| 0.0.33 | J.B. Metz | November 2017 | Additional information regarding extension blocks and extension block 0xbeef0013.
+| 0.0.34 | J.B. Metz | November 2017 | Additional information regarding FTP URI and URI sub shell items with thanks to S. Polshyn.
 |===
 
 :numbered:
@@ -678,11 +679,12 @@ Includes the 2 bytes of the size itself
 [yellow-background]*0x02* +
 0x80 set if URI string in Unicode
 | 4 | 2 | | Size of data +
-Includes the 2 bytes of the size itself 0 if no data +
+Does not include the 2 bytes of the size itself. 0 if no data +
 4+| _If size of data > 0 (or is this controlled by flag 0x01 or 0x02?)_
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 8 | | [yellow-background]*Unknown timestamp* +
+[yellow-background]*For FTP presumably first access time to the server (access != successfull authentification)* +
 Contains a FILETIME
 | ... | 4 | | [yellow-background]*Unknown* +
 [yellow-background]*Seen: 0x00000000, 0xffffffff*
@@ -691,17 +693,19 @@ Contains a FILETIME
 | ... | 4 | | String1 data size +
 Value in bytes
 | ... | ... | | String1 data +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is  stored as 4x 0-byte values.
+[yellow-background]*For FTP hostname or IP address* +
+Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
 | ... | 4 | | String2 data size +
 Value in bytes
 | ... | 4 | | String2 data +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is  stored as 4x 0-byte values.
+[yellow-background]*For FTP the username* +
+Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
 | ... | 4 | | String3 data size +
 Value in bytes
 | ... | 4 | | String3 data +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is  stored as 4x 0-byte values.
+[yellow-background]*For FTP the password* +
+Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
 4+| _Common_
-| ... | 2 | 0 | [yellow-background]*Unknown (size of data?)*
 | ... | ... | | URI string +
 Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. +
 Not always present is this controlled by flag 0x01 or 0x02 ?
@@ -711,7 +715,7 @@ Present if shell item contains more data (Seen in Vista in combination with MSIE
 See section: <<extension_block_0xbeef0014,Extension block 0xbeef0014>>
 |===
 
-==== FTP sub shell item
+==== FTP URI sub shell item
 Seen after 0x61 shell item type with ftp URI.
 
 The ftp sub shell item is variable of size and consists of the following values:
@@ -722,16 +726,24 @@ The ftp sub shell item is variable of size and consists of the following values:
 | 0 | 2 | | The size of the shell item +
 Includes the 2 bytes of the size itself
 | 2 | 1 | | [yellow-background]*Class type indicator?* +
-[yellow-background]*Seen: 0x17, 0x30, 0x5b, 0xb5, 0xb7, 0xb9, 0xba, 0xc2, 0xc4, 0xe6*
+[yellow-background]*Seen: 0x00, 0x17, 0x30, 0x5b, 0xb5, 0xb7, 0xb9, 0xba, 0xc2, 0xc4, 0xe6*
 | 3 | 1 | | [yellow-background]*Unknown* +
 [yellow-background]*Seen: 0x00, 0x06, 0x09*
 | 4 | 2 | | [yellow-background]*Unknown* +
 [yellow-background]*If 0 no string padding?*
-| 6 | 4 | | [yellow-background]*Unknown* +
-[yellow-background]*Seen: 0x00000005, 0x00000009*
+| 6 | 2 | | [yellow-background]*Unknown* +
+[yellow-background]*Seen: 0x0005, 0x0009*
+| 8 | 2 | | [yellow-background]*Unknown* +
+[yellow-background]*Seen: 0x0000, 0x0003*
 | 10 | 4 | | [yellow-background]*Unknown (flags?)* +
 [yellow-background]*Seen: 0x00000080, 0x00000090*
-| 14 | 24 | | [yellow-background]*Unknown (empty values)*
+| 14 | 4 | | [yellow-background]*Unknown*
+| 18 | 4 | | [yellow-background]*Unknown*
+| 22 | 8 | | [yellow-background]*Unknown (last modified time of folder on server?)* +
+Contains a FILETIME
+| 30 | 4 | | [yellow-background]*Unknown* +
+[yellow-background]*Seen: 0x0755*
+| 34 | 4 | | [yellow-background]*Unknown*
 | 38 | ... | | String +
 ASCII string with end-of-string character +
 Sometimes is 4-byte aligned unused bytes are filled with 0-byte values?

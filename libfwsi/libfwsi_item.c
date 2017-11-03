@@ -51,6 +51,7 @@
 #include "libfwsi_types.h"
 #include "libfwsi_unknown_0x74_values.h"
 #include "libfwsi_uri_values.h"
+#include "libfwsi_uri_sub_values.h"
 #include "libfwsi_users_property_view_values.h"
 #include "libfwsi_volume_values.h"
 
@@ -315,6 +316,7 @@ int libfwsi_item_copy_from_byte_stream(
 {
         libfwsi_internal_extension_block_t *extension_block = NULL;
 	libfwsi_internal_item_t *internal_item              = NULL;
+	libfwsi_internal_item_t *internal_parent_item       = NULL;
 	static char *function                               = "libfwsi_item_copy_from_byte_stream";
 	size_t byte_stream_offset                           = 0;
 	size_t shell_item_data_size                         = 0;
@@ -435,6 +437,20 @@ int libfwsi_item_copy_from_byte_stream(
 		 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 	}
 #endif
+	if( libfwsi_item_get_parent_item(
+	     (libfwsi_item_t *) internal_item,
+	     (libfwsi_item_t **) &internal_parent_item,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve parent shell item.",
+		 function );
+
+		goto on_error;
+	}
 	if( ( internal_item->type == 0 )
 	 && ( internal_item->data_size >= 8 ) )
 	{
@@ -570,7 +586,44 @@ int libfwsi_item_copy_from_byte_stream(
 				break;
 		}
 	}
-	switch( internal_item->type )
+	if( ( internal_parent_item != NULL )
+	 && ( internal_parent_item->type == LIBFWSI_ITEM_TYPE_URI ) )
+	{
+		internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_uri_sub_values_free;
+
+		if( libfwsi_uri_sub_values_initialize(
+		     (libfwsi_uri_sub_values_t **) &( internal_item->value ),
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+			 "%s: unable to create URI sub values.",
+			 function );
+
+			goto on_error;
+		}
+		result = libfwsi_uri_sub_values_read_data(
+		          (libfwsi_uri_sub_values_t *) internal_item->value,
+		          byte_stream,
+		          internal_item->data_size,
+		          ascii_codepage,
+		          error );
+
+		if( result == -1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_IO,
+			 LIBCERROR_IO_ERROR_READ_FAILED,
+			 "%s: unable to read URI sub values.",
+			 function );
+
+			goto on_error;
+		}
+	}
+	else switch( internal_item->type )
 	{
 		case LIBFWSI_ITEM_TYPE_CDBURN:
 			internal_item->signature  = signature;
@@ -1528,6 +1581,75 @@ int libfwsi_item_get_extension_block(
 
 		return( -1 );
 	}
+	return( 1 );
+}
+
+/* Retrieves the parent shell item
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_item_get_parent_item(
+     libfwsi_item_t *item,
+     libfwsi_item_t **parent_item,
+     libcerror_error_t **error )
+{
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_item_get_parent_item";
+
+	if( item == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid item.",
+		 function );
+
+		return( -1 );
+	}
+	internal_item = (libfwsi_internal_item_t *) item;
+
+	if( parent_item == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid parent item.",
+		 function );
+
+		return( -1 );
+	}
+	*parent_item = internal_item->parent_item;
+
+	return( 1 );
+}
+
+/* Sets the parent shell item
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_item_set_parent_item(
+     libfwsi_item_t *item,
+     libfwsi_item_t *parent_item,
+     libcerror_error_t **error )
+{
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_item_set_parent_item";
+
+	if( item == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid item.",
+		 function );
+
+		return( -1 );
+	}
+	internal_item = (libfwsi_internal_item_t *) item;
+
+	internal_item->parent_item = parent_item;
+
 	return( 1 );
 }
 

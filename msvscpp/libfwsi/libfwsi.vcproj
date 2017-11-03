@@ -330,6 +330,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libfwsi\libfwsi_uri_sub_values.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libfwsi\libfwsi_uri_values.c"
 				>
 			</File>
@@ -557,6 +561,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_unused.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_uri_sub_values.h"
 				>
 			</File>
 			<File

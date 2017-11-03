@@ -68,6 +68,10 @@ struct libfwsi_internal_item
 	 */
 	libcdata_array_t *extension_blocks_array;
 
+	/* The parent shell item
+	 */
+	libfwsi_item_t *parent_item;
+
 	/* The codepage of the extended ASCII strings
 	 */
 	int ascii_codepage;
@@ -138,6 +142,16 @@ int libfwsi_item_get_extension_block(
      libfwsi_item_t *item,
      int extension_block_index,
      libfwsi_extension_block_t **extension_block,
+     libcerror_error_t **error );
+
+int libfwsi_item_get_parent_item(
+     libfwsi_item_t *item,
+     libfwsi_item_t **parent_item,
+     libcerror_error_t **error );
+
+int libfwsi_item_set_parent_item(
+     libfwsi_item_t *item,
+     libfwsi_item_t *parent_item,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )
