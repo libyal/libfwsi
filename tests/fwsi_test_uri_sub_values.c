@@ -1,5 +1,5 @@
 /*
- * Library compressed_folder_values type test program
+ * Library uri_sub_values type test program
  *
  * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -33,30 +33,30 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
-#include "../libfwsi/libfwsi_compressed_folder_values.h"
+#include "../libfwsi/libfwsi_uri_sub_values.h"
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
-/* Tests the libfwsi_compressed_folder_values_initialize function
+/* Tests the libfwsi_uri_sub_values_initialize function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_compressed_folder_values_initialize(
+int fwsi_test_uri_sub_values_initialize(
      void )
 {
-	libcerror_error_t *error                                     = NULL;
-	libfwsi_compressed_folder_values_t *compressed_folder_values = NULL;
-	int result                                                   = 0;
+	libcerror_error_t *error                 = NULL;
+	libfwsi_uri_sub_values_t *uri_sub_values = NULL;
+	int result                               = 0;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
-	int number_of_malloc_fail_tests                              = 1;
-	int number_of_memset_fail_tests                              = 1;
-	int test_number                                              = 0;
+	int number_of_malloc_fail_tests          = 1;
+	int number_of_memset_fail_tests          = 1;
+	int test_number                          = 0;
 #endif
 
 	/* Test regular cases
 	 */
-	result = libfwsi_compressed_folder_values_initialize(
-	          &compressed_folder_values,
+	result = libfwsi_uri_sub_values_initialize(
+	          &uri_sub_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -65,15 +65,15 @@ int fwsi_test_compressed_folder_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "compressed_folder_values",
-	 compressed_folder_values );
+	 "uri_sub_values",
+	 uri_sub_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	result = libfwsi_compressed_folder_values_free(
-	          &compressed_folder_values,
+	result = libfwsi_uri_sub_values_free(
+	          &uri_sub_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -82,8 +82,8 @@ int fwsi_test_compressed_folder_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "compressed_folder_values",
-	 compressed_folder_values );
+	 "uri_sub_values",
+	 uri_sub_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -91,7 +91,7 @@ int fwsi_test_compressed_folder_values_initialize(
 
 	/* Test error cases
 	 */
-	result = libfwsi_compressed_folder_values_initialize(
+	result = libfwsi_uri_sub_values_initialize(
 	          NULL,
 	          &error );
 
@@ -107,10 +107,10 @@ int fwsi_test_compressed_folder_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	compressed_folder_values = (libfwsi_compressed_folder_values_t *) 0x12345678UL;
+	uri_sub_values = (libfwsi_uri_sub_values_t *) 0x12345678UL;
 
-	result = libfwsi_compressed_folder_values_initialize(
-	          &compressed_folder_values,
+	result = libfwsi_uri_sub_values_initialize(
+	          &uri_sub_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -125,7 +125,7 @@ int fwsi_test_compressed_folder_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	compressed_folder_values = NULL;
+	uri_sub_values = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -133,22 +133,22 @@ int fwsi_test_compressed_folder_values_initialize(
 	     test_number < number_of_malloc_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_compressed_folder_values_initialize with malloc failing
+		/* Test libfwsi_uri_sub_values_initialize with malloc failing
 		 */
 		fwsi_test_malloc_attempts_before_fail = test_number;
 
-		result = libfwsi_compressed_folder_values_initialize(
-		          &compressed_folder_values,
+		result = libfwsi_uri_sub_values_initialize(
+		          &uri_sub_values,
 		          &error );
 
 		if( fwsi_test_malloc_attempts_before_fail != -1 )
 		{
 			fwsi_test_malloc_attempts_before_fail = -1;
 
-			if( compressed_folder_values != NULL )
+			if( uri_sub_values != NULL )
 			{
-				libfwsi_compressed_folder_values_free(
-				 &compressed_folder_values,
+				libfwsi_uri_sub_values_free(
+				 &uri_sub_values,
 				 NULL );
 			}
 		}
@@ -160,8 +160,8 @@ int fwsi_test_compressed_folder_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "compressed_folder_values",
-			 compressed_folder_values );
+			 "uri_sub_values",
+			 uri_sub_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -175,22 +175,22 @@ int fwsi_test_compressed_folder_values_initialize(
 	     test_number < number_of_memset_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_compressed_folder_values_initialize with memset failing
+		/* Test libfwsi_uri_sub_values_initialize with memset failing
 		 */
 		fwsi_test_memset_attempts_before_fail = test_number;
 
-		result = libfwsi_compressed_folder_values_initialize(
-		          &compressed_folder_values,
+		result = libfwsi_uri_sub_values_initialize(
+		          &uri_sub_values,
 		          &error );
 
 		if( fwsi_test_memset_attempts_before_fail != -1 )
 		{
 			fwsi_test_memset_attempts_before_fail = -1;
 
-			if( compressed_folder_values != NULL )
+			if( uri_sub_values != NULL )
 			{
-				libfwsi_compressed_folder_values_free(
-				 &compressed_folder_values,
+				libfwsi_uri_sub_values_free(
+				 &uri_sub_values,
 				 NULL );
 			}
 		}
@@ -202,8 +202,8 @@ int fwsi_test_compressed_folder_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "compressed_folder_values",
-			 compressed_folder_values );
+			 "uri_sub_values",
+			 uri_sub_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -223,19 +223,19 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( compressed_folder_values != NULL )
+	if( uri_sub_values != NULL )
 	{
-		libfwsi_compressed_folder_values_free(
-		 &compressed_folder_values,
+		libfwsi_uri_sub_values_free(
+		 &uri_sub_values,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libfwsi_compressed_folder_values_free function
+/* Tests the libfwsi_uri_sub_values_free function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_compressed_folder_values_free(
+int fwsi_test_uri_sub_values_free(
      void )
 {
 	libcerror_error_t *error = NULL;
@@ -243,7 +243,7 @@ int fwsi_test_compressed_folder_values_free(
 
 	/* Test error cases
 	 */
-	result = libfwsi_compressed_folder_values_free(
+	result = libfwsi_uri_sub_values_free(
 	          NULL,
 	          &error );
 
@@ -290,14 +290,14 @@ int main(
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	FWSI_TEST_RUN(
-	 "libfwsi_compressed_folder_values_initialize",
-	 fwsi_test_compressed_folder_values_initialize );
+	 "libfwsi_uri_sub_values_initialize",
+	 fwsi_test_uri_sub_values_initialize );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_compressed_folder_values_free",
-	 fwsi_test_compressed_folder_values_free );
+	 "libfwsi_uri_sub_values_free",
+	 fwsi_test_uri_sub_values_free );
 
-	/* TODO: add tests for libfwsi_compressed_folder_values_read_data */
+	/* TODO: add tests for libfwsi_uri_sub_values_read_data */
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

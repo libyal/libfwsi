@@ -28,6 +28,7 @@ MSVSCPP_FILES = \
 	fwsi_test_root_folder_values/fwsi_test_root_folder_values.vcproj \
 	fwsi_test_support/fwsi_test_support.vcproj \
 	fwsi_test_unknown_0x74_values/fwsi_test_unknown_0x74_values.vcproj \
+	fwsi_test_uri_sub_values/fwsi_test_uri_sub_values.vcproj \
 	fwsi_test_uri_values/fwsi_test_uri_values.vcproj \
 	fwsi_test_users_property_view_values/fwsi_test_users_property_view_values.vcproj \
 	fwsi_test_volume_values/fwsi_test_volume_values.vcproj \

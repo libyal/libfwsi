@@ -232,7 +232,7 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* Tests the libfwsi_extension_block_free function
  * Returns 1 if successful or 0 if not
@@ -520,7 +520,7 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -543,7 +543,7 @@ int main(
 	 "libfwsi_extension_block_initialize",
 	 fwsi_test_extension_block_initialize );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	FWSI_TEST_RUN(
 	 "libfwsi_extension_block_free",
@@ -561,7 +561,7 @@ int main(
 	 "libfwsi_extension_block_get_data_size",
 	 fwsi_test_extension_block_get_data_size );
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 

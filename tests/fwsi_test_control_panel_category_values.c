@@ -270,7 +270,7 @@ on_error:
 	return( 0 );
 }
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
  */
@@ -297,9 +297,9 @@ int main(
 	 "libfwsi_control_panel_category_values_free",
 	 fwsi_test_control_panel_category_values_free );
 
-	/* TODO: add tests for libfwsi_control_panel_category_values_read */
+	/* TODO: add tests for libfwsi_control_panel_category_values_read_data */
 
-#endif /* #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 
