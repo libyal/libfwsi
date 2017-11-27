@@ -150,8 +150,8 @@ stamp-h[1-9]
 /tests/fwsi_test_root_folder_values
 /tests/fwsi_test_support
 /tests/fwsi_test_unknown_0x74_values
-/tests/fwsi_test_uri_values
 /tests/fwsi_test_uri_sub_values
+/tests/fwsi_test_uri_values
 /tests/fwsi_test_users_property_view_values
 /tests/fwsi_test_volume_values
 /tests/tmp*

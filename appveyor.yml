@@ -36,6 +36,10 @@ environment:
   - TARGET: mingw
   - TARGET: mingw-w64
 
+matrix:
+  allow_failures:
+  - TARGET: cygwin
+
 install:
 - cmd: git clone https://github.com/codecov/codecov-bash.git ..\codecov-bash
 - cmd: git clone https://github.com/libyal/vstools.git ..\vstools
@@ -102,7 +106,7 @@ test_script:
 - ps: if ($env:TARGET -eq "vs2017") {
     .\runtests.ps1 }
 - cmd: if [%TARGET%]==[cygwin] (
-    C:\cygwin\bin\bash -e -l -c "cd libfwsi && export CHECK_WITH_STRACE=1 && ./runtests.sh" )
+    C:\cygwin\bin\bash -e -l -c "cd libfwsi && ./runtests.sh" )
 - cmd: if [%TARGET%]==[cygwin64] (
     C:\cygwin64\bin\bash -e -l -c "cd libfwsi && ./runtests.sh" )
 - cmd: if [%TARGET%]==[mingw] (
