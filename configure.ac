@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20180118],
+ [20180303],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -44,6 +44,12 @@ AC_SYS_LARGEFILE
 
 dnl Check if WINAPI support should be enabled
 AX_COMMON_CHECK_ENABLE_WINAPI
+
+dnl Check if verbose output should be enabled
+AX_COMMON_CHECK_ENABLE_VERBOSE_OUTPUT
+
+dnl Check if debug output should be enabled
+AX_COMMON_CHECK_ENABLE_DEBUG_OUTPUT
 
 dnl Check for type definitions
 AX_TYPES_CHECK_LOCAL
@@ -106,12 +112,6 @@ AS_IF(
 AM_CONDITIONAL(
   HAVE_PYTHON_TESTS,
   [test "x${ac_cv_enable_python}" != xno || test "x${ac_cv_enable_python2}" != xno || test "x${ac_cv_enable_python3}" != xno])
-
-dnl Check if libfwsi should be build with verbose output
-AX_COMMON_CHECK_ENABLE_VERBOSE_OUTPUT
-
-dnl Check if libfwsi should be build with debug output
-AX_COMMON_CHECK_ENABLE_DEBUG_OUTPUT
 
 dnl Check if tests required headers and functions are available
 AX_TESTS_CHECK_LOCAL
