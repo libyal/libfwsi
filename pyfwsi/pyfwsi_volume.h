@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi volume item
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_VOLUME
  *
  * Copyright (C) 2010-2018, Joachim Metz <joachim.metz@gmail.com>
  *

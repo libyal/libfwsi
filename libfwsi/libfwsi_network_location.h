@@ -35,78 +35,78 @@ extern "C" {
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf8_location_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf8_location(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf16_location_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf16_location(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf8_description_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf8_description(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf16_description_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf16_description(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf8_comments_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf8_comments(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf16_comments_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_network_location_get_utf16_comments(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );

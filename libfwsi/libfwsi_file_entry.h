@@ -35,44 +35,44 @@ extern "C" {
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_file_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *file_entry,
      uint32_t *file_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_modification_time(
-     libfwsi_item_t *item,
-     uint32_t *modification_time,
+     libfwsi_item_t *file_entry,
+     uint32_t *fat_date_time,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_file_attribute_flags(
-     libfwsi_item_t *item,
+     libfwsi_item_t *file_entry,
      uint32_t *file_attribute_flags,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_utf8_name_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *file_entry,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_utf8_name(
-     libfwsi_item_t *item,
+     libfwsi_item_t *file_entry,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_utf16_name_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *file_entry,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_get_utf16_name(
-     libfwsi_item_t *item,
+     libfwsi_item_t *file_entry,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );

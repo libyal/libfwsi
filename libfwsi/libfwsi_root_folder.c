@@ -33,27 +33,27 @@
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_root_folder_get_shell_folder_identifier(
-     libfwsi_item_t *item,
-     uint8_t *shell_folder_identifier,
-     size_t size,
+     libfwsi_item_t *root_folder,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item           = NULL;
 	libfwsi_root_folder_values_t *root_folder_values = NULL;
 	static char *function                            = "libfwsi_root_folder_get_shell_folder_identifier";
 
-	if( item == NULL )
+	if( root_folder == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid root folder.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) root_folder;
 
 	if( internal_item->class_type != 0x1f )
 	{
@@ -72,37 +72,37 @@ int libfwsi_root_folder_get_shell_folder_identifier(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid root folder - missing value.",
 		 function );
 
 		return( -1 );
 	}
 	root_folder_values = (libfwsi_root_folder_values_t *) internal_item->value;
 
-	if( shell_folder_identifier == NULL )
+	if( guid_data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell folder identifier.",
+		 "%s: invalid GUID data.",
 		 function );
 
 		return( -1 );
 	}
-	if( size < 16 )
+	if( guid_data_size < 16 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: shell folder identifier too small.",
+		 "%s: GUID data size too small.",
 		 function );
 
 		return( -1 );
 	}
 	if( memory_copy(
-	     shell_folder_identifier,
+	     guid_data,
 	     root_folder_values->shell_folder_identifier,
 	     16 ) == NULL )
 	{

@@ -34,7 +34,7 @@
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_file_entry_extension_get_creation_time(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint32_t *creation_time,
      libcerror_error_t **error )
 {
@@ -42,18 +42,18 @@ int libfwsi_file_entry_extension_get_creation_time(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_get_creation_time";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -100,7 +100,7 @@ int libfwsi_file_entry_extension_get_creation_time(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_file_entry_extension_get_access_time(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint32_t *access_time,
      libcerror_error_t **error )
 {
@@ -108,18 +108,18 @@ int libfwsi_file_entry_extension_get_access_time(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_get_access_time";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -165,7 +165,7 @@ int libfwsi_file_entry_extension_get_access_time(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_file_reference(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint64_t *file_reference,
      libcerror_error_t **error )
 {
@@ -173,18 +173,18 @@ int libfwsi_file_entry_extension_get_file_reference(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_get_file_reference";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -235,7 +235,7 @@ int libfwsi_file_entry_extension_get_file_reference(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf8_long_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
@@ -243,18 +243,18 @@ int libfwsi_file_entry_extension_get_utf8_long_name_size(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf8_long_name_size";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -308,7 +308,7 @@ int libfwsi_file_entry_extension_get_utf8_long_name_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf8_long_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error )
@@ -317,18 +317,18 @@ int libfwsi_file_entry_extension_get_utf8_long_name(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf8_long_name";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -383,7 +383,7 @@ int libfwsi_file_entry_extension_get_utf8_long_name(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf16_long_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
@@ -391,18 +391,18 @@ int libfwsi_file_entry_extension_get_utf16_long_name_size(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf16_long_name_size";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -456,7 +456,7 @@ int libfwsi_file_entry_extension_get_utf16_long_name_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf16_long_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error )
@@ -465,18 +465,18 @@ int libfwsi_file_entry_extension_get_utf16_long_name(
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf16_long_name";
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -531,7 +531,7 @@ int libfwsi_file_entry_extension_get_utf16_long_name(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf8_localized_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
@@ -540,18 +540,18 @@ int libfwsi_file_entry_extension_get_utf8_localized_name_size(
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf8_localized_name_size";
 	int result                                                         = 0;
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -622,7 +622,7 @@ int libfwsi_file_entry_extension_get_utf8_localized_name_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf8_localized_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error )
@@ -632,18 +632,18 @@ int libfwsi_file_entry_extension_get_utf8_localized_name(
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf8_localized_name";
 	int result                                                         = 0;
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -716,7 +716,7 @@ int libfwsi_file_entry_extension_get_utf8_localized_name(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf16_localized_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
@@ -725,18 +725,18 @@ int libfwsi_file_entry_extension_get_utf16_localized_name_size(
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf16_localized_name_size";
 	int result                                                         = 0;
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{
@@ -807,7 +807,7 @@ int libfwsi_file_entry_extension_get_utf16_localized_name_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf16_localized_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error )
@@ -817,18 +817,18 @@ int libfwsi_file_entry_extension_get_utf16_localized_name(
 	static char *function                                              = "libfwsi_file_entry_extension_get_utf16_localized_name";
 	int result                                                         = 0;
 
-	if( extension_block == NULL )
+	if( file_entry_extension == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block.",
+		 "%s: invalid file entry extension.",
 		 function );
 
 		return( -1 );
 	}
-	internal_extension_block = (libfwsi_internal_extension_block_t *) extension_block;
+	internal_extension_block = (libfwsi_internal_extension_block_t *) file_entry_extension;
 
 	if( internal_extension_block->signature != 0xbeef0004UL )
 	{

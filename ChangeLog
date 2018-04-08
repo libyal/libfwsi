@@ -1,4 +1,5 @@
 TODO
+* rename extension_block to pseudo type name e.g. file_entry_extension
 * Tests
   - remove fwsi_test_item_list_copy_from_byte_stream.c ?
   - add compressed_folder_values data

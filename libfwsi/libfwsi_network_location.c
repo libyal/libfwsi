@@ -34,7 +34,7 @@
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_network_location_get_utf8_location_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
@@ -42,18 +42,18 @@ int libfwsi_network_location_get_utf8_location_size(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf8_location_size";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -72,7 +72,7 @@ int libfwsi_network_location_get_utf8_location_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -102,7 +102,7 @@ int libfwsi_network_location_get_utf8_location_size(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_network_location_get_utf8_location(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error )
@@ -111,18 +111,18 @@ int libfwsi_network_location_get_utf8_location(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf8_location";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -141,7 +141,7 @@ int libfwsi_network_location_get_utf8_location(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -172,7 +172,7 @@ int libfwsi_network_location_get_utf8_location(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_network_location_get_utf16_location_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
@@ -180,18 +180,18 @@ int libfwsi_network_location_get_utf16_location_size(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf16_location_size";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -210,7 +210,7 @@ int libfwsi_network_location_get_utf16_location_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -240,7 +240,7 @@ int libfwsi_network_location_get_utf16_location_size(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_network_location_get_utf16_location(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error )
@@ -249,18 +249,18 @@ int libfwsi_network_location_get_utf16_location(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf16_location";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -279,7 +279,7 @@ int libfwsi_network_location_get_utf16_location(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -310,7 +310,7 @@ int libfwsi_network_location_get_utf16_location(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf8_description_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
@@ -318,18 +318,18 @@ int libfwsi_network_location_get_utf8_description_size(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf8_description_size";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -348,7 +348,7 @@ int libfwsi_network_location_get_utf8_description_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -383,7 +383,7 @@ int libfwsi_network_location_get_utf8_description_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf8_description(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error )
@@ -392,18 +392,18 @@ int libfwsi_network_location_get_utf8_description(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf8_description";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -422,7 +422,7 @@ int libfwsi_network_location_get_utf8_description(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -458,7 +458,7 @@ int libfwsi_network_location_get_utf8_description(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf16_description_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
@@ -466,18 +466,18 @@ int libfwsi_network_location_get_utf16_description_size(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf16_description_size";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -496,7 +496,7 @@ int libfwsi_network_location_get_utf16_description_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -531,7 +531,7 @@ int libfwsi_network_location_get_utf16_description_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf16_description(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error )
@@ -540,18 +540,18 @@ int libfwsi_network_location_get_utf16_description(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf16_description";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -570,7 +570,7 @@ int libfwsi_network_location_get_utf16_description(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -606,7 +606,7 @@ int libfwsi_network_location_get_utf16_description(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf8_comments_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
@@ -614,18 +614,18 @@ int libfwsi_network_location_get_utf8_comments_size(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf8_comments_size";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -644,7 +644,7 @@ int libfwsi_network_location_get_utf8_comments_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -679,7 +679,7 @@ int libfwsi_network_location_get_utf8_comments_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf8_comments(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error )
@@ -688,18 +688,18 @@ int libfwsi_network_location_get_utf8_comments(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf8_comments";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -718,7 +718,7 @@ int libfwsi_network_location_get_utf8_comments(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -754,7 +754,7 @@ int libfwsi_network_location_get_utf8_comments(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf16_comments_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
@@ -762,18 +762,18 @@ int libfwsi_network_location_get_utf16_comments_size(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf16_comments_size";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -792,7 +792,7 @@ int libfwsi_network_location_get_utf16_comments_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );
@@ -827,7 +827,7 @@ int libfwsi_network_location_get_utf16_comments_size(
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_network_location_get_utf16_comments(
-     libfwsi_item_t *item,
+     libfwsi_item_t *network_location,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error )
@@ -836,18 +836,18 @@ int libfwsi_network_location_get_utf16_comments(
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	static char *function                                      = "libfwsi_network_location_get_utf16_comments";
 
-	if( item == NULL )
+	if( network_location == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid network location.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) network_location;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
 	{
@@ -866,7 +866,7 @@ int libfwsi_network_location_get_utf16_comments(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid network location - missing value.",
 		 function );
 
 		return( -1 );

@@ -131,18 +131,8 @@ PyMODINIT_FUNC initpyfwsi(
                 void )
 #endif
 {
-	PyObject *module                               = NULL;
-	PyTypeObject *extension_block_type_object      = NULL;
-	PyTypeObject *extension_blocks_type_object     = NULL;
-	PyTypeObject *file_entry_type_object           = NULL;
-	PyTypeObject *file_entry_extension_type_object = NULL;
-	PyTypeObject *item_type_object                 = NULL;
-	PyTypeObject *item_list_type_object            = NULL;
-	PyTypeObject *items_type_object                = NULL;
-	PyTypeObject *network_location_type_object     = NULL;
-	PyTypeObject *root_folder_type_object          = NULL;
-	PyTypeObject *volume_type_object               = NULL;
-	PyGILState_STATE gil_state                     = 0;
+	PyObject *module           = NULL;
+	PyGILState_STATE gil_state = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	libfwsi_notify_set_stream(
@@ -189,12 +179,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_item_list_type_object );
 
-	item_list_type_object = &pyfwsi_item_list_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "item_list",
-	 (PyObject *) item_list_type_object );
+	 (PyObject *) &pyfwsi_item_list_type_object );
 
 	/* Setup the item type object
 	 */
@@ -208,12 +196,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_item_type_object );
 
-	item_type_object = &pyfwsi_item_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "item",
-	 (PyObject *) item_type_object );
+	 (PyObject *) &pyfwsi_item_type_object );
 
 	/* Setup the items type object
 	 */
@@ -227,12 +213,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_items_type_object );
 
-	items_type_object = &pyfwsi_items_type_object;
-
 	PyModule_AddObject(
 	 module,
-	 "_items",
-	 (PyObject *) items_type_object );
+	 "items",
+	 (PyObject *) &pyfwsi_items_type_object );
 
 	/* Setup the root folder type object
 	 */
@@ -246,12 +230,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_root_folder_type_object );
 
-	root_folder_type_object = &pyfwsi_root_folder_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "root_folder",
-	 (PyObject *) root_folder_type_object );
+	 (PyObject *) &pyfwsi_root_folder_type_object );
 
 	/* Setup the volume type object
 	 */
@@ -265,12 +247,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_volume_type_object );
 
-	volume_type_object = &pyfwsi_volume_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "volume",
-	 (PyObject *) volume_type_object );
+	 (PyObject *) &pyfwsi_volume_type_object );
 
 	/* Setup the file entry type object
 	 */
@@ -284,12 +264,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_file_entry_type_object );
 
-	file_entry_type_object = &pyfwsi_file_entry_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "file_entry",
-	 (PyObject *) file_entry_type_object );
+	 (PyObject *) &pyfwsi_file_entry_type_object );
 
 	/* Setup the network location type object
 	 */
@@ -303,12 +281,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_network_location_type_object );
 
-	network_location_type_object = &pyfwsi_network_location_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "network_location",
-	 (PyObject *) network_location_type_object );
+	 (PyObject *) &pyfwsi_network_location_type_object );
 
 	/* Setup the extension block type object
 	 */
@@ -322,12 +298,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_extension_block_type_object );
 
-	extension_block_type_object = &pyfwsi_extension_block_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "extension_block",
-	 (PyObject *) extension_block_type_object );
+	 (PyObject *) &pyfwsi_extension_block_type_object );
 
 	/* Setup the extension blocks type object
 	 */
@@ -341,12 +315,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_extension_blocks_type_object );
 
-	extension_blocks_type_object = &pyfwsi_extension_blocks_type_object;
-
 	PyModule_AddObject(
 	 module,
-	 "_extension_blocks",
-	 (PyObject *) extension_blocks_type_object );
+	 "extension_blocks",
+	 (PyObject *) &pyfwsi_extension_blocks_type_object );
 
 	/* Setup the file entry extension type object
 	 */
@@ -360,12 +332,10 @@ PyMODINIT_FUNC initpyfwsi(
 	Py_IncRef(
 	 (PyObject *) &pyfwsi_file_entry_extension_type_object );
 
-	file_entry_extension_type_object = &pyfwsi_file_entry_extension_type_object;
-
 	PyModule_AddObject(
 	 module,
 	 "file_entry_extension",
-	 (PyObject *) file_entry_extension_type_object );
+	 (PyObject *) &pyfwsi_file_entry_extension_type_object );
 
 	PyGILState_Release(
 	 gil_state );

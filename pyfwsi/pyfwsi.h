@@ -1,5 +1,5 @@
 /*
- * Python bindings for libfwsi (pyfwsi)
+ * Python bindings module for libfwsi (pyfwsi)
  *
  * Copyright (C) 2010-2018, Joachim Metz <joachim.metz@gmail.com>
  *

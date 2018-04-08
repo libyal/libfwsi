@@ -35,42 +35,42 @@ extern "C" {
 
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf8_name_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf8_name(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf16_name_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf16_name(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_identifier(
-     libfwsi_item_t *item,
-     uint8_t *identifier,
-     size_t size,
+     libfwsi_item_t *volume,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_shell_folder_identifier(
-     libfwsi_item_t *item,
-     uint8_t *shell_folder_identifier,
-     size_t size,
+     libfwsi_item_t *volume,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )

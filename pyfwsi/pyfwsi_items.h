@@ -69,23 +69,23 @@ PyObject *pyfwsi_items_new(
            int number_of_items );
 
 int pyfwsi_items_init(
-     pyfwsi_items_t *items_object );
+     pyfwsi_items_t *sequence_object );
 
 void pyfwsi_items_free(
-      pyfwsi_items_t *items_object );
+      pyfwsi_items_t *sequence_object );
 
 Py_ssize_t pyfwsi_items_len(
-            pyfwsi_items_t *items_object );
+            pyfwsi_items_t *sequence_object );
 
 PyObject *pyfwsi_items_getitem(
-           pyfwsi_items_t *items_object,
+           pyfwsi_items_t *sequence_object,
            Py_ssize_t item_index );
 
 PyObject *pyfwsi_items_iter(
-           pyfwsi_items_t *items_object );
+           pyfwsi_items_t *sequence_object );
 
 PyObject *pyfwsi_items_iternext(
-           pyfwsi_items_t *items_object );
+           pyfwsi_items_t *sequence_object );
 
 #if defined( __cplusplus )
 }

@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi network location item
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_NETWORK_LOCATION
  *
  * Copyright (C) 2010-2018, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -39,23 +39,23 @@ PyMethodDef pyfwsi_network_location_object_methods[] = {
 	{ "get_location",
 	  (PyCFunction) pyfwsi_network_location_get_location,
 	  METH_NOARGS,
-	  "get_location() -> Unicode string or None\n"
+	  "get_location() -> Unicode string\n"
 	  "\n"
-	  "Returns the location of the network location." },
+	  "Retrieves the location." },
 
 	{ "get_description",
 	  (PyCFunction) pyfwsi_network_location_get_description,
 	  METH_NOARGS,
-	  "get_description() -> Unicode string or None\n"
+	  "get_description() -> Unicode string\n"
 	  "\n"
-	  "Returns the description of the network location." },
+	  "Retrieves the description." },
 
 	{ "get_comments",
 	  (PyCFunction) pyfwsi_network_location_get_comments,
 	  METH_NOARGS,
-	  "get_comments() -> Unicode string or None\n"
+	  "get_comments() -> Unicode string\n"
 	  "\n"
-	  "Returns the comments of the network location." },
+	  "Retrieves the comments." },
 
 	/* Sentinel */
 	{ NULL, NULL, 0, NULL }
@@ -66,19 +66,19 @@ PyGetSetDef pyfwsi_network_location_object_get_set_definitions[] = {
 	{ "location",
 	  (getter) pyfwsi_network_location_get_location,
 	  (setter) 0,
-	  "The location of the network location.",
+	  "The location.",
 	  NULL },
 
 	{ "description",
 	  (getter) pyfwsi_network_location_get_description,
 	  (setter) 0,
-	  "The description of the network location.",
+	  "The description.",
 	  NULL },
 
 	{ "comments",
 	  (getter) pyfwsi_network_location_get_comments,
 	  (setter) 0,
-	  "The comments of the network location.",
+	  "The comments.",
 	  NULL },
 
 	/* Sentinel */
@@ -127,7 +127,7 @@ PyTypeObject pyfwsi_network_location_type_object = {
 	/* tp_flags */
 	Py_TPFLAGS_DEFAULT,
 	/* tp_doc */
-	"pyfwsi network_location object (wraps libfwsi_item_t type LIBFWSI_ITEM_TYPE_NETWORK_LOCATION)",
+	"pyfwsi network location object (wraps libfwsi_item_t type LIBFWSI_ITEM_TYPE_NETWORK_LOCATION)",
 	/* tp_traverse */
 	0,
 	/* tp_clear */
@@ -187,12 +187,12 @@ PyObject *pyfwsi_network_location_get_location(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	const char *errors       = NULL;
-	uint8_t *location        = NULL;
 	static char *function    = "pyfwsi_network_location_get_location";
-	size_t location_size     = 0;
+	char *utf8_string        = NULL;
+	size_t utf8_string_size  = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -200,7 +200,7 @@ PyObject *pyfwsi_network_location_get_location(
 	if( pyfwsi_item == NULL )
 	{
 		PyErr_Format(
-		 PyExc_TypeError,
+		 PyExc_ValueError,
 		 "%s: invalid item.",
 		 function );
 
@@ -210,7 +210,7 @@ PyObject *pyfwsi_network_location_get_location(
 
 	result = libfwsi_network_location_get_utf8_location_size(
 	          pyfwsi_item->item,
-	          &location_size,
+	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -220,7 +220,7 @@ PyObject *pyfwsi_network_location_get_location(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve location size.",
+		 "%s: unable to determine size of location as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -229,21 +229,21 @@ PyObject *pyfwsi_network_location_get_location(
 		goto on_error;
 	}
 	else if( ( result == 0 )
-	      || ( location_size == 0 ) )
+	      || ( utf8_string_size == 0 ) )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	location = (uint8_t *) PyMem_Malloc(
-	                        sizeof( uint8_t ) * location_size );
+	utf8_string = (char *) PyMem_Malloc(
+	                        sizeof( char ) * utf8_string_size );
 
-	if( location == NULL )
+	if( utf8_string == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to create location.",
+		 PyExc_MemoryError,
+		 "%s: unable to create UTF-8 string.",
 		 function );
 
 		goto on_error;
@@ -251,10 +251,10 @@ PyObject *pyfwsi_network_location_get_location(
 	Py_BEGIN_ALLOW_THREADS
 
 	result = libfwsi_network_location_get_utf8_location(
-		  pyfwsi_item->item,
-		  location,
-		  location_size,
-		  &error );
+	          pyfwsi_item->item,
+	          (uint8_t *) utf8_string,
+	          utf8_string_size,
+	          &error );
 
 	Py_END_ALLOW_THREADS
 
@@ -263,7 +263,7 @@ PyObject *pyfwsi_network_location_get_location(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve location.",
+		 "%s: unable to retrieve location as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -271,25 +271,33 @@ PyObject *pyfwsi_network_location_get_location(
 
 		goto on_error;
 	}
-	/* Pass the string length to PyUnicode_DecodeUTF8
-	 * otherwise it makes the end of string character is part
-	 * of the string
+	/* Pass the string length to PyUnicode_DecodeUTF8 otherwise it makes
+	 * the end of string character is part of the string
 	 */
 	string_object = PyUnicode_DecodeUTF8(
-			 (char *) location,
-			 (Py_ssize_t) location_size - 1,
-			 errors );
+	                 utf8_string,
+	                 (Py_ssize_t) utf8_string_size - 1,
+	                 errors );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert UTF-8 string into Unicode object.",
+		 function );
+
+		goto on_error;
+	}
 	PyMem_Free(
-	 location );
+	 utf8_string );
 
 	return( string_object );
 
 on_error:
-	if( location != NULL )
+	if( utf8_string != NULL )
 	{
 		PyMem_Free(
-		 location );
+		 utf8_string );
 	}
 	return( NULL );
 }
@@ -301,12 +309,12 @@ PyObject *pyfwsi_network_location_get_description(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	const char *errors       = NULL;
-	uint8_t *description     = NULL;
 	static char *function    = "pyfwsi_network_location_get_description";
-	size_t description_size  = 0;
+	char *utf8_string        = NULL;
+	size_t utf8_string_size  = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -314,7 +322,7 @@ PyObject *pyfwsi_network_location_get_description(
 	if( pyfwsi_item == NULL )
 	{
 		PyErr_Format(
-		 PyExc_TypeError,
+		 PyExc_ValueError,
 		 "%s: invalid item.",
 		 function );
 
@@ -324,7 +332,7 @@ PyObject *pyfwsi_network_location_get_description(
 
 	result = libfwsi_network_location_get_utf8_description_size(
 	          pyfwsi_item->item,
-	          &description_size,
+	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -334,7 +342,7 @@ PyObject *pyfwsi_network_location_get_description(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve description size.",
+		 "%s: unable to determine size of description as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -343,21 +351,21 @@ PyObject *pyfwsi_network_location_get_description(
 		goto on_error;
 	}
 	else if( ( result == 0 )
-	      || ( description_size == 0 ) )
+	      || ( utf8_string_size == 0 ) )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	description = (uint8_t *) PyMem_Malloc(
-	                           sizeof( uint8_t ) * description_size );
+	utf8_string = (char *) PyMem_Malloc(
+	                        sizeof( char ) * utf8_string_size );
 
-	if( description == NULL )
+	if( utf8_string == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to create description.",
+		 PyExc_MemoryError,
+		 "%s: unable to create UTF-8 string.",
 		 function );
 
 		goto on_error;
@@ -365,10 +373,10 @@ PyObject *pyfwsi_network_location_get_description(
 	Py_BEGIN_ALLOW_THREADS
 
 	result = libfwsi_network_location_get_utf8_description(
-		  pyfwsi_item->item,
-		  description,
-		  description_size,
-		  &error );
+	          pyfwsi_item->item,
+	          (uint8_t *) utf8_string,
+	          utf8_string_size,
+	          &error );
 
 	Py_END_ALLOW_THREADS
 
@@ -377,7 +385,7 @@ PyObject *pyfwsi_network_location_get_description(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve description.",
+		 "%s: unable to retrieve description as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -385,25 +393,33 @@ PyObject *pyfwsi_network_location_get_description(
 
 		goto on_error;
 	}
-	/* Pass the string length to PyUnicode_DecodeUTF8
-	 * otherwise it makes the end of string character is part
-	 * of the string
+	/* Pass the string length to PyUnicode_DecodeUTF8 otherwise it makes
+	 * the end of string character is part of the string
 	 */
 	string_object = PyUnicode_DecodeUTF8(
-			 (char *) description,
-			 (Py_ssize_t) description_size - 1,
-			 errors );
+	                 utf8_string,
+	                 (Py_ssize_t) utf8_string_size - 1,
+	                 errors );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert UTF-8 string into Unicode object.",
+		 function );
+
+		goto on_error;
+	}
 	PyMem_Free(
-	 description );
+	 utf8_string );
 
 	return( string_object );
 
 on_error:
-	if( description != NULL )
+	if( utf8_string != NULL )
 	{
 		PyMem_Free(
-		 description );
+		 utf8_string );
 	}
 	return( NULL );
 }
@@ -415,12 +431,12 @@ PyObject *pyfwsi_network_location_get_comments(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	const char *errors       = NULL;
-	uint8_t *comments        = NULL;
 	static char *function    = "pyfwsi_network_location_get_comments";
-	size_t comments_size     = 0;
+	char *utf8_string        = NULL;
+	size_t utf8_string_size  = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -428,7 +444,7 @@ PyObject *pyfwsi_network_location_get_comments(
 	if( pyfwsi_item == NULL )
 	{
 		PyErr_Format(
-		 PyExc_TypeError,
+		 PyExc_ValueError,
 		 "%s: invalid item.",
 		 function );
 
@@ -438,7 +454,7 @@ PyObject *pyfwsi_network_location_get_comments(
 
 	result = libfwsi_network_location_get_utf8_comments_size(
 	          pyfwsi_item->item,
-	          &comments_size,
+	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -448,7 +464,7 @@ PyObject *pyfwsi_network_location_get_comments(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve comments size.",
+		 "%s: unable to determine size of comments as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -457,21 +473,21 @@ PyObject *pyfwsi_network_location_get_comments(
 		goto on_error;
 	}
 	else if( ( result == 0 )
-	      || ( comments_size == 0 ) )
+	      || ( utf8_string_size == 0 ) )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	comments = (uint8_t *) PyMem_Malloc(
-	                        sizeof( uint8_t ) * comments_size );
+	utf8_string = (char *) PyMem_Malloc(
+	                        sizeof( char ) * utf8_string_size );
 
-	if( comments == NULL )
+	if( utf8_string == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to create comments.",
+		 PyExc_MemoryError,
+		 "%s: unable to create UTF-8 string.",
 		 function );
 
 		goto on_error;
@@ -479,10 +495,10 @@ PyObject *pyfwsi_network_location_get_comments(
 	Py_BEGIN_ALLOW_THREADS
 
 	result = libfwsi_network_location_get_utf8_comments(
-		  pyfwsi_item->item,
-		  comments,
-		  comments_size,
-		  &error );
+	          pyfwsi_item->item,
+	          (uint8_t *) utf8_string,
+	          utf8_string_size,
+	          &error );
 
 	Py_END_ALLOW_THREADS
 
@@ -491,7 +507,7 @@ PyObject *pyfwsi_network_location_get_comments(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve comments.",
+		 "%s: unable to retrieve comments as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -499,25 +515,33 @@ PyObject *pyfwsi_network_location_get_comments(
 
 		goto on_error;
 	}
-	/* Pass the string length to PyUnicode_DecodeUTF8
-	 * otherwise it makes the end of string character is part
-	 * of the string
+	/* Pass the string length to PyUnicode_DecodeUTF8 otherwise it makes
+	 * the end of string character is part of the string
 	 */
 	string_object = PyUnicode_DecodeUTF8(
-			 (char *) comments,
-			 (Py_ssize_t) comments_size - 1,
-			 errors );
+	                 utf8_string,
+	                 (Py_ssize_t) utf8_string_size - 1,
+	                 errors );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert UTF-8 string into Unicode object.",
+		 function );
+
+		goto on_error;
+	}
 	PyMem_Free(
-	 comments );
+	 utf8_string );
 
 	return( string_object );
 
 on_error:
-	if( comments != NULL )
+	if( utf8_string != NULL )
 	{
 		PyMem_Free(
-		 comments );
+		 utf8_string );
 	}
 	return( NULL );
 }

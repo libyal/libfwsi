@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi root folder item
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_ROOT_FOLDER
  *
  * Copyright (C) 2010-2018, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -40,9 +40,9 @@ PyMethodDef pyfwsi_root_folder_object_methods[] = {
 	{ "get_shell_folder_identifier",
 	  (PyCFunction) pyfwsi_root_folder_get_shell_folder_identifier,
 	  METH_NOARGS,
-	  "get_shell_folder_identifier() -> Unicode string or None\n"
+	  "get_shell_folder_identifier() -> Unicode string\n"
 	  "\n"
-	  "Retrieves the shell folder identifier (GUID)." },
+	  "Retrieves the shell folder identifier." },
 
 	/* Sentinel */
 	{ NULL, NULL, 0, NULL }
@@ -164,8 +164,8 @@ PyObject *pyfwsi_root_folder_get_shell_folder_identifier(
 {
 	uint8_t guid_data[ 16 ];
 
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	static char *function    = "pyfwsi_root_folder_get_shell_folder_identifier";
 	int result               = 0;
 
@@ -190,7 +190,7 @@ PyObject *pyfwsi_root_folder_get_shell_folder_identifier(
 
 	Py_END_ALLOW_THREADS
 
-	if( result == -1 )
+	if( result != 1 )
 	{
 		pyfwsi_error_raise(
 		 error,
@@ -204,9 +204,18 @@ PyObject *pyfwsi_root_folder_get_shell_folder_identifier(
 		return( NULL );
 	}
 	string_object = pyfwsi_string_new_from_guid(
-			 guid_data,
-			 16 );
+	                 guid_data,
+	                 16 );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert GUID into Unicode object.",
+		 function );
+
+		return( NULL );
+	}
 	return( string_object );
 }
 

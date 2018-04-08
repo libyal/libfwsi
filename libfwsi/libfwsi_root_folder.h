@@ -35,9 +35,9 @@ extern "C" {
 
 LIBFWSI_EXTERN \
 int libfwsi_root_folder_get_shell_folder_identifier(
-     libfwsi_item_t *item,
-     uint8_t *shell_folder_identifier,
-     size_t size,
+     libfwsi_item_t *root_folder,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )

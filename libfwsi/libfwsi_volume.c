@@ -34,7 +34,7 @@
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_volume_get_utf8_name_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
@@ -42,18 +42,18 @@ int libfwsi_volume_get_utf8_name_size(
 	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf8_name_size";
 
-	if( item == NULL )
+	if( volume == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid volume.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) volume;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
 	{
@@ -72,7 +72,7 @@ int libfwsi_volume_get_utf8_name_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid volume - missing value.",
 		 function );
 
 		return( -1 );
@@ -102,7 +102,7 @@ int libfwsi_volume_get_utf8_name_size(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_volume_get_utf8_name(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error )
@@ -111,18 +111,18 @@ int libfwsi_volume_get_utf8_name(
 	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf8_name";
 
-	if( item == NULL )
+	if( volume == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid volume.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) volume;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
 	{
@@ -141,7 +141,7 @@ int libfwsi_volume_get_utf8_name(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid volume - missing value.",
 		 function );
 
 		return( -1 );
@@ -172,7 +172,7 @@ int libfwsi_volume_get_utf8_name(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_volume_get_utf16_name_size(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
@@ -180,18 +180,18 @@ int libfwsi_volume_get_utf16_name_size(
 	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf16_name_size";
 
-	if( item == NULL )
+	if( volume == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid volume.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) volume;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
 	{
@@ -210,7 +210,7 @@ int libfwsi_volume_get_utf16_name_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid volume - missing value.",
 		 function );
 
 		return( -1 );
@@ -240,7 +240,7 @@ int libfwsi_volume_get_utf16_name_size(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_volume_get_utf16_name(
-     libfwsi_item_t *item,
+     libfwsi_item_t *volume,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error )
@@ -249,18 +249,18 @@ int libfwsi_volume_get_utf16_name(
 	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf16_name";
 
-	if( item == NULL )
+	if( volume == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid volume.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) volume;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
 	{
@@ -279,7 +279,7 @@ int libfwsi_volume_get_utf16_name(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid volume - missing value.",
 		 function );
 
 		return( -1 );
@@ -311,27 +311,27 @@ int libfwsi_volume_get_utf16_name(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_volume_get_identifier(
-     libfwsi_item_t *item,
-     uint8_t *identifier,
-     size_t size,
+     libfwsi_item_t *volume,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
 	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_identifier";
 
-	if( item == NULL )
+	if( volume == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid volume.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) volume;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
 	{
@@ -350,37 +350,37 @@ int libfwsi_volume_get_identifier(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid volume - missing value.",
 		 function );
 
 		return( -1 );
 	}
 	volume_values = (libfwsi_volume_values_t *) internal_item->value;
 
-	if( identifier == NULL )
+	if( guid_data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid identifier.",
+		 "%s: invalid GUID data.",
 		 function );
 
 		return( -1 );
 	}
-	if( size < 16 )
+	if( guid_data_size < 16 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: identifier too small.",
+		 "%s: GUID data size too small.",
 		 function );
 
 		return( -1 );
 	}
 	if( memory_copy(
-	     identifier,
+	     guid_data,
 	     volume_values->identifier,
 	     16 ) == NULL )
 	{
@@ -401,27 +401,27 @@ int libfwsi_volume_get_identifier(
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_volume_get_shell_folder_identifier(
-     libfwsi_item_t *item,
-     uint8_t *shell_folder_identifier,
-     size_t size,
+     libfwsi_item_t *volume,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
 	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_shell_folder_identifier";
 
-	if( item == NULL )
+	if( volume == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item.",
+		 "%s: invalid volume.",
 		 function );
 
 		return( -1 );
 	}
-	internal_item = (libfwsi_internal_item_t *) item;
+	internal_item = (libfwsi_internal_item_t *) volume;
 
 	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
 	{
@@ -440,37 +440,37 @@ int libfwsi_volume_get_shell_folder_identifier(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid item - missing value.",
+		 "%s: invalid volume - missing value.",
 		 function );
 
 		return( -1 );
 	}
 	volume_values = (libfwsi_volume_values_t *) internal_item->value;
 
-	if( shell_folder_identifier == NULL )
+	if( guid_data == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid shell folder identifier.",
+		 "%s: invalid GUID data.",
 		 function );
 
 		return( -1 );
 	}
-	if( size < 16 )
+	if( guid_data_size < 16 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: shell folder identifier too small.",
+		 "%s: GUID data size too small.",
 		 function );
 
 		return( -1 );
 	}
 	if( memory_copy(
-	     shell_folder_identifier,
+	     guid_data,
 	     volume_values->shell_folder_identifier,
 	     16 ) == NULL )
 	{

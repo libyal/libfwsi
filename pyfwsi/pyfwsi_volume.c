@@ -1,5 +1,5 @@
 /*
- * Python object definition of the libfwsi volume item
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_VOLUME
  *
  * Copyright (C) 2010-2018, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -32,31 +32,31 @@
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
-#include "pyfwsi_volume.h"
 #include "pyfwsi_unused.h"
+#include "pyfwsi_volume.h"
 
 PyMethodDef pyfwsi_volume_object_methods[] = {
 
 	{ "get_name",
 	  (PyCFunction) pyfwsi_volume_get_name,
 	  METH_NOARGS,
-	  "get_name() -> Unicode string or None\n"
+	  "get_name() -> Unicode string\n"
 	  "\n"
-	  "Returns the name of the volume." },
+	  "Retrieves the name." },
 
 	{ "get_identifier",
 	  (PyCFunction) pyfwsi_volume_get_identifier,
 	  METH_NOARGS,
 	  "get_identifier() -> Unicode string\n"
 	  "\n"
-	  "Retrieves the identifier (GUID)." },
+	  "Retrieves the identifier." },
 
 	{ "get_shell_folder_identifier",
 	  (PyCFunction) pyfwsi_volume_get_shell_folder_identifier,
 	  METH_NOARGS,
 	  "get_shell_folder_identifier() -> Unicode string\n"
 	  "\n"
-	  "Retrieves the shell folder identifier (GUID)." },
+	  "Retrieves the shell folder identifier." },
 
 	/* Sentinel */
 	{ NULL, NULL, 0, NULL }
@@ -67,19 +67,19 @@ PyGetSetDef pyfwsi_volume_object_get_set_definitions[] = {
 	{ "name",
 	  (getter) pyfwsi_volume_get_name,
 	  (setter) 0,
-	  "The name of the volume.",
+	  "The name.",
 	  NULL },
 
 	{ "identifier",
 	  (getter) pyfwsi_volume_get_identifier,
 	  (setter) 0,
-	  "The identifier (GUID).",
+	  "The identifier.",
 	  NULL },
 
 	{ "shell_folder_identifier",
 	  (getter) pyfwsi_volume_get_shell_folder_identifier,
 	  (setter) 0,
-	  "The shell folder identifier (GUID).",
+	  "The shell folder identifier.",
 	  NULL },
 
 	/* Sentinel */
@@ -188,12 +188,12 @@ PyObject *pyfwsi_volume_get_name(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	const char *errors       = NULL;
-	uint8_t *name            = NULL;
 	static char *function    = "pyfwsi_volume_get_name";
-	size_t name_size         = 0;
+	char *utf8_string        = NULL;
+	size_t utf8_string_size  = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -201,7 +201,7 @@ PyObject *pyfwsi_volume_get_name(
 	if( pyfwsi_item == NULL )
 	{
 		PyErr_Format(
-		 PyExc_TypeError,
+		 PyExc_ValueError,
 		 "%s: invalid item.",
 		 function );
 
@@ -211,7 +211,7 @@ PyObject *pyfwsi_volume_get_name(
 
 	result = libfwsi_volume_get_utf8_name_size(
 	          pyfwsi_item->item,
-	          &name_size,
+	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -221,7 +221,7 @@ PyObject *pyfwsi_volume_get_name(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve name size.",
+		 "%s: unable to determine size of name as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -230,21 +230,21 @@ PyObject *pyfwsi_volume_get_name(
 		goto on_error;
 	}
 	else if( ( result == 0 )
-	      || ( name_size == 0 ) )
+	      || ( utf8_string_size == 0 ) )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	name = (uint8_t *) PyMem_Malloc(
-	                    sizeof( uint8_t ) * name_size );
+	utf8_string = (char *) PyMem_Malloc(
+	                        sizeof( char ) * utf8_string_size );
 
-	if( name == NULL )
+	if( utf8_string == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to create name.",
+		 PyExc_MemoryError,
+		 "%s: unable to create UTF-8 string.",
 		 function );
 
 		goto on_error;
@@ -252,10 +252,10 @@ PyObject *pyfwsi_volume_get_name(
 	Py_BEGIN_ALLOW_THREADS
 
 	result = libfwsi_volume_get_utf8_name(
-		  pyfwsi_item->item,
-		  name,
-		  name_size,
-		  &error );
+	          pyfwsi_item->item,
+	          (uint8_t *) utf8_string,
+	          utf8_string_size,
+	          &error );
 
 	Py_END_ALLOW_THREADS
 
@@ -264,7 +264,7 @@ PyObject *pyfwsi_volume_get_name(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve name.",
+		 "%s: unable to retrieve name as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -272,25 +272,33 @@ PyObject *pyfwsi_volume_get_name(
 
 		goto on_error;
 	}
-	/* Pass the string length to PyUnicode_DecodeUTF8
-	 * otherwise it makes the end of string character is part
-	 * of the string
+	/* Pass the string length to PyUnicode_DecodeUTF8 otherwise it makes
+	 * the end of string character is part of the string
 	 */
 	string_object = PyUnicode_DecodeUTF8(
-			 (char *) name,
-			 (Py_ssize_t) name_size - 1,
-			 errors );
+	                 utf8_string,
+	                 (Py_ssize_t) utf8_string_size - 1,
+	                 errors );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert UTF-8 string into Unicode object.",
+		 function );
+
+		goto on_error;
+	}
 	PyMem_Free(
-	 name );
+	 utf8_string );
 
 	return( string_object );
 
 on_error:
-	if( name != NULL )
+	if( utf8_string != NULL )
 	{
 		PyMem_Free(
-		 name );
+		 utf8_string );
 	}
 	return( NULL );
 }
@@ -304,8 +312,8 @@ PyObject *pyfwsi_volume_get_identifier(
 {
 	uint8_t guid_data[ 16 ];
 
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	static char *function    = "pyfwsi_volume_get_identifier";
 	int result               = 0;
 
@@ -344,9 +352,18 @@ PyObject *pyfwsi_volume_get_identifier(
 		return( NULL );
 	}
 	string_object = pyfwsi_string_new_from_guid(
-			 guid_data,
-			 16 );
+	                 guid_data,
+	                 16 );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert GUID into Unicode object.",
+		 function );
+
+		return( NULL );
+	}
 	return( string_object );
 }
 
@@ -359,8 +376,8 @@ PyObject *pyfwsi_volume_get_shell_folder_identifier(
 {
 	uint8_t guid_data[ 16 ];
 
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
 	static char *function    = "pyfwsi_volume_get_shell_folder_identifier";
 	int result               = 0;
 
@@ -399,9 +416,18 @@ PyObject *pyfwsi_volume_get_shell_folder_identifier(
 		return( NULL );
 	}
 	string_object = pyfwsi_string_new_from_guid(
-			 guid_data,
-			 16 );
+	                 guid_data,
+	                 16 );
 
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert GUID into Unicode object.",
+		 function );
+
+		return( NULL );
+	}
 	return( string_object );
 }
 

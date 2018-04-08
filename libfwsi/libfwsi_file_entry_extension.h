@@ -35,70 +35,70 @@ extern "C" {
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_creation_time(
-     libfwsi_extension_block_t *extension_block,
-     uint32_t *creation_time,
+     libfwsi_extension_block_t *file_entry_extension,
+     uint32_t *fat_date_time,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_access_time(
-     libfwsi_extension_block_t *extension_block,
-     uint32_t *access_time,
+     libfwsi_extension_block_t *file_entry_extension,
+     uint32_t *fat_date_time,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_file_reference(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint64_t *file_reference,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf8_long_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf8_long_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf16_long_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf16_long_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf8_localized_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf8_localized_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint8_t *utf8_string,
      size_t utf8_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf16_localized_name_size(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      size_t *utf16_string_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
 int libfwsi_file_entry_extension_get_utf16_localized_name(
-     libfwsi_extension_block_t *extension_block,
+     libfwsi_extension_block_t *file_entry_extension,
      uint16_t *utf16_string,
      size_t utf16_string_size,
      libcerror_error_t **error );
