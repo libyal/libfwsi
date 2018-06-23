@@ -477,7 +477,7 @@ int libfwsi_file_entry_values_read_data(
 			{
 				if( libfwsi_debug_print_utf16_string_value(
 				     function,
-				     "secondary name\t\t\t\t",
+				     "secondary name\t\t\t",
 				     &( data[ data_offset ] ),
 				     string_size,
 				     LIBUNA_ENDIAN_LITTLE,
@@ -497,7 +497,7 @@ int libfwsi_file_entry_values_read_data(
 			{
 				if( libfwsi_debug_print_string_value(
 				     function,
-				     "secondary name\t\t\t\t",
+				     "secondary name\t\t\t",
 				     &( data[ data_offset ] ),
 				     string_size,
 				     ascii_codepage,

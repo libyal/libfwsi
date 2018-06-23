@@ -267,6 +267,12 @@ int libfwsi_extension_block_copy_from_byte_stream(
 	{
 		return( 0 );
 	}
+	/* Do not try to parse unsupported byte stream sizes
+	 */
+	if( byte_stream_size < 6 )
+	{
+		return( 0 );
+	}
 	byte_stream_copy_to_uint32_little_endian(
 	 &( byte_stream[ 4 ] ),
 	 signature );

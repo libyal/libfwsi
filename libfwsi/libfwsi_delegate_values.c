@@ -213,12 +213,12 @@ int libfwsi_delegate_values_read_data(
 		 data[ 2 ] );
 
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 
 		libcnotify_printf(
-		 "%s: delegate item data size\t\t\t: %" PRIu16 "\n",
+		 "%s: delegate item data size\t\t: %" PRIu16 "\n",
 		 function,
 		 item_data_size );
 	}
@@ -257,7 +257,7 @@ int libfwsi_delegate_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "delegate item class identifier\t\t",
+		     "delegate item class identifier\t",
 		     &( data[ data_offset ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -282,7 +282,7 @@ int libfwsi_delegate_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "item class identifier\t\t\t",
+		     "item class identifier\t\t",
 		     &( data[ data_offset ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -299,7 +299,7 @@ int libfwsi_delegate_values_read_data(
 			return( -1 );
 		}
 		libcnotify_printf(
-		 "%s: shell folder name\t\t\t\t: %s\n",
+		 "%s: shell folder name\t\t\t: %s\n",
 		 function,
 		 libfwsi_shell_folder_identifier_get_name(
 		  &( data[ data_offset ] ) ) );
