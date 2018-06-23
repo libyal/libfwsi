@@ -414,7 +414,7 @@ int libfwsi_item_copy_from_byte_stream(
 		return( 1 );
 	}
 	if( ( internal_item->data_size < 4 )
-	 && ( (size_t) internal_item->data_size > byte_stream_size ) )
+	 || ( (size_t) internal_item->data_size > byte_stream_size ) )
 	{
 		libcerror_error_set(
 		 error,
