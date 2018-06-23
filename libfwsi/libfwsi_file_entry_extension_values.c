@@ -290,6 +290,12 @@ int libfwsi_file_entry_extension_values_read_data(
 
 	if( version >= 7 )
 	{
+		/* Do not try to parse unsupported data sizes
+		 */
+		if( data_offset >= ( data_size - 18 ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -345,6 +351,12 @@ int libfwsi_file_entry_extension_values_read_data(
 #endif
 		data_offset += 8;
 	}
+	/* Do not try to parse unsupported data sizes
+	 */
+	if( data_offset >= ( data_size - 2 ) )
+	{
+		return( 0 );
+	}
 	byte_stream_copy_to_uint16_little_endian(
 	 &( data[ data_offset ] ),
 	 long_string_size );
@@ -362,6 +374,12 @@ int libfwsi_file_entry_extension_values_read_data(
 
 	if( version >= 9 )
 	{
+		/* Do not try to parse unsupported data sizes
+		 */
+		if( data_offset >= ( data_size - 4 ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -378,6 +396,12 @@ int libfwsi_file_entry_extension_values_read_data(
 	}
 	if( version >= 8 )
 	{
+		/* Do not try to parse unsupported data sizes
+		 */
+		if( data_offset >= ( data_size - 4 ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -391,6 +415,12 @@ int libfwsi_file_entry_extension_values_read_data(
 		}
 #endif
 		data_offset += 4;
+	}
+	/* Do not try to parse unsupported data sizes
+	 */
+	if( data_offset >= data_size )
+	{
+		return( 0 );
 	}
 	/* Determine the long name size
 	 */
@@ -464,6 +494,12 @@ int libfwsi_file_entry_extension_values_read_data(
 
 	if( long_string_size > 0 )
 	{
+		/* Do not try to parse unsupported data sizes
+		 */
+		if( data_offset >= data_size )
+		{
+			return( 0 );
+		}
 		if( version >= 7 )
 		{
 			/* Determine the localized name size

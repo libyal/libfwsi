@@ -226,12 +226,12 @@ int libfwsi_network_location_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: unknown0\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: unknown0\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 
 		libcnotify_printf(
-		 "%s: flags\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: flags\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 flags );
 	}
@@ -288,7 +288,7 @@ int libfwsi_network_location_values_read_data(
 	{
 		if( libfwsi_debug_print_string_value(
 		     function,
-		     "network location\t\t\t",
+		     "network location\t\t",
 		     network_location_values->location,
 		     network_location_values->location_size,
 		     ascii_codepage,
@@ -432,7 +432,7 @@ int libfwsi_network_location_values_read_data(
 		{
 			if( libfwsi_debug_print_string_value(
 			     function,
-			     "network comments\t\t\t",
+			     "network comments\t\t",
 			     network_location_values->comments,
 			     network_location_values->comments_size,
 			     ascii_codepage,
@@ -461,7 +461,7 @@ int libfwsi_network_location_values_read_data(
 			 value_16bit );
 
 			libcnotify_printf(
-			 "%s: unknown1\t\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: unknown1\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 		}
