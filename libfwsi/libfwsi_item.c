@@ -589,6 +589,8 @@ int libfwsi_item_copy_from_byte_stream(
 	if( ( internal_parent_item != NULL )
 	 && ( internal_parent_item->type == LIBFWSI_ITEM_TYPE_URI ) )
 	{
+		internal_item->type = LIBFWSI_ITEM_TYPE_URI_SUB_VALUES;
+
 		internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_uri_sub_values_free;
 
 		if( libfwsi_uri_sub_values_initialize(
