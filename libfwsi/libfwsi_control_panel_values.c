@@ -194,7 +194,7 @@ int libfwsi_control_panel_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: unknown1\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 
@@ -208,7 +208,7 @@ int libfwsi_control_panel_values_read_data(
 
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "control panel identifier\t\t",
+		     "control panel identifier\t",
 		     &( data[ 14 ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -225,7 +225,7 @@ int libfwsi_control_panel_values_read_data(
 			return( -1 );
 		}
 		libcnotify_printf(
-		 "%s: control panel name\t\t\t: %s\n",
+		 "%s: control panel name\t\t: %s\n",
 		 function,
 		 libfwsi_control_panel_identifier_get_name(
 		  &( data[ 14 ] ) ) );

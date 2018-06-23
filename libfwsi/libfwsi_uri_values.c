@@ -225,7 +225,7 @@ int libfwsi_uri_values_read_data(
 
 	if( item_data_size > 0 )
 	{
-		if( item_data_size > ( data_size - 4 ) )
+		if( item_data_size > ( data_size - 6 ) )
 		{
 			libcerror_error_set(
 			 error,
@@ -256,7 +256,7 @@ int libfwsi_uri_values_read_data(
 		 "\n" );
 	}
 #endif
-	if( item_data_size >= 40 )
+	if( item_data_size >= 36 )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -323,20 +323,44 @@ int libfwsi_uri_values_read_data(
 		data_offset    += 36;
 		item_data_size -= 36;
 
+		if( data_offset >= ( data_size - 4 ) )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
 		byte_stream_copy_to_uint32_little_endian(
 		 &( data[ data_offset ] ),
 		 string_data_size );
 
-		data_offset    += 4;
-		item_data_size -= 4;
+		data_offset += 4;
 
-		if( string_data_size > item_data_size )
+		if( ( item_data_size < 4 )
+		 || ( string_data_size > (uint32_t) ( item_data_size - 4 ) ) )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
 			 "%s: invalid string1 data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
+		item_data_size -= 4;
+
+		if( data_offset >= data_size )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
 			 function );
 
 			return( -1 );
@@ -361,20 +385,44 @@ int libfwsi_uri_values_read_data(
 		data_offset    += string_data_size;
 		item_data_size -= string_data_size;
 
+		if( data_offset >= ( data_size - 4 ) )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
 		byte_stream_copy_to_uint32_little_endian(
 		 &( data[ data_offset ] ),
 		 string_data_size );
 
-		data_offset    += 4;
-		item_data_size -= 4;
+		data_offset += 4;
 
-		if( string_data_size > item_data_size )
+		if( ( item_data_size < 4 )
+		 || ( string_data_size > (uint32_t) ( item_data_size - 4 ) ) )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
 			 "%s: invalid string2 data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
+		item_data_size -= 4;
+
+		if( data_offset >= data_size )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
 			 function );
 
 			return( -1 );
@@ -399,20 +447,44 @@ int libfwsi_uri_values_read_data(
 		data_offset    += string_data_size;
 		item_data_size -= string_data_size;
 
+		if( data_offset >= ( data_size - 4 ) )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
 		byte_stream_copy_to_uint32_little_endian(
 		 &( data[ data_offset ] ),
 		 string_data_size );
 
-		data_offset    += 4;
-		item_data_size -= 4;
+		data_offset += 4;
 
-		if( string_data_size > item_data_size )
+		if( ( item_data_size < 4 )
+		 || ( string_data_size > (uint32_t) ( item_data_size - 4 ) ) )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
 			 "%s: invalid string3 data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
+		item_data_size -= 4;
+
+		if( data_offset >= data_size )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
 			 function );
 
 			return( -1 );
@@ -456,6 +528,17 @@ int libfwsi_uri_values_read_data(
 		}
 #endif
 		data_offset += item_data_size;
+	}
+	if( data_offset >= data_size )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid data size value out of bounds.",
+		 function );
+
+		return( -1 );
 	}
 	/* Determine the URI size
 	 */
@@ -540,6 +623,17 @@ int libfwsi_uri_values_read_data(
 /* TODO value likely controlled by flags */
 	if( data_offset < data_size )
 	{
+		if( data_offset >= ( data_size - 2 ) )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid data size value out of bounds.",
+			 function );
+
+			return( -1 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
