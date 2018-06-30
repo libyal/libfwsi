@@ -219,16 +219,6 @@ PyObject *pyfwsi_extension_block_new(
 
 		goto on_error;
 	}
-	if( pyfwsi_extension_block_init(
-	     pyfwsi_extension_block ) != 0 )
-	{
-		PyErr_Format(
-		 PyExc_MemoryError,
-		 "%s: unable to initialize extension block.",
-		 function );
-
-		goto on_error;
-	}
 	pyfwsi_extension_block->extension_block = extension_block;
 	pyfwsi_extension_block->parent_object   = parent_object;
 
