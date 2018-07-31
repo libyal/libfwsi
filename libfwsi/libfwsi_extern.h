@@ -28,17 +28,13 @@
  */
 #if !defined( HAVE_LOCAL_LIBFWSI )
 
-/* If libtool DLL support is enabled set LIBFWSI_DLL_EXPORT
- * before including libfwsi/extern.h
- */
-#if defined( _WIN32 ) && defined( DLL_EXPORT )
-#define LIBFWSI_DLL_EXPORT
-#endif
-
 #include <libfwsi/extern.h>
 
+#define LIBFWSI_EXTERN_VARIABLE	LIBFWSI_EXTERN
+
 #else
-#define LIBFWSI_EXTERN	/* extern */
+#define LIBFWSI_EXTERN		/* extern */
+#define LIBFWSI_EXTERN_VARIABLE	extern
 
 #endif /* !defined( HAVE_LOCAL_LIBFWSI ) */
 

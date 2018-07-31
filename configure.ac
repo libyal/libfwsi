@@ -2,7 +2,7 @@ AC_PREREQ( 2.59 )
 
 AC_INIT(
  [libfwsi],
- [20180630],
+ [20180731],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -91,27 +91,20 @@ dnl Check if libfwsi required headers and functions are available
 AX_LIBFWSI_CHECK_LOCAL
 
 dnl Check if libfwsi Python bindings (pyfwsi) required headers and functions are available
-AX_PYTHON_CHECK_PYPREFIX
 AX_PYTHON_CHECK_ENABLE
-AX_PYTHON2_CHECK_ENABLE
-AX_PYTHON3_CHECK_ENABLE
 
 AS_IF(
   [test "x${ac_cv_enable_python}" != xno || test "x${ac_cv_enable_python2}" != xno || test "x${ac_cv_enable_python3}" != xno],
-  [dnl Headers included in pyfwsi/pyfwsi_error.c
-  AC_CHECK_HEADERS([stdarg.h varargs.h])
+  [AC_CHECK_HEADERS([stdarg.h varargs.h])
 
   AS_IF(
     [test "x$ac_cv_header_stdarg_h" != xyes && test "x$ac_cv_header_varargs_h" != xyes],
-    [AC_MSG_FAILURE(
+    [dnl Headers included in pyfwsi/pyfwsi_error.c
+    AC_MSG_FAILURE(
       [Missing headers: stdarg.h and varargs.h],
       [1])
     ])
   ])
-
-AM_CONDITIONAL(
-  HAVE_PYTHON_TESTS,
-  [test "x${ac_cv_enable_python}" != xno || test "x${ac_cv_enable_python2}" != xno || test "x${ac_cv_enable_python3}" != xno])
 
 dnl Check if tests required headers and functions are available
 AX_TESTS_CHECK_LOCAL
@@ -121,7 +114,7 @@ AS_IF(
  [test "x$enable_shared" = xyes],
  [AS_CASE(
   [$host],
-  [*cygwin* | *mingw*],
+  [*cygwin* | *mingw* | *msys*],
   [AC_DEFINE(
    [HAVE_DLLMAIN],
    [1],
@@ -130,7 +123,10 @@ AS_IF(
    [HAVE_DLLMAIN],
    [1])
 
-  dnl Used in tests
+  AC_SUBST(
+   [LIBFWSI_DLL_EXPORT],
+   ["-DLIBFWSI_DLL_EXPORT"])
+
   AC_SUBST(
    [LIBFWSI_DLL_IMPORT],
    ["-DLIBFWSI_DLL_IMPORT"])
@@ -204,23 +200,21 @@ AC_OUTPUT
 dnl Print a summary
 AC_MSG_NOTICE([
 Building:
-   libcerror support:                 $ac_cv_libcerror
-   libcthreads support:               $ac_cv_libcthreads
-   libcdata support:                  $ac_cv_libcdata
-   libclocale support:                $ac_cv_libclocale
-   libcnotify support:                $ac_cv_libcnotify
-   libuna support:                    $ac_cv_libuna
-   libfdatetime support:              $ac_cv_libfdatetime
-   libfguid support:                  $ac_cv_libfguid
-   libfole support:                   $ac_cv_libfole
-   libfwps support:                   $ac_cv_libfwps
+   libcerror support:       $ac_cv_libcerror
+   libcthreads support:     $ac_cv_libcthreads
+   libcdata support:        $ac_cv_libcdata
+   libclocale support:      $ac_cv_libclocale
+   libcnotify support:      $ac_cv_libcnotify
+   libuna support:          $ac_cv_libuna
+   libfdatetime support:    $ac_cv_libfdatetime
+   libfguid support:        $ac_cv_libfguid
+   libfole support:         $ac_cv_libfole
+   libfwps support:         $ac_cv_libfwps
 
 Features:
-   Multi-threading support:           $ac_cv_libcthreads_multi_threading
-   Python (pyfwsi) support:           $ac_cv_enable_python
-   Python version 2 (pyfwsi) support: $ac_cv_enable_python2
-   Python version 3 (pyfwsi) support: $ac_cv_enable_python3
-   Verbose output:                    $ac_cv_enable_verbose_output
-   Debug output:                      $ac_cv_enable_debug_output
+   Multi-threading support: $ac_cv_libcthreads_multi_threading
+   Python (pyfwsi) support: $ac_cv_enable_python
+   Verbose output:          $ac_cv_enable_verbose_output
+   Debug output:            $ac_cv_enable_debug_output
 ]);
 

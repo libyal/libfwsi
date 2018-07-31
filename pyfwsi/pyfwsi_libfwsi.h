@@ -24,14 +24,7 @@
 
 #include <common.h>
 
-/* If Cygwin libtool DLL support is enabled set LIBFWSI_DLL_IMPORT
- * before including libfwsi.h
- */
-#if defined( _WIN32 ) && defined( DLL_EXPORT )
-#define LIBFWSI_DLL_IMPORT
-#endif
-
 #include <libfwsi.h>
 
-#endif
+#endif /* !defined( _PYFWSI_LIBFWSI_H ) */
 

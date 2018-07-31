@@ -6,3 +6,4 @@ dnl Function to detect if libfwsi dependencies are available
 AC_DEFUN([AX_LIBFWSI_CHECK_LOCAL],
   [dnl No additional checks.
   ])
+
