@@ -256,7 +256,7 @@ int libfwsi_item_list_copy_from_byte_stream(
 
 		return( -1 );
 	}
-	while( byte_stream_size > 0 )
+	while( byte_stream_size >= 2 )
 	{
 		byte_stream_copy_to_uint16_little_endian(
 		 byte_stream,
