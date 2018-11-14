@@ -10,33 +10,35 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 @libfwsi_spec_requires@ @ax_libcdata_spec_requires@ @ax_libcerror_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnotify_spec_requires@ @ax_libcthreads_spec_requires@ @ax_libfdatetime_spec_requires@ @ax_libfguid_spec_requires@ @ax_libfole_spec_requires@ @ax_libfwps_spec_requires@ @ax_libuna_spec_requires@
 BuildRequires: gcc @ax_libcdata_spec_build_requires@ @ax_libcerror_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libcthreads_spec_build_requires@ @ax_libfdatetime_spec_build_requires@ @ax_libfguid_spec_build_requires@ @ax_libfole_spec_build_requires@ @ax_libfwps_spec_build_requires@ @ax_libuna_spec_build_requires@
 
-%description
+%description -n libfwsi
 Library to access the Windows Shell Item format
 
-%package devel
+%package -n libfwsi-devel
 Summary: Header files and libraries for developing applications for libfwsi
 Group: Development/Libraries
 Requires: libfwsi = %{version}-%{release}
 
-%description devel
+%description -n libfwsi-devel
 Header files and libraries for developing applications for libfwsi.
 
-%package python
+%package -n libfwsi-python2
+Obsoletes: libfwsi-python < %{version}
+Provides: libfwsi-python = %{version}
 Summary: Python 2 bindings for libfwsi
 Group: System Environment/Libraries
-Requires: libfwsi = %{version}-%{release} python
-BuildRequires: python-devel
+Requires: libfwsi = %{version}-%{release} python2
+BuildRequires: python2-devel
 
-%description python
+%description -n libfwsi-python2
 Python 2 bindings for libfwsi
 
-%package python3
+%package -n libfwsi-python3
 Summary: Python 3 bindings for libfwsi
 Group: System Environment/Libraries
 Requires: libfwsi = %{version}-%{release} python3
 BuildRequires: python3-devel
 
-%description python3
+%description -n libfwsi-python3
 Python 3 bindings for libfwsi
 
 %prep
@@ -57,13 +59,13 @@ rm -rf %{buildroot}
 
 %postun -p /sbin/ldconfig
 
-%files
+%files -n libfwsi
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.so.*
 
-%files devel
+%files -n libfwsi-devel
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README ChangeLog
@@ -74,7 +76,7 @@ rm -rf %{buildroot}
 %{_includedir}/*
 %{_mandir}/man3/*
 
-%files python
+%files -n libfwsi-python2
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
@@ -82,7 +84,7 @@ rm -rf %{buildroot}
 %{_libdir}/python2*/site-packages/*.la
 %{_libdir}/python2*/site-packages/*.so
 
-%files python3
+%files -n libfwsi-python3
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
