@@ -9,6 +9,8 @@ Homepage: https://github.com/libyal/libfwsi
 Package: libfwsi
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libfwsi1
+Replaces: libfwsi1
 Suggests: libfwsi-dbg
 Description: Library to access the Windows Shell Item format
  libfwsi is a library to access the Windows Shell Item format.
@@ -31,6 +33,8 @@ Package: libfwsi-python
 Section: python
 Architecture: any
 Depends: libfwsi (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Conflicts: python-libfwsi
+Replaces: python-libfwsi
 Suggests: libfwsi-python-dbg
 Description: Python 2 bindings for libfwsi
  Python 2 bindings for libfwsi.
@@ -46,6 +50,8 @@ Package: libfwsi-python3
 Section: python
 Architecture: any
 Depends: libfwsi (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Conflicts: python3-libfwsi
+Replaces: python3-libfwsi
 Suggests: libfwsi-python3-dbg
 Description: Python 3 bindings for libfwsi
  Python 3 bindings for libfwsi.
