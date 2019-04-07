@@ -13,6 +13,14 @@ BuildRequires: gcc @ax_libcdata_spec_build_requires@ @ax_libcerror_spec_build_re
 %description -n libfwsi
 Library to access the Windows Shell Item format
 
+%package -n libfwsi-static
+Summary: Library to access the Windows Shell Item format
+Group: Development/Libraries
+Requires: libfwsi = %{version}-%{release}
+
+%description -n libfwsi-static
+Static library version of libfwsi.
+
 %package -n libfwsi-devel
 Summary: Header files and libraries for developing applications for libfwsi
 Group: Development/Libraries
@@ -65,11 +73,16 @@ rm -rf %{buildroot}
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.so.*
 
+%files -n libfwsi-static
+%defattr(644,root,root,755)
+%license COPYING
+%doc AUTHORS README
+%attr(755,root,root) %{_libdir}/*.a
+
 %files -n libfwsi-devel
 %defattr(644,root,root,755)
 %license COPYING
 %doc AUTHORS README
-%{_libdir}/*.a
 %{_libdir}/*.la
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/libfwsi.pc

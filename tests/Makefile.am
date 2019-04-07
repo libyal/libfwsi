@@ -30,6 +30,7 @@ check_SCRIPTS = \
 	pyfwsi_test_support.py \
 	pyfwsi_test_volume.py \
 	test_library.sh \
+	test_manpage.sh \
 	test_python_module.sh \
 	test_runner.sh
 
