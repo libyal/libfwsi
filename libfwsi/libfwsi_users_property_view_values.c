@@ -230,7 +230,7 @@ int libfwsi_users_property_view_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: class type indicator\t\t: 0x%02" PRIx8 "\n",
+		 "%s: class type indicator\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 2 ] );
 
@@ -245,12 +245,12 @@ int libfwsi_users_property_view_values_read_data(
 		 item_data_size );
 
 		libcnotify_printf(
-		 "%s: data signature\t\t\t: 0x%08" PRIx32 "\n",
+		 "%s: data signature\t\t: 0x%08" PRIx32 "\n",
 		 function,
 		 signature );
 
 		libcnotify_printf(
-		 "%s: property store size\t\t: %" PRIu16 "\n",
+		 "%s: property store size\t: %" PRIu16 "\n",
 		 function,
 		 property_store_size );
 
@@ -398,7 +398,7 @@ int libfwsi_users_property_view_values_read_data(
 		 value_16bit );
 
 		libcnotify_printf(
-		 "%s: unknown1 size\t\t\t: %" PRIu16 "\n",
+		 "%s: unknown1 size\t\t: %" PRIu16 "\n",
 		 function,
 		 value_16bit );
 	}

@@ -269,7 +269,7 @@ int libfwsi_extension_block_copy_from_byte_stream(
 	}
 	/* Do not try to parse unsupported byte stream sizes
 	 */
-	if( byte_stream_size < 6 )
+	if( byte_stream_size < 8 )
 	{
 		return( 0 );
 	}
