@@ -69,19 +69,19 @@ rm -rf %{buildroot}
 
 %files -n libfwsi
 %defattr(644,root,root,755)
-%license COPYING
+%license COPYING COPYING.LESSER
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.so.*
 
 %files -n libfwsi-static
 %defattr(644,root,root,755)
-%license COPYING
+%license COPYING COPYING.LESSER
 %doc AUTHORS README
 %attr(755,root,root) %{_libdir}/*.a
 
 %files -n libfwsi-devel
 %defattr(644,root,root,755)
-%license COPYING
+%license COPYING COPYING.LESSER
 %doc AUTHORS README
 %{_libdir}/*.la
 %{_libdir}/*.so
@@ -91,7 +91,7 @@ rm -rf %{buildroot}
 
 %files -n libfwsi-python2
 %defattr(644,root,root,755)
-%license COPYING
+%license COPYING COPYING.LESSER
 %doc AUTHORS README
 %{_libdir}/python2*/site-packages/*.a
 %{_libdir}/python2*/site-packages/*.la
@@ -99,7 +99,7 @@ rm -rf %{buildroot}
 
 %files -n libfwsi-python3
 %defattr(644,root,root,755)
-%license COPYING
+%license COPYING COPYING.LESSER
 %doc AUTHORS README
 %{_libdir}/python3*/site-packages/*.a
 %{_libdir}/python3*/site-packages/*.la
