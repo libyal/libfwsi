@@ -37,6 +37,12 @@
 #include "pyfwsi_unused.h"
 
 PyMethodDef pyfwsi_file_entry_object_methods[] = {
+        { "get_file_attribute_flags",
+          (PyCFunction) pyfwsi_file_entry_get_file_attribute_flags,
+          METH_NOARGS,
+          "get_file_attribute_flags() -> Integer\n"
+          "\n"
+          "Retrieves the file attribute flags" },
 
 	{ "get_file_size",
 	  (PyCFunction) pyfwsi_file_entry_get_file_size,
@@ -71,6 +77,12 @@ PyMethodDef pyfwsi_file_entry_object_methods[] = {
 };
 
 PyGetSetDef pyfwsi_file_entry_object_get_set_definitions[] = {
+
+        { "file_attribute_flags",
+          (getter) pyfwsi_file_entry_get_file_attribute_flags,
+          (setter) 0,
+          "The attribute flags.",
+          NULL },
 
 	{ "file_size",
 	  (getter) pyfwsi_file_entry_get_file_size,
