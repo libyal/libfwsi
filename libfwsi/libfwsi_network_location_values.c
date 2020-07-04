@@ -235,7 +235,8 @@ int libfwsi_network_location_values_read_data(
 		 function,
 		 flags );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset = 5;
 
 	/* Determine the network location
@@ -253,6 +254,18 @@ int libfwsi_network_location_values_read_data(
 	}
 	string_size -= data_offset;
 
+	if( ( string_size == 0 )
+	 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid location string size value out of bounds.",
+		 function );
+
+		goto on_error;
+	}
 	network_location_values->location = (uint8_t *) memory_allocate(
 	                                                 sizeof( uint8_t ) * string_size );
 
@@ -325,6 +338,18 @@ int libfwsi_network_location_values_read_data(
 		}
 		string_size -= data_offset;
 
+		if( ( string_size == 0 )
+		 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid description string size value out of bounds.",
+			 function );
+
+			goto on_error;
+		}
 		network_location_values->description = (uint8_t *) memory_allocate(
 		                                                    sizeof( uint8_t ) * string_size );
 
@@ -397,6 +422,18 @@ int libfwsi_network_location_values_read_data(
 		}
 		string_size -= data_offset;
 
+		if( ( string_size == 0 )
+		 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid comments string size value out of bounds.",
+			 function );
+
+			goto on_error;
+		}
 		network_location_values->comments = (uint8_t *) memory_allocate(
 		                                                 sizeof( uint8_t ) * string_size );
 

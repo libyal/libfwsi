@@ -244,7 +244,7 @@ int pyfwsi_extension_blocks_init(
 	 "%s: initialize of extension blocks not supported.",
 	 function );
 
-	return( 0 );
+	return( -1 );
 }
 
 /* Frees an extension blocks sequence object

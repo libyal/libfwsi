@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #endif
 
-#include "fwsi_test_libcerror.h"
 #include "fwsi_test_libfwsi.h"
 #include "fwsi_test_macros.h"
 #include "fwsi_test_unused.h"

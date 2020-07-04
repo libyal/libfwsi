@@ -285,7 +285,8 @@ int libfwsi_file_entry_extension_values_read_data(
 		 function,
 		 value_16bit );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset = 18;
 
 	if( version >= 7 )
@@ -438,6 +439,18 @@ int libfwsi_file_entry_extension_values_read_data(
 	}
 	string_size -= data_offset;
 
+	if( ( string_size == 0 )
+	 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid long name string size value out of bounds.",
+		 function );
+
+		goto on_error;
+	}
 	file_entry_extension_values->long_name = (uint8_t *) memory_allocate(
 	                                                      sizeof( uint8_t ) * string_size );
 
@@ -489,7 +502,8 @@ int libfwsi_file_entry_extension_values_read_data(
 			goto on_error;
 		}
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset += string_size;
 
 	if( long_string_size > 0 )
@@ -518,6 +532,18 @@ int libfwsi_file_entry_extension_values_read_data(
 			}
 			string_size -= data_offset;
 
+			if( ( string_size == 0 )
+			 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+				 "%s: invalid localized name string size value out of bounds.",
+				 function );
+
+				goto on_error;
+			}
 			file_entry_extension_values->localized_name = (uint8_t *) memory_allocate(
 			                                                           sizeof( uint8_t ) * string_size );
 
@@ -569,7 +595,7 @@ int libfwsi_file_entry_extension_values_read_data(
 					goto on_error;
 				}
 			}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 		}
 		else if( version >= 3 )
 		{
@@ -588,6 +614,18 @@ int libfwsi_file_entry_extension_values_read_data(
 			}
 			string_size -= data_offset;
 
+			if( ( string_size == 0 )
+			 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+				 "%s: invalid localized name string size value out of bounds.",
+				 function );
+
+				goto on_error;
+			}
 			file_entry_extension_values->localized_name = (uint8_t *) memory_allocate(
 			                                                           sizeof( uint8_t ) * string_size );
 
@@ -639,7 +677,7 @@ int libfwsi_file_entry_extension_values_read_data(
 					goto on_error;
 				}
 			}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 		}
 		data_offset += string_size;
 	}

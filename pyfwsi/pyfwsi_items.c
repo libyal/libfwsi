@@ -244,7 +244,7 @@ int pyfwsi_items_init(
 	 "%s: initialize of items not supported.",
 	 function );
 
-	return( 0 );
+	return( -1 );
 }
 
 /* Frees an items sequence object

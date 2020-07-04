@@ -331,13 +331,14 @@ int libfwsi_file_entry_values_read_data(
 		string_size          -= data_offset;
 		string_alignment_size = string_size % 2;
 	}
-	if( string_size > (size_t) SSIZE_MAX )
+	if( ( string_size == 0 )
+	 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid string size value exceeds maximum.",
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid name string size value out of bounds.",
 		 function );
 
 		goto on_error;
@@ -416,7 +417,8 @@ int libfwsi_file_entry_values_read_data(
 			}
 		}
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset            += string_size;
 	string_alignment_offset = data_offset + string_alignment_size;
 
@@ -514,7 +516,8 @@ int libfwsi_file_entry_values_read_data(
 				}
 			}
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset += string_size;
 	}
 	else

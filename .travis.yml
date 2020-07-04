@@ -1,18 +1,18 @@
+version: ~> 1.0
 language: c
+os: linux
+dist: bionic
 env:
   global:
    # Encrypted COVERITY_SCAN_TOKEN
    - secure: "luFRRnHUjM0z/VDXi+5Yc5oSdPIZ25+os06cXU9NR0GqIMDhtjuk6RmaGgqTXe2qXtX/ij5sgjzECvKyOl9rgQC+D4P/xuaisQ2qurLl33fejc4OpQmwu4tO2MutyFhpArU63V6BbG5VcrBEqbpd55AqCzP/qJvdXQEIM/5EJN0="
-matrix:
+jobs:
   include:
   - name: "Coverity"
     env:
     - CONFIGURE_OPTIONS=""
     - TARGET="coverity"
     compiler: clang
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
     addons:
       coverity_scan:
@@ -30,9 +30,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-clang"
     compiler: clang
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc"
     env:
@@ -41,9 +38,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc on s390x (Docker)"
     env:
@@ -54,9 +48,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="docker"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
     services:
     - docker
@@ -68,9 +59,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-no-optimization"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc and Python module"
     env:
@@ -79,9 +67,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-python"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc and Python 2 module"
     env:
@@ -91,9 +76,6 @@ matrix:
     - PYTHON_VERSION=2
     - TARGET="linux-gcc-python2"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc and Python 3 module"
     env:
@@ -103,26 +85,17 @@ matrix:
     - PYTHON_VERSION=3
     - TARGET="linux-gcc-python3"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Linux with gcc and Python 2 module (setup.py)"
     env:
     - TARGET="linux-gcc-python-setup-py"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
     python: 2.7
   - name: "Linux with gcc and Python 3 module (setup.py)"
     env:
     - TARGET="linux-gcc-python-setup-py"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
     python: 3.6
   - name: "Linux with gcc and shared libraries"
@@ -132,9 +105,6 @@ matrix:
     - LDFLAGS="--coverage"
     - TARGET="linux-gcc-shared"
     compiler: gcc
-    os: linux
-    dist: bionic
-    sudo: required
     group: edge
   - name: "Mac OS with clang"
     env:
@@ -142,21 +112,21 @@ matrix:
     - TARGET="macos-clang"
     compiler: clang
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode9.2
   - name: "Mac OS with gcc"
     env:
     - CONFIGURE_OPTIONS=""
     - TARGET="macos-gcc"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode9.2
   - name: "Mac OS with gcc and Python module"
     env:
     - CONFIGURE_OPTIONS="--enable-python"
     - TARGET="macos-gcc-python"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode9.2
   - name: "Mac OS with gcc and Python 2 module"
     env:
     - CONFIGURE_OPTIONS="--enable-python2"
@@ -164,13 +134,13 @@ matrix:
     - TARGET="macos-gcc-python2"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode9.2
   - name: "Mac OS 10.12 with gcc and Python 2 module (setup.py)"
     env:
     - TARGET="macos-gcc-python-setup-py"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode9.2
   - name: "Mac OS 10.14 with gcc and Python 3.7 module (setup.py)"
     env:
     - TARGET="macos-gcc-python-setup-py37"
@@ -184,7 +154,7 @@ matrix:
     - TARGET="macos-gcc-pkgbuild"
     compiler: gcc
     os: osx
-    osx_image: xcode8.3
+    osx_image: xcode9.2
 before_install:
 - .travis/before_install.sh
 install:
