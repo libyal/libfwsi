@@ -33,6 +33,30 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
+unsigned char fwsi_test_item_list_data1[ 345 ] = {
+	0x57, 0x01, 0x14, 0x00, 0x1f, 0x50, 0xe0, 0x4f, 0xd0, 0x20, 0xea, 0x3a, 0x69, 0x10, 0xa2, 0xd8,
+	0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d, 0x19, 0x00, 0x2f, 0x43, 0x3a, 0x5c, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78,
+	0x00, 0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0xae, 0x46, 0x24, 0xb1, 0x11, 0x00, 0x55, 0x73, 0x65,
+	0x72, 0x73, 0x00, 0x64, 0x00, 0x09, 0x00, 0x04, 0x00, 0xef, 0xbe, 0x99, 0x46, 0xf2, 0x14, 0xae,
+	0x46, 0x24, 0xb1, 0x2e, 0x00, 0x00, 0x00, 0x58, 0x57, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0x13, 0x29,
+	0x01, 0x55, 0x00, 0x73, 0x00, 0x65, 0x00, 0x72, 0x00, 0x73, 0x00, 0x00, 0x00, 0x40, 0x00, 0x73,
+	0x00, 0x68, 0x00, 0x65, 0x00, 0x6c, 0x00, 0x6c, 0x00, 0x33, 0x00, 0x32, 0x00, 0x2e, 0x00, 0x64,
+	0x00, 0x6c, 0x00, 0x6c, 0x00, 0x2c, 0x00, 0x2d, 0x00, 0x32, 0x00, 0x31, 0x00, 0x38, 0x00, 0x31,
+	0x00, 0x33, 0x00, 0x00, 0x00, 0x14, 0x00, 0x4e, 0x00, 0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0xae,
+	0x46, 0x8c, 0xb1, 0x10, 0x00, 0x74, 0x65, 0x73, 0x74, 0x00, 0x00, 0x3a, 0x00, 0x09, 0x00, 0x04,
+	0x00, 0xef, 0xbe, 0xae, 0x46, 0x24, 0xb1, 0xae, 0x46, 0x8c, 0xb1, 0x2e, 0x00, 0x00, 0x00, 0x08,
+	0x9d, 0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x22, 0x47, 0x8d, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74,
+	0x00, 0x00, 0x00, 0x14, 0x00, 0x62, 0x00, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0xae, 0x46, 0x4e,
+	0xb2, 0x20, 0x00, 0x43, 0x4f, 0x50, 0x59, 0x49, 0x4e, 0x47, 0x2e, 0x74, 0x78, 0x74, 0x00, 0x48,
+	0x00, 0x09, 0x00, 0x04, 0x00, 0xef, 0xbe, 0xae, 0x46, 0x4e, 0xb2, 0xae, 0x46, 0x4e, 0xb2, 0x2e,
+	0x00, 0x00, 0x00, 0xa4, 0x9c, 0x02, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xb2, 0x62, 0xd7, 0x00, 0x43, 0x00, 0x4f,
+	0x00, 0x50, 0x00, 0x59, 0x00, 0x49, 0x00, 0x4e, 0x00, 0x47, 0x00, 0x2e, 0x00, 0x74, 0x00, 0x78,
+	0x00, 0x74, 0x00, 0x00, 0x00, 0x1a, 0x00, 0x00, 0x00 };
+
 /* Tests the libfwsi_item_list_initialize function
  * Returns 1 if successful or 0 if not
  */
@@ -109,6 +133,8 @@ int fwsi_test_item_list_initialize(
 	          &item_list,
 	          &error );
 
+	item_list = NULL;
+
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
@@ -120,8 +146,6 @@ int fwsi_test_item_list_initialize(
 
 	libcerror_error_free(
 	 &error );
-
-	item_list = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -266,16 +290,14 @@ on_error:
 	return( 0 );
 }
 
-/* Tests the libfwsi_item_list_get_data_size function
+/* Tests the libfwsi_item_list_copy_from_byte_stream function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_item_list_get_data_size(
+int fwsi_test_item_list_copy_from_byte_stream(
      void )
 {
 	libcerror_error_t *error       = NULL;
 	libfwsi_item_list_t *item_list = NULL;
-	size_t data_size               = 0;
-	int data_size_is_set           = 0;
 	int result                     = 0;
 
 	/* Initialize test
@@ -296,6 +318,181 @@ int fwsi_test_item_list_get_data_size(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test to copy security identifier from byte stream
+	 */
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          fwsi_test_item_list_data1,
+	          345,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          NULL,
+	          fwsi_test_item_list_data1,
+	          345,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          NULL,
+	          345,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          fwsi_test_item_list_data1,
+	          0,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          fwsi_test_item_list_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          fwsi_test_item_list_data1,
+	          8,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          fwsi_test_item_list_data1,
+	          345,
+	          (uint8_t) 'X',
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* Clean up
+	 */
+	result = libfwsi_item_list_free(
+	          &item_list,
+	          NULL );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "item_list",
+	 item_list );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( item_list != NULL )
+	{
+		libfwsi_item_list_free(
+		 &item_list,
+		 NULL );
+	}
+	return( 0 );
+}
+
+/* Tests the libfwsi_item_list_get_data_size function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_item_list_get_data_size(
+     libfwsi_item_list_t *item_list )
+{
+	libcerror_error_t *error = NULL;
+	size_t data_size         = 0;
+	int data_size_is_set     = 0;
+	int result               = 0;
 
 	/* Test regular cases
 	 */
@@ -353,25 +550,6 @@ int fwsi_test_item_list_get_data_size(
 		libcerror_error_free(
 		 &error );
 	}
-	/* Clean up
-	 */
-	result = libfwsi_item_list_free(
-	          &item_list,
-	          &error );
-
-	FWSI_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "item_list",
-	 item_list );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
-
 	return( 1 );
 
 on_error:
@@ -380,12 +558,6 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( item_list != NULL )
-	{
-		libfwsi_item_list_free(
-		 &item_list,
-		 NULL );
-	}
 	return( 0 );
 }
 
@@ -393,32 +565,11 @@ on_error:
  * Returns 1 if successful or 0 if not
  */
 int fwsi_test_item_list_get_number_of_items(
-     void )
+     libfwsi_item_list_t *item_list )
 {
-	libcerror_error_t *error       = NULL;
-	libfwsi_item_list_t *item_list = NULL;
-	int number_of_items            = 0;
-	int number_of_items_is_set     = 0;
-	int result                     = 0;
-
-	/* Initialize test
-	 */
-	result = libfwsi_item_list_initialize(
-	          &item_list,
-	          &error );
-
-	FWSI_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "item_list",
-	 item_list );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
+	libcerror_error_t *error = NULL;
+	int number_of_items      = 0;
+	int result               = 0;
 
 	/* Test regular cases
 	 */
@@ -435,8 +586,6 @@ int fwsi_test_item_list_get_number_of_items(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
-
-	number_of_items_is_set = result;
 
 	/* Test error cases
 	 */
@@ -457,25 +606,114 @@ int fwsi_test_item_list_get_number_of_items(
 	libcerror_error_free(
 	 &error );
 
-	if( number_of_items_is_set != 0 )
+	result = libfwsi_item_list_get_number_of_items(
+	          item_list,
+	          NULL,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
 	{
-		result = libfwsi_item_list_get_number_of_items(
-		          item_list,
-		          NULL,
-		          &error );
-
-		FWSI_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		FWSI_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
 		libcerror_error_free(
 		 &error );
 	}
+	return( 0 );
+}
+
+/* The main program
+ */
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
+int wmain(
+     int argc FWSI_TEST_ATTRIBUTE_UNUSED,
+     wchar_t * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )
+#else
+int main(
+     int argc FWSI_TEST_ATTRIBUTE_UNUSED,
+     char * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )
+#endif
+{
+	libcerror_error_t *error       = NULL;
+	libfwsi_item_list_t *item_list = NULL;
+	int result                     = 0;
+
+	FWSI_TEST_UNREFERENCED_PARAMETER( argc )
+	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
+
+	FWSI_TEST_RUN(
+	 "libfwsi_item_list_initialize",
+	 fwsi_test_item_list_initialize );
+
+	FWSI_TEST_RUN(
+	 "libfwsi_item_list_free",
+	 fwsi_test_item_list_free );
+
+	FWSI_TEST_RUN(
+	 "libfwsi_item_list_copy_from_byte_stream",
+	 fwsi_test_item_list_copy_from_byte_stream );
+
+#if !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 )
+
+	/* Initialize item_list for tests
+	 */
+	result = libfwsi_item_list_initialize(
+	          &item_list,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "item_list",
+	 item_list );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_list_copy_from_byte_stream(
+	          item_list,
+	          fwsi_test_item_list_data1,
+	          345,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	FWSI_TEST_RUN_WITH_ARGS(
+	 "libfwsi_item_list_get_data_size",
+	 fwsi_test_item_list_get_data_size,
+	 item_list );
+
+	FWSI_TEST_RUN_WITH_ARGS(
+	 "libfwsi_item_list_get_number_of_items",
+	 fwsi_test_item_list_get_number_of_items,
+	 item_list );
+
+	/* TODO: add tests for libfwsi_item_list_get_item */
+
 	/* Clean up
 	 */
 	result = libfwsi_item_list_free(
@@ -495,7 +733,9 @@ int fwsi_test_item_list_get_number_of_items(
 	 "error",
 	 error );
 
-	return( 1 );
+#endif /* !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 ) */
+
+	return( EXIT_SUCCESS );
 
 on_error:
 	if( error != NULL )
@@ -509,47 +749,6 @@ on_error:
 		 &item_list,
 		 NULL );
 	}
-	return( 0 );
-}
-
-/* The main program
- */
-#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
-int wmain(
-     int argc FWSI_TEST_ATTRIBUTE_UNUSED,
-     wchar_t * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )
-#else
-int main(
-     int argc FWSI_TEST_ATTRIBUTE_UNUSED,
-     char * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )
-#endif
-{
-	FWSI_TEST_UNREFERENCED_PARAMETER( argc )
-	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
-
-	FWSI_TEST_RUN(
-	 "libfwsi_item_list_initialize",
-	 fwsi_test_item_list_initialize );
-
-	FWSI_TEST_RUN(
-	 "libfwsi_item_list_free",
-	 fwsi_test_item_list_free );
-
-	/* TODO: add tests for libfwsi_item_list_copy_from_byte_stream */
-
-	FWSI_TEST_RUN(
-	 "libfwsi_item_list_get_data_size",
-	 fwsi_test_item_list_get_data_size );
-
-	FWSI_TEST_RUN(
-	 "libfwsi_item_list_get_number_of_items",
-	 fwsi_test_item_list_get_number_of_items );
-
-	/* TODO: add tests for libfwsi_item_list_get_item */
-
-	return( EXIT_SUCCESS );
-
-on_error:
 	return( EXIT_FAILURE );
 }
 

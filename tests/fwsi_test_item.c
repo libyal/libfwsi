@@ -33,6 +33,16 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
+unsigned char fwsi_test_item_data1[ 120 ] = {
+	0x78, 0x00, 0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0xae, 0x46, 0x24, 0xb1, 0x11, 0x00, 0x55, 0x73,
+	0x65, 0x72, 0x73, 0x00, 0x64, 0x00, 0x09, 0x00, 0x04, 0x00, 0xef, 0xbe, 0x99, 0x46, 0xf2, 0x14,
+	0xae, 0x46, 0x24, 0xb1, 0x2e, 0x00, 0x00, 0x00, 0x58, 0x57, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00,
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14, 0x13,
+	0x29, 0x01, 0x55, 0x00, 0x73, 0x00, 0x65, 0x00, 0x72, 0x00, 0x73, 0x00, 0x00, 0x00, 0x40, 0x00,
+	0x73, 0x00, 0x68, 0x00, 0x65, 0x00, 0x6c, 0x00, 0x6c, 0x00, 0x33, 0x00, 0x32, 0x00, 0x2e, 0x00,
+	0x64, 0x00, 0x6c, 0x00, 0x6c, 0x00, 0x2c, 0x00, 0x2d, 0x00, 0x32, 0x00, 0x31, 0x00, 0x38, 0x00,
+	0x31, 0x00, 0x33, 0x00, 0x00, 0x00, 0x14, 0x00 };
+
 /* Tests the libfwsi_item_initialize function
  * Returns 1 if successful or 0 if not
  */
@@ -109,6 +119,8 @@ int fwsi_test_item_initialize(
 	          &item,
 	          &error );
 
+	item = NULL;
+
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
@@ -120,8 +132,6 @@ int fwsi_test_item_initialize(
 
 	libcerror_error_free(
 	 &error );
-
-	item = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -266,17 +276,15 @@ on_error:
 	return( 0 );
 }
 
-/* Tests the libfwsi_item_get_type function
+/* Tests the libfwsi_item_copy_from_byte_stream function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_item_get_type(
+int fwsi_test_item_copy_from_byte_stream(
      void )
 {
 	libcerror_error_t *error = NULL;
 	libfwsi_item_t *item     = NULL;
 	int result               = 0;
-	int type                 = 0;
-	int type_is_set          = 0;
 
 	/* Initialize test
 	 */
@@ -297,29 +305,31 @@ int fwsi_test_item_get_type(
 	 "error",
 	 error );
 
-	/* Test regular cases
+	/* Test to copy security identifier from byte stream
 	 */
-	result = libfwsi_item_get_type(
+	result = libfwsi_item_copy_from_byte_stream(
 	          item,
-	          &type,
+	          fwsi_test_item_data1,
+	          120,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
 	          &error );
 
-	FWSI_TEST_ASSERT_NOT_EQUAL_INT(
+	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 -1 );
+	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	type_is_set = result;
-
 	/* Test error cases
 	 */
-	result = libfwsi_item_get_type(
+	result = libfwsi_item_copy_from_byte_stream(
 	          NULL,
-	          &type,
+	          fwsi_test_item_data1,
+	          120,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -334,30 +344,100 @@ int fwsi_test_item_get_type(
 	libcerror_error_free(
 	 &error );
 
-	if( type_is_set != 0 )
-	{
-		result = libfwsi_item_get_type(
-		          item,
-		          NULL,
-		          &error );
+	result = libfwsi_item_copy_from_byte_stream(
+	          item,
+	          NULL,
+	          120,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
 
-		FWSI_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
 
-		FWSI_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
 
-		libcerror_error_free(
-		 &error );
-	}
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_copy_from_byte_stream(
+	          item,
+	          fwsi_test_item_data1,
+	          0,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_copy_from_byte_stream(
+	          item,
+	          fwsi_test_item_data1,
+	          (size_t) SSIZE_MAX + 1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_copy_from_byte_stream(
+	          item,
+	          fwsi_test_item_data1,
+	          8,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_copy_from_byte_stream(
+	          item,
+	          fwsi_test_item_data1,
+	          120,
+	          (uint8_t) 'X',
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
 	/* Clean up
 	 */
 	result = libfwsi_item_free(
 	          &item,
-	          &error );
+	          NULL );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
@@ -385,6 +465,79 @@ on_error:
 		libfwsi_item_free(
 		 &item,
 		 NULL );
+	}
+	return( 0 );
+}
+
+/* Tests the libfwsi_item_get_type function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_item_get_type(
+     libfwsi_item_t *item )
+{
+	libcerror_error_t *error = NULL;
+	int result               = 0;
+	int type                 = 0;
+
+	/* Test regular cases
+	 */
+	result = libfwsi_item_get_type(
+	          item,
+	          &type,
+	          &error );
+
+	FWSI_TEST_ASSERT_NOT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_item_get_type(
+	          NULL,
+	          &type,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_get_type(
+	          item,
+	          NULL,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
 	}
 	return( 0 );
 }
@@ -393,32 +546,11 @@ on_error:
  * Returns 1 if successful or 0 if not
  */
 int fwsi_test_item_get_class_type(
-     void )
+     libfwsi_item_t *item )
 {
 	libcerror_error_t *error = NULL;
-	libfwsi_item_t *item     = NULL;
 	uint8_t class_type       = 0;
-	int class_type_is_set    = 0;
 	int result               = 0;
-
-	/* Initialize test
-	 */
-	result = libfwsi_item_initialize(
-	          &item,
-	          &error );
-
-	FWSI_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
 
 	/* Test regular cases
 	 */
@@ -435,8 +567,6 @@ int fwsi_test_item_get_class_type(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
-
-	class_type_is_set = result;
 
 	/* Test error cases
 	 */
@@ -457,43 +587,22 @@ int fwsi_test_item_get_class_type(
 	libcerror_error_free(
 	 &error );
 
-	if( class_type_is_set != 0 )
-	{
-		result = libfwsi_item_get_class_type(
-		          item,
-		          NULL,
-		          &error );
-
-		FWSI_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		FWSI_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
-		libcerror_error_free(
-		 &error );
-	}
-	/* Clean up
-	 */
-	result = libfwsi_item_free(
-	          &item,
+	result = libfwsi_item_get_class_type(
+	          item,
+	          NULL,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 1 );
+	 -1 );
 
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
 	 "error",
 	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	return( 1 );
 
@@ -502,12 +611,6 @@ on_error:
 	{
 		libcerror_error_free(
 		 &error );
-	}
-	if( item != NULL )
-	{
-		libfwsi_item_free(
-		 &item,
-		 NULL );
 	}
 	return( 0 );
 }
@@ -516,32 +619,11 @@ on_error:
  * Returns 1 if successful or 0 if not
  */
 int fwsi_test_item_get_signature(
-     void )
+     libfwsi_item_t *item )
 {
 	libcerror_error_t *error = NULL;
-	libfwsi_item_t *item     = NULL;
 	uint32_t signature       = 0;
 	int result               = 0;
-	int signature_is_set     = 0;
-
-	/* Initialize test
-	 */
-	result = libfwsi_item_initialize(
-	          &item,
-	          &error );
-
-	FWSI_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
 
 	/* Test regular cases
 	 */
@@ -558,8 +640,6 @@ int fwsi_test_item_get_signature(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
-
-	signature_is_set = result;
 
 	/* Test error cases
 	 */
@@ -580,43 +660,22 @@ int fwsi_test_item_get_signature(
 	libcerror_error_free(
 	 &error );
 
-	if( signature_is_set != 0 )
-	{
-		result = libfwsi_item_get_signature(
-		          item,
-		          NULL,
-		          &error );
-
-		FWSI_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		FWSI_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
-		libcerror_error_free(
-		 &error );
-	}
-	/* Clean up
-	 */
-	result = libfwsi_item_free(
-	          &item,
+	result = libfwsi_item_get_signature(
+	          item,
+	          NULL,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 1 );
+	 -1 );
 
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
 	 "error",
 	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	return( 1 );
 
@@ -625,12 +684,6 @@ on_error:
 	{
 		libcerror_error_free(
 		 &error );
-	}
-	if( item != NULL )
-	{
-		libfwsi_item_free(
-		 &item,
-		 NULL );
 	}
 	return( 0 );
 }
@@ -639,32 +692,11 @@ on_error:
  * Returns 1 if successful or 0 if not
  */
 int fwsi_test_item_get_data_size(
-     void )
+     libfwsi_item_t *item )
 {
 	libcerror_error_t *error = NULL;
-	libfwsi_item_t *item     = NULL;
 	size_t data_size         = 0;
-	int data_size_is_set     = 0;
 	int result               = 0;
-
-	/* Initialize test
-	 */
-	result = libfwsi_item_initialize(
-	          &item,
-	          &error );
-
-	FWSI_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
 
 	/* Test regular cases
 	 */
@@ -681,8 +713,6 @@ int fwsi_test_item_get_data_size(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
-
-	data_size_is_set = result;
 
 	/* Test error cases
 	 */
@@ -703,43 +733,22 @@ int fwsi_test_item_get_data_size(
 	libcerror_error_free(
 	 &error );
 
-	if( data_size_is_set != 0 )
-	{
-		result = libfwsi_item_get_data_size(
-		          item,
-		          NULL,
-		          &error );
-
-		FWSI_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		FWSI_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
-		libcerror_error_free(
-		 &error );
-	}
-	/* Clean up
-	 */
-	result = libfwsi_item_free(
-	          &item,
+	result = libfwsi_item_get_data_size(
+	          item,
+	          NULL,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 1 );
+	 -1 );
 
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
 	 "error",
 	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	return( 1 );
 
@@ -748,12 +757,6 @@ on_error:
 	{
 		libcerror_error_free(
 		 &error );
-	}
-	if( item != NULL )
-	{
-		libfwsi_item_free(
-		 &item,
-		 NULL );
 	}
 	return( 0 );
 }
@@ -762,32 +765,11 @@ on_error:
  * Returns 1 if successful or 0 if not
  */
 int fwsi_test_item_get_number_of_extension_blocks(
-     void )
+     libfwsi_item_t *item )
 {
-	libcerror_error_t *error              = NULL;
-	libfwsi_item_t *item                  = NULL;
-	int number_of_extension_blocks        = 0;
-	int number_of_extension_blocks_is_set = 0;
-	int result                            = 0;
-
-	/* Initialize test
-	 */
-	result = libfwsi_item_initialize(
-	          &item,
-	          &error );
-
-	FWSI_TEST_ASSERT_EQUAL_INT(
-	 "result",
-	 result,
-	 1 );
-
-	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "error",
-	 error );
+	libcerror_error_t *error       = NULL;
+	int number_of_extension_blocks = 0;
+	int result                     = 0;
 
 	/* Test regular cases
 	 */
@@ -804,8 +786,6 @@ int fwsi_test_item_get_number_of_extension_blocks(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
-
-	number_of_extension_blocks_is_set = result;
 
 	/* Test error cases
 	 */
@@ -826,43 +806,22 @@ int fwsi_test_item_get_number_of_extension_blocks(
 	libcerror_error_free(
 	 &error );
 
-	if( number_of_extension_blocks_is_set != 0 )
-	{
-		result = libfwsi_item_get_number_of_extension_blocks(
-		          item,
-		          NULL,
-		          &error );
-
-		FWSI_TEST_ASSERT_EQUAL_INT(
-		 "result",
-		 result,
-		 -1 );
-
-		FWSI_TEST_ASSERT_IS_NOT_NULL(
-		 "error",
-		 error );
-
-		libcerror_error_free(
-		 &error );
-	}
-	/* Clean up
-	 */
-	result = libfwsi_item_free(
-	          &item,
+	result = libfwsi_item_get_number_of_extension_blocks(
+	          item,
+	          NULL,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 1 );
+	 -1 );
 
-	FWSI_TEST_ASSERT_IS_NULL(
-	 "item",
-	 item );
-
-	FWSI_TEST_ASSERT_IS_NULL(
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
 	 "error",
 	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	return( 1 );
 
@@ -871,12 +830,6 @@ on_error:
 	{
 		libcerror_error_free(
 		 &error );
-	}
-	if( item != NULL )
-	{
-		libfwsi_item_free(
-		 &item,
-		 NULL );
 	}
 	return( 0 );
 }
@@ -893,6 +846,10 @@ int main(
      char * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )
 #endif
 {
+	libcerror_error_t *error = NULL;
+	libfwsi_item_t *item     = NULL;
+	int result               = 0;
+
 	FWSI_TEST_UNREFERENCED_PARAMETER( argc )
 	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
 
@@ -904,33 +861,109 @@ int main(
 	 "libfwsi_item_free",
 	 fwsi_test_item_free );
 
-	/* TODO: add tests for libfwsi_item_copy_from_byte_stream */
-
 	FWSI_TEST_RUN(
+	 "libfwsi_item_copy_from_byte_stream",
+	 fwsi_test_item_copy_from_byte_stream );
+
+#if !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 )
+
+	/* Initialize item for tests
+	 */
+	result = libfwsi_item_initialize(
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "item",
+	 item );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_copy_from_byte_stream(
+	          item,
+	          fwsi_test_item_data1,
+	          120,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	FWSI_TEST_RUN_WITH_ARGS(
 	 "libfwsi_item_get_type",
-	 fwsi_test_item_get_type );
+	 fwsi_test_item_get_type,
+	 item );
 
-	FWSI_TEST_RUN(
+	FWSI_TEST_RUN_WITH_ARGS(
 	 "libfwsi_item_get_class_type",
-	 fwsi_test_item_get_class_type );
+	 fwsi_test_item_get_class_type,
+	 item );
 
-	FWSI_TEST_RUN(
+	FWSI_TEST_RUN_WITH_ARGS(
 	 "libfwsi_item_get_signature",
-	 fwsi_test_item_get_signature );
+	 fwsi_test_item_get_signature,
+	 item );
 
-	FWSI_TEST_RUN(
+	FWSI_TEST_RUN_WITH_ARGS(
 	 "libfwsi_item_get_data_size",
-	 fwsi_test_item_get_data_size );
+	 fwsi_test_item_get_data_size,
+	 item );
 
-	FWSI_TEST_RUN(
+	FWSI_TEST_RUN_WITH_ARGS(
 	 "libfwsi_item_get_number_of_extension_blocks",
-	 fwsi_test_item_get_number_of_extension_blocks );
+	 fwsi_test_item_get_number_of_extension_blocks,
+	 item );
 
 	/* TODO: add tests for libfwsi_item_get_extension_block */
+
+	/* Clean up
+	 */
+	result = libfwsi_item_free(
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "item",
+	 item );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+#endif /* !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 ) */
 
 	return( EXIT_SUCCESS );
 
 on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( item != NULL )
+	{
+		libfwsi_item_free(
+		 &item,
+		 NULL );
+	}
 	return( EXIT_FAILURE );
 }
 
