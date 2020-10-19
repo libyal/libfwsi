@@ -227,7 +227,7 @@ on_error:
 	return( NULL );
 }
 
-/* Intializes an item list object
+/* Initializes an item list object
  * Returns 0 if successful or -1 on error
  */
 int pyfwsi_item_list_init(

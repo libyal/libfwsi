@@ -30,7 +30,11 @@
 
 #include <libfwsi/extern.h>
 
+#if defined( __CYGWIN__ )
+#define LIBFWSI_EXTERN_VARIABLE	extern
+#else
 #define LIBFWSI_EXTERN_VARIABLE	LIBFWSI_EXTERN
+#endif
 
 #else
 #define LIBFWSI_EXTERN		/* extern */

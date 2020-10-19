@@ -236,7 +236,7 @@ on_error:
 	return( NULL );
 }
 
-/* Intializes an extension block object
+/* Initializes an extension block object
  * Returns 0 if successful or -1 on error
  */
 int pyfwsi_extension_block_init(

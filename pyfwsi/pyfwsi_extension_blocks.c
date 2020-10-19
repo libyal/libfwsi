@@ -215,7 +215,7 @@ on_error:
 	return( NULL );
 }
 
-/* Intializes an extension blocks sequence and iterator object
+/* Initializes an extension blocks sequence and iterator object
  * Returns 0 if successful or -1 on error
  */
 int pyfwsi_extension_blocks_init(
