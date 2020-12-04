@@ -59,6 +59,13 @@ PyMethodDef pyfwsi_file_entry_object_methods[] = {
 	  "\n"
 	  "Returns the modification date and time as a 32-bit integer containing a FAT date time value." },
 
+	{ "get_file_attribute_flags",
+	  (PyCFunction) pyfwsi_file_entry_get_file_attribute_flags,
+	  METH_NOARGS,
+	  "get_file_attribute_flags() -> Integer\n"
+	  "\n"
+	  "Retrieves the file attribute flags." },
+
 	{ "get_name",
 	  (PyCFunction) pyfwsi_file_entry_get_name,
 	  METH_NOARGS,
@@ -82,6 +89,12 @@ PyGetSetDef pyfwsi_file_entry_object_get_set_definitions[] = {
 	  (getter) pyfwsi_file_entry_get_modification_time,
 	  (setter) 0,
 	  "The modification date and time.",
+	  NULL },
+
+	{ "file_attribute_flags",
+	  (getter) pyfwsi_file_entry_get_file_attribute_flags,
+	  (setter) 0,
+	  "The file attibute flags.",
 	  NULL },
 
 	{ "name",

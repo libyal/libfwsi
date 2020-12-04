@@ -23,7 +23,7 @@
 #include <narrow_string.h>
 #include <types.h>
 
-#if defined( HAVE_STDLIB_H )
+#if defined( HAVE_STDLIB_H ) || defined( HAVE_WINAPI )
 #include <stdlib.h>
 #endif
 
@@ -55,10 +55,7 @@ PyMethodDef pyfwsi_module_methods[] = {
 	  "Retrieves the version." },
 
 	/* Sentinel */
-	{ NULL,
-	  NULL,
-	  0,
-	  NULL}
+	{ NULL, NULL, 0, NULL }
 };
 
 /* Retrieves the pyfwsi/libfwsi version
@@ -163,8 +160,9 @@ PyMODINIT_FUNC initpyfwsi(
 		return;
 #endif
 	}
+#if PY_VERSION_HEX < 0x03070000
 	PyEval_InitThreads();
-
+#endif
 	gil_state = PyGILState_Ensure();
 
 	/* Setup the item list type object
