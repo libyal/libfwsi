@@ -12,7 +12,7 @@ The Windows Shell uses Shell Items (Shell item list) to identify items within
 the Windows Folder Hierarchy. A Shell Item list is much like a path, and is
 unique to its parent folder. The format of the Shell Item is undocumented and
 varies between Windows versions. This specification is based on publicly
-availble work on the format and was enhanced by analyzing test data.
+available work on the format and was enhanced by analyzing test data.
 
 This document is intended as a working document of the data format specification
 for the libfwsi project.

@@ -1,7 +1,7 @@
 /*
  * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_NETWORK_LOCATION
  *
- * Copyright (C) 2010-2020, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2021, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
