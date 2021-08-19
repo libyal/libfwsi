@@ -62,8 +62,7 @@ int libfwsi_control_panel_cpl_file_values_initialize(
 
 		return( -1 );
 	}
-	*control_panel_cpl_file_values = memory_allocate_structure(
-	                                  libfwsi_control_panel_cpl_file_values_t );
+	*control_panel_cpl_file_values = memory_allocate_structure(libfwsi_control_panel_cpl_file_values_t);
 
 	if( *control_panel_cpl_file_values == NULL )
 	{
@@ -79,7 +78,7 @@ int libfwsi_control_panel_cpl_file_values_initialize(
 	if( memory_set(
 	     *control_panel_cpl_file_values,
 	     0,
-	     sizeof( libfwsi_control_panel_cpl_file_values_t ) ) == NULL )
+		sizeof(libfwsi_control_panel_cpl_file_values_t)) == NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -125,6 +124,11 @@ int libfwsi_control_panel_cpl_file_values_free(
 	}
 	if( *control_panel_cpl_file_values != NULL )
 	{
+		if ( (*control_panel_cpl_file_values)->string_buffer != NULL)
+		{
+			memory_free((*control_panel_cpl_file_values)->string_buffer);
+		}
+
 		memory_free(
 		 *control_panel_cpl_file_values );
 
@@ -146,6 +150,9 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 	size_t data_offset    = 0;
 	size_t string_size    = 0;
 	uint32_t signature    = 0;
+	size_t string_buffer_length = 0;
+	uint16_t name_offset = 0;
+	uint16_t comments_offset = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint32_t value_32bit  = 0;
@@ -194,13 +201,64 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 	/* Do not try to parse unsupported shell item signatures
 	 */
 	byte_stream_copy_to_uint32_little_endian(
-	 &( data[ 4 ] ),
+	 &( data[ 12 ] ),
 	 signature );
 
-	if( signature != 0xffffff38UL )
+	if( signature != 0x00006a00UL )
 	{
 		return( 0 );
 	}
+
+	byte_stream_copy_to_uint16_little_endian(
+		data,
+		control_panel_cpl_file_values->size
+	);
+
+	control_panel_cpl_file_values->class_type = data[2];
+
+	byte_stream_copy_to_uint32_little_endian(
+		&(data[4]),
+		control_panel_cpl_file_values->signature
+	);
+	byte_stream_copy_to_uint32_little_endian(
+		&(data[12]),
+		control_panel_cpl_file_values->signature2
+	);
+	
+	string_buffer_length = data_size - 24;
+	if (string_buffer_length >= 0)
+	{
+		control_panel_cpl_file_values->string_buffer = 
+			(uint16_t*)memory_allocate(string_buffer_length + 2);
+	}
+	if (control_panel_cpl_file_values->string_buffer != NULL)
+	{
+		memory_set(control_panel_cpl_file_values->string_buffer, 0, string_buffer_length + 2);
+
+		memory_copy(control_panel_cpl_file_values->string_buffer, &(data[24]), string_buffer_length);
+		control_panel_cpl_file_values->cpl_path = control_panel_cpl_file_values->string_buffer;
+		
+		byte_stream_copy_to_uint16_little_endian(
+			&(data[20]),
+			name_offset
+		);
+		byte_stream_copy_to_uint16_little_endian(
+			&(data[22]),
+			comments_offset
+		);
+		if (name_offset * 2 < string_buffer_length)
+		{
+			control_panel_cpl_file_values->name = 
+				control_panel_cpl_file_values->string_buffer + name_offset;
+		}
+		if (comments_offset * 2 < string_buffer_length)
+		{
+			control_panel_cpl_file_values->comments =
+				control_panel_cpl_file_values->string_buffer + comments_offset;
+		}
+	}
+	return(1);
+	
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{

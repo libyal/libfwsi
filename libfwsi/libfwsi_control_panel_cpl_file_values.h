@@ -33,11 +33,87 @@ extern "C" {
 
 typedef struct libfwsi_control_panel_cpl_file_values libfwsi_control_panel_cpl_file_values_t;
 
+//original data struct define 
+#pragma pack(push, 1)
+struct libfwsi_control_panel_cpl_file_values_original
+{
+    /*offset 0*/
+    uint16_t size;
+
+    /*offset 2*/
+    /*must be zero*/
+    uint8_t class_type;
+    
+    /*offset 3*/
+    /*seen as zero*/
+    uint8_t unknown1;
+
+    /*seen as follow
+	*0x00000000
+	*0xffffee79
+	*0xfffff444
+	*0xffffff36
+	*0xffffff37
+	*0xffffff38
+	*0xffffff9a
+	*0xffffff9c
+	*0xffffffff
+    */
+    /*offset 4*/
+    uint32_t signature;
+
+    /*seen as zero*/
+    /*offset 8*/
+    uint32_t unknown2;
+
+    /*0x00006a00*/
+    /*offset 12*/
+    uint32_t signature2;
+
+    /*seen as zero*/
+    /*offset 16*/
+    uint32_t unknown3;
+
+    /*offset 20*/
+    uint16_t name_offset;
+    /*offset 22*/
+    uint16_t comments_offset;
+    
+    /*
+    * bytes size = size - 0x18
+    * .cpl file path
+    * name string
+    * comments string
+    */
+    /*offset 24*/
+    uint16_t string[0];
+};
+#pragma pack(pop) 
+
 struct libfwsi_control_panel_cpl_file_values
 {
-	/* Dummy
-	 */
-	int dummy;
+
+    uint16_t size;
+    /*class_type must be zero*/
+    uint8_t class_type;
+    /*signature seen as 
+    *0x00000000
+    *0xffffee79
+    *0xfffff444
+    *0xffffff36
+    *0xffffff37
+    *0xffffff38
+    *0xffffff9a
+    *0xffffff9c
+    *0xffffffff
+    */
+    uint32_t signature;
+    uint32_t signature2; //seen as 0x00006a00
+
+    uint16_t* string_buffer;
+    uint16_t* cpl_path;
+    uint16_t* name;
+    uint16_t* comments;
 };
 
 int libfwsi_control_panel_cpl_file_values_initialize(

@@ -515,6 +515,16 @@ int libfwsi_item_copy_from_byte_stream(
 				break;
 		}
 	}
+	if( (internal_item->type == 0)
+	 && (internal_item->data_size >= 28))
+	{
+		byte_stream_copy_to_uint32_little_endian(
+			&(byte_stream[12]),
+			signature);
+		if (signature == 0x00006a00)
+			internal_item->type = LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CPL_FILE;
+
+	}
 	if( ( internal_item->type == 0 )
 	 && ( internal_item->data_size >= 38 ) )
 	{
