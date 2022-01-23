@@ -3183,7 +3183,7 @@ Windows XP
 [cols="1,5",options="header"]
 |===
 | Title: | Shell Folder Identifiers
-| URL: | https://code.google.com/p/libfwsi/wiki/ShellFolderIdentifiers
+| URL: | https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers
 |===
 
 `[LIBFWPS]`
