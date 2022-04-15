@@ -1,7 +1,7 @@
 Source: libfwsi
 Priority: extra
 Maintainer: Joachim Metz <joachim.metz@gmail.com>
-Build-Depends: debhelper (>= 9), dh-autoreconf, pkg-config, python-dev, python-setuptools, python3-dev, python3-setuptools
+Build-Depends: debhelper (>= 9), dh-autoreconf, pkg-config, python3-dev, python3-setuptools
 Standards-Version: 4.1.4
 Section: libs
 Homepage: https://github.com/libyal/libfwsi
@@ -29,23 +29,6 @@ Architecture: any
 Depends: libfwsi (= ${binary:Version}), ${misc:Depends}
 Description: Header files and libraries for developing applications for libfwsi
  Header files and libraries for developing applications for libfwsi.
-
-Package: libfwsi-python
-Section: python
-Architecture: any
-Depends: libfwsi (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-Conflicts: python-libfwsi
-Replaces: python-libfwsi
-Suggests: libfwsi-python-dbg
-Description: Python 2 bindings for libfwsi
- Python 2 bindings for libfwsi.
-
-Package: libfwsi-python-dbg
-Section: debug
-Architecture: any
-Depends: libfwsi-python (= ${binary:Version}), ${misc:Depends}
-Description: Debugging symbols for libfwsi-python
- Debugging symbols for libfwsi-python.
 
 Package: libfwsi-python3
 Section: python
