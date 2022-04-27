@@ -32,7 +32,6 @@ DPKG_FILES = \
 	dpkg/rules \
 	dpkg/libfwsi.install \
 	dpkg/libfwsi-dev.install \
-	dpkg/libfwsi-python.install \
 	dpkg/libfwsi-python3.install \
 	dpkg/source/format
 
