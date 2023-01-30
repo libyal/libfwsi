@@ -145,16 +145,16 @@ int libfwsi_users_property_view_values_read_data(
      int ascii_codepage,
      libcerror_error_t **error )
 {
-	static char *function        = "libfwsi_users_property_view_values_read_data";
-	size_t data_offset           = 0;
-	uint32_t signature           = 0;
-	uint16_t identifier_size     = 0;
-	uint16_t item_data_size      = 0;
-	uint16_t property_store_size = 0;
+	static char *function      = "libfwsi_users_property_view_values_read_data";
+	size_t data_offset         = 0;
+	uint32_t signature         = 0;
+	uint16_t identifier_size   = 0;
+	uint16_t item_data_size    = 0;
+	uint16_t property_set_size = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint32_t value_32bit         = 0;
-	uint16_t value_16bit         = 0;
+	uint32_t value_32bit       = 0;
+	uint16_t value_16bit       = 0;
 #endif
 
 	if( users_property_view_values == NULL )
@@ -220,7 +220,7 @@ int libfwsi_users_property_view_values_read_data(
 
 	byte_stream_copy_to_uint16_little_endian(
 	 &( data[ 10 ] ),
-	 property_store_size );
+	 property_set_size );
 
 	byte_stream_copy_to_uint16_little_endian(
 	 &( data[ 12 ] ),
@@ -250,9 +250,9 @@ int libfwsi_users_property_view_values_read_data(
 		 signature );
 
 		libcnotify_printf(
-		 "%s: property store size\t: %" PRIu16 "\n",
+		 "%s: property set size\t: %" PRIu16 "\n",
 		 function,
-		 property_store_size );
+		 property_set_size );
 
 		libcnotify_printf(
 		 "%s: identifier size\t\t: %" PRIu16 "\n",
@@ -351,29 +351,29 @@ int libfwsi_users_property_view_values_read_data(
 			data_offset += identifier_size;
 			break;
 	}
-/* TODO add property store size bounds check */
+/* TODO add property set size bounds check */
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: property store data:\n",
+		 "%s: property set data:\n",
 		 function );
 		libcnotify_print_data(
 		 &( data[ data_offset ] ),
-		 property_store_size,
+		 property_set_size,
 		 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 	}
 #endif
-	if( property_store_size > 0 )
+	if( property_set_size > 0 )
 	{
-/* TODO look for multiple stores */
+/* TODO look for multiple sets (property store) */
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-			if( libfwsi_debug_print_property_storage_value(
+			if( libfwsi_debug_print_property_set_value(
 			     &( data[ data_offset ] ),
-			     property_store_size,
+			     property_set_size,
 			     ascii_codepage,
 			     error ) != 1 )
 			{
@@ -381,14 +381,14 @@ int libfwsi_users_property_view_values_read_data(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print property storage value.",
+				 "%s: unable to print property set value.",
 				 function );
 
 				return( -1 );
 			}
 		}
 #endif
-		data_offset += property_store_size;
+		data_offset += property_set_size;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )

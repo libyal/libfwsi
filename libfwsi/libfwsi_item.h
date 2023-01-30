@@ -76,7 +76,7 @@ struct libfwsi_internal_item
 	 */
 	int ascii_codepage;
 
-	/* Value to indicate if the item is managed by the list
+	/* Value to indicate if the item is managed by a list
 	 */
 	uint8_t is_managed;
 };

@@ -361,33 +361,33 @@ on_error:
 	return( -1 );
 }
 
-/* Prints a property storage value
+/* Prints a property set value
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_debug_print_property_storage_value(
+int libfwsi_debug_print_property_set_value(
      const uint8_t *byte_stream,
      size_t byte_stream_size,
      int ascii_codepage,
      libcerror_error_t **error )
 {
-        libfwps_storage_t *property_storage = NULL;
-	static char *function               = "libfwsi_debug_print_property_storage_value";
+        libfwps_set_t *property_set = NULL;
+	static char *function       = "libfwsi_debug_print_property_set_value";
 
-	if( libfwps_storage_initialize(
-	     &property_storage,
+	if( libfwps_set_initialize(
+	     &property_set,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create property storage.",
+		 "%s: unable to create property set.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfwps_storage_copy_from_byte_stream(
-	     property_storage,
+	if( libfwps_set_copy_from_byte_stream(
+	     property_set,
 	     byte_stream,
 	     byte_stream_size,
 	     ascii_codepage,
@@ -397,20 +397,20 @@ int libfwsi_debug_print_property_storage_value(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-		 "%s: unable to copy byte stream to property storage.",
+		 "%s: unable to copy byte stream to property set.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfwps_storage_free(
-	     &property_storage,
+	if( libfwps_set_free(
+	     &property_set,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to free property storage.",
+		 "%s: unable to free property set.",
 		 function );
 
 		goto on_error;
@@ -418,10 +418,10 @@ int libfwsi_debug_print_property_storage_value(
 	return( 1 );
 
 on_error:
-	if( property_storage != NULL )
+	if( property_set != NULL )
 	{
-		libfwps_storage_free(
-		 &property_storage,
+		libfwps_set_free(
+		 &property_set,
 		 NULL );
 	}
 	return( -1 );
