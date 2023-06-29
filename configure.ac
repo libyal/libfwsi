@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
  [libfwsi],
- [20230418],
+ [20230629],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
