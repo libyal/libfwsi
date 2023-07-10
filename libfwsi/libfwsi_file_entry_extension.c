@@ -232,6 +232,8 @@ int libfwsi_file_entry_extension_get_file_reference(
 }
 
 /* Retrieves the size of the UTF-8 formatted long name
+ * This function uses UTF-8 RFC 2279 (or 6-byte UTF-8) to support characters outside Unicode
+ * The size includes the end of string character
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf8_long_name_size(
@@ -288,7 +290,7 @@ int libfwsi_file_entry_extension_get_utf8_long_name_size(
 	if( libuna_utf8_string_size_from_utf16_stream(
 	     file_entry_extension_values->long_name,
 	     file_entry_extension_values->long_name_size,
-	     LIBUNA_ENDIAN_LITTLE,
+	     LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 	     utf8_string_size,
 	     error ) != 1 )
 	{
@@ -305,6 +307,8 @@ int libfwsi_file_entry_extension_get_utf8_long_name_size(
 }
 
 /* Retrieves the UTF-8 formatted long name
+ * This function uses UTF-8 RFC 2279 (or 6-byte UTF-8) to support characters outside Unicode
+ * The size should include the end of string character
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf8_long_name(
@@ -364,7 +368,7 @@ int libfwsi_file_entry_extension_get_utf8_long_name(
 	     utf8_string_size,
 	     file_entry_extension_values->long_name,
 	     file_entry_extension_values->long_name_size,
-	     LIBUNA_ENDIAN_LITTLE,
+	     LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -380,6 +384,8 @@ int libfwsi_file_entry_extension_get_utf8_long_name(
 }
 
 /* Retrieves the size of the UTF-16 formatted long name
+ * This function uses UCS-2 (with surrogates) to support characters outside Unicode
+ * The size includes the end of string character
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf16_long_name_size(
@@ -436,7 +442,7 @@ int libfwsi_file_entry_extension_get_utf16_long_name_size(
 	if( libuna_utf16_string_size_from_utf16_stream(
 	     file_entry_extension_values->long_name,
 	     file_entry_extension_values->long_name_size,
-	     LIBUNA_ENDIAN_LITTLE,
+	     LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 	     utf16_string_size,
 	     error ) != 1 )
 	{
@@ -453,6 +459,8 @@ int libfwsi_file_entry_extension_get_utf16_long_name_size(
 }
 
 /* Retrieves the UTF-16 formatted long name
+ * This function uses UCS-2 (with surrogates) to support characters outside Unicode
+ * The size should include the end of string character
  * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_file_entry_extension_get_utf16_long_name(
@@ -512,7 +520,7 @@ int libfwsi_file_entry_extension_get_utf16_long_name(
 	     utf16_string_size,
 	     file_entry_extension_values->long_name,
 	     file_entry_extension_values->long_name_size,
-	     LIBUNA_ENDIAN_LITTLE,
+	     LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 	     error ) != 1 )
 	{
 		libcerror_error_set(

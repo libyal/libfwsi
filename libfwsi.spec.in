@@ -3,10 +3,9 @@ Version: @VERSION@
 Release: 1
 Summary: Library to access the Windows Shell Item format
 Group: System Environment/Libraries
-License: LGPLv3+
+License: LGPL-3.0-or-later
 Source: %{name}-%{version}.tar.gz
 URL: https://github.com/libyal/libfwsi
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 @libfwsi_spec_requires@ @ax_libcdata_spec_requires@ @ax_libcerror_spec_requires@ @ax_libclocale_spec_requires@ @ax_libcnotify_spec_requires@ @ax_libcthreads_spec_requires@ @ax_libfdatetime_spec_requires@ @ax_libfguid_spec_requires@ @ax_libfole_spec_requires@ @ax_libfwps_spec_requires@ @ax_libuna_spec_requires@
 BuildRequires: gcc @ax_libcdata_spec_build_requires@ @ax_libcerror_spec_build_requires@ @ax_libclocale_spec_build_requires@ @ax_libcnotify_spec_build_requires@ @ax_libcthreads_spec_build_requires@ @ax_libfdatetime_spec_build_requires@ @ax_libfguid_spec_build_requires@ @ax_libfole_spec_build_requires@ @ax_libfwps_spec_build_requires@ @ax_libuna_spec_build_requires@
 
@@ -57,19 +56,16 @@ rm -rf %{buildroot}
 %postun -p /sbin/ldconfig
 
 %files -n libfwsi
-%defattr(644,root,root,755)
 %license COPYING COPYING.LESSER
 %doc AUTHORS README
-%attr(755,root,root) %{_libdir}/*.so.*
+%{_libdir}/*.so.*
 
 %files -n libfwsi-static
-%defattr(644,root,root,755)
 %license COPYING COPYING.LESSER
 %doc AUTHORS README
-%attr(755,root,root) %{_libdir}/*.a
+%{_libdir}/*.a
 
 %files -n libfwsi-devel
-%defattr(644,root,root,755)
 %license COPYING COPYING.LESSER
 %doc AUTHORS README
 %{_libdir}/*.so
@@ -78,7 +74,6 @@ rm -rf %{buildroot}
 %{_mandir}/man3/*
 
 %files -n libfwsi-python3
-%defattr(644,root,root,755)
 %license COPYING COPYING.LESSER
 %doc AUTHORS README
 %{_libdir}/python3*/site-packages/*.a

@@ -93,6 +93,7 @@ Updated information regarding the delegate shell item.
 | 0.0.34 | J.B. Metz | November 2017 | Additional information regarding FTP URI and URI sub shell items with thanks to S. Polshyn.
 | 0.0.35 | J.B. Metz | December 2020 | Additional information regarding SHDESCRIPTIONID types.
 | 0.0.36 | J.B. Metz | January 2023 | Small changes.
+| 0.0.37 | J.B. Metz | July 2023 | Additional information regarding encoding of filenames.
 |===
 
 :numbered:
@@ -406,10 +407,10 @@ Contains the lower 16-bit part of the file attribute flags. +
 See section: <<file_attribute_flags,File attribute flags>> +
 [yellow-background]*What does 0x8000 represent? Seen in windows 98 lnk.*
 | 14 | ... | | Primary name +
-Depending on flag 0x04 an ASCII or UTF-16 little-endian string with end-of-string character. +
+Depending on flag 0x04 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. +
 Also see below.
 | ... | ... | | Secondary name +
-Depending on flag 0x04 an ASCII or UTF-16 little-endian string with end-of-string character. +
+Depending on flag 0x04 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. +
 Also see below.
 4+| _If class type indicator flag 0x80 is set_
 | ... | 16 | | Shell folder identifier +
@@ -421,6 +422,10 @@ The primary name contains the long name if available otherwise it contains the
 short name. If the primary name contains the long name the secondary name
 contains the short name otherwise it is empty (consist of a single
 end-of-string character).
+
+[NOTE]
+The primary name path string is not strict UTF-16 since it allows for unpaired
+surrogates, such as "U+d800" and "U+dc00".
 
 [yellow-background]*It is unknown when Unicode string support was added but it
 is assumed that it also applies to pre Windows XP file entry shell item.*
@@ -452,7 +457,7 @@ Contains a FAT date and time in UTC
 Contains the lower 16-bit part of the file attribute flags. +
 See section: <<file_attribute_flags,File attribute flags>>
 | 14 | ... | | Primary name +
-Depending on flag 0x04 an ASCII or UTF-16 little-endian string with end-of-string character. +
+Depending on flag 0x04 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. +
 This value is 16-bit aligned, so for ASCII strings it can contain an additional zero byte. +
 Also see below.
 | ... | ... | | Extension block 0xbeef0004 +
@@ -468,6 +473,10 @@ See section: <<extension_block_0xbeef0003,Extension block 0xbeef0003>>
 
 The primary name often contains the short name, but can contain the long name
 as well e.g. when class indicator flag 0x04 is set.
+
+[NOTE]
+The primary name path string is not strict UTF-16 since it allows for unpaired
+surrogates, such as "U+d800" and "U+dc00".
 
 [NOTE]
 The date and time values do not always seem to be set.
@@ -497,7 +506,7 @@ Contains s FAT date and time in UTC
 Contains the lower 16-bit part of the file attribute flags. +
 See section: <<file_attribute_flags,File attribute flags>>
 | 14 | ... | | Primary name +
-UTF-16 little-endian string with end-of-string character.
+Contains an UTF-16 little-endian string with end-of-string character.
 | ... | 2 | [yellow-background]*Seen: 0* | Extension block +
 This value contains the the size of the extension block or 0 if not set
 | ... | 7 | "S.W.N.1" | Signature
@@ -510,6 +519,10 @@ This value contains the the size of the extension block or 0 if not set
 | ... | 8 | [yellow-background]*Seen: 2* | [yellow-background]*Unknown*
 | ... | 6 | [yellow-background]*Seen: 0* | [yellow-background]*Unknown (Empty values)*
 |===
+
+[NOTE]
+The primary name path string is not strict UTF-16 since it allows for unpaired
+surrogates, such as "U+d800" and "U+dc00".
 
 ==== Notes
 
@@ -612,22 +625,22 @@ Contains a FAT date and time in UTC, or 0 if not set
 Contains the number of characters which includes the end-of-string character +
 An empty strings is stored with a size of 1
 | 50 | ... | | [yellow-background]*Unknown string (file entry name?)* +
-UTF-16 little-endian string with end-of-string character.
+Contains an UTF-16 little-endian string with end-of-string character.
 | ... | 4 | | [yellow-background]*Unknown string size* +
 Contains the number of characters which includes the end-of-string character +
 An empty strings is stored with a size of 1
 | ... | ... | | [yellow-background]*Unknown string* +
-UTF-16 little-endian string with end-of-string character.
+Contains an UTF-16 little-endian string with end-of-string character.
 | ... | 4 | | Full path string size +
 Contains the number of characters which includes the end-of-string character +
 An empty strings is stored with a size of 1
 | ... | ... | | Full path string +
-UTF-16 little-endian string with end-of-string character.
+Contains an UTF-16 little-endian string with end-of-string character.
 | ... | 4 | | [yellow-background]*Unknown string size* +
 Contains the number of characters which includes the end-of-string character +
 An empty strings is stored with a size of 1
 | ... | ... | | [yellow-background]*Unknown string* +
-UTF-16 little-endian string with end-of-string character.
+Contains an UTF-16 little-endian string with end-of-string character.
 |===
 
 ....
@@ -724,20 +737,20 @@ Contains a FILETIME
 Value in bytes
 | ... | ... | | String1 data +
 [yellow-background]*For FTP hostname or IP address* +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
+Depending on flag 0x80 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
 | ... | 4 | | String2 data size +
 Value in bytes
 | ... | 4 | | String2 data +
 [yellow-background]*For FTP the username* +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
+Depending on flag 0x80 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
 | ... | 4 | | String3 data size +
 Value in bytes
 | ... | 4 | | String3 data +
 [yellow-background]*For FTP the password* +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
+Depending on flag 0x80 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. The string is 4-byte aligned unused bytes are filled with 0-byte values. Therefore an empty string is stored as 4x 0-byte values.
 4+| _Common_
 | ... | ... | | URI string +
-Depending on flag 0x80 an ASCII or UTF-16 little-endian string with end-of-string character. +
+Depending on flag 0x80 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. +
 Not always present is this controlled by flag 0x01 or 0x02 ?
 | ... | 2 | | [yellow-background]*Unknown (Empty values)* +
 Present if shell item contains more data (Seen in Vista in combination with MSIE 7)
@@ -779,7 +792,7 @@ Contains a FILETIME
 ASCII string with end-of-string character +
 Sometimes is 4-byte aligned unused bytes are filled with 0-byte values?
 | ... | ... | | Unicode string +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 Sometimes is 4-byte aligned unused bytes are filled with 0-byte values?
 | ... | ... | | [yellow-background]*Unknown* +
 Not always present, but is an ASCII string sometimes without an end-of-string character. Maybe remnant data?
@@ -940,11 +953,11 @@ Contains the number of characters (16-bit values)
 | 22 | 2 | | Comments offset +
 Contains the number of characters (16-bit values)
 | 24 | ... | | .cpl file path +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | Name +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | Comments +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 |===
 
 ==== Control panel category shell item
@@ -1048,13 +1061,13 @@ Contains the number of characters including the end-of-string character
 Contains the number of characters including the end-of-string character
 | 50 | 4 | | Number of GUID strings
 | 54 | ... | | Name string +
-UTF-16 little-endian with end-of-string character
+Contains an UTF-16 little-endian with end-of-string character
 | ... | ... | | Identifier string +
-UTF-16 little-endian with end-of-string character
+Contains an UTF-16 little-endian with end-of-string character
 | ... | ... | | File system string +
-UTF-16 little-endian with end-of-string character
+Contains an UTF-16 little-endian with end-of-string character
 | ... | 78 x n | | GUID strings +
-UTF-16 little-endian with end-of-string character +
+Contains an UTF-16 little-endian with end-of-string character +
 Each GUID string is 78 bytes in size +
 The GUIDs relate to WPD event handler identifiers
 | ... | 4 | 0xd | [yellow-background]*Unknown*
@@ -1095,11 +1108,11 @@ WPD_CONTENT_TYPE_FOLDER
 | 66 | 4 | | String 2 size
 | 70 | 4 | | String 3 size
 | 74 | ... | | String 1 (Folder name) +
-UTF-16 little-endian with end-of-string character
+Contains an UTF-16 little-endian with end-of-string character
 | ... | ... | | String 2 (Folder name) +
-UTF-16 little-endian with end-of-string character
+Contains an UTF-16 little-endian with end-of-string character
 | ... | ... | | String 3 (Folder identifier) +
-UTF-16 little-endian with end-of-string character
+Contains an UTF-16 little-endian with end-of-string character
 | ... | 4 | 0xd | [yellow-background]*Unknown*
 | ... | 16 | | Class identifier +
 Contains a GUID +
@@ -1191,9 +1204,9 @@ Contains the number of characters which includes the end-of-string character
 Contains the number of characters which includes the end-of-string character
 | 32 | 2 | | [yellow-background]*Unknown*
 | 34 | ... | | String 1 +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | String 2 +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | 4 | 0xd | [yellow-background]*Unknown*
 | ... | 16 | | Class identifier +
 Contains a GUID
@@ -1239,7 +1252,7 @@ number of chars in string 2?
 | Offset | Size | Value | Description
 | 0 | 4 | [yellow-background]*Seen: 2* | [yellow-background]*Unknown*
 | 4 | ... | | [yellow-background]*Username?* +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | 8 | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*4-byte alignment padding?*
 |===
@@ -1665,7 +1678,7 @@ Includes the 2 bytes of the size itself
 | 3 | 1 | | [yellow-background]*Unknown*
 | 4 | 4 | | [yellow-background]*Unknown*
 | 6 | ... | | [yellow-background]*Unknown string*
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 |===
 
 ....
@@ -1733,9 +1746,9 @@ Includes the 2 bytes of the size itself
 | 88 | 4 | | [yellow-background]*Unknown*
 | 92 | 4 | | [yellow-background]*Unknown*
 | 96 | ... | | [yellow-background]*Unknown (Local Area Connection #)* +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | [yellow-background]*Unknown (Description of Network Controller)* +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | 16 | | [yellow-background]*Unknown GUID3* +
 Value is the same as that of GUID2
 | ... | 4 | | [yellow-background]*Unknown (empty values)* +
@@ -1908,19 +1921,23 @@ Contains the size of long name and localized name or 0 if no localized name is p
 | ... | 4 | | [yellow-background]*Unknown*
 4+| _If extension version >= 3_
 | ... | ... | | Long name +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 4+| _If extension version >= 3 and long string size > 0_
 | ... | ... | | Localized name +
 ASCII string with end-of-string character +
 E.g. @shell32.dll,-21781
 4+| _If extension version >= 7 and long string size > 0_
 | ... | ... | | Localized name +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 E.g. @shell32.dll,-21781
 4+| _If extension version >= 3_
 | ... | 2 | | First extension block version offset +
 The offset is relative from the start of the shell item.
 |===
+
+[NOTE]
+The long name path string is not strict UTF-16 since it allows for unpaired
+surrogates, such as "U+d800" and "U+dc00".
 
 ==== [[ntfs_file_reference]]NTFS file reference
 
@@ -1973,7 +1990,7 @@ Includes the 2 bytes of the size itself
 [yellow-background]*Seen 0x0000, 0x0027*
 | 4 | 4 | 0xbeef0006 | Extension signature
 | 8 | ... | | Username +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | 2 | | First extension block version offset +
 The offset is relative from the start of the shell item.
 |===
@@ -1998,12 +2015,12 @@ Includes the 2 bytes of the size itself
 | 16 | 8 | | [yellow-background]*Deletion time?* +
 Contains a FILETIME
 | 24 | 520 | | [yellow-background]*Original path?* +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 Unused bytes can contain 0-byte values
 | 544 | ... | | [yellow-background]*Recycle bin path?* +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | [yellow-background]*File extension?* +
-UTF-16 little-endian string with end-of-string character
+Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | [yellow-background]*Unknown*
 | | | |
 | ... | 2 | | First extension block version offset +
@@ -2106,12 +2123,12 @@ Includes the 2 bytes of the size itself
 | 6 | 8 | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*Maybe an empty string array?*
 | 8 | ... | | [yellow-background]*Unknown (filename?)* +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: %windir%\system32\cmd.exe*
 | ... | ... | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*Maybe an empty string array or 8-byte alignment padding?*
 | ... | ... | | [yellow-background]*Unknown (filename?)* +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: {%GUID%}\cmd.exe*
 | ... | ... | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*Maybe an empty string array or 8-byte alignment padding?*
@@ -2124,7 +2141,7 @@ Contains a FILETIME
 [yellow-background]*Seen: 1*
 | ... | 4 | | [yellow-background]*Unknown (empty values)*
 | ... | ... | | [yellow-background]*Unknown (filename?)* +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: {%GUID%}\cmd.exe*
 | ... | ... | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*Maybe an empty string array or 4-byte alignment padding?*
@@ -2468,7 +2485,7 @@ Includes the 2 bytes of the size itself
 | 6 | 2 | | [yellow-background]*Unknown*
 [yellow-background]*Seen 0x0002*
 | 8 | ... | | [yellow-background]*Unknown string?* +
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: "boy" and "order"*
 | ... | 2 | | First extension block version offset +
 The offset is relative from the start of the shell item.
@@ -2553,7 +2570,7 @@ Includes the 2 bytes of the size itself
 | 8 | 2 | | [yellow-background]*Unknown*
 [yellow-background]*Seen 0x0002*
 | 10 | 16 | | [yellow-background]*File/Document type string?*
-UTF-16 little-endian string with end-of-string character +
+Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: "AcroExch.Document"*
 | 24 | ... | | Embedded shell item list
 | ... | 2 | | First extension block version offset +

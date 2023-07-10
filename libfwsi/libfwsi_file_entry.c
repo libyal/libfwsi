@@ -227,6 +227,8 @@ int libfwsi_file_entry_get_file_attribute_flags(
 }
 
 /* Retrieves the size of the UTF-8 formatted name
+ * This function uses UTF-8 RFC 2279 (or 6-byte UTF-8) to support characters outside Unicode
+ * The size includes the end of string character
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_file_entry_get_utf8_name_size(
@@ -281,7 +283,7 @@ int libfwsi_file_entry_get_utf8_name_size(
 		result = libuna_utf8_string_size_from_utf16_stream(
 			  file_entry_values->name,
 			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 			  utf8_string_size,
 			  error );
 	}
@@ -309,6 +311,8 @@ int libfwsi_file_entry_get_utf8_name_size(
 }
 
 /* Retrieves the UTF-8 formatted name
+ * This function uses UTF-8 RFC 2279 (or 6-byte UTF-8) to support characters outside Unicode
+ * The size should include the end of string character
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_file_entry_get_utf8_name(
@@ -366,7 +370,7 @@ int libfwsi_file_entry_get_utf8_name(
 		          utf8_string_size,
 			  file_entry_values->name,
 			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 			  error );
 	}
 	else
@@ -394,6 +398,8 @@ int libfwsi_file_entry_get_utf8_name(
 }
 
 /* Retrieves the size of the UTF-16 formatted name
+ * This function uses UCS-2 (with surrogates) to support characters outside Unicode
+ * The size includes the end of string character
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_file_entry_get_utf16_name_size(
@@ -448,7 +454,7 @@ int libfwsi_file_entry_get_utf16_name_size(
 		result = libuna_utf16_string_size_from_utf16_stream(
 			  file_entry_values->name,
 			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 			  utf16_string_size,
 			  error );
 	}
@@ -476,6 +482,8 @@ int libfwsi_file_entry_get_utf16_name_size(
 }
 
 /* Retrieves the UTF-16 formatted name
+ * This function uses UCS-2 (with surrogates) to support characters outside Unicode
+ * The size should include the end of string character
  * Returns 1 if successful or -1 on error
  */
 int libfwsi_file_entry_get_utf16_name(
@@ -533,7 +541,7 @@ int libfwsi_file_entry_get_utf16_name(
 		          utf16_string_size,
 			  file_entry_values->name,
 			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
 			  error );
 	}
 	else
