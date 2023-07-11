@@ -29,9 +29,11 @@ pyfwsi_la_SOURCES = \
 	pyfwsi_libclocale.h \
 	pyfwsi_libfguid.h \
 	pyfwsi_libfwsi.h \
+	pyfwsi_libuna.h \
 	pyfwsi_network_location.c pyfwsi_network_location.h \
 	pyfwsi_python.h \
 	pyfwsi_root_folder.c pyfwsi_root_folder.h \
+	pyfwsi_string.c pyfwsi_string.h \
 	pyfwsi_unused.h \
 	pyfwsi_volume.c pyfwsi_volume.h
 

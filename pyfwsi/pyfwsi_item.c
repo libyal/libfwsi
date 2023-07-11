@@ -693,7 +693,7 @@ PyObject *pyfwsi_item_get_data(
 	if( data == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
+		 PyExc_MemoryError,
 		 "%s: unable to create data.",
 		 function );
 

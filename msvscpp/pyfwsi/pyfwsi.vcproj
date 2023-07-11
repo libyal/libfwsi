@@ -230,6 +230,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_string.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_volume.c"
 				>
 			</File>
@@ -308,6 +312,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_libuna.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_network_location.h"
 				>
 			</File>
@@ -317,6 +325,10 @@
 			</File>
 			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_root_folder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_string.h"
 				>
 			</File>
 			<File

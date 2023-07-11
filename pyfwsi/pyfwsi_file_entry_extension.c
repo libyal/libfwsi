@@ -34,6 +34,7 @@
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
+#include "pyfwsi_string.h"
 #include "pyfwsi_unused.h"
 
 PyMethodDef pyfwsi_file_entry_extension_object_methods[] = {
@@ -440,9 +441,9 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
 	const char *errors       = NULL;
-	uint8_t *long_name       = NULL;
+	uint8_t *utf8_string     = NULL;
 	static char *function    = "pyfwsi_file_entry_extension_get_long_name";
-	size_t long_name_size    = 0;
+	size_t utf8_string_size  = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -460,7 +461,7 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 
 	result = libfwsi_file_entry_extension_get_utf8_long_name_size(
 	          pyfwsi_extension_block->extension_block,
-	          &long_name_size,
+	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -470,7 +471,7 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve long name size.",
+		 "%s: unable to determine size of long name as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -479,20 +480,20 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 		goto on_error;
 	}
 	else if( ( result == 0 )
-	      || ( long_name_size == 0 ) )
+	      || ( utf8_string_size == 0 ) )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	long_name = (uint8_t *) PyMem_Malloc(
-	                         sizeof( uint8_t ) * long_name_size );
+	utf8_string = (uint8_t *) PyMem_Malloc(
+	                           sizeof( uint8_t ) * utf8_string_size );
 
-	if( long_name == NULL )
+	if( utf8_string == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
+		 PyExc_MemoryError,
 		 "%s: unable to create long name.",
 		 function );
 
@@ -502,8 +503,8 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 
 	result = libfwsi_file_entry_extension_get_utf8_long_name(
 		  pyfwsi_extension_block->extension_block,
-		  long_name,
-		  long_name_size,
+		  utf8_string,
+		  utf8_string_size,
 		  &error );
 
 	Py_END_ALLOW_THREADS
@@ -513,7 +514,7 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve long name.",
+		 "%s: unable to retrieve long name as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -521,25 +522,39 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 
 		goto on_error;
 	}
+#if PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 3
+	string_object = pyfwsi_string_new_from_utf8_rfc2279(
+			 (uint8_t *) utf8_string,
+			 utf8_string_size );
+#else
 	/* Pass the string length to PyUnicode_DecodeUTF8
 	 * otherwise it makes the end of string character is part
 	 * of the string
 	 */
 	string_object = PyUnicode_DecodeUTF8(
-			 (char *) long_name,
-			 (Py_ssize_t) long_name_size - 1,
-			 errors );
+	                 utf8_string,
+	                 (Py_ssize_t) utf8_string_size - 1,
+	                 NULL );
+#endif
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert UTF-8 string into Unicode object.",
+		 function );
 
+		goto on_error;
+	}
 	PyMem_Free(
-	 long_name );
+	 utf8_string );
 
 	return( string_object );
 
 on_error:
-	if( long_name != NULL )
+	if( utf8_string != NULL )
 	{
 		PyMem_Free(
-		 long_name );
+		 utf8_string );
 	}
 	return( NULL );
 }
@@ -606,7 +621,7 @@ PyObject *pyfwsi_file_entry_extension_get_localized_name(
 	if( localized_name == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
+		 PyExc_MemoryError,
 		 "%s: unable to create localized name.",
 		 function );
 

@@ -34,6 +34,7 @@
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
+#include "pyfwsi_string.h"
 #include "pyfwsi_unused.h"
 
 PyMethodDef pyfwsi_file_entry_object_methods[] = {
@@ -417,12 +418,12 @@ PyObject *pyfwsi_file_entry_get_name(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
+	uint8_t *utf8_string     = NULL;
 	const char *errors       = NULL;
-	uint8_t *name            = NULL;
 	static char *function    = "pyfwsi_file_entry_get_name";
-	size_t name_size         = 0;
+	size_t utf8_string_size  = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -440,7 +441,7 @@ PyObject *pyfwsi_file_entry_get_name(
 
 	result = libfwsi_file_entry_get_utf8_name_size(
 	          pyfwsi_item->item,
-	          &name_size,
+	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -450,7 +451,7 @@ PyObject *pyfwsi_file_entry_get_name(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve name size.",
+		 "%s: unable to determine size of name as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -459,20 +460,20 @@ PyObject *pyfwsi_file_entry_get_name(
 		goto on_error;
 	}
 	else if( ( result == 0 )
-	      || ( name_size == 0 ) )
+	      || ( utf8_string_size == 0 ) )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	name = (uint8_t *) PyMem_Malloc(
-	                    sizeof( uint8_t ) * name_size );
+	utf8_string = (uint8_t *) PyMem_Malloc(
+	                           sizeof( uint8_t ) * utf8_string_size );
 
-	if( name == NULL )
+	if( utf8_string == NULL )
 	{
 		PyErr_Format(
-		 PyExc_IOError,
+		 PyExc_MemoryError,
 		 "%s: unable to create name.",
 		 function );
 
@@ -482,8 +483,8 @@ PyObject *pyfwsi_file_entry_get_name(
 
 	result = libfwsi_file_entry_get_utf8_name(
 		  pyfwsi_item->item,
-		  name,
-		  name_size,
+		  utf8_string,
+		  utf8_string_size,
 		  &error );
 
 	Py_END_ALLOW_THREADS
@@ -493,7 +494,7 @@ PyObject *pyfwsi_file_entry_get_name(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve name.",
+		 "%s: unable to retrieve name as UTF-8 string.",
 		 function );
 
 		libcerror_error_free(
@@ -501,25 +502,39 @@ PyObject *pyfwsi_file_entry_get_name(
 
 		goto on_error;
 	}
+#if PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 3
+	string_object = pyfwsi_string_new_from_utf8_rfc2279(
+			 (uint8_t *) utf8_string,
+			 utf8_string_size );
+#else
 	/* Pass the string length to PyUnicode_DecodeUTF8
 	 * otherwise it makes the end of string character is part
 	 * of the string
 	 */
 	string_object = PyUnicode_DecodeUTF8(
-			 (char *) name,
-			 (Py_ssize_t) name_size - 1,
-			 errors );
+	                 utf8_string,
+	                 (Py_ssize_t) utf8_string_size - 1,
+	                 NULL );
+#endif
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert UTF-8 string into Unicode object.",
+		 function );
 
+		goto on_error;
+	}
 	PyMem_Free(
-	 name );
+	 utf8_string );
 
 	return( string_object );
 
 on_error:
-	if( name != NULL )
+	if( utf8_string != NULL )
 	{
 		PyMem_Free(
-		 name );
+		 utf8_string );
 	}
 	return( NULL );
 }
