@@ -189,7 +189,6 @@ PyObject *pyfwsi_network_location_get_location(
 {
 	PyObject *string_object  = NULL;
 	libcerror_error_t *error = NULL;
-	const char *errors       = NULL;
 	static char *function    = "pyfwsi_network_location_get_location";
 	char *utf8_string        = NULL;
 	size_t utf8_string_size  = 0;
@@ -277,7 +276,7 @@ PyObject *pyfwsi_network_location_get_location(
 	string_object = PyUnicode_DecodeUTF8(
 	                 utf8_string,
 	                 (Py_ssize_t) utf8_string_size - 1,
-	                 errors );
+	                 NULL );
 
 	if( string_object == NULL )
 	{
@@ -311,7 +310,6 @@ PyObject *pyfwsi_network_location_get_description(
 {
 	PyObject *string_object  = NULL;
 	libcerror_error_t *error = NULL;
-	const char *errors       = NULL;
 	static char *function    = "pyfwsi_network_location_get_description";
 	char *utf8_string        = NULL;
 	size_t utf8_string_size  = 0;
@@ -399,7 +397,7 @@ PyObject *pyfwsi_network_location_get_description(
 	string_object = PyUnicode_DecodeUTF8(
 	                 utf8_string,
 	                 (Py_ssize_t) utf8_string_size - 1,
-	                 errors );
+	                 NULL );
 
 	if( string_object == NULL )
 	{
@@ -433,7 +431,6 @@ PyObject *pyfwsi_network_location_get_comments(
 {
 	PyObject *string_object  = NULL;
 	libcerror_error_t *error = NULL;
-	const char *errors       = NULL;
 	static char *function    = "pyfwsi_network_location_get_comments";
 	char *utf8_string        = NULL;
 	size_t utf8_string_size  = 0;
@@ -521,7 +518,7 @@ PyObject *pyfwsi_network_location_get_comments(
 	string_object = PyUnicode_DecodeUTF8(
 	                 utf8_string,
 	                 (Py_ssize_t) utf8_string_size - 1,
-	                 errors );
+	                 NULL );
 
 	if( string_object == NULL )
 	{

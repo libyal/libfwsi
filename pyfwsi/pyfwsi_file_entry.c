@@ -421,7 +421,6 @@ PyObject *pyfwsi_file_entry_get_name(
 	PyObject *string_object  = NULL;
 	libcerror_error_t *error = NULL;
 	uint8_t *utf8_string     = NULL;
-	const char *errors       = NULL;
 	static char *function    = "pyfwsi_file_entry_get_name";
 	size_t utf8_string_size  = 0;
 	int result               = 0;

@@ -65,7 +65,6 @@ PyObject *pyfwsi_get_version(
            PyObject *self PYFWSI_ATTRIBUTE_UNUSED,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	const char *errors           = NULL;
 	const char *version_string   = NULL;
 	size_t version_string_length = 0;
 
@@ -88,7 +87,7 @@ PyObject *pyfwsi_get_version(
 	return( PyUnicode_DecodeUTF8(
 	         version_string,
 	         (Py_ssize_t) version_string_length,
-	         errors ) );
+	         NULL ) );
 }
 
 #if PY_MAJOR_VERSION >= 3

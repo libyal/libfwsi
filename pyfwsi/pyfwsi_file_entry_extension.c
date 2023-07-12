@@ -440,7 +440,6 @@ PyObject *pyfwsi_file_entry_extension_get_long_name(
 {
 	libcerror_error_t *error = NULL;
 	PyObject *string_object  = NULL;
-	const char *errors       = NULL;
 	uint8_t *utf8_string     = NULL;
 	static char *function    = "pyfwsi_file_entry_extension_get_long_name";
 	size_t utf8_string_size  = 0;
@@ -568,7 +567,6 @@ PyObject *pyfwsi_file_entry_extension_get_localized_name(
 {
 	libcerror_error_t *error   = NULL;
 	PyObject *string_object    = NULL;
-	const char *errors         = NULL;
 	uint8_t *localized_name    = NULL;
 	static char *function      = "pyfwsi_file_entry_extension_get_localized_name";
 	size_t localized_name_size = 0;
@@ -657,7 +655,7 @@ PyObject *pyfwsi_file_entry_extension_get_localized_name(
 	string_object = PyUnicode_DecodeUTF8(
 			 (char *) localized_name,
 			 (Py_ssize_t) localized_name_size - 1,
-			 errors );
+			 NULL );
 
 	PyMem_Free(
 	 localized_name );
