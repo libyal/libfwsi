@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
  [libfwsi],
- [20230710],
+ [20231012],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -173,6 +173,7 @@ AC_CONFIG_FILES([dpkg/changelog])
 AC_CONFIG_FILES([libfwsi/libfwsi.rc])
 AC_CONFIG_FILES([libfwsi.pc])
 AC_CONFIG_FILES([libfwsi.spec])
+AC_CONFIG_FILES([setup.cfg])
 dnl Generate a source configuration file
 AC_CONFIG_HEADERS([common/config.h])
 
