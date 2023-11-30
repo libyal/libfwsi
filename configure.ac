@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
  [libfwsi],
- [20231114],
+ [20231130],
  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -98,7 +98,7 @@ dnl Check if libfwsi Python bindings (pyfwsi) required headers and functions are
 AX_PYTHON_CHECK_ENABLE
 
 AS_IF(
-  [test "x${ac_cv_enable_python}" != xno || test "x${ac_cv_enable_python2}" != xno || test "x${ac_cv_enable_python3}" != xno],
+  [test "x${ac_cv_enable_python}" != xno],
   [dnl Headers included in pyfwsi/pyfwsi_error.c
   AC_CHECK_HEADERS([stdarg.h varargs.h])
 
@@ -154,8 +154,6 @@ AC_CONFIG_FILES([libfole/Makefile])
 AC_CONFIG_FILES([libfwps/Makefile])
 AC_CONFIG_FILES([libfwsi/Makefile])
 AC_CONFIG_FILES([pyfwsi/Makefile])
-AC_CONFIG_FILES([pyfwsi-python2/Makefile])
-AC_CONFIG_FILES([pyfwsi-python3/Makefile])
 AC_CONFIG_FILES([po/Makefile.in])
 AC_CONFIG_FILES([po/Makevars])
 AC_CONFIG_FILES([manuals/Makefile])

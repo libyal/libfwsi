@@ -15,8 +15,6 @@ SUBDIRS = \
 	libfwps \
 	libfwsi \
 	pyfwsi \
-	pyfwsi-python2 \
-	pyfwsi-python3 \
 	po \
 	manuals \
 	tests \
