@@ -1,7 +1,7 @@
 /*
  * String functions
  *
- * Copyright (C) 2010-2023, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -41,7 +41,7 @@ PyObject *pyfwsi_string_new_from_utf8_rfc2279(
 	libcerror_error_t *error                             = NULL;
 	uint32_t *utf32_string                               = NULL;
 	static char *function                                = "pyfwsi_string_new_from_utf8_rfc2279";
-	libuna_unicode_character_t largest_unicode_character = 255;
+	libuna_unicode_character_t largest_unicode_character = 127;
 	libuna_unicode_character_t unicode_character         = 0;
 	size_t utf32_string_index                            = 0;
 	size_t utf32_string_length                           = 0;
@@ -126,6 +126,10 @@ PyObject *pyfwsi_string_new_from_utf8_rfc2279(
 	{
 		largest_unicode_character = 0x0000ffffUL;
 	}
+	else if( largest_unicode_character > 127 )
+	{
+		largest_unicode_character = 0x000000ffUL;
+	}
 	/* Pass the string length to PyUnicode_New otherwise it the end of string
 	 * character is part of the string. The largest Unicode character is needed
 	 * to ensure Python Unicode strings are "canonical", otherwise string
@@ -164,16 +168,6 @@ PyObject *pyfwsi_string_new_from_utf8_rfc2279(
 			goto on_error;
 		}
 	}
-	if( PyUnicode_READY(
-	     string_object ) == -1 )
-	{
-		PyErr_Format(
-		 PyExc_RuntimeError,
-		 "%s: unable to finalize string object.",
-		 function );
-
-		goto on_error;
-	}
 	PyMem_Free(
 	 utf32_string );
 
@@ -208,6 +202,7 @@ int pyfwsi_string_copy_to_utf8_rfc2279(
 	Py_ssize_t string_index      = 0;
 	Py_ssize_t string_length     = 0;
 	size_t safe_utf8_string_size = 0;
+	size_t utf8_character_size   = 0;
 	size_t utf8_string_index     = 0;
 
 	if( string_object == NULL )
@@ -260,8 +255,34 @@ int pyfwsi_string_copy_to_utf8_rfc2279(
 
 		goto on_error;
 	}
-	safe_utf8_string_size = string_length + 1;
+	safe_utf8_string_size = 1;
 
+	/* Using RFC 2279 UTF-8 to support unpaired UTF-16 surrogates
+	 */
+	for( string_index = 0;
+	     string_index < string_length;
+	     string_index++ )
+	{
+		unicode_character = PyUnicode_ReadChar(
+		                     string_object,
+		                     string_index );
+
+		if( libuna_unicode_character_size_to_utf8_rfc2279(
+		     (libuna_unicode_character_t) unicode_character,
+		     &utf8_character_size,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+			 "%s: unable to determine size of Unicode character as UTF-8 string.",
+			 function );
+
+			goto on_error;
+		}
+		safe_utf8_string_size += utf8_character_size;
+	}
 	safe_utf8_string = (uint8_t *) PyMem_Malloc(
 	                                sizeof( uint8_t ) * safe_utf8_string_size );
 
@@ -274,8 +295,6 @@ int pyfwsi_string_copy_to_utf8_rfc2279(
 
 		goto on_error;
 	}
-	/* Using RFC 2279 UTF-8 to support unpaired UTF-16 surrogates
-	 */
 	for( string_index = 0;
 	     string_index < string_length;
 	     string_index++ )
@@ -301,10 +320,21 @@ int pyfwsi_string_copy_to_utf8_rfc2279(
 			goto on_error;
 		}
 	}
-	safe_utf8_string[ string_index ] = 0;
+	if( utf8_string_index >= safe_utf8_string_size )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid UTF-8 string size value out of bounds.",
+		 function );
+
+		goto on_error;
+	}
+	safe_utf8_string[ utf8_string_index++ ] = 0;
 
 	*utf8_string      = safe_utf8_string;
-	*utf8_string_size = safe_utf8_string_size;
+	*utf8_string_size = utf8_string_index;
 
 	return( 1 );
 
