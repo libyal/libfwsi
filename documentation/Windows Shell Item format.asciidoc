@@ -299,6 +299,7 @@ sub-type or flags.
 | 0x02 | | [yellow-background]*Unknown (0x23 C:, 0x2f C: or D:, 0x2a J:)*
 | 0x04 | | [yellow-background]*Unknown (0x23 C:, 0x25 D:)*
 | 0x08 | | Is removable media (0x23 C:, 0x29 A:, 0x2a J:)
+| 0x0E | | CLSID Item
 |===
 
 Values that have been seen: 0x23, 0x25, 0x29, 0x2a, 0x2e, 0x2f
@@ -315,10 +316,10 @@ Includes the 2 bytes of the size itself
 0x20 after applying a bitmask of 0x70
 4+| _If class type indicator flag 0x01 (has name) is not set_
 | 3 | 1 | [yellow-background]*Unknown (Flags)*
-[yellow-background]*Seen 0x00, 0x1e, 0x80*
+[yellow-background]*Seen 0x00, 0x1e, 0x80*  |
 | 4 | 16 | [yellow-background]*Volume identifier?* +
-Contains a GUID +
-Control Panel and Printers folder identifier seen in windows 95 lnk
+Contains a GUID + 
+Control Panel and Printers folder identifier seen in windows 95 lnk |
 4+| _If class type indicator flag 0x01 (has name) is set_
 | 3 | 20 | | Volume name +
 ASCII string with end-of-string character +
