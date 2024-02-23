@@ -39,6 +39,11 @@
 #include "pyfwsi_python.h"
 #include "pyfwsi_unused.h"
 
+#include "pyfwsi_file_entry.h"
+#include "pyfwsi_network_location.h"
+#include "pyfwsi_root_folder.h"
+#include "pyfwsi_volume.h"
+
 PyMethodDef pyfwsi_item_object_methods[] = {
 
 	{ "copy_from_byte_stream",
@@ -412,6 +417,11 @@ PyObject *pyfwsi_item_copy_from_byte_stream(
 	int ascii_codepage            = LIBFWSI_CODEPAGE_WINDOWS_1252;
 	int result                    = 0;
 
+#if PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 9
+	PyTypeObject *type_object     = NULL;
+	int item_type                 = 0;
+#endif
+
 	if( pyfwsi_item == NULL )
 	{
 		PyErr_Format(
@@ -527,6 +537,65 @@ PyObject *pyfwsi_item_copy_from_byte_stream(
 
 		return( NULL );
 	}
+#if PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 9
+	Py_BEGIN_ALLOW_THREADS
+
+	result = libfwsi_item_get_type(
+	          pyfwsi_item->item,
+	          &item_type,
+	          &error );
+
+	Py_END_ALLOW_THREADS
+
+	if( result != 1 )
+	{
+		pyfwsi_error_raise(
+		 error,
+		 PyExc_IOError,
+		 "%s: unable to retrieve item type.",
+		 function );
+
+		libcerror_error_free(
+		 &error );
+
+		return( NULL );
+	}
+	switch( item_type )
+	{
+		case LIBFWSI_ITEM_TYPE_FILE_ENTRY:
+			type_object = &pyfwsi_file_entry_type_object;
+			break;
+
+		case LIBFWSI_ITEM_TYPE_NETWORK_LOCATION:
+			type_object = &pyfwsi_network_location_type_object;
+			break;
+
+		case LIBFWSI_ITEM_TYPE_ROOT_FOLDER:
+			type_object = &pyfwsi_root_folder_type_object;
+			break;
+
+		case LIBFWSI_ITEM_TYPE_VOLUME:
+			type_object = &pyfwsi_volume_type_object;
+			break;
+
+		case LIBFWSI_ITEM_TYPE_UNKNOWN:
+		case LIBFWSI_ITEM_TYPE_CDBURN:
+		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL:
+		case LIBFWSI_ITEM_TYPE_DELEGATE:
+		case LIBFWSI_ITEM_TYPE_GAME_FOLDER:
+		case LIBFWSI_ITEM_TYPE_URI:
+		case LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW:
+		default:
+			break;
+	}
+	if( type_object != NULL )
+	{
+		Py_SET_TYPE(
+		 pyfwsi_item,
+		 type_object );
+	}
+#endif /* PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 9 */
+
 	Py_IncRef(
 	 Py_None );
 

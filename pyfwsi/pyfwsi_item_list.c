@@ -596,7 +596,7 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve item: %d class type.",
+		 "%s: unable to retrieve item: %d type.",
 		 function,
 		 item_index );
 

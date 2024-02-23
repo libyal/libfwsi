@@ -1,5 +1,5 @@
 /*
- * Extension block 0xbeef0025 values functions
+ * Extension block 0xbeef0026 values functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -26,67 +26,67 @@
 
 #include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
-#include "libfwsi_extension_block_0xbeef0025_values.h"
+#include "libfwsi_extension_block_0xbeef0026_values.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
 #include "libfwsi_libfdatetime.h"
 
-/* Creates extension block 0xbeef0025 values
- * Make sure the value extension_block_0xbeef0025_values is referencing, is set to NULL
+/* Creates extension block 0xbeef0026 values
+ * Make sure the value extension_block_0xbeef0026_values is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_extension_block_0xbeef0025_values_initialize(
-     libfwsi_extension_block_0xbeef0025_values_t **extension_block_0xbeef0025_values,
+int libfwsi_extension_block_0xbeef0026_values_initialize(
+     libfwsi_extension_block_0xbeef0026_values_t **extension_block_0xbeef0026_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0025_values_initialize";
+	static char *function = "libfwsi_extension_block_0xbeef0026_values_initialize";
 
-	if( extension_block_0xbeef0025_values == NULL )
+	if( extension_block_0xbeef0026_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block 0xbeef0025 values.",
+		 "%s: invalid extension block 0xbeef0026 values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *extension_block_0xbeef0025_values != NULL )
+	if( *extension_block_0xbeef0026_values != NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
-		 "%s: invalid extension block 0xbeef0025 values value already set.",
+		 "%s: invalid extension block 0xbeef0026 values value already set.",
 		 function );
 
 		return( -1 );
 	}
-	*extension_block_0xbeef0025_values = memory_allocate_structure(
-	                                      libfwsi_extension_block_0xbeef0025_values_t );
+	*extension_block_0xbeef0026_values = memory_allocate_structure(
+	                                      libfwsi_extension_block_0xbeef0026_values_t );
 
-	if( *extension_block_0xbeef0025_values == NULL )
+	if( *extension_block_0xbeef0026_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-		 "%s: unable to create extension block 0xbeef0025 values.",
+		 "%s: unable to create extension block 0xbeef0026 values.",
 		 function );
 
 		goto on_error;
 	}
 	if( memory_set(
-	     *extension_block_0xbeef0025_values,
+	     *extension_block_0xbeef0026_values,
 	     0,
-	     sizeof( libfwsi_extension_block_0xbeef0025_values_t ) ) == NULL )
+	     sizeof( libfwsi_extension_block_0xbeef0026_values_t ) ) == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
-		 "%s: unable to clear extension block 0xbeef0025 values.",
+		 "%s: unable to clear extension block 0xbeef0026 values.",
 		 function );
 
 		goto on_error;
@@ -94,69 +94,69 @@ int libfwsi_extension_block_0xbeef0025_values_initialize(
 	return( 1 );
 
 on_error:
-	if( *extension_block_0xbeef0025_values != NULL )
+	if( *extension_block_0xbeef0026_values != NULL )
 	{
 		memory_free(
-		 *extension_block_0xbeef0025_values );
+		 *extension_block_0xbeef0026_values );
 
-		*extension_block_0xbeef0025_values = NULL;
+		*extension_block_0xbeef0026_values = NULL;
 	}
 	return( -1 );
 }
 
-/* Frees extension block 0xbeef0025 values
+/* Frees extension block 0xbeef0026 values
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_extension_block_0xbeef0025_values_free(
-     libfwsi_extension_block_0xbeef0025_values_t **extension_block_0xbeef0025_values,
+int libfwsi_extension_block_0xbeef0026_values_free(
+     libfwsi_extension_block_0xbeef0026_values_t **extension_block_0xbeef0026_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0025_values_free";
+	static char *function = "libfwsi_extension_block_0xbeef0026_values_free";
 
-	if( extension_block_0xbeef0025_values == NULL )
+	if( extension_block_0xbeef0026_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block 0xbeef0025 values.",
+		 "%s: invalid extension block 0xbeef0026 values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *extension_block_0xbeef0025_values != NULL )
+	if( *extension_block_0xbeef0026_values != NULL )
 	{
 		memory_free(
-		 *extension_block_0xbeef0025_values );
+		 *extension_block_0xbeef0026_values );
 
-		*extension_block_0xbeef0025_values = NULL;
+		*extension_block_0xbeef0026_values = NULL;
 	}
 	return( 1 );
 }
 
-/* Reads the extension block 0xbeef0025 values
+/* Reads the extension block 0xbeef0026 values
  * Returns 1 if successful, 0 if not supported or -1 on error
  */
-int libfwsi_extension_block_0xbeef0025_values_read_data(
-     libfwsi_extension_block_0xbeef0025_values_t *extension_block_0xbeef0025_values,
+int libfwsi_extension_block_0xbeef0026_values_read_data(
+     libfwsi_extension_block_0xbeef0026_values_t *extension_block_0xbeef0026_values,
      const uint8_t *data,
      size_t data_size,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_extension_block_0xbeef0025_values_read_data";
+	static char *function = "libfwsi_extension_block_0xbeef0026_values_read_data";
 	uint32_t signature    = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint32_t value_32bit  = 0;
 #endif
 
-	if( extension_block_0xbeef0025_values == NULL )
+	if( extension_block_0xbeef0026_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid extension block 0xbeef0025 values.",
+		 "%s: invalid extension block 0xbeef0026 values.",
 		 function );
 
 		return( -1 );
@@ -185,7 +185,7 @@ int libfwsi_extension_block_0xbeef0025_values_read_data(
 	}
 	/* Do not try to parse unsupported data sizes
 	 */
-	if( data_size != 30 )
+	if( data_size != 38 )
 	{
 		return( 0 );
 	}
@@ -195,7 +195,7 @@ int libfwsi_extension_block_0xbeef0025_values_read_data(
 	 &( data[ 4 ] ),
 	 signature );
 
-	if( signature != 0xbeef0025 )
+	if( signature != 0xbeef0026 )
 	{
 		return( 0 );
 	}
@@ -232,6 +232,24 @@ int libfwsi_extension_block_0xbeef0025_values_read_data(
 		     function,
 		     "unknown3 time\t",
 		     &( data[ 20 ] ),
+		     8,
+		     LIBFDATETIME_ENDIAN_LITTLE,
+		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+			 "%s: unable to print FILETIME value.",
+			 function );
+
+			return( -1 );
+		}
+		if( libfwsi_debug_print_filetime_value(
+		     function,
+		     "unknown4 time\t",
+		     &( data[ 28 ] ),
 		     8,
 		     LIBFDATETIME_ENDIAN_LITTLE,
 		     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME_NANO_SECONDS,

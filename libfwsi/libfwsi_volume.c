@@ -31,7 +31,7 @@
 #include "libfwsi_volume_values.h"
 
 /* Retrieves the size of the UTF-8 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_volume_get_utf8_name_size(
      libfwsi_item_t *volume,
@@ -39,8 +39,8 @@ int libfwsi_volume_get_utf8_name_size(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
-	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf8_name_size";
+	int result                             = 0;
 
 	if( volume == NULL )
 	{
@@ -66,40 +66,27 @@ int libfwsi_volume_get_utf8_name_size(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid volume - missing value.",
-		 function );
+	result = libfwsi_volume_values_get_utf8_name_size(
+	          (libfwsi_volume_values_t *) internal_item->value,
+	          utf8_string_size,
+	          error );
 
-		return( -1 );
-	}
-	volume_values = (libfwsi_volume_values_t *) internal_item->value;
-
-	if( libuna_utf8_string_size_from_byte_stream(
-	     volume_values->name,
-	     volume_values->name_size,
-	     volume_values->ascii_codepage,
-	     utf8_string_size,
-	     error ) != 1 )
+	if( result == -1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to determine size of UTF-8 string.",
+		 "%s: unable to retrieve size of UTF-8 string.",
 		 function );
 
 		return( -1 );
 	}
-	return( 1 );
+	return( result );
 }
 
 /* Retrieves the UTF-8 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_volume_get_utf8_name(
      libfwsi_item_t *volume,
@@ -108,8 +95,8 @@ int libfwsi_volume_get_utf8_name(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
-	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf8_name";
+	int result                             = 0;
 
 	if( volume == NULL )
 	{
@@ -135,41 +122,28 @@ int libfwsi_volume_get_utf8_name(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid volume - missing value.",
-		 function );
+	result = libfwsi_volume_values_get_utf8_name(
+	          (libfwsi_volume_values_t *) internal_item->value,
+	          utf8_string,
+	          utf8_string_size,
+	          error );
 
-		return( -1 );
-	}
-	volume_values = (libfwsi_volume_values_t *) internal_item->value;
-
-	if( libuna_utf8_string_copy_from_byte_stream(
-	     utf8_string,
-	     utf8_string_size,
-	     volume_values->name,
-	     volume_values->name_size,
-	     volume_values->ascii_codepage,
-	     error ) != 1 )
+	if( result == -1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable to set UTF-8 string.",
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve UTF-8 string.",
 		 function );
 
 		return( -1 );
 	}
-	return( 1 );
+	return( result );
 }
 
 /* Retrieves the size of the UTF-16 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_volume_get_utf16_name_size(
      libfwsi_item_t *volume,
@@ -177,8 +151,8 @@ int libfwsi_volume_get_utf16_name_size(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
-	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf16_name_size";
+	int result                             = 0;
 
 	if( volume == NULL )
 	{
@@ -204,40 +178,27 @@ int libfwsi_volume_get_utf16_name_size(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid volume - missing value.",
-		 function );
+	result = libfwsi_volume_values_get_utf16_name_size(
+	          (libfwsi_volume_values_t *) internal_item->value,
+	          utf16_string_size,
+	          error );
 
-		return( -1 );
-	}
-	volume_values = (libfwsi_volume_values_t *) internal_item->value;
-
-	if( libuna_utf16_string_size_from_byte_stream(
-	     volume_values->name,
-	     volume_values->name_size,
-	     volume_values->ascii_codepage,
-	     utf16_string_size,
-	     error ) != 1 )
+	if( result == -1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to determine size of UTF-16 string.",
+		 "%s: unable to retrieve size of UTF-16 string.",
 		 function );
 
 		return( -1 );
 	}
-	return( 1 );
+	return( result );
 }
 
 /* Retrieves the UTF-16 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_volume_get_utf16_name(
      libfwsi_item_t *volume,
@@ -246,8 +207,8 @@ int libfwsi_volume_get_utf16_name(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
-	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_utf16_name";
+	int result                             = 0;
 
 	if( volume == NULL )
 	{
@@ -273,42 +234,29 @@ int libfwsi_volume_get_utf16_name(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid volume - missing value.",
-		 function );
+	result = libfwsi_volume_values_get_utf16_name(
+	          (libfwsi_volume_values_t *) internal_item->value,
+	          utf16_string,
+	          utf16_string_size,
+	          error );
 
-		return( -1 );
-	}
-	volume_values = (libfwsi_volume_values_t *) internal_item->value;
-
-	if( libuna_utf16_string_copy_from_byte_stream(
-	     utf16_string,
-	     utf16_string_size,
-	     volume_values->name,
-	     volume_values->name_size,
-	     volume_values->ascii_codepage,
-	     error ) != 1 )
+	if( result == -1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable to set UTF-16 string.",
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve UTF-16 string.",
 		 function );
 
 		return( -1 );
 	}
-	return( 1 );
+	return( result );
 }
 
 /* Retrieves the identifier
  * The identifier is a GUID and is 16 bytes of size
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_volume_get_identifier(
      libfwsi_item_t *volume,
@@ -317,8 +265,8 @@ int libfwsi_volume_get_identifier(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
-	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_identifier";
+	int result                             = 0;
 
 	if( volume == NULL )
 	{
@@ -344,61 +292,29 @@ int libfwsi_volume_get_identifier(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
+	result = libfwsi_volume_values_get_identifier(
+	          (libfwsi_volume_values_t *) internal_item->value,
+	          guid_data,
+	          guid_data_size,
+	          error );
+
+	if( result == -1 )
 	{
 		libcerror_error_set(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid volume - missing value.",
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve identifier.",
 		 function );
 
 		return( -1 );
 	}
-	volume_values = (libfwsi_volume_values_t *) internal_item->value;
-
-	if( guid_data == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid GUID data.",
-		 function );
-
-		return( -1 );
-	}
-	if( guid_data_size < 16 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: GUID data size too small.",
-		 function );
-
-		return( -1 );
-	}
-	if( memory_copy(
-	     guid_data,
-	     volume_values->identifier,
-	     16 ) == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-		 "%s: unable to copy identifier.",
-		 function );
-
-		return( -1 );
-	}
-	return( 1 );
+	return( result );
 }
 
 /* Retrieves the shell folder identifier
  * The identifier is a GUID and is 16 bytes of size
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 int libfwsi_volume_get_shell_folder_identifier(
      libfwsi_item_t *volume,
@@ -407,8 +323,8 @@ int libfwsi_volume_get_shell_folder_identifier(
      libcerror_error_t **error )
 {
 	libfwsi_internal_item_t *internal_item = NULL;
-	libfwsi_volume_values_t *volume_values = NULL;
 	static char *function                  = "libfwsi_volume_get_shell_folder_identifier";
+	int result                             = 0;
 
 	if( volume == NULL )
 	{
@@ -434,55 +350,23 @@ int libfwsi_volume_get_shell_folder_identifier(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
+	result = libfwsi_volume_values_get_shell_folder_identifier(
+	          (libfwsi_volume_values_t *) internal_item->value,
+	          guid_data,
+	          guid_data_size,
+	          error );
+
+	if( result == -1 )
 	{
 		libcerror_error_set(
 		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid volume - missing value.",
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve shell folder identifier.",
 		 function );
 
 		return( -1 );
 	}
-	volume_values = (libfwsi_volume_values_t *) internal_item->value;
-
-	if( guid_data == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid GUID data.",
-		 function );
-
-		return( -1 );
-	}
-	if( guid_data_size < 16 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: GUID data size too small.",
-		 function );
-
-		return( -1 );
-	}
-	if( memory_copy(
-	     guid_data,
-	     volume_values->shell_folder_identifier,
-	     16 ) == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-		 "%s: unable to copy shell folder identifier.",
-		 function );
-
-		return( -1 );
-	}
-	return( 1 );
+	return( result );
 }
 

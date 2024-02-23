@@ -337,7 +337,7 @@ PyObject *pyfwsi_volume_get_identifier(
 
 	Py_END_ALLOW_THREADS
 
-	if( result != 1 )
+	if( result == -1 )
 	{
 		pyfwsi_error_raise(
 		 error,
@@ -349,6 +349,13 @@ PyObject *pyfwsi_volume_get_identifier(
 		 &error );
 
 		return( NULL );
+	}
+	else if( result == 0 )
+	{
+		Py_IncRef(
+		 Py_None );
+
+		return( Py_None );
 	}
 	string_object = pyfwsi_string_new_from_guid(
 	                 guid_data,
@@ -401,7 +408,7 @@ PyObject *pyfwsi_volume_get_shell_folder_identifier(
 
 	Py_END_ALLOW_THREADS
 
-	if( result != 1 )
+	if( result == -1 )
 	{
 		pyfwsi_error_raise(
 		 error,
@@ -413,6 +420,13 @@ PyObject *pyfwsi_volume_get_shell_folder_identifier(
 		 &error );
 
 		return( NULL );
+	}
+	else if( result == 0 )
+	{
+		Py_IncRef(
+		 Py_None );
+
+		return( Py_None );
 	}
 	string_object = pyfwsi_string_new_from_guid(
 	                 guid_data,

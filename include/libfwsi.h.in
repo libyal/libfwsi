@@ -260,7 +260,7 @@ int libfwsi_root_folder_get_shell_folder_identifier(
  * ------------------------------------------------------------------------- */
 
 /* Retrieves the size of the UTF-8 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf8_name_size(
@@ -269,7 +269,7 @@ int libfwsi_volume_get_utf8_name_size(
      libfwsi_error_t **error );
 
 /* Retrieves the UTF-8 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf8_name(
@@ -279,7 +279,7 @@ int libfwsi_volume_get_utf8_name(
      libfwsi_error_t **error );
 
 /* Retrieves the size of the UTF-16 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf16_name_size(
@@ -288,7 +288,7 @@ int libfwsi_volume_get_utf16_name_size(
      libfwsi_error_t **error );
 
 /* Retrieves the UTF-16 formatted name
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_utf16_name(
@@ -299,7 +299,7 @@ int libfwsi_volume_get_utf16_name(
 
 /* Retrieves the identifier
  * The identifier is a GUID and is 16 bytes of size
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_identifier(
@@ -310,7 +310,7 @@ int libfwsi_volume_get_identifier(
 
 /* Retrieves the shell folder identifier
  * The identifier is a GUID and is 16 bytes of size
- * Returns 1 if successful or -1 on error
+ * Returns 1 if successful, 0 if not available or -1 on error
  */
 LIBFWSI_EXTERN \
 int libfwsi_volume_get_shell_folder_identifier(

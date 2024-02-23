@@ -47,9 +47,17 @@ struct libfwsi_volume_values
 	 */
 	size_t name_size;
 
+	/* Value to indicate the identifier is set
+	 */
+	uint8_t has_identifier;
+
 	/* The identifier
 	 */
 	uint8_t identifier[ 16 ];
+
+	/* Value to indicate the shell folder identifier is set
+	 */
+	uint8_t has_shell_folder_identifier;
 
 	/* The shell folder (class) identifier
 	 */
@@ -73,6 +81,40 @@ int libfwsi_volume_values_read_data(
      const uint8_t *data,
      size_t data_size,
      int ascii_codepage,
+     libcerror_error_t **error );
+
+int libfwsi_volume_values_get_utf8_name_size(
+     libfwsi_volume_values_t *volume_values,
+     size_t *utf8_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_volume_values_get_utf8_name(
+     libfwsi_volume_values_t *volume_values,
+     uint8_t *utf8_string,
+     size_t utf8_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_volume_values_get_utf16_name_size(
+     libfwsi_volume_values_t *volume_values,
+     size_t *utf16_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_volume_values_get_utf16_name(
+     libfwsi_volume_values_t *volume_values,
+     uint16_t *utf16_string,
+     size_t utf16_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_volume_values_get_identifier(
+     libfwsi_volume_values_t *volume_values,
+     uint8_t *guid_data,
+     size_t guid_data_size,
+     libcerror_error_t **error );
+
+int libfwsi_volume_values_get_shell_folder_identifier(
+     libfwsi_volume_values_t *volume_values,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )

@@ -32,7 +32,7 @@ for the libfwsi project.
 == License
 
 ....
-Copyright (C) 2010-2023, Joachim Metz <joachim.metz@gmail.com>.
+Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>.
 Permission is granted to copy, distribute and/or modify this document under the
 terms of the GNU Free Documentation License, Version 1.3 or any later version
 published by the Free Software Foundation; with no Invariant Sections, no
@@ -94,6 +94,7 @@ Updated information regarding the delegate shell item.
 | 0.0.35 | J.B. Metz | December 2020 | Additional information regarding SHDESCRIPTIONID types.
 | 0.0.36 | J.B. Metz | January 2023 | Small changes.
 | 0.0.37 | J.B. Metz | July 2023 | Additional information regarding encoding of filenames.
+| 0.0.38 | J.B. Metz | February 2024 | Additional information regarding extension blocks 0xbeef0026 and 0xbeef0029.
 |===
 
 :numbered:
@@ -138,7 +139,7 @@ document:
 
 == Shell Item list
 
-The Shell Item list (ITEMIDLIST) is variable of size and consists of:
+The Shell Item list (ITEMIDLIST) is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -153,7 +154,7 @@ terminal identifier (an empty Shell Item).
 
 === Shell Item
 
-The Shell Item (SHITEMID) is variable of size and consists of:
+The Shell Item (SHITEMID) is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -234,7 +235,7 @@ item (0x1f/0x1e?) and the other shell items?*
 
 === Root folder shell item
 
-The root folder shell item is variable of size and consists of the following
+The root folder shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -303,7 +304,7 @@ sub-type or flags.
 
 Values that have been seen: 0x23, 0x25, 0x29, 0x2a, 0x2e, 0x2f
 
-The volume shell item is variable bytes of size and consists of the following
+The volume shell item is variable bytes in size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -331,8 +332,8 @@ For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wi
 [yellow-background]*Also seen in combination with Documents folder namespace CLSID, maybe this value should be Class identifier?*
 4+| _Present if shell item contains more data_
 | ... | ... | | Extension block +
-[yellow-background]*Seen extension block 0xbeef0025.* +
-See section: <<extension_block_0xbeef0025,Extension block 0xbeef0025>>
+[yellow-background]*Seen extension block 0xbeef0025 and 0xbeef0026.* +
+See section: <<extension_block_0xbeef0025,Extension block 0xbeef0025>> and <<extension_block_0xbeef0026,Extension block 0xbeef0026>>
 |===
 
 Found in Windows 7 BagMRU
@@ -387,7 +388,7 @@ Indicated as SHDID_FS_DIRECTORY or SHDID_FS_FILE by SHDESCRIPTIONID.
 This version of the the file entry shell item is used by Windows versions
 predating Windows XP, e.g. Windows 95, Windows NT4, Windows 2000.
 
-The file entry shell item is variable of size and consists of the following
+The file entry shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -438,7 +439,7 @@ bytes after the type indicator are set.
 This version of the the file entry shell item is used by Windows XP and later
 versions.
 
-The file entry shell item is variable of size and consists of the following
+The file entry shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -465,7 +466,7 @@ This value contains the the size of the extension block or 0 if not set +
 See section: <<extension_block_0xbeef004,File entry extension block (0xbeef0004)>>
 4+| _Present if shell item contains more data [yellow-background]*(and flag 0x80 is not set?)* (seen in Windows 2003)_
 | ... | ... | | Extension block +
-[yellow-background]*Seen extension block 0xbeef0005, 0xbeef0006 and 0xbeef001a.*
+[yellow-background]*Seen extension block 0xbeef0005, 0xbeef0006, 0xbeef001a and 0xbeef0029.*
 4+| _If class type indicator flag 0x80 is set_
 | ... | ... | | Extension block 0xbeef0003 +
 See section: <<extension_block_0xbeef0003,Extension block 0xbeef0003>>
@@ -487,7 +488,7 @@ Seen in Windows 7 in LastVisitedPidMRU and LNK files after shell item 0xb1 with
 extension block 0xbeef0003 which contains the SolidWorks Enterprise PDM CLSID:
 0bd8e793-d371-11d1-b0b5-0060972919d7.
 
-The file entry shell item is variable of size and consists of the following
+The file entry shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -560,7 +561,7 @@ to be a sub-type or flags.
 
 Values that have been seen: 0x41, 0x42, 0x46, 0x47, 0x4c, 0xc3
 
-The Network location shell item is variable of size and consists of the
+The Network location shell item is of variable size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -596,7 +597,7 @@ ASCII string with end-of-string character
 
 === [[compressed_folder_shell_item]]Compressed folder shell item
 
-The compressed folder shell item is variable of size and consists of the
+The compressed folder shell item is of variable size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -709,7 +710,7 @@ Different variants:
 
 === URI shell item
 
-The URI shell item is variable of size and consists of the following values:
+The URI shell item is of variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -762,7 +763,7 @@ See section: <<extension_block_0xbeef0014,Extension block 0xbeef0014>>
 
 Seen after 0x61 shell item type with ftp URI.
 
-The ftp sub shell item is variable of size and consists of the following values:
+The ftp sub shell item is of variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -809,7 +810,7 @@ Indication that the value at offset 0x10 contains a FILETIME
 
 === Control Panel shell item
 
-The Control Panel shell item is 30 bytes of size and consists of the following
+The Control Panel shell item is 30 bytes in size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -925,7 +926,7 @@ Includes the 2 bytes of the size itself
 
 Seen after volume shell item pointing to Control Panel CLSID.
 
-The Control panel CPL file shell item is variable of size and consists of the
+The Control panel CPL file shell item is of variable size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -965,7 +966,7 @@ Contains an UTF-16 little-endian string with end-of-string character
 Seen in Windows 7 in BagMRU and also seen in LNK after shell item type 0x1f
 with Control Panel CLSID.
 
-The Control panel category shell item is 12 bytes of size and consists of the
+The Control panel category shell item is 12 bytes in size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -1007,7 +1008,7 @@ Only available in mobile version of Windows Vista
 Seen after root folder shell item containing a My Games shell folder identifier:
 ed228fdf-9ea8-4870-83b1-96b02cfe0d52.
 
-The Game Folder Shell Item is 32 bytes of size and consists of:
+The Game Folder Shell Item is 32 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1126,7 +1127,7 @@ CLSID: PortableDeviceValues Class
 
 ===== Property
 
-A property is variable of size and consists of:
+A property is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1155,7 +1156,7 @@ For more information about the property sets and values see: https://github.com/
 
 === Delegate shell item
 
-The delegate shell item is variable of size and consists of the following
+The delegate shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -1278,7 +1279,7 @@ Data signature
 
 [yellow-background]*Could this variant be related?*
 
-The 0x74 delegate shell item is variable of size and consists of the following
+The 0x74 delegate shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -1344,7 +1345,7 @@ Seen after root folder shell item pointing to Users Libraries shell folder
 identifier (031e4825-7b94-4dc3-b131-e946b44c8dd5) or Users shell folder
 identifier (59031a47-3f72-44a7-89c5-5595fe6b30ee).
 
-The Users property view shell item is variable of size and consists of the
+The Users property view shell item is of variable size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -1505,7 +1506,7 @@ identifier data:
 
 ==== Users property view delegate item
 
-The Users property view 0x1f delegate item is variable of size and consists of
+The Users property view 0x1f delegate item is of variable size and consists of
 the following values:
 
 [cols="1,1,1,5",options="header"]
@@ -1667,7 +1668,7 @@ Number of 16-bit characters?
 
 === 0x67 shell item
 
-The 0x67 shell item is variable of size and consists of the following values:
+The 0x67 shell item is of variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1693,7 +1694,7 @@ Contains an UTF-16 little-endian string with end-of-string character
 
 === 0x76 shell item
 
-The 0x76 shell item is variable of size and consists of the following values:
+The 0x76 shell item is of variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1718,7 +1719,7 @@ Includes the 2 bytes of the size itself
 
 Seen after shell item 0x71 with CLSID Network Connections
 
-The 0xff shell item is variable of size and consists of the following values:
+The 0xff shell item is of variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1758,7 +1759,7 @@ Value is the same as that of GUID2
 
 == Extension blocks
 
-If the extension block is variable of size but at minimum consists of:
+If the extension block is of variable size but at minimum consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1782,7 +1783,7 @@ shell item and extension block data.
 
 === [[extension_block_0xbeef0000]]Extension block 0xbeef0000
 
-The extension block 0xbeef0000 is 14 or 42 bytes of size and consists of:
+The extension block 0xbeef0000 is 14 or 42 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1835,7 +1836,7 @@ Empty unknown GUID?
 
 === [[extension_block_0xbeef0001]]Extension block 0xbeef0001
 
-The extension block 0xbeef0001 is 14 bytes of size and consists of:
+The extension block 0xbeef0001 is 14 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1859,7 +1860,7 @@ Related to CFileUrlStub object. Used for display name?
 
 === [[extension_block_0xbeef0003]]Extension block 0xbeef0003
 
-The extension block 0xbeef0003 is 26 bytes of size and consists of:
+The extension block 0xbeef0003 is 26 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1884,7 +1885,7 @@ Related to CFSFolder and CFileSysItemString object. Used for junction informatio
 
 === [[extension_block_0xbeef0004]]File entry extension block (0xbeef0004)
 
-The file entry extension block (0xbeef0004) is variable of size and consists of:
+The file entry extension block (0xbeef0004) is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1941,7 +1942,7 @@ surrogates, such as "U+d800" and "U+dc00".
 
 ==== [[ntfs_file_reference]]NTFS file reference
 
-The NTFS file reference is 8 bytes of size and consists of:
+The NTFS file reference is 8 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1956,7 +1957,7 @@ Related to CFSFolder and CFileSysItem object.
 
 === [[extension_block_0xbeef0005]]Extension block 0xbeef0005
 
-The extension block 0xbeef0005 is variable of size and consists of:
+The extension block 0xbeef0005 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1979,7 +1980,7 @@ Related to CFindFolder object.
 
 === [[extension_block_0xbeef0006]]Extension block 0xbeef0006
 
-The extension block 0xbeef0006 is variable of size and consists of:
+The extension block 0xbeef0006 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2001,7 +2002,7 @@ Related to CFSFolder and CFileSysItem object. Used for personalized name?
 
 === [[extension_block_0xbeef0008]]Extension block 0xbeef0008
 
-The extension block 0xbeef0008 is variable of size and consists of:
+The extension block 0xbeef0008 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2090,7 +2091,7 @@ Related to CBitBucket object. Used for original path?
 
 === [[extension_block_0xbeef000a]]Extension block 0xbeef000a
 
-The extension block 0xbeef000a is 14 bytes of size and consists of:
+The extension block 0xbeef000a is 14 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2110,7 +2111,7 @@ Related to CMergedFolder object. Used for source count or sub shell item list?
 
 === [[extension_block_0xbeef000b]]Extension block 0xbeef000b
 
-The extension block 0xbeef000b is variable of size and consists of:
+The extension block 0xbeef000b is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2158,7 +2159,7 @@ Related to CControlPanelFolder object. Used for display name/CPL category?
 
 === [[extension_block_0xbeef000e]]Extension block 0xbeef000e
 
-The extension block 0xbeef000e is variable of size and consists of:
+The extension block 0xbeef000e is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2177,7 +2178,7 @@ The offset is relative from the start of the shell item.
 
 === [[extension_block_0xbeef0010]]Extension block 0xbeef0010
 
-The extension block 0xbeef0010 is variable of size and consists of:
+The extension block 0xbeef0010 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2284,7 +2285,7 @@ The offset is relative from the start of the shell item.
 
 === [[extension_block_0xbeef0013]]Extension block 0xbeef0013
 
-The extension block 0xbeef0013 is 42 bytes of size and consists of:
+The extension block 0xbeef0013 is 42 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2303,7 +2304,7 @@ The offset is relative from the start of the shell item.
 
 === [[extension_block_0xbeef0014]]Extension block 0xbeef0014
 
-The extension block 0xbeef0014 is variable of size and consists of:
+The extension block 0xbeef0014 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2472,7 +2473,7 @@ The highest legitimate value in the enumeration, used for validation purposes.
 
 === [[extension_block_0xbeef0016]]Extension block 0xbeef0016
 
-The extension block 0xbeef0016 is variable of size and consists of:
+The extension block 0xbeef0016 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2493,7 +2494,7 @@ The offset is relative from the start of the shell item.
 
 === [[extension_block_0xbeef0017]]Extension block 0xbeef0017
 
-The extension block 0xbeef0017 is 74 bytes of size and consists of:
+The extension block 0xbeef0017 is 74 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2528,7 +2529,7 @@ Shell item from Windows 7 BagMRU (Search Home)
 
 === [[extension_block_0xbeef0019]]Extension block 0xbeef0019
 
-The extension block 0xbeef0019 is 42 bytes of size and consists of:
+The extension block 0xbeef0019 is 42 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2557,7 +2558,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes
 
 === [[extension_block_0xbeef001a]]Extension block 0xbeef001a
 
-The extension block 0xbeef001a is variable of size and consists of:
+The extension block 0xbeef001a is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2579,7 +2580,7 @@ The offset is relative from the start of the shell item.
 
 === [[extension_block_0xbeef0021]]Extension block 0xbeef0021
 
-The extension block 0xbeef021 is variable of size and consists of:
+The extension block 0xbeef021 is of variable size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2598,7 +2599,7 @@ The offset is relative from the start of the shell item.
 
 === [[extension_block_0xbeef0025]]Extension block 0xbeef0025
 
-The extension block 0xbeef025 is 32 bytes of size and consists of:
+The extension block 0xbeef025 is 32 bytes in size and consists of:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -2615,6 +2616,47 @@ Contains a FILETIME
 | 20 | 8 | | [yellow-background]*Unknown* +
 Contains a FILETIME
 | 28 | 4 | | First extension block version offset +
+The offset is relative from the start of the shell item.
+|===
+
+=== [[extension_block_0xbeef0026]]Extension block 0xbeef0026
+
+The extension block 0xbeef026 is 40 bytes in size and consists of:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | Extension size +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | Extension version +
+[yellow-background]*Seen 0x0001*
+| 4 | 4 | 0xbeef0026 | Extension signature
+| 8 | 4 | | [yellow-background]*Unknown* +
+[yellow-background]*Seen 0x00000011*
+| 12 | 8 | | [yellow-background]*Unknown* +
+Contains a FILETIME
+| 20 | 8 | | [yellow-background]*Unknown* +
+Contains a FILETIME
+| 28 | 8 | | [yellow-background]*Unknown* +
+Contains a FILETIME
+| 36 | 4 | | First extension block version offset +
+The offset is relative from the start of the shell item.
+|===
+
+=== [[extension_block_0xbeef0029]]Extension block 0xbeef0029
+
+The extension block 0xbeef029 is 12 bytes in size and consists of:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | Extension size +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | Extension version +
+[yellow-background]*Seen 0x0000*
+| 4 | 4 | 0xbeef0029 | Extension signature
+| 8 | 2 | | [yellow-background]*Unknown*
+| 10 | 2 | | First extension block version offset +
 The offset is relative from the start of the shell item.
 |===
 

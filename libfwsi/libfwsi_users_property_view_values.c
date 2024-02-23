@@ -250,7 +250,7 @@ int libfwsi_users_property_view_values_read_data(
 		 signature );
 
 		libcnotify_printf(
-		 "%s: property set size\t: %" PRIu16 "\n",
+		 "%s: property set size\t\t: %" PRIu16 "\n",
 		 function,
 		 property_set_size );
 
@@ -259,7 +259,8 @@ int libfwsi_users_property_view_values_read_data(
 		 function,
 		 identifier_size );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset = 14;
 
 	if( item_data_size != 0 )
@@ -303,7 +304,7 @@ int libfwsi_users_property_view_values_read_data(
 					 &( data[ data_offset ] ),
 					 value_32bit );
 					libcnotify_printf(
-					 "%s: identifier\t\t\t: 0x%08" PRIx32 "\n",
+					 "%s: identifier\t\t: 0x%08" PRIx32 "\n",
 					 function,
 					 value_32bit );
 				}
