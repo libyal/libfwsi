@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_control_panel_item.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_datetime.c"
 				>
 			</File>
@@ -249,6 +253,10 @@
 			</File>
 			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_codepage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_control_panel_item.h"
 				>
 			</File>
 			<File

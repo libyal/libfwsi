@@ -1,5 +1,5 @@
 /*
- * Library control_panel_values type test program
+ * Library control_panel_item_values type test program
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -33,22 +33,22 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
-#include "../libfwsi/libfwsi_control_panel_values.h"
+#include "../libfwsi/libfwsi_control_panel_item_values.h"
 
-uint8_t fwsi_test_control_panel_values_data1[ 32 ] = {
+uint8_t fwsi_test_control_panel_item_values_data1[ 32 ] = {
 	0x1e, 0x00, 0x71, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe1, 0xa4,
 	0x0e, 0xd2, 0x57, 0x39, 0xd2, 0x11, 0xa4, 0x0b, 0x0c, 0x50, 0x20, 0x52, 0x41, 0x53, 0x00, 0x00, };
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
-/* Tests the libfwsi_control_panel_values_initialize function
+/* Tests the libfwsi_control_panel_item_values_initialize function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_control_panel_values_initialize(
+int fwsi_test_control_panel_item_values_initialize(
      void )
 {
 	libcerror_error_t *error                             = NULL;
-	libfwsi_control_panel_values_t *control_panel_values = NULL;
+	libfwsi_control_panel_item_values_t *control_panel_item_values = NULL;
 	int result                                           = 0;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
@@ -59,8 +59,8 @@ int fwsi_test_control_panel_values_initialize(
 
 	/* Test regular cases
 	 */
-	result = libfwsi_control_panel_values_initialize(
-	          &control_panel_values,
+	result = libfwsi_control_panel_item_values_initialize(
+	          &control_panel_item_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -69,15 +69,15 @@ int fwsi_test_control_panel_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "control_panel_values",
-	 control_panel_values );
+	 "control_panel_item_values",
+	 control_panel_item_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	result = libfwsi_control_panel_values_free(
-	          &control_panel_values,
+	result = libfwsi_control_panel_item_values_free(
+	          &control_panel_item_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -86,8 +86,8 @@ int fwsi_test_control_panel_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "control_panel_values",
-	 control_panel_values );
+	 "control_panel_item_values",
+	 control_panel_item_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -95,7 +95,7 @@ int fwsi_test_control_panel_values_initialize(
 
 	/* Test error cases
 	 */
-	result = libfwsi_control_panel_values_initialize(
+	result = libfwsi_control_panel_item_values_initialize(
 	          NULL,
 	          &error );
 
@@ -111,10 +111,10 @@ int fwsi_test_control_panel_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	control_panel_values = (libfwsi_control_panel_values_t *) 0x12345678UL;
+	control_panel_item_values = (libfwsi_control_panel_item_values_t *) 0x12345678UL;
 
-	result = libfwsi_control_panel_values_initialize(
-	          &control_panel_values,
+	result = libfwsi_control_panel_item_values_initialize(
+	          &control_panel_item_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -129,7 +129,7 @@ int fwsi_test_control_panel_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	control_panel_values = NULL;
+	control_panel_item_values = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -137,22 +137,22 @@ int fwsi_test_control_panel_values_initialize(
 	     test_number < number_of_malloc_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_control_panel_values_initialize with malloc failing
+		/* Test libfwsi_control_panel_item_values_initialize with malloc failing
 		 */
 		fwsi_test_malloc_attempts_before_fail = test_number;
 
-		result = libfwsi_control_panel_values_initialize(
-		          &control_panel_values,
+		result = libfwsi_control_panel_item_values_initialize(
+		          &control_panel_item_values,
 		          &error );
 
 		if( fwsi_test_malloc_attempts_before_fail != -1 )
 		{
 			fwsi_test_malloc_attempts_before_fail = -1;
 
-			if( control_panel_values != NULL )
+			if( control_panel_item_values != NULL )
 			{
-				libfwsi_control_panel_values_free(
-				 &control_panel_values,
+				libfwsi_control_panel_item_values_free(
+				 &control_panel_item_values,
 				 NULL );
 			}
 		}
@@ -164,8 +164,8 @@ int fwsi_test_control_panel_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "control_panel_values",
-			 control_panel_values );
+			 "control_panel_item_values",
+			 control_panel_item_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -179,22 +179,22 @@ int fwsi_test_control_panel_values_initialize(
 	     test_number < number_of_memset_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_control_panel_values_initialize with memset failing
+		/* Test libfwsi_control_panel_item_values_initialize with memset failing
 		 */
 		fwsi_test_memset_attempts_before_fail = test_number;
 
-		result = libfwsi_control_panel_values_initialize(
-		          &control_panel_values,
+		result = libfwsi_control_panel_item_values_initialize(
+		          &control_panel_item_values,
 		          &error );
 
 		if( fwsi_test_memset_attempts_before_fail != -1 )
 		{
 			fwsi_test_memset_attempts_before_fail = -1;
 
-			if( control_panel_values != NULL )
+			if( control_panel_item_values != NULL )
 			{
-				libfwsi_control_panel_values_free(
-				 &control_panel_values,
+				libfwsi_control_panel_item_values_free(
+				 &control_panel_item_values,
 				 NULL );
 			}
 		}
@@ -206,8 +206,8 @@ int fwsi_test_control_panel_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "control_panel_values",
-			 control_panel_values );
+			 "control_panel_item_values",
+			 control_panel_item_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -227,19 +227,19 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( control_panel_values != NULL )
+	if( control_panel_item_values != NULL )
 	{
-		libfwsi_control_panel_values_free(
-		 &control_panel_values,
+		libfwsi_control_panel_item_values_free(
+		 &control_panel_item_values,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libfwsi_control_panel_values_free function
+/* Tests the libfwsi_control_panel_item_values_free function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_control_panel_values_free(
+int fwsi_test_control_panel_item_values_free(
      void )
 {
 	libcerror_error_t *error = NULL;
@@ -247,7 +247,7 @@ int fwsi_test_control_panel_values_free(
 
 	/* Test error cases
 	 */
-	result = libfwsi_control_panel_values_free(
+	result = libfwsi_control_panel_item_values_free(
 	          NULL,
 	          &error );
 
@@ -274,20 +274,20 @@ on_error:
 	return( 0 );
 }
 
-/* Tests the libfwsi_control_panel_values_read_data function
+/* Tests the libfwsi_control_panel_item_values_read_data function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_control_panel_values_read_data(
+int fwsi_test_control_panel_item_values_read_data(
      void )
 {
 	libcerror_error_t *error                             = NULL;
-	libfwsi_control_panel_values_t *control_panel_values = NULL;
+	libfwsi_control_panel_item_values_t *control_panel_item_values = NULL;
 	int result                                           = 0;
 
 	/* Initialize test
 	 */
-	result = libfwsi_control_panel_values_initialize(
-	          &control_panel_values,
+	result = libfwsi_control_panel_item_values_initialize(
+	          &control_panel_item_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -296,8 +296,8 @@ int fwsi_test_control_panel_values_read_data(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "control_panel_values",
-	 control_panel_values );
+	 "control_panel_item_values",
+	 control_panel_item_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -305,9 +305,9 @@ int fwsi_test_control_panel_values_read_data(
 
 	/* Test regular cases
 	 */
-	result = libfwsi_control_panel_values_read_data(
-	          control_panel_values,
-	          fwsi_test_control_panel_values_data1,
+	result = libfwsi_control_panel_item_values_read_data(
+	          control_panel_item_values,
+	          fwsi_test_control_panel_item_values_data1,
 	          32,
 	          &error );
 
@@ -322,9 +322,9 @@ int fwsi_test_control_panel_values_read_data(
 
 	/* Test error cases
 	 */
-	result = libfwsi_control_panel_values_read_data(
+	result = libfwsi_control_panel_item_values_read_data(
 	          NULL,
-	          fwsi_test_control_panel_values_data1,
+	          fwsi_test_control_panel_item_values_data1,
 	          32,
 	          &error );
 
@@ -340,8 +340,8 @@ int fwsi_test_control_panel_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	result = libfwsi_control_panel_values_read_data(
-	          control_panel_values,
+	result = libfwsi_control_panel_item_values_read_data(
+	          control_panel_item_values,
 	          NULL,
 	          32,
 	          &error );
@@ -358,9 +358,9 @@ int fwsi_test_control_panel_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	result = libfwsi_control_panel_values_read_data(
-	          control_panel_values,
-	          fwsi_test_control_panel_values_data1,
+	result = libfwsi_control_panel_item_values_read_data(
+	          control_panel_item_values,
+	          fwsi_test_control_panel_item_values_data1,
 	          (size_t) SSIZE_MAX + 1,
 	          &error );
 
@@ -378,8 +378,8 @@ int fwsi_test_control_panel_values_read_data(
 
 	/* Clean up
 	 */
-	result = libfwsi_control_panel_values_free(
-	          &control_panel_values,
+	result = libfwsi_control_panel_item_values_free(
+	          &control_panel_item_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -388,8 +388,8 @@ int fwsi_test_control_panel_values_read_data(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "control_panel_values",
-	 control_panel_values );
+	 "control_panel_item_values",
+	 control_panel_item_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -403,10 +403,10 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( control_panel_values != NULL )
+	if( control_panel_item_values != NULL )
 	{
-		libfwsi_control_panel_values_free(
-		 &control_panel_values,
+		libfwsi_control_panel_item_values_free(
+		 &control_panel_item_values,
 		 NULL );
 	}
 	return( 0 );
@@ -432,22 +432,26 @@ int main(
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	FWSI_TEST_RUN(
-	 "libfwsi_control_panel_values_initialize",
-	 fwsi_test_control_panel_values_initialize );
+	 "libfwsi_control_panel_item_values_initialize",
+	 fwsi_test_control_panel_item_values_initialize );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_control_panel_values_free",
-	 fwsi_test_control_panel_values_free );
+	 "libfwsi_control_panel_item_values_free",
+	 fwsi_test_control_panel_item_values_free );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_control_panel_values_read_data",
-	 fwsi_test_control_panel_values_read_data );
+	 "libfwsi_control_panel_item_values_read_data",
+	 fwsi_test_control_panel_item_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 	return( EXIT_SUCCESS );
 
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
+
 on_error:
 	return( EXIT_FAILURE );
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 }
 

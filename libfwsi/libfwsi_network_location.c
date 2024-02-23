@@ -55,13 +55,13 @@ int libfwsi_network_location_get_utf8_location_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -124,13 +124,13 @@ int libfwsi_network_location_get_utf8_location(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -193,13 +193,13 @@ int libfwsi_network_location_get_utf16_location_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -262,13 +262,13 @@ int libfwsi_network_location_get_utf16_location(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -331,13 +331,13 @@ int libfwsi_network_location_get_utf8_description_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -405,13 +405,13 @@ int libfwsi_network_location_get_utf8_description(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -479,13 +479,13 @@ int libfwsi_network_location_get_utf16_description_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -553,13 +553,13 @@ int libfwsi_network_location_get_utf16_description(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -627,13 +627,13 @@ int libfwsi_network_location_get_utf8_comments_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -701,13 +701,13 @@ int libfwsi_network_location_get_utf8_comments(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -775,13 +775,13 @@ int libfwsi_network_location_get_utf16_comments_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -849,13 +849,13 @@ int libfwsi_network_location_get_utf16_comments(
 	}
 	internal_item = (libfwsi_internal_item_t *) network_location;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_NETWORK_LOCATION )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_NETWORK_LOCATION )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );

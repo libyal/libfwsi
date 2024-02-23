@@ -28,9 +28,9 @@
 #include "libfwsi_cdburn_values.h"
 #include "libfwsi_compressed_folder_values.h"
 #include "libfwsi_codepage.h"
-#include "libfwsi_control_panel_values.h"
 #include "libfwsi_control_panel_category_values.h"
 #include "libfwsi_control_panel_cpl_file_values.h"
+#include "libfwsi_control_panel_item_values.h"
 #include "libfwsi_definitions.h"
 #include "libfwsi_extension_block.h"
 #include "libfwsi_file_attributes.h"
@@ -578,7 +578,7 @@ int libfwsi_item_copy_from_byte_stream(
 			case 0x70:
 				if( internal_item->class_type == 0x71 )
 				{
-					internal_item->type = LIBFWSI_ITEM_TYPE_CONTROL_PANEL;
+					internal_item->type = LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM;
 				}
 				break;
 
@@ -699,24 +699,24 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			break;
 
-		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL:
-			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_control_panel_values_free;
+		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_control_panel_item_values_free;
 
-			if( libfwsi_control_panel_values_initialize(
-			     (libfwsi_control_panel_values_t **) &( internal_item->value ),
+			if( libfwsi_control_panel_item_values_initialize(
+			     (libfwsi_control_panel_item_values_t **) &( internal_item->value ),
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create control panel values.",
+				 "%s: unable to create control panel item values.",
 				 function );
 
 				goto on_error;
 			}
-			result = libfwsi_control_panel_values_read_data(
-			          (libfwsi_control_panel_values_t *) internal_item->value,
+			result = libfwsi_control_panel_item_values_read_data(
+			          (libfwsi_control_panel_item_values_t *) internal_item->value,
 			          byte_stream,
 			          internal_item->data_size,
 			          error );
@@ -727,7 +727,7 @@ int libfwsi_item_copy_from_byte_stream(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
-				 "%s: unable to read control panel values.",
+				 "%s: unable to read control panel item values.",
 				 function );
 
 				goto on_error;

@@ -194,7 +194,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_control_panel_values.c"
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item_values.c"
 				>
 			</File>
 			<File
@@ -388,7 +392,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_control_panel_values.h"
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item_values.h"
 				>
 			</File>
 			<File

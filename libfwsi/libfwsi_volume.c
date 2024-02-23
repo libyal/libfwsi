@@ -55,13 +55,13 @@ int libfwsi_volume_get_utf8_name_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) volume;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_VOLUME )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -111,13 +111,13 @@ int libfwsi_volume_get_utf8_name(
 	}
 	internal_item = (libfwsi_internal_item_t *) volume;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_VOLUME )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -167,13 +167,13 @@ int libfwsi_volume_get_utf16_name_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) volume;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_VOLUME )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -223,13 +223,13 @@ int libfwsi_volume_get_utf16_name(
 	}
 	internal_item = (libfwsi_internal_item_t *) volume;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_VOLUME )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -281,13 +281,13 @@ int libfwsi_volume_get_identifier(
 	}
 	internal_item = (libfwsi_internal_item_t *) volume;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_VOLUME )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -339,13 +339,13 @@ int libfwsi_volume_get_shell_folder_identifier(
 	}
 	internal_item = (libfwsi_internal_item_t *) volume;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_VOLUME )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_VOLUME )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );

@@ -206,12 +206,12 @@ int libfwsi_control_panel_category_values_read_data(
 		 data[ 2 ] );
 
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: unknown1\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 
 		libcnotify_printf(
-		 "%s: signature\t\t\t: 0x%08" PRIx32 "\n",
+		 "%s: signature\t\t: 0x%08" PRIx32 "\n",
 		 function,
 		 signature );
 
@@ -228,7 +228,8 @@ int libfwsi_control_panel_category_values_read_data(
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	return( 1 );
 }
 

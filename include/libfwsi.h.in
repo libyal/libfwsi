@@ -516,6 +516,21 @@ int libfwsi_network_location_get_utf16_comments(
      libfwsi_error_t **error );
 
 /* -------------------------------------------------------------------------
+ * Control panel item functions
+ * ------------------------------------------------------------------------- */
+
+/* Retrieves the identifier
+ * The identifier is a GUID and is 16 bytes of size
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_control_panel_item_get_identifier(
+     libfwsi_item_t *control_panel_item,
+     uint8_t *guid_data,
+     size_t guid_data_size,
+     libfwsi_error_t **error );
+
+/* -------------------------------------------------------------------------
  * Extension block functions
  * ------------------------------------------------------------------------- */
 

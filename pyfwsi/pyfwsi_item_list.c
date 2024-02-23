@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #endif
 
+#include "pyfwsi_control_panel_item.h"
 #include "pyfwsi_error.h"
 #include "pyfwsi_file_entry.h"
 #include "pyfwsi_item.h"
@@ -607,6 +608,10 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 	}
 	switch( item_type )
 	{
+		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM:
+			type_object = &pyfwsi_control_panel_item_type_object;
+			break;
+
 		case LIBFWSI_ITEM_TYPE_FILE_ENTRY:
 			type_object = &pyfwsi_file_entry_type_object;
 			break;
@@ -625,7 +630,6 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 
 		case LIBFWSI_ITEM_TYPE_UNKNOWN:
 		case LIBFWSI_ITEM_TYPE_CDBURN:
-		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL:
 		case LIBFWSI_ITEM_TYPE_DELEGATE:
 		case LIBFWSI_ITEM_TYPE_GAME_FOLDER:
 		case LIBFWSI_ITEM_TYPE_URI:

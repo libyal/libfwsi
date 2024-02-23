@@ -1,5 +1,5 @@
 /*
- * Control panel category (shell item) values functions
+ * Control panel item (shell item) values functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H )
-#define _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H
+#if !defined( _LIBFWSI_CONTROL_PANEL_ITEM_VALUES_H )
+#define _LIBFWSI_CONTROL_PANEL_ITEM_VALUES_H
 
 #include <common.h>
 #include <types.h>
@@ -31,32 +31,38 @@
 extern "C" {
 #endif
 
-typedef struct libfwsi_control_panel_category_values libfwsi_control_panel_category_values_t;
+typedef struct libfwsi_control_panel_item_values libfwsi_control_panel_item_values_t;
 
-struct libfwsi_control_panel_category_values
+struct libfwsi_control_panel_item_values
 {
-	/* Category
+	/* The identifier
 	 */
-	uint32_t category;
+	uint8_t identifier[ 16 ];
 };
 
-int libfwsi_control_panel_category_values_initialize(
-     libfwsi_control_panel_category_values_t **control_panel_category_values,
+int libfwsi_control_panel_item_values_initialize(
+     libfwsi_control_panel_item_values_t **control_panel_item_values,
      libcerror_error_t **error );
 
-int libfwsi_control_panel_category_values_free(
-     libfwsi_control_panel_category_values_t **control_panel_category_values,
+int libfwsi_control_panel_item_values_free(
+     libfwsi_control_panel_item_values_t **control_panel_item_values,
      libcerror_error_t **error );
 
-int libfwsi_control_panel_category_values_read_data(
-     libfwsi_control_panel_category_values_t *control_panel_category_values,
+int libfwsi_control_panel_item_values_read_data(
+     libfwsi_control_panel_item_values_t *control_panel_item_values,
      const uint8_t *data,
      size_t data_size,
+     libcerror_error_t **error );
+
+int libfwsi_control_panel_item_values_get_identifier(
+     libfwsi_control_panel_item_values_t *control_panel_item_values,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H ) */
+#endif /* !defined( _LIBFWSI_CONTROL_PANEL_ITEM_VALUES_H ) */
 

@@ -1,5 +1,5 @@
 /*
- * Control panel (shell item) values functions
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,44 +19,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_CONTROL_PANEL_VALUES_H )
-#define _LIBFWSI_CONTROL_PANEL_VALUES_H
+#if !defined( _PYFWSI_CONTROL_PANEL_ITEM_H )
+#define _PYFWSI_CONTROL_PANEL_ITEM_H
 
 #include <common.h>
 #include <types.h>
 
-#include "libfwsi_libcerror.h"
+#include "pyfwsi_item.h"
+#include "pyfwsi_python.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-typedef struct libfwsi_control_panel_values libfwsi_control_panel_values_t;
+extern PyMethodDef pyfwsi_control_panel_item_object_methods[];
+extern PyTypeObject pyfwsi_control_panel_item_type_object;
 
-struct libfwsi_control_panel_values
-{
-	/* Dummy
-	 */
-	int dummy;
-};
-
-int libfwsi_control_panel_values_initialize(
-     libfwsi_control_panel_values_t **control_panel_values,
-     libcerror_error_t **error );
-
-int libfwsi_control_panel_values_free(
-     libfwsi_control_panel_values_t **control_panel_values,
-     libcerror_error_t **error );
-
-int libfwsi_control_panel_values_read_data(
-     libfwsi_control_panel_values_t *control_panel_values,
-     const uint8_t *data,
-     size_t data_size,
-     libcerror_error_t **error );
+PyObject *pyfwsi_control_panel_item_get_identifier(
+           pyfwsi_item_t *pyfwsi_item,
+           PyObject *arguments );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_CONTROL_PANEL_VALUES_H ) */
+#endif /* !defined( _PYFWSI_CONTROL_PANEL_ITEM_H ) */
 

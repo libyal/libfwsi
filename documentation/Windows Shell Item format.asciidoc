@@ -808,10 +808,10 @@ Indication that the value at offset 0x10 contains a FILETIME
 00000030: 73 00 74 00 00 00 73 00                            s.t...s.
 ....
 
-=== Control Panel shell item
+=== Control panel item shell item
 
-The Control Panel shell item is 30 bytes in size and consists of the following
-values:
+The control panel item shell item is 30 bytes in size and consists of the
+following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -822,9 +822,9 @@ Includes the 2 bytes of the size itself
 | 3 | 1 | | [yellow-background]*Unknown (sort order?)* +
 [yellow-background]*Seen: 0x80*
 | 4 | 10 | | [yellow-background]*Unknown (Empty values)*
-| 14 | 16 | | Control Panel Item identifier +
+| 14 | 16 | | Control panel item identifier +
 Contains a GUID +
-For a list of control panel identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+For a list of control panel item identifiers see: https://github.com/libyal/libfwsi/wiki/Control-Panel-identifiers[[LIBFWSI-WIKI\]]
 |===
 
 == Signature-based shell items
@@ -846,7 +846,7 @@ Includes the 2 bytes of the size itself
 | 14 | 4 | | [yellow-background]*Unknown*
 4+| _If data size > 0 ?_
 | ... | ... | | Property set data +
-See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 |===
 
 ==== Notes
@@ -924,9 +924,9 @@ Includes the 2 bytes of the size itself
 
 ==== Control panel CPL file shell item
 
-Seen after volume shell item pointing to Control Panel CLSID.
+Seen after volume shell item pointing to control panel item.
 
-The Control panel CPL file shell item is of variable size and consists of the
+The control panel CPL file shell item is of variable size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -964,9 +964,9 @@ Contains an UTF-16 little-endian string with end-of-string character
 ==== Control panel category shell item
 
 Seen in Windows 7 in BagMRU and also seen in LNK after shell item type 0x1f
-with Control Panel CLSID.
+with a control panel item identifier.
 
-The Control panel category shell item is 12 bytes in size and consists of the
+The control panel category shell item is 12 bytes in size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -1143,7 +1143,7 @@ Contains an OLE defines property (variant) types. Also see `[LIBFOLE]`
 ===== Format class (or property set) identifiers
 
 The following format class (or property set) identifier are known to be used.
-For more information about the property sets and values see: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+For more information about property sets and values see: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 
 [cols="1,5",options="header"]
 |===
@@ -1358,14 +1358,14 @@ Includes the 2 bytes of the size itself
 | 4 | 2 | | Data size +
 The size of the following data, the extension block sizes not included
 | 6 | 4 | | Data signature
-| 10 | 2 | | Property set data size +
+| 10 | 2 | | Property store data size +
 Contains 0 if not present
 | 12 | 2 | | Identifier size
 4+| _If identifier size > 0_
 | 14 | ... | | Identifier data +
 If size of shell property sheet list size > 0
-| ... | ... | | Property set data +
-See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+| ... | ... | | Property store data +
+See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
 | ... | 2 | | [yellow-background]*Unknown (Empty values)* +
 Present if shell item contains more data
@@ -1390,7 +1390,7 @@ For a list of known folder identifiers see: https://github.com/libyal/libfwsi/wi
 ===== Format class (or property set) identifiers
 
 The following format class (or property set) identifiers are known to be used.
-For more information about the property sets and values see: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+For more information about property sets and values see: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 
 [cols="1,5",options="header"]
 |===
@@ -1497,7 +1497,7 @@ class type indicator          : 0x00
 unknown0                      : 0x00
 data size                     : 963
 signature                     : 0x10141981
-property set size             : 921
+property store size           : 921
 identifier size               : 32
 identifier data:
 00000000: 00 00 48 40 00 00 00 00  00 00 00 00 00 00 00 00   ..H@.... ........
@@ -1519,14 +1519,14 @@ Includes the 2 bytes of the size itself
 | 4 | 2 | | Data size +
 The size of the following data, the extension block sizes not included
 | 6 | 4 | | Data signature
-| 10 | 2 | | Property set data size +
+| 10 | 2 | | Property store data size +
 Contains 0 if not present
 | 12 | 2 | | Identifier size
 4+| _If identifier size > 0_
 | 14 | ... | | Identifier data
 4+| _If size of shell property sheet list size > 0_
-| ... | ... | | Property set data +
-See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+| ... | ... | | Property store data +
+See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
 | ... | 2 | | [yellow-background]*Unknown (Empty values)*
 | ... | 16 | | Delegate item identifier +
@@ -2193,7 +2193,7 @@ Includes the 2 bytes of the size itself
 4+| _Data_
 | 16 | ... | | Property set data +
 [yellow-background]*Note only seen one so far* +
-See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 12 | | [yellow-background]*Unknown (empty values)*
@@ -2591,7 +2591,7 @@ Includes the 2 bytes of the size itself
 [yellow-background]*Seen 0x0000*
 | 4 | 4 | 0xbeef0021 | Extension signature
 | 8 | ... | | Property set data +
-See: https://github.com/libyal/libfwps/blob/master/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
 | ... | 2 | | First extension block version offset +
 The offset is relative from the start of the shell item.

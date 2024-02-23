@@ -84,7 +84,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_control_panel_cpl
 		{A0028F3E-BF42-4839-A17E-21D8089C78B8} = {A0028F3E-BF42-4839-A17E-21D8089C78B8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_control_panel_values", "fwsi_test_control_panel_values\fwsi_test_control_panel_values.vcproj", "{69950AE1-9D68-49DD-B76E-7E4400747D3B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fwsi_test_control_panel_item_values", "fwsi_test_control_panel_item_values\fwsi_test_control_panel_item_values.vcproj", "{F7B53CAF-85BF-46B0-9DFB-D4344D34B17E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3} = {D3F8FFAD-8A36-4D29-BFF8-2BC58B8DD8F3}
 		{A0028F3E-BF42-4839-A17E-21D8089C78B8} = {A0028F3E-BF42-4839-A17E-21D8089C78B8}
@@ -327,10 +327,10 @@ Global
 		{F5D5F678-7B1F-4059-9770-5862C4182C9F}.Release|Win32.Build.0 = Release|Win32
 		{F5D5F678-7B1F-4059-9770-5862C4182C9F}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
 		{F5D5F678-7B1F-4059-9770-5862C4182C9F}.VSDebug|Win32.Build.0 = VSDebug|Win32
-		{69950AE1-9D68-49DD-B76E-7E4400747D3B}.Release|Win32.ActiveCfg = Release|Win32
-		{69950AE1-9D68-49DD-B76E-7E4400747D3B}.Release|Win32.Build.0 = Release|Win32
-		{69950AE1-9D68-49DD-B76E-7E4400747D3B}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
-		{69950AE1-9D68-49DD-B76E-7E4400747D3B}.VSDebug|Win32.Build.0 = VSDebug|Win32
+		{F7B53CAF-85BF-46B0-9DFB-D4344D34B17E}.Release|Win32.ActiveCfg = Release|Win32
+		{F7B53CAF-85BF-46B0-9DFB-D4344D34B17E}.Release|Win32.Build.0 = Release|Win32
+		{F7B53CAF-85BF-46B0-9DFB-D4344D34B17E}.VSDebug|Win32.ActiveCfg = VSDebug|Win32
+		{F7B53CAF-85BF-46B0-9DFB-D4344D34B17E}.VSDebug|Win32.Build.0 = VSDebug|Win32
 		{A781DD2B-2103-44D4-B4B2-D9943B26BA48}.Release|Win32.ActiveCfg = Release|Win32
 		{A781DD2B-2103-44D4-B4B2-D9943B26BA48}.Release|Win32.Build.0 = Release|Win32
 		{A781DD2B-2103-44D4-B4B2-D9943B26BA48}.VSDebug|Win32.ActiveCfg = VSDebug|Win32

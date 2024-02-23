@@ -55,13 +55,13 @@ int libfwsi_file_entry_get_file_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -121,13 +121,13 @@ int libfwsi_file_entry_get_modification_time(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -186,13 +186,13 @@ int libfwsi_file_entry_get_file_attribute_flags(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -254,13 +254,13 @@ int libfwsi_file_entry_get_utf8_name_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -339,13 +339,13 @@ int libfwsi_file_entry_get_utf8_name(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -425,13 +425,13 @@ int libfwsi_file_entry_get_utf16_name_size(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
@@ -510,13 +510,13 @@ int libfwsi_file_entry_get_utf16_name(
 	}
 	internal_item = (libfwsi_internal_item_t *) file_entry;
 
-	if( ( internal_item->class_type & 0x70 ) != LIBFWSI_CLASS_TYPE_FILE_ENTRY )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_FILE_ENTRY )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );

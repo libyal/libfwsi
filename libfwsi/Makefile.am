@@ -19,7 +19,8 @@ libfwsi_la_SOURCES = \
 	libfwsi_codepage.h \
 	libfwsi_compressed_folder_values.c libfwsi_compressed_folder_values.h \
 	libfwsi_control_panel_identifier.c libfwsi_control_panel_identifier.h \
-	libfwsi_control_panel_values.c libfwsi_control_panel_values.h \
+	libfwsi_control_panel_item.c libfwsi_control_panel_item.h \
+	libfwsi_control_panel_item_values.c libfwsi_control_panel_item_values.h \
 	libfwsi_control_panel_category_values.c libfwsi_control_panel_category_values.h \
 	libfwsi_control_panel_cpl_file_values.c libfwsi_control_panel_cpl_file_values.h \
 	libfwsi_debug.c libfwsi_debug.h \

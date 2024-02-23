@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="fwsi_test_control_panel_values"
-	ProjectGUID="{69950AE1-9D68-49DD-B76E-7E4400747D3B}"
-	RootNamespace="fwsi_test_control_panel_values"
+	Name="fwsi_test_control_panel_item_values"
+	ProjectGUID="{F7B53CAF-85BF-46B0-9DFB-D4344D34B17E}"
+	RootNamespace="fwsi_test_control_panel_item_values"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -176,7 +176,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\tests\fwsi_test_control_panel_values.c"
+				RelativePath="..\..\tests\fwsi_test_control_panel_item_values.c"
 				>
 			</File>
 			<File

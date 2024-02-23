@@ -42,7 +42,7 @@ check_PROGRAMS = \
 	fwsi_test_compressed_folder_values \
 	fwsi_test_control_panel_category_values \
 	fwsi_test_control_panel_cpl_file_values \
-	fwsi_test_control_panel_values \
+	fwsi_test_control_panel_item_values \
 	fwsi_test_delegate_values \
 	fwsi_test_error \
 	fwsi_test_extension_block \
@@ -120,15 +120,15 @@ fwsi_test_control_panel_cpl_file_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
-fwsi_test_control_panel_values_SOURCES = \
-	fwsi_test_control_panel_values.c \
+fwsi_test_control_panel_item_values_SOURCES = \
+	fwsi_test_control_panel_item_values.c \
 	fwsi_test_libcerror.h \
 	fwsi_test_libfwsi.h \
 	fwsi_test_macros.h \
 	fwsi_test_memory.c fwsi_test_memory.h \
 	fwsi_test_unused.h
 
-fwsi_test_control_panel_values_LDADD = \
+fwsi_test_control_panel_item_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 

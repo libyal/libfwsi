@@ -28,6 +28,7 @@
 #endif
 
 #include "pyfwsi.h"
+#include "pyfwsi_control_panel_item.h"
 #include "pyfwsi_error.h"
 #include "pyfwsi_extension_block.h"
 #include "pyfwsi_extension_blocks.h"
@@ -282,6 +283,23 @@ PyMODINIT_FUNC initpyfwsi(
 	 module,
 	 "network_location",
 	 (PyObject *) &pyfwsi_network_location_type_object );
+
+	/* Setup the control panel item type object
+	 */
+	pyfwsi_control_panel_item_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyfwsi_control_panel_item_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyfwsi_control_panel_item_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "control_panel_item",
+	 (PyObject *) &pyfwsi_control_panel_item_type_object );
 
 	/* Setup the extension block type object
 	 */

@@ -23,6 +23,7 @@
 #include <memory.h>
 #include <types.h>
 
+#include "libfwsi_definitions.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_item.h"
 #include "libfwsi_root_folder.h"
@@ -55,13 +56,13 @@ int libfwsi_root_folder_get_shell_folder_identifier(
 	}
 	internal_item = (libfwsi_internal_item_t *) root_folder;
 
-	if( internal_item->class_type != 0x1f )
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_ROOT_FOLDER )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
-		 "%s: unsupported class type.",
+		 "%s: unsupported item type.",
 		 function );
 
 		return( -1 );
