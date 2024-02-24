@@ -38,8 +38,8 @@ int libfwsi_control_panel_category_get_identifier(
      uint32_t *identifier,
      libcerror_error_t **error )
 {
-	libfwsi_internal_item_t *internal_item                                 = NULL;
 	libfwsi_control_panel_category_values_t *control_panel_category_values = NULL;
+	libfwsi_internal_item_t *internal_item                                 = NULL;
 	static char *function                                                  = "libfwsi_control_panel_category_get_identifier";
 
 	if( control_panel_category == NULL )

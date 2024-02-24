@@ -257,7 +257,7 @@ int libfwsi_delegate_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "delegate item class identifier\t",
+		     "delegate item identifier\t",
 		     &( data[ data_offset ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -282,7 +282,7 @@ int libfwsi_delegate_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "item class identifier\t\t",
+		     "shell folder identifier\t\t",
 		     &( data[ data_offset ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -307,7 +307,8 @@ int libfwsi_delegate_values_read_data(
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset += 16;
 
 	return( 1 );

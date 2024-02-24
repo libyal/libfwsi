@@ -49,9 +49,9 @@
 #include "libfwsi_root_folder_values.h"
 #include "libfwsi_shell_folder_identifier.h"
 #include "libfwsi_types.h"
-#include "libfwsi_unknown_0x74_values.h"
 #include "libfwsi_uri_values.h"
 #include "libfwsi_uri_sub_values.h"
+#include "libfwsi_users_files_folder_values.h"
 #include "libfwsi_users_property_view_values.h"
 #include "libfwsi_volume_values.h"
 
@@ -323,6 +323,7 @@ int libfwsi_item_copy_from_byte_stream(
 	uint32_t signature                                  = 0;
 	uint16_t first_extension_block_offset               = 0;
 	int entry_index                                     = 0;
+	int number_of_extension_blocks                      = 0;
 	int result                                          = 0;
 
 	if( item == NULL )
@@ -508,7 +509,7 @@ int libfwsi_item_copy_from_byte_stream(
 				break;
 
 			case 0x46534643UL:
-				internal_item->type = LIBFWSI_ITEM_TYPE_UNKNOWN_0x74;
+				internal_item->type = LIBFWSI_ITEM_TYPE_USERS_FILES_FOLDER;
 				break;
 
 			default:
@@ -1091,6 +1092,42 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			break;
 
+		case LIBFWSI_ITEM_TYPE_USERS_FILES_FOLDER:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_users_files_folder_values_free;
+
+			if( libfwsi_users_files_folder_values_initialize(
+			     (libfwsi_users_files_folder_values_t **) &( internal_item->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create users files folder values.",
+				 function );
+
+				goto on_error;
+			}
+			result = libfwsi_users_files_folder_values_read_data(
+			          (libfwsi_users_files_folder_values_t *) internal_item->value,
+			          byte_stream,
+			          internal_item->data_size,
+			          ascii_codepage,
+			          error );
+
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_IO,
+				 LIBCERROR_IO_ERROR_READ_FAILED,
+				 "%s: unable to read users files folder values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
 		case LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW:
 			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_users_property_view_values_free;
 
@@ -1157,42 +1194,6 @@ int libfwsi_item_copy_from_byte_stream(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
 				 "%s: unable to read volume values.",
-				 function );
-
-				goto on_error;
-			}
-			break;
-
-		case LIBFWSI_ITEM_TYPE_UNKNOWN_0x74:
-			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_unknown_0x74_values_free;
-
-			if( libfwsi_unknown_0x74_values_initialize(
-			     (libfwsi_unknown_0x74_values_t **) &( internal_item->value ),
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create unknown 0x74 values.",
-				 function );
-
-				goto on_error;
-			}
-			result = libfwsi_unknown_0x74_values_read_data(
-			          (libfwsi_unknown_0x74_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
-			          ascii_codepage,
-			          error );
-
-			if( result == -1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_IO,
-				 LIBCERROR_IO_ERROR_READ_FAILED,
-				 "%s: unable to read unknown 0x74 values.",
 				 function );
 
 				goto on_error;
@@ -1287,6 +1288,8 @@ int libfwsi_item_copy_from_byte_stream(
 				goto on_error;
 			}
 			extension_block = NULL;
+
+			number_of_extension_blocks++;
 		}
 		if( extension_block != NULL )
 		{
@@ -1307,7 +1310,8 @@ int libfwsi_item_copy_from_byte_stream(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-			if( shell_item_data_size > 0 )
+			if( ( number_of_extension_blocks > 0 )
+			 && ( shell_item_data_size > 0 ) )
 			{
 				libcnotify_printf(
 				 "%s: trailing data:\n",

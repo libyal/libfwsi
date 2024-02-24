@@ -66,9 +66,9 @@ check_PROGRAMS = \
 	fwsi_test_network_location_values \
 	fwsi_test_root_folder_values \
 	fwsi_test_support \
-	fwsi_test_unknown_0x74_values \
 	fwsi_test_uri_values \
 	fwsi_test_uri_sub_values \
+	fwsi_test_users_files_folder_values \
 	fwsi_test_users_property_view_values \
 	fwsi_test_volume_values
 
@@ -402,18 +402,6 @@ fwsi_test_support_SOURCES = \
 fwsi_test_support_LDADD = \
 	../libfwsi/libfwsi.la
 
-fwsi_test_unknown_0x74_values_SOURCES = \
-	fwsi_test_libcerror.h \
-	fwsi_test_libfwsi.h \
-	fwsi_test_macros.h \
-	fwsi_test_memory.c fwsi_test_memory.h \
-	fwsi_test_unknown_0x74_values.c \
-	fwsi_test_unused.h
-
-fwsi_test_unknown_0x74_values_LDADD = \
-	../libfwsi/libfwsi.la \
-	@LIBCERROR_LIBADD@
-
 fwsi_test_uri_values_SOURCES = \
 	fwsi_test_libcerror.h \
 	fwsi_test_libfwsi.h \
@@ -435,6 +423,18 @@ fwsi_test_uri_sub_values_SOURCES = \
 	fwsi_test_uri_sub_values.c
 
 fwsi_test_uri_sub_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_users_files_folder_values_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_users_files_folder_values.c \
+	fwsi_test_unused.h
+
+fwsi_test_users_files_folder_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 

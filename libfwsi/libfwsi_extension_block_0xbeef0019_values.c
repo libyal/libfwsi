@@ -200,7 +200,7 @@ int libfwsi_extension_block_0xbeef0019_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "folder type identifier\t",
+		     "folder type\t",
 		     &( data[ 8 ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -237,7 +237,8 @@ int libfwsi_extension_block_0xbeef0019_values_read_data(
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	return( 1 );
 }
 

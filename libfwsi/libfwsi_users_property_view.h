@@ -1,5 +1,5 @@
 /*
- * Users property view (shell item) values functions
+ * Users property view (shell item) functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,49 +19,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H )
-#define _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H
+#if !defined( _LIBFWSI_USERS_PROPERTY_VIEW_H )
+#define _LIBFWSI_USERS_PROPERTY_VIEW_H
 
 #include <common.h>
 #include <types.h>
 
+#include "libfwsi_extern.h"
 #include "libfwsi_libcerror.h"
+#include "libfwsi_types.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-typedef struct libfwsi_users_property_view_values libfwsi_users_property_view_values_t;
-
-struct libfwsi_users_property_view_values
-{
-	/* The property store data
-	 */
-	uint8_t *property_store_data;
-
-	/* The property store data size
-	 */
-	uint16_t property_store_data_size;
-};
-
-int libfwsi_users_property_view_values_initialize(
-     libfwsi_users_property_view_values_t **users_property_view_values,
+LIBFWSI_EXTERN \
+int libfwsi_users_property_view_get_property_store_data_size(
+     libfwsi_item_t *users_property_view,
+     size_t *data_size,
      libcerror_error_t **error );
 
-int libfwsi_users_property_view_values_free(
-     libfwsi_users_property_view_values_t **users_property_view_values,
-     libcerror_error_t **error );
-
-int libfwsi_users_property_view_values_read_data(
-     libfwsi_users_property_view_values_t *users_property_view_values,
-     const uint8_t *data,
+LIBFWSI_EXTERN \
+int libfwsi_users_property_view_copy_property_store_data(
+     libfwsi_item_t *users_property_view,
+     uint8_t *data,
      size_t data_size,
-     int ascii_codepage,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H ) */
+#endif /* !defined( _LIBFWSI_USERS_PROPERTY_VIEW_H ) */
 

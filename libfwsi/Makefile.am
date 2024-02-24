@@ -69,9 +69,10 @@ libfwsi_la_SOURCES = \
 	libfwsi_shell_folder_identifier.c libfwsi_shell_folder_identifier.h \
 	libfwsi_support.c libfwsi_support.h \
 	libfwsi_types.h \
-	libfwsi_unknown_0x74_values.c libfwsi_unknown_0x74_values.h \
 	libfwsi_uri_values.c libfwsi_uri_values.h \
 	libfwsi_uri_sub_values.c libfwsi_uri_sub_values.h \
+	libfwsi_users_files_folder_values.c libfwsi_users_files_folder_values.h \
+	libfwsi_users_property_view.c libfwsi_users_property_view.h \
 	libfwsi_users_property_view_values.c libfwsi_users_property_view_values.h \
 	libfwsi_unused.h \
 	libfwsi_volume.c libfwsi_volume.h \

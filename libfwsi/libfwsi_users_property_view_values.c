@@ -127,6 +127,11 @@ int libfwsi_users_property_view_values_free(
 	}
 	if( *users_property_view_values != NULL )
 	{
+		if( ( *users_property_view_values )->property_store_data != NULL )
+		{
+			memory_free(
+			 ( *users_property_view_values )->property_store_data );
+		}
 		memory_free(
 		 *users_property_view_values );
 
@@ -145,7 +150,7 @@ int libfwsi_users_property_view_values_read_data(
      int ascii_codepage,
      libcerror_error_t **error )
 {
-	static char *function       = "libfwsi_users_property_view_values_read_data";
+	static char *function        = "libfwsi_users_property_view_values_read_data";
 	size_t data_offset           = 0;
 	uint32_t signature           = 0;
 	uint16_t identifier_size     = 0;
@@ -274,10 +279,21 @@ int libfwsi_users_property_view_values_read_data(
 			 "%s: invalid data size value out of bounds.",
 			 function );
 
-			return( -1 );
+			goto on_error;
 		}
 	}
-/* TODO add identifier_size bounds check */
+	if( ( identifier_size > data_size )
+	 || ( data_offset > ( data_size - identifier_size ) ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid identifier size value out of bounds.",
+		 function );
+
+		goto on_error;
+	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
@@ -335,7 +351,7 @@ int libfwsi_users_property_view_values_read_data(
 						 "%s: unable to print GUID value.",
 						 function );
 
-						return( -1 );
+						goto on_error;
 					}
 					libcnotify_printf(
 					 "%s: known folder name\t\t: %s\n",
@@ -343,7 +359,8 @@ int libfwsi_users_property_view_values_read_data(
 					 libfwsi_known_folder_identifier_get_name(
 					  &( data[ data_offset ] ) ) );
 				}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 				data_offset += 16;
 			}
 			break;
@@ -352,8 +369,18 @@ int libfwsi_users_property_view_values_read_data(
 			data_offset += identifier_size;
 			break;
 	}
-/* TODO add property set size bounds check */
+	if( ( property_store_size > data_size )
+	 || ( data_offset > ( data_size - property_store_size ) ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid property store size value out of bounds.",
+		 function );
 
+		goto on_error;
+	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
@@ -368,12 +395,42 @@ int libfwsi_users_property_view_values_read_data(
 #endif
 	if( property_store_size > 0 )
 	{
+		users_property_view_values->property_store_data = (uint8_t *) memory_allocate(
+		                                                               sizeof( uint8_t ) * property_store_size );
+
+		if( users_property_view_values->property_store_data == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+			 "%s: unable to create property store data.",
+			 function );
+
+			goto on_error;
+		}
+		if( memory_copy(
+		     users_property_view_values->property_store_data,
+		     &( data[ data_offset ] ),
+		     property_store_size ) == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+			 "%s: unable to copy property store data.",
+			 function );
+
+			goto on_error;
+		}
+		users_property_view_values->property_store_data_size = property_store_size;
+
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			if( libfwsi_debug_print_property_store_value(
-			     &( data[ data_offset ] ),
-			     property_store_size,
+			     users_property_view_values->property_store_data,
+			     users_property_view_values->property_store_data_size,
 			     ascii_codepage,
 			     error ) != 1 )
 			{
@@ -384,10 +441,11 @@ int libfwsi_users_property_view_values_read_data(
 				 "%s: unable to print property store value.",
 				 function );
 
-				return( -1 );
+				goto on_error;
 			}
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset += property_store_size;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -407,7 +465,7 @@ int libfwsi_users_property_view_values_read_data(
 
 	if( signature == 0x23a3dfd5UL )
 	{
-		if( data_offset > data_size - 32 )
+		if( data_offset > ( data_size - 32 ) )
 		{
 			libcerror_error_set(
 			 error,
@@ -416,7 +474,7 @@ int libfwsi_users_property_view_values_read_data(
 			 "%s: invalid data size value out of bounds.",
 			 function );
 
-			return( -1 );
+			goto on_error;
 		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -437,10 +495,11 @@ int libfwsi_users_property_view_values_read_data(
 				 "%s: unable to print GUID value.",
 				 function );
 
-				return( -1 );
+				goto on_error;
 			}
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset += 16;
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -448,7 +507,7 @@ int libfwsi_users_property_view_values_read_data(
 		{
 			if( libfwsi_debug_print_guid_value(
 			     function,
-			     "item class identifier\t\t",
+			     "shell folder identifier\t",
 			     &( data[ data_offset ] ),
 			     16,
 			     LIBFGUID_ENDIAN_LITTLE,
@@ -462,7 +521,7 @@ int libfwsi_users_property_view_values_read_data(
 				 "%s: unable to print GUID value.",
 				 function );
 
-				return( -1 );
+				goto on_error;
 			}
 			libcnotify_printf(
 			 "%s: shell folder name\t\t: %s\n",
@@ -470,7 +529,8 @@ int libfwsi_users_property_view_values_read_data(
 			 libfwsi_shell_folder_identifier_get_name(
 			  &( data[ data_offset ] ) ) );
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset += 16;
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -481,5 +541,17 @@ int libfwsi_users_property_view_values_read_data(
 	}
 #endif
 	return( 1 );
+
+on_error:
+	if( users_property_view_values->property_store_data != NULL )
+	{
+		memory_free(
+		 users_property_view_values->property_store_data );
+
+		users_property_view_values->property_store_data = NULL;
+	}
+	users_property_view_values->property_store_data_size = 0;
+
+	return( -1 );
 }
 

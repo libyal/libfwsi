@@ -32,18 +32,18 @@
 #include "pyfwsi_error.h"
 #include "pyfwsi_extension_block.h"
 #include "pyfwsi_extension_blocks.h"
+#include "pyfwsi_file_entry.h"
 #include "pyfwsi_file_entry_extension.h"
 #include "pyfwsi_item.h"
 #include "pyfwsi_item_list.h"
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libclocale.h"
 #include "pyfwsi_libfwsi.h"
-#include "pyfwsi_python.h"
-#include "pyfwsi_unused.h"
-
-#include "pyfwsi_file_entry.h"
 #include "pyfwsi_network_location.h"
 #include "pyfwsi_root_folder.h"
+#include "pyfwsi_python.h"
+#include "pyfwsi_unused.h"
+#include "pyfwsi_users_property_view.h"
 #include "pyfwsi_volume.h"
 
 PyMethodDef pyfwsi_item_object_methods[] = {
@@ -584,6 +584,10 @@ PyObject *pyfwsi_item_copy_from_byte_stream(
 			type_object = &pyfwsi_root_folder_type_object;
 			break;
 
+		case LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW:
+			type_object = &pyfwsi_users_property_view_type_object;
+			break;
+
 		case LIBFWSI_ITEM_TYPE_VOLUME:
 			type_object = &pyfwsi_volume_type_object;
 			break;
@@ -593,7 +597,6 @@ PyObject *pyfwsi_item_copy_from_byte_stream(
 		case LIBFWSI_ITEM_TYPE_DELEGATE:
 		case LIBFWSI_ITEM_TYPE_GAME_FOLDER:
 		case LIBFWSI_ITEM_TYPE_URI:
-		case LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW:
 		default:
 			break;
 	}

@@ -342,15 +342,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_unknown_0x74_values.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\libfwsi\libfwsi_uri_sub_values.c"
 				>
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_uri_values.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_users_files_folder_values.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_users_property_view.c"
 				>
 			</File>
 			<File
@@ -588,10 +592,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_unknown_0x74_values.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\libfwsi\libfwsi_unused.h"
 				>
 			</File>
@@ -601,6 +601,14 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_uri_values.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_users_files_folder_values.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_users_property_view.h"
 				>
 			</File>
 			<File

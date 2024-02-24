@@ -1,5 +1,5 @@
 /*
- * Unknown 0x74 (shell item) values functions
+ * Users files folder (shell item) values functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -31,64 +31,64 @@
 #include "libfwsi_libfdatetime.h"
 #include "libfwsi_libfguid.h"
 #include "libfwsi_shell_folder_identifier.h"
-#include "libfwsi_unknown_0x74_values.h"
+#include "libfwsi_users_files_folder_values.h"
 
-/* Creates unknown 0x74 values
- * Make sure the value unknown_0x74_values is referencing, is set to NULL
+/* Creates users files folder values
+ * Make sure the value users_files_folder_values is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_unknown_0x74_values_initialize(
-     libfwsi_unknown_0x74_values_t **unknown_0x74_values,
+int libfwsi_users_files_folder_values_initialize(
+     libfwsi_users_files_folder_values_t **users_files_folder_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_unknown_0x74_values_initialize";
+	static char *function = "libfwsi_users_files_folder_values_initialize";
 
-	if( unknown_0x74_values == NULL )
+	if( users_files_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid unknown 0x74 values.",
+		 "%s: invalid users files folder values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *unknown_0x74_values != NULL )
+	if( *users_files_folder_values != NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
-		 "%s: invalid unknown 0x74 values value already set.",
+		 "%s: invalid users files folder values value already set.",
 		 function );
 
 		return( -1 );
 	}
-	*unknown_0x74_values = memory_allocate_structure(
-	                        libfwsi_unknown_0x74_values_t );
+	*users_files_folder_values = memory_allocate_structure(
+	                              libfwsi_users_files_folder_values_t );
 
-	if( *unknown_0x74_values == NULL )
+	if( *users_files_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-		 "%s: unable to create unknown 0x74 values.",
+		 "%s: unable to create users files folder values.",
 		 function );
 
 		goto on_error;
 	}
 	if( memory_set(
-	     *unknown_0x74_values,
+	     *users_files_folder_values,
 	     0,
-	     sizeof( libfwsi_unknown_0x74_values_t ) ) == NULL )
+	     sizeof( libfwsi_users_files_folder_values_t ) ) == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
-		 "%s: unable to clear unknown 0x74 values.",
+		 "%s: unable to clear users files folder values.",
 		 function );
 
 		goto on_error;
@@ -96,57 +96,57 @@ int libfwsi_unknown_0x74_values_initialize(
 	return( 1 );
 
 on_error:
-	if( *unknown_0x74_values != NULL )
+	if( *users_files_folder_values != NULL )
 	{
 		memory_free(
-		 *unknown_0x74_values );
+		 *users_files_folder_values );
 
-		*unknown_0x74_values = NULL;
+		*users_files_folder_values = NULL;
 	}
 	return( -1 );
 }
 
-/* Frees unknown 0x74 values
+/* Frees users files folder values
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_unknown_0x74_values_free(
-     libfwsi_unknown_0x74_values_t **unknown_0x74_values,
+int libfwsi_users_files_folder_values_free(
+     libfwsi_users_files_folder_values_t **users_files_folder_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_unknown_0x74_values_free";
+	static char *function = "libfwsi_users_files_folder_values_free";
 
-	if( unknown_0x74_values == NULL )
+	if( users_files_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid unknown 0x74 values.",
+		 "%s: invalid users files folder values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *unknown_0x74_values != NULL )
+	if( *users_files_folder_values != NULL )
 	{
 		memory_free(
-		 *unknown_0x74_values );
+		 *users_files_folder_values );
 
-		*unknown_0x74_values = NULL;
+		*users_files_folder_values = NULL;
 	}
 	return( 1 );
 }
 
-/* Reads the unknown 0x74 values
+/* Reads the users files folder values
  * Returns 1 if successful, 0 if not supported or -1 on error
  */
-int libfwsi_unknown_0x74_values_read_data(
-     libfwsi_unknown_0x74_values_t *unknown_0x74_values,
+int libfwsi_users_files_folder_values_read_data(
+     libfwsi_users_files_folder_values_t *users_files_folder_values,
      const uint8_t *data,
      size_t data_size,
      int ascii_codepage,
      libcerror_error_t **error )
 {
-	static char *function        = "libfwsi_unknown_0x74_values_read_data";
+	static char *function        = "libfwsi_users_files_folder_values_read_data";
 	size_t data_offset           = 0;
 	size_t string_alignment_size = 0;
 	size_t string_size           = 0;
@@ -157,13 +157,13 @@ int libfwsi_unknown_0x74_values_read_data(
 	uint16_t value_16bit         = 0;
 #endif
 
-	if( unknown_0x74_values == NULL )
+	if( users_files_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid unknown 0x74 values.",
+		 "%s: invalid users files folder values.",
 		 function );
 
 		return( -1 );
@@ -213,12 +213,12 @@ int libfwsi_unknown_0x74_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: class type indicator\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 2 ] );
 
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: unknown1\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 
@@ -226,12 +226,12 @@ int libfwsi_unknown_0x74_values_read_data(
 		 &( data[ 4 ] ),
 		 value_16bit );
 		libcnotify_printf(
-		 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
+		 "%s: unknown2\t\t\t: 0x%04" PRIx16 "\n",
 		 function,
 		 value_16bit );
 
 		libcnotify_printf(
-		 "%s: signature\t\t\t\t: %c%c%c%c\n",
+		 "%s: signature\t\t\t: %c%c%c%c\n",
 		 function,
 		 data[ 6 ],
 		 data[ 7 ],
@@ -239,11 +239,12 @@ int libfwsi_unknown_0x74_values_read_data(
 		 data[ 9 ] );
 
 		libcnotify_printf(
-		 "%s: data size\t\t\t\t: %" PRIu16 "\n",
+		 "%s: data size\t\t\t: %" PRIu16 "\n",
 		 function,
 		 item_data_size );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset = 12;
 
 	if( item_data_size > 0 )
@@ -292,7 +293,7 @@ int libfwsi_unknown_0x74_values_read_data(
 			 &( data[ 12 ] ),
 			 value_16bit );
 			libcnotify_printf(
-			 "%s: unknown3\t\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: unknown3\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 
@@ -300,13 +301,13 @@ int libfwsi_unknown_0x74_values_read_data(
 			 &( data[ 14 ] ),
 			 value_32bit );
 			libcnotify_printf(
-			 "%s: file size\t\t\t\t: %" PRIu32 "\n",
+			 "%s: file size\t\t\t: %" PRIu32 "\n",
 			 function,
 			 value_32bit );
 
 			if( libfwsi_debug_print_fat_date_time_value(
 			     function,
-			     "modification time\t\t\t",
+			     "modification time\t\t",
 			     &( data[ 18 ] ),
 			     4,
 			     LIBFDATETIME_ENDIAN_LITTLE,
@@ -326,7 +327,7 @@ int libfwsi_unknown_0x74_values_read_data(
 			 &( data[ 22 ] ),
 			 value_16bit );
 			libcnotify_printf(
-			 "%s: file attribute flags\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: file attribute flags\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 			libfwsi_file_attributes_print(
@@ -334,7 +335,8 @@ int libfwsi_unknown_0x74_values_read_data(
 			libcnotify_printf(
 			 "\n" );
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset += 12;
 
 		for( string_size = data_offset;
@@ -357,7 +359,7 @@ int libfwsi_unknown_0x74_values_read_data(
 		{
 			if( libfwsi_debug_print_string_value(
 			     function,
-			     "primary name\t\t\t\t",
+			     "primary name\t\t",
 			     &( data[ data_offset ] ),
 			     string_size,
 			     ascii_codepage,
@@ -373,7 +375,8 @@ int libfwsi_unknown_0x74_values_read_data(
 				return( -1 );
 			}
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset += string_size + string_alignment_size;
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -384,7 +387,7 @@ int libfwsi_unknown_0x74_values_read_data(
 			 value_16bit );
 
 			libcnotify_printf(
-			 "%s: unknown5\t\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: unknown5\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 		}
@@ -407,7 +410,7 @@ int libfwsi_unknown_0x74_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "delagate item class identifier\t",
+		     "delegate item identifier\t",
 		     &( data[ data_offset ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -424,7 +427,8 @@ int libfwsi_unknown_0x74_values_read_data(
 			return( -1 );
 		}
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset += 16;
 
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -432,7 +436,7 @@ int libfwsi_unknown_0x74_values_read_data(
 	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "item class identifier\t\t\t",
+		     "shell folder identifier\t",
 		     &( data[ data_offset ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
@@ -449,7 +453,7 @@ int libfwsi_unknown_0x74_values_read_data(
 			return( -1 );
 		}
 		libcnotify_printf(
-		 "%s: shell folder name\t\t\t: %s\n",
+		 "%s: shell folder name\t\t: %s\n",
 		 function,
 		 libfwsi_shell_folder_identifier_get_name(
 		  &( data[ data_offset ] ) ) );
@@ -457,7 +461,8 @@ int libfwsi_unknown_0x74_values_read_data(
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset += 16;
 
 	return( 1 );

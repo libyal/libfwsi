@@ -44,6 +44,7 @@
 #include "pyfwsi_python.h"
 #include "pyfwsi_root_folder.h"
 #include "pyfwsi_unused.h"
+#include "pyfwsi_users_property_view.h"
 #include "pyfwsi_volume.h"
 
 /* The pyfwsi module methods
@@ -318,6 +319,23 @@ PyMODINIT_FUNC initpyfwsi(
 	 module,
 	 "control_panel_item",
 	 (PyObject *) &pyfwsi_control_panel_item_type_object );
+
+	/* Setup the users property view type object
+	 */
+	pyfwsi_users_property_view_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyfwsi_users_property_view_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyfwsi_users_property_view_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "users_property_view",
+	 (PyObject *) &pyfwsi_users_property_view_type_object );
 
 	/* Setup the extension block type object
 	 */

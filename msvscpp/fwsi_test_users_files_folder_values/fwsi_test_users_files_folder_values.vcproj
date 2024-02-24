@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="fwsi_test_unknown_0x74_values"
-	ProjectGUID="{6C68A855-FB08-4E52-A9B7-EDD65DED89CF}"
-	RootNamespace="fwsi_test_unknown_0x74_values"
+	Name="fwsi_test_users_files_folder_values"
+	ProjectGUID="{C56D11AD-44F8-4B74-8518-0D8024F16463}"
+	RootNamespace="fwsi_test_users_files_folder_values"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -180,7 +180,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\tests\fwsi_test_unknown_0x74_values.c"
+				RelativePath="..\..\tests\fwsi_test_users_files_folder_values.c"
 				>
 			</File>
 		</Filter>

@@ -37,6 +37,7 @@ pyfwsi_la_SOURCES = \
 	pyfwsi_root_folder.c pyfwsi_root_folder.h \
 	pyfwsi_string.c pyfwsi_string.h \
 	pyfwsi_unused.h \
+	pyfwsi_users_property_view.c pyfwsi_users_property_view.h \
 	pyfwsi_volume.c pyfwsi_volume.h
 
 pyfwsi_la_LIBADD = \

@@ -46,6 +46,40 @@ const char *libfwsi_get_version(
              void );
 
 /* -------------------------------------------------------------------------
+ * Notify functions
+ * ------------------------------------------------------------------------- */
+
+/* Sets the verbose notification
+ */
+LIBFWSI_EXTERN \
+void libfwsi_notify_set_verbose(
+      int verbose );
+
+/* Sets the notification stream
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_notify_set_stream(
+     FILE *stream,
+     libfwsi_error_t **error );
+
+/* Opens the notification stream using a filename
+ * The stream is opened in append mode
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_notify_stream_open(
+     const char *filename,
+     libfwsi_error_t **error );
+
+/* Closes the notification stream if opened using a filename
+ * Returns 0 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_notify_stream_close(
+     libfwsi_error_t **error );
+
+/* -------------------------------------------------------------------------
  * Error functions
  * ------------------------------------------------------------------------- */
 
@@ -540,6 +574,29 @@ int libfwsi_control_panel_item_get_identifier(
      libfwsi_item_t *control_panel_item,
      uint8_t *guid_data,
      size_t guid_data_size,
+     libfwsi_error_t **error );
+
+/* -------------------------------------------------------------------------
+ * Users property view functions
+ * ------------------------------------------------------------------------- */
+
+/* Retrieves the property store data size
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_users_property_view_get_property_store_data_size(
+     libfwsi_item_t *users_property_view,
+     size_t *data_size,
+     libfwsi_error_t **error );
+
+/* Copies the property store data to the buffer
+ * Returns 1 if successful or -1 on error
+ */
+LIBFWSI_EXTERN \
+int libfwsi_users_property_view_copy_property_store_data(
+     libfwsi_item_t *users_property_view,
+     uint8_t *data,
+     size_t data_size,
      libfwsi_error_t **error );
 
 /* -------------------------------------------------------------------------

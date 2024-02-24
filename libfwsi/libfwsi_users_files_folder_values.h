@@ -1,5 +1,5 @@
 /*
- * Users property view (shell item) values functions
+ * Users files folder (shell item) values functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H )
-#define _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H
+#if !defined( _LIBFWSI_USERS_FILES_FOLDER_VALUES_H )
+#define _LIBFWSI_USERS_FILES_FOLDER_VALUES_H
 
 #include <common.h>
 #include <types.h>
@@ -31,29 +31,25 @@
 extern "C" {
 #endif
 
-typedef struct libfwsi_users_property_view_values libfwsi_users_property_view_values_t;
+typedef struct libfwsi_users_files_folder_values libfwsi_users_files_folder_values_t;
 
-struct libfwsi_users_property_view_values
+struct libfwsi_users_files_folder_values
 {
-	/* The property store data
+	/* Dummy
 	 */
-	uint8_t *property_store_data;
-
-	/* The property store data size
-	 */
-	uint16_t property_store_data_size;
+	int dummy;
 };
 
-int libfwsi_users_property_view_values_initialize(
-     libfwsi_users_property_view_values_t **users_property_view_values,
+int libfwsi_users_files_folder_values_initialize(
+     libfwsi_users_files_folder_values_t **users_files_folder_values,
      libcerror_error_t **error );
 
-int libfwsi_users_property_view_values_free(
-     libfwsi_users_property_view_values_t **users_property_view_values,
+int libfwsi_users_files_folder_values_free(
+     libfwsi_users_files_folder_values_t **users_files_folder_values,
      libcerror_error_t **error );
 
-int libfwsi_users_property_view_values_read_data(
-     libfwsi_users_property_view_values_t *users_property_view_values,
+int libfwsi_users_files_folder_values_read_data(
+     libfwsi_users_files_folder_values_t *users_files_folder_values,
      const uint8_t *data,
      size_t data_size,
      int ascii_codepage,
@@ -63,5 +59,5 @@ int libfwsi_users_property_view_values_read_data(
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_USERS_PROPERTY_VIEW_VALUES_H ) */
+#endif /* !defined( _LIBFWSI_USERS_FILES_FOLDER_VALUES_H ) */
 

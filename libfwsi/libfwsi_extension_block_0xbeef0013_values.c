@@ -207,12 +207,12 @@ int libfwsi_extension_block_0xbeef0013_values_read_data(
 		 &( data[ 8 ] ),
 		 value_32bit );
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t: 0x%08" PRIx32 "\n",
+		 "%s: unknown1\t\t: 0x%08" PRIx32 "\n",
 		 function,
 		 value_32bit );
 
 		libcnotify_printf(
-		 "%s: unknown3:\n",
+		 "%s: unknown2:\n",
 		 function );
 		libcnotify_print_data(
 		 &( data[ 12 ] ),
@@ -223,14 +223,15 @@ int libfwsi_extension_block_0xbeef0013_values_read_data(
 		 &( data[ 36 ] ),
 		 value_32bit );
 		libcnotify_printf(
-		 "%s: unknown3\t\t\t: 0x%08" PRIx32 "\n",
+		 "%s: unknown3\t\t: 0x%08" PRIx32 "\n",
 		 function,
 		 value_32bit );
 
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	return( 1 );
 }
 

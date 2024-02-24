@@ -1,5 +1,5 @@
 /*
- * Unknown 0x74 (shell item) values functions
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,45 +19,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_UNKNOWN_0x74_VALUES_H )
-#define _LIBFWSI_UNKNOWN_0x74_VALUES_H
+#if !defined( _PYFWSI_USERS_PROPERTY_VIEW_H )
+#define _PYFWSI_USERS_PROPERTY_VIEW_H
 
 #include <common.h>
 #include <types.h>
 
-#include "libfwsi_libcerror.h"
+#include "pyfwsi_item.h"
+#include "pyfwsi_python.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-typedef struct libfwsi_unknown_0x74_values libfwsi_unknown_0x74_values_t;
+extern PyMethodDef pyfwsi_users_property_view_object_methods[];
+extern PyTypeObject pyfwsi_users_property_view_type_object;
 
-struct libfwsi_unknown_0x74_values
-{
-	/* Dummy
-	 */
-	int dummy;
-};
-
-int libfwsi_unknown_0x74_values_initialize(
-     libfwsi_unknown_0x74_values_t **unknown_0x74_values,
-     libcerror_error_t **error );
-
-int libfwsi_unknown_0x74_values_free(
-     libfwsi_unknown_0x74_values_t **unknown_0x74_values,
-     libcerror_error_t **error );
-
-int libfwsi_unknown_0x74_values_read_data(
-     libfwsi_unknown_0x74_values_t *unknown_0x74_values,
-     const uint8_t *data,
-     size_t data_size,
-     int ascii_codepage,
-     libcerror_error_t **error );
+PyObject *pyfwsi_users_property_view_get_property_store_data(
+           pyfwsi_item_t *pyfwsi_item,
+           PyObject *arguments );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_UNKNOWN_0x74_VALUES_H ) */
+#endif /* !defined( _PYFWSI_USERS_PROPERTY_VIEW_H ) */
 
