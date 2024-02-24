@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_category.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libfwsi\libfwsi_control_panel_category_values.c"
 				>
 			</File>
@@ -377,6 +381,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_compressed_folder_values.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_category.h"
 				>
 			</File>
 			<File

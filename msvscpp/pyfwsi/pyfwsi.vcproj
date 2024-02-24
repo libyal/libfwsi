@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_control_panel_category.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_control_panel_item.c"
 				>
 			</File>
@@ -253,6 +257,10 @@
 			</File>
 			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_codepage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_control_panel_category.h"
 				>
 			</File>
 			<File

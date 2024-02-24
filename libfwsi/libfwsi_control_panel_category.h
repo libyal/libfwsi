@@ -1,5 +1,5 @@
 /*
- * Control panel category (shell item) values functions
+ * Control panel category (shell item) functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,44 +19,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H )
-#define _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H
+#if !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_H )
+#define _LIBFWSI_CONTROL_PANEL_CATEGORY_H
 
 #include <common.h>
 #include <types.h>
 
+#include "libfwsi_extern.h"
 #include "libfwsi_libcerror.h"
+#include "libfwsi_types.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-typedef struct libfwsi_control_panel_category_values libfwsi_control_panel_category_values_t;
-
-struct libfwsi_control_panel_category_values
-{
-	/* Identifier
-	 */
-	uint32_t identifier;
-};
-
-int libfwsi_control_panel_category_values_initialize(
-     libfwsi_control_panel_category_values_t **control_panel_category_values,
-     libcerror_error_t **error );
-
-int libfwsi_control_panel_category_values_free(
-     libfwsi_control_panel_category_values_t **control_panel_category_values,
-     libcerror_error_t **error );
-
-int libfwsi_control_panel_category_values_read_data(
-     libfwsi_control_panel_category_values_t *control_panel_category_values,
-     const uint8_t *data,
-     size_t data_size,
+LIBFWSI_EXTERN \
+int libfwsi_control_panel_category_get_identifier(
+     libfwsi_item_t *control_panel_category,
+     uint32_t *identifier,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_VALUES_H ) */
+#endif /* !defined( _LIBFWSI_CONTROL_PANEL_CATEGORY_H ) */
 

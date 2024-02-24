@@ -1,4 +1,4 @@
-.Dd February 23, 2024
+.Dd February 24, 2024
 .Dt libfwsi 3
 .Os libfwsi
 .Sh NAME
@@ -117,9 +117,13 @@ Network location item functions
 .Ft int
 .Fn libfwsi_network_location_get_utf16_comments "libfwsi_item_t *network_location" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
 .Pp
+Control panel category functions
+.Ft int
+.Fn libfwsi_control_panel_category_get_identifier "libfwsi_item_t *control_panel_category" "uint32_t *file_size" "libfwsi_error_t **error"
+.Pp
 Control panel item functions
 .Ft int
-.Fn libfwsi_control_panel_get_identifier "libfwsi_item_t *control_panel" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fn libfwsi_control_panel_item_get_identifier "libfwsi_item_t *control_panel_item" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
 .Pp
 Extension block functions
 .Ft int

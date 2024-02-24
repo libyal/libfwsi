@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #endif
 
+#include "pyfwsi_control_panel_category.h"
 #include "pyfwsi_control_panel_item.h"
 #include "pyfwsi_error.h"
 #include "pyfwsi_file_entry.h"
@@ -608,6 +609,10 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 	}
 	switch( item_type )
 	{
+		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CATEGORY:
+			type_object = &pyfwsi_control_panel_category_type_object;
+			break;
+
 		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM:
 			type_object = &pyfwsi_control_panel_item_type_object;
 			break;

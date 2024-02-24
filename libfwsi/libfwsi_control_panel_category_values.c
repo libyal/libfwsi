@@ -144,10 +144,6 @@ int libfwsi_control_panel_category_values_read_data(
 	static char *function = "libfwsi_control_panel_category_values_read_data";
         uint32_t signature    = 0;
 
-#if defined( HAVE_DEBUG_OUTPUT )
-        uint32_t value_32bit  = 0;
-#endif
-
 	if( control_panel_category_values == NULL )
 	{
 		libcerror_error_set(
@@ -197,6 +193,10 @@ int libfwsi_control_panel_category_values_read_data(
 	{
 		return( 0 );
 	}
+	byte_stream_copy_to_uint32_little_endian(
+	 &( data[ 8 ] ),
+	 control_panel_category_values->identifier );
+
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
@@ -215,15 +215,12 @@ int libfwsi_control_panel_category_values_read_data(
 		 function,
 		 signature );
 
-		byte_stream_copy_to_uint32_little_endian(
-		 &( data[ 8 ] ),
-		 value_32bit );
 		libcnotify_printf(
-		 "%s: control panel category\t: %" PRIu32 " (%s)\n",
+		 "%s: identifier\t\t: %" PRIu32 " (%s)\n",
 		 function,
-		 value_32bit,
+		 control_panel_category_values->identifier,
 		 libfwsi_debug_print_control_panel_category(
-		  value_32bit ) );
+		  control_panel_category_values->identifier ) );
 
 		libcnotify_printf(
 		 "\n" );

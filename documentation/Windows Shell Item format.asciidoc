@@ -56,8 +56,7 @@ Added information about NTFS file reference. +
 Corrected references.
 | 0.0.7 | J.B. Metz | January 2011 | License version update +
 Additional Windows 2000 and 2003 information.
-| 0.0.8 | J.B. Metz | March 2012 | Added information about known folder identifiers. +
-Found additional shell items in test files `[LOPEZ10]`.
+| 0.0.8 | J.B. Metz | March 2012 | Added information about known folder identifiers and additional shell items with thanks to J. Sánchez López.
 | 0.0.9 | J.B. Metz | May 2012 | Updates for Windows 8 Consumer Preview.
 | 0.0.10 | J.B. Metz | August 2012 | New findings regarding shell property sheets (formerly indicated as shell column properties) with thanks to H. Carvey and J. Moore.
 | 0.0.11 | J.B. Metz | February 2013 | Additional information regarding Windows 95 shell item types.
@@ -246,6 +245,7 @@ Includes the 2 bytes of the size itself
 | 2 | 1 | 0x1f | Class type indicator
 | 3 | 1 | | Sort index
 | 4 | 16 | | Shell folder identifier +
+Contains a GUID +
 For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 4+| _Present if shell item size > 20 (seen in Windows 7)_
 | 20 | ... | | Extension block 0xbeef0017 +
@@ -376,10 +376,10 @@ be a sub-type or flags.
 Values that have been seen: 0x30, 0x31, 0x32, 0x35, 0x36, 0xb1.
 [yellow-background]*Possible other values: 0x38.*
 
-According to `[LOPEZ10]` the value in the last two bytes of the shell can be
-used to find the offset of the extension block version and if this value is
-sane the file entry shell item contains an extension block (Windows XP or
-later) or otherwise the secondary name value (pre Windows XP).
+The value in the last two bytes of the shell can be used to find the offset of
+the extension block version and if this value is sane the file entry shell item
+contains an extension block (Windows XP or later) or otherwise the secondary
+name value (pre Windows XP).
 
 Indicated as SHDID_FS_DIRECTORY or SHDID_FS_FILE by SHDESCRIPTIONID.
 
@@ -977,7 +977,7 @@ Includes the 2 bytes of the size itself
 | 2 | 1 | [yellow-background]*Seen: 0x01* | Class type indicator
 | 3 | 1 | | [yellow-background]*Unknown (Empty value)*
 | 4 | 4 | 0x39de2184 | Signature
-| 8 | 4 | | Control panel category +
+| 8 | 4 | | Control panel category identifier +
 See section: <<control_panel_categories,Control panel categories>>
 |===
 
@@ -1179,7 +1179,7 @@ Contains a GUID +
 For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 |===
 
-==== Shell folder identifiers
+==== Delegate shell folders
 
 [cols="1,5",options="header"]
 |===
@@ -1188,7 +1188,19 @@ For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wi
 | 59031a47-3f72-44a7-89c5-5595fe6b30ee | Shared Documents Folder (Users Files)
 |===
 
-==== Shell folder: 35786d3c-b075-49b9-88dd-029876e11c01 data
+===== Notes
+
+Key: HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\DelegateFolders\%GUID%\
+Default value
+
+[cols="1,5",options="header"]
+|===
+| Identifier | Description
+| 9113a02d-00a3-46b9-bc5f-9c04daddd5d7 | Enhanced Storage Data Source
+| b155bdf8-02f0-451e-9a26-ae317cfd7779 | nethood delegate folder
+|===
+
+==== Delegate shell folder: 35786d3c-b075-49b9-88dd-029876e11c01 data
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1246,7 +1258,7 @@ number of chars in string 2?
 00000150: 43 8c 00 00                                        C...
 ....
 
-==== Shell folder: 59031a47-3f72-44a7-89c5-5595fe6b30ee data
+==== Delegate shell folder: 59031a47-3f72-44a7-89c5-5595fe6b30ee data
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1776,10 +1788,10 @@ The offset is relative from the start of the shell item.
 The extension signature seems to always consist of 0xbeef followed by a 16-bit
 value that indicates the block type.
 
-According to `[LOPEZ10]` the first extension block version offset value is
-likely used to determine if the file shell entry item contains the secondary
-name or not.  So likely this value is used for internal validation of the
-shell item and extension block data.
+The first extension block version offset value is likely used to determine if
+the file shell entry item contains the secondary name or not. So likely this
+value is used for internal validation of the shell item and extension block
+data.
 
 === [[extension_block_0xbeef0000]]Extension block 0xbeef0000
 
@@ -2383,7 +2395,7 @@ Includes the 2 bytes of the size itself
 | 16 | Uri_PROPERTY_PORT | The port number.
 | 17 | Uri_PROPERTY_SCHEME | The CUri URL scheme.
 | 18 | Uri_PROPERTY_ZONE | The zone. +
-Not implemented according to `[MSDN]`.
+Not implemented according to `[MSDN-IURI]`.
 |===
 
 ==== CUri host type
@@ -2825,14 +2837,6 @@ This value contains:
 
 This technique, known as Registry string redirection `[MSDN-MUI]`.
 
-`[MSDN-MUI]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | Using Registry String Redirection
-| URL: | http://msdn.microsoft.com/library/dd374120(VS.85).aspx
-|===
-
 The value refers to the multi-language user interface (MUI) string resource with identifier 9227 stored in SHELL32.dll. Which, for an English version of SHELL32.dll, corresponds to:
 ....
 My Documents
@@ -3102,19 +3106,6 @@ CDesktopFolder
 
 IshellFolder:EnumObjects -> IEnumIDList
 
-=== Shell folder identifiers
-
-Key: HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\DelegateFolders\%GUID%\
-Default value
-
-[cols="1,5",options="header"]
-|===
-| Identifier | Description
-| 35786d3c-b075-49b9-88dd-029876e11c01 | Portable Devices
-| 9113a02d-00a3-46b9-bc5f-9c04daddd5d7 | Enhanced Storage Data Source
-| b155bdf8-02f0-451e-9a26-ae317cfd7779 | nethood delegate folder
-|===
-
 == Notes
 
 ....
@@ -3173,26 +3164,6 @@ Windows XP
 [appendix]
 == References
 
-`[HAY04]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | MiTeC Registry Analyser
-| Author(s): | Allan S Hay
-| Date: | December 2004
-| URL: | http://mysite.verizon.net/hartsec/files/WRA_Guidance.pdf
-|===
-
-`[ZHU09]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | Using shellbag information to reconstruct user activities
-| Author(s): | Yuandong Zhu, Pavel Gladyshev, Joshua James
-| Date: | 2009
-| URL: | http://www.dfrws.org/2009/proceedings/p69-zhu.pdf
-|===
-
 `[CHAPPEL09]`
 
 [cols="1,5",options="header"]
@@ -3200,27 +3171,7 @@ Windows XP
 | Title: | RegFolder
 | Author(s): | Geoff Chappel
 | Date: | August 4, 2009
-| URL: | http://www.geoffchappell.com/studies/windows/shell/shell32/classes/regfolder.htm
-|===
-
-`[KHATRI09]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | Shell BAG Format Analysis
-| Author(s): | Yogesh Khatri
-| Date: | October 7, 2009
-| URL: | http://42llc.net/index.php?Itemid=39&=&=&option=com_myblog&show=Shell-BAG-Format.html
-|===
-
-`[LOPEZ10]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | LNK Parsing: You’re doing it wrong (II)
-| Author(s): | Jordi Sánchez López
-| Date: | August 13, 2010
-| URL: | http://blog.0x01000000.org/2010/08/13/lnk-parsing-youre-doing-it-wrong-ii/
+| URL: | https://www.geoffchappell.com/studies/windows/shell/shell32/classes/regfolder.htm
 |===
 
 `[LIBFOLE]`
@@ -3230,7 +3181,7 @@ Windows XP
 | Title: | Object Linking and Embedding (OLE) definitions
 | Author(s): | Joachim Metz
 | Date: | September 2009
-| URL: | https://googledrive.com/host/0B3fBvzttpiiSaDZmMHFNNDgtNDA/OLE%20Definitions.pdf
+| URL: | https://github.com/libyal/libfole/blob/main/documentation/OLE%20definitions.asciidoc
 |===
 
 `[LIBFWSI-WIKI]`
@@ -3248,15 +3199,7 @@ Windows XP
 | Title: | Windows Property Store format
 | Author(s): | Joachim Metz
 | Date: | June 2013
-| URL: | https://googledrive.com/host/0B3fBvzttpiiSc3VuS1J1QmtEYzA/Windows%20Property%20Store%20format.pdf
-|===
-
-`[MSDN]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | Microsoft Developer Network
-| URL: | http://msdn.microsoft.com/
+| URL: | https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc
 |===
 
 `[MSDN-CONTROLPANELCATEGORY]`
@@ -3264,7 +3207,7 @@ Windows XP
 [cols="1,5",options="header"]
 |===
 | Title: | Assigning Control Panel Categories
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/cc144183(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/cc144183(v=vs.85)
 |===
 
 `[MSDN-DELEGATEITEMID]`
@@ -3272,7 +3215,7 @@ Windows XP
 [cols="1,5",options="header"]
 |===
 | Title: | DELEGATEITEMID structure
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb773254(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/ns-shobjidl_core-delegateitemid
 |===
 
 `[MSDN-IURI]`
@@ -3280,10 +3223,10 @@ Windows XP
 [cols="1,5",options="header"]
 |===
 | Title: | Microsoft Developer Network - IUri Interface
-| URL: | http://msdn.microsoft.com/en-us/library/ms775038.aspx +
-http://msdn.microsoft.com/en-us/library/ms775141(v=vs.85).aspx +
-http://msdn.microsoft.com/en-us/library/ms775140(v=vs.85).aspx +
-http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775038(v=vs.85) +
+https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775141(v=vs.85) +
+https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775140(v=vs.85) +
+https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/ne-shlwapi-url_scheme
 |===
 
 `[MSDN-ITEMIDLIST]`
@@ -3291,7 +3234,15 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | ITEMIDLIST structure
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb773321(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/api/shtypes/ns-shtypes-itemidlist
+|===
+
+`[MSDN-MUI]`
+
+[cols="1,5",options="header"]
+|===
+| Title: | Using Registry String Redirection
+| URL: | https://learn.microsoft.com/en-us/windows/win32/intl/using-registry-string-redirection
 |===
 
 `[MSDN-PROPERTYKEY]`
@@ -3299,7 +3250,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | PROPERTYKEY structure
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb773381(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/api/wtypes/ns-wtypes-propertykey
 |===
 
 `[MSDN-SHCOLUMNID]`
@@ -3307,7 +3258,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | SHCOLUMNID structure
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb759748(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/api/shlobj/ns-shlobj-shcolumninfo
 |===
 
 `[MSDN-SHITEMID]`
@@ -3315,7 +3266,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | SHITEMID structure
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb759800(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/api/shtypes/ns-shtypes-shitemid
 |===
 
 `[MSDN-SHLNS]`
@@ -3323,7 +3274,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | Introduction to the Shell Namespace
-| URL: | http://msdn.microsoft.com/en-us/library/cc144090%28v=VS.85%29.aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/shell/namespace-intro
 |===
 
 `[MSDN-SHELLDEV]`
@@ -3331,7 +3282,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | Shell and Shlwapi DLL Versions
-| URL: | http://msdn.microsoft.com/en-us/library/windows/desktop/bb776779(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/bb776779(v=vs.85)
 |===
 
 `[MSDN-SHELLEXT]`
@@ -3339,7 +3290,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | Implementing the Basic Folder Object Interfaces
-| URL: | https://msdn.microsoft.com/en-us/library/windows/desktop/cc144093(v=vs.85).aspx
+| URL: | https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/cc144093(v=vs.85)
 |===
 
 `[MSDN-WP]`
@@ -3347,7 +3298,7 @@ http://msdn.microsoft.com/en-us/library/bb762576(v=vs.85).aspx
 [cols="1,5",options="header"]
 |===
 | Title: | Windows Properties
-| URL: | http://msdn.microsoft.com/en-us/library/dd561977%28v=VS.85%29.aspx
+| URL: | https://learn.microsoft.com/en-us/windows/win32/properties/props
 |===
 
 [appendix]

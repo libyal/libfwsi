@@ -1,5 +1,5 @@
 /*
- * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CATEGORY
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -26,21 +26,21 @@
 #include <stdlib.h>
 #endif
 
-#include "pyfwsi_control_panel_item.h"
+#include "pyfwsi_control_panel_category.h"
 #include "pyfwsi_error.h"
-#include "pyfwsi_guid.h"
+#include "pyfwsi_integer.h"
 #include "pyfwsi_item.h"
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
 #include "pyfwsi_unused.h"
 
-PyMethodDef pyfwsi_control_panel_item_object_methods[] = {
+PyMethodDef pyfwsi_control_panel_category_object_methods[] = {
 
 	{ "get_identifier",
-	  (PyCFunction) pyfwsi_control_panel_item_get_identifier,
+	  (PyCFunction) pyfwsi_control_panel_category_get_identifier,
 	  METH_NOARGS,
-	  "get_identifier() -> Unicode string\n"
+	  "get_identifier() -> Integer\n"
 	  "\n"
 	  "Retrieves the identifier." },
 
@@ -48,10 +48,10 @@ PyMethodDef pyfwsi_control_panel_item_object_methods[] = {
 	{ NULL, NULL, 0, NULL }
 };
 
-PyGetSetDef pyfwsi_control_panel_item_object_get_set_definitions[] = {
+PyGetSetDef pyfwsi_control_panel_category_object_get_set_definitions[] = {
 
 	{ "identifier",
-	  (getter) pyfwsi_control_panel_item_get_identifier,
+	  (getter) pyfwsi_control_panel_category_get_identifier,
 	  (setter) 0,
 	  "The identifier.",
 	  NULL },
@@ -60,11 +60,11 @@ PyGetSetDef pyfwsi_control_panel_item_object_get_set_definitions[] = {
 	{ NULL, NULL, NULL, NULL, NULL }
 };
 
-PyTypeObject pyfwsi_control_panel_item_type_object = {
+PyTypeObject pyfwsi_control_panel_category_type_object = {
 	PyVarObject_HEAD_INIT( NULL, 0 )
 
 	/* tp_name */
-	"pyfwsi.control_panel_item",
+	"pyfwsi.control_panel_category",
 	/* tp_basicsize */
 	sizeof( pyfwsi_item_t ),
 	/* tp_itemsize */
@@ -102,7 +102,7 @@ PyTypeObject pyfwsi_control_panel_item_type_object = {
 	/* tp_flags */
 	Py_TPFLAGS_DEFAULT,
 	/* tp_doc */
-	"pyfwsi control_panel_item object (wraps libfwsi_item_t type LIBFWSI_ITEM_TYPE_CONTROL_PANEL_ITEM)",
+	"pyfwsi control_panel_category object (wraps libfwsi_item_t type LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CATEGORY)",
 	/* tp_traverse */
 	0,
 	/* tp_clear */
@@ -116,11 +116,11 @@ PyTypeObject pyfwsi_control_panel_item_type_object = {
 	/* tp_iternext */
 	0,
 	/* tp_methods */
-	pyfwsi_control_panel_item_object_methods,
+	pyfwsi_control_panel_category_object_methods,
 	/* tp_members */
 	0,
 	/* tp_getset */
-	pyfwsi_control_panel_item_object_get_set_definitions,
+	pyfwsi_control_panel_category_object_get_set_definitions,
 	/* tp_base */
 	&pyfwsi_item_type_object,
 	/* tp_dict */
@@ -158,15 +158,14 @@ PyTypeObject pyfwsi_control_panel_item_type_object = {
 /* Retrieves the identifier
  * Returns a Python object if successful or NULL on error
  */
-PyObject *pyfwsi_control_panel_item_get_identifier(
+PyObject *pyfwsi_control_panel_category_get_identifier(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	uint8_t guid_data[ 16 ];
-
-	PyObject *string_object  = NULL;
 	libcerror_error_t *error = NULL;
-	static char *function    = "pyfwsi_control_panel_item_get_identifier";
+	PyObject *integer_object = NULL;
+	static char *function    = "pyfwsi_control_panel_category_get_identifier";
+	uint32_t identifier      = 0;
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -182,10 +181,9 @@ PyObject *pyfwsi_control_panel_item_get_identifier(
 	}
 	Py_BEGIN_ALLOW_THREADS
 
-	result = libfwsi_control_panel_item_get_identifier(
+	result = libfwsi_control_panel_category_get_identifier(
 	          pyfwsi_item->item,
-	          guid_data,
-	          16,
+	          &identifier,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -203,19 +201,9 @@ PyObject *pyfwsi_control_panel_item_get_identifier(
 
 		return( NULL );
 	}
-	string_object = pyfwsi_string_new_from_guid(
-	                 guid_data,
-	                 16 );
+	integer_object = pyfwsi_integer_unsigned_new_from_64bit(
+	                  (uint64_t) identifier );
 
-	if( string_object == NULL )
-	{
-		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to convert GUID into Unicode object.",
-		 function );
-
-		return( NULL );
-	}
-	return( string_object );
+	return( integer_object );
 }
 
