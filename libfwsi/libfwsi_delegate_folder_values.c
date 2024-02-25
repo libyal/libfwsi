@@ -1,5 +1,5 @@
 /*
- * Delegate (shell item) values functions
+ * Delegate folder (shell item) values functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -26,72 +26,72 @@
 
 #include "libfwsi_debug.h"
 #include "libfwsi_definitions.h"
-#include "libfwsi_delegate_values.h"
+#include "libfwsi_delegate_folder_values.h"
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
 #include "libfwsi_libfguid.h"
 #include "libfwsi_libuna.h"
 #include "libfwsi_shell_folder_identifier.h"
 
-const uint8_t libfwsi_delegate_item_identifier[ 16 ] = {
-        0x74, 0x1a, 0x59, 0x5e, 0x96, 0xdf, 0xd3, 0x48, 0x8d, 0x67, 0x17, 0x33, 0xbc, 0xee, 0x28, 0xba };
+const uint8_t libfwsi_delegate_class_identifier[ 16 ] = {
+	0x74, 0x1a, 0x59, 0x5e, 0x96, 0xdf, 0xd3, 0x48, 0x8d, 0x67, 0x17, 0x33, 0xbc, 0xee, 0x28, 0xba };
 
-/* Creates delegate values
- * Make sure the value delegate_values is referencing, is set to NULL
+/* Creates delegate folder values
+ * Make sure the value delegate_folder_values is referencing, is set to NULL
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_delegate_values_initialize(
-     libfwsi_delegate_values_t **delegate_values,
+int libfwsi_delegate_folder_values_initialize(
+     libfwsi_delegate_folder_values_t **delegate_folder_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_delegate_values_initialize";
+	static char *function = "libfwsi_delegate_folder_values_initialize";
 
-	if( delegate_values == NULL )
+	if( delegate_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid delegate values.",
+		 "%s: invalid delegate folder values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *delegate_values != NULL )
+	if( *delegate_folder_values != NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
-		 "%s: invalid delegate values value already set.",
+		 "%s: invalid delegate folder values value already set.",
 		 function );
 
 		return( -1 );
 	}
-	*delegate_values = memory_allocate_structure(
-	                    libfwsi_delegate_values_t );
+	*delegate_folder_values = memory_allocate_structure(
+	                           libfwsi_delegate_folder_values_t );
 
-	if( *delegate_values == NULL )
+	if( *delegate_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-		 "%s: unable to create delegate values.",
+		 "%s: unable to create delegate folder values.",
 		 function );
 
 		goto on_error;
 	}
 	if( memory_set(
-	     *delegate_values,
+	     *delegate_folder_values,
 	     0,
-	     sizeof( libfwsi_delegate_values_t ) ) == NULL )
+	     sizeof( libfwsi_delegate_folder_values_t ) ) == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_MEMORY,
 		 LIBCERROR_MEMORY_ERROR_SET_FAILED,
-		 "%s: unable to clear delegate values.",
+		 "%s: unable to clear delegate folder values.",
 		 function );
 
 		goto on_error;
@@ -99,66 +99,65 @@ int libfwsi_delegate_values_initialize(
 	return( 1 );
 
 on_error:
-	if( *delegate_values != NULL )
+	if( *delegate_folder_values != NULL )
 	{
 		memory_free(
-		 *delegate_values );
+		 *delegate_folder_values );
 
-		*delegate_values = NULL;
+		*delegate_folder_values = NULL;
 	}
 	return( -1 );
 }
 
-/* Frees delegate values
+/* Frees delegate folder values
  * Returns 1 if successful or -1 on error
  */
-int libfwsi_delegate_values_free(
-     libfwsi_delegate_values_t **delegate_values,
+int libfwsi_delegate_folder_values_free(
+     libfwsi_delegate_folder_values_t **delegate_folder_values,
      libcerror_error_t **error )
 {
-	static char *function = "libfwsi_delegate_values_free";
+	static char *function = "libfwsi_delegate_folder_values_free";
 
-	if( delegate_values == NULL )
+	if( delegate_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid delegate values.",
+		 "%s: invalid delegate folder values.",
 		 function );
 
 		return( -1 );
 	}
-	if( *delegate_values != NULL )
+	if( *delegate_folder_values != NULL )
 	{
 		memory_free(
-		 *delegate_values );
+		 *delegate_folder_values );
 
-		*delegate_values = NULL;
+		*delegate_folder_values = NULL;
 	}
 	return( 1 );
 }
 
-/* Reads the delegate values
+/* Reads the delegate folder values
  * Returns 1 if successful, 0 if not supported or -1 on error
  */
-int libfwsi_delegate_values_read_data(
-     libfwsi_delegate_values_t *delegate_values,
+int libfwsi_delegate_folder_values_read_data(
+     libfwsi_delegate_folder_values_t *delegate_folder_values,
      const uint8_t *data,
      size_t data_size,
      libcerror_error_t **error )
 {
-	static char *function   = "libfwsi_delegate_values_read_data";
-	size_t data_offset      = 0;
-	uint16_t item_data_size = 0;
+	static char *function    = "libfwsi_delegate_folder_values_read_data";
+	uint16_t inner_data_size = 0;
 
-	if( delegate_values == NULL )
+	if( delegate_folder_values == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid delegate values.",
+		 "%s: invalid delegate folder values.",
 		 function );
 
 		return( -1 );
@@ -195,70 +194,88 @@ int libfwsi_delegate_values_read_data(
 	 */
 	if( memory_compare(
 	     &( data[ data_size - 32 ] ),
-	     libfwsi_delegate_item_identifier,
+	     libfwsi_delegate_class_identifier,
 	     16 ) != 0 )
 	{
 		return( 0 );
 	}
-	byte_stream_copy_to_uint32_little_endian(
+	byte_stream_copy_to_uint16_little_endian(
 	 &( data[ 4 ] ),
-	 item_data_size );
+	 inner_data_size );
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: class type indicator\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 2 ] );
 
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: unknown1\t\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 3 ] );
 
 		libcnotify_printf(
-		 "%s: delegate item data size\t\t: %" PRIu16 "\n",
+		 "%s: inner data size\t\t: %" PRIu16 "\n",
 		 function,
-		 item_data_size );
+		 inner_data_size );
 	}
-#endif
-	data_offset = 6;
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
-	if( item_data_size > 0 )
+	if( inner_data_size > ( data_size - 38 ) )
 	{
-		if( item_data_size > ( data_size - 32 ) )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
-			 "%s: invalid data size value out of bounds.",
-			 function );
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid inner data size value out of bounds.",
+		 function );
 
-			return( -1 );
-		}
-#if defined( HAVE_DEBUG_OUTPUT )
-		if( libcnotify_verbose != 0 )
-		{
-			libcnotify_printf(
-			 "%s: delegate item data:\n",
-			 function );
-			libcnotify_print_data(
-			 &( data[ 6 ] ),
-			 item_data_size,
-			 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
-		}
-#endif
-		data_offset += item_data_size;
+		return( -1 );
+	}
+	delegate_folder_values->inner_data      = &( data[ 4 ] );
+	delegate_folder_values->inner_data_size = inner_data_size;
+
+	if( memory_copy(
+	     delegate_folder_values->identifier,
+	     &( data[ data_size - 16 ] ),
+	     16 ) == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+		 "%s: unable to delegate folder identifier.",
+		 function );
+
+		return( -1 );
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
+		libcnotify_printf(
+		 "%s: inner data:\n",
+		 function );
+		libcnotify_print_data(
+		 delegate_folder_values->inner_data,
+		 delegate_folder_values->inner_data_size,
+		 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
+
+		if( inner_data_size < ( data_size - 38 ) )
+		{
+			libcnotify_printf(
+			 "%s: trailing data:\n",
+			 function );
+			libcnotify_print_data(
+			 &( data[ 4 + inner_data_size ] ),
+			 data_size - ( inner_data_size + 38 ),
+			 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
+		}
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "delegate item identifier\t",
-		     &( data[ data_offset ] ),
+		     "delegate class identifier\t",
+		     &( data[ data_size - 32 ] ),
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
 		     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
@@ -273,17 +290,10 @@ int libfwsi_delegate_values_read_data(
 
 			return( -1 );
 		}
-	}
-#endif
-	data_offset += 16;
-
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
 		if( libfwsi_debug_print_guid_value(
 		     function,
-		     "shell folder identifier\t\t",
-		     &( data[ data_offset ] ),
+		     "delegate folder identifier\t",
+		     delegate_folder_values->identifier,
 		     16,
 		     LIBFGUID_ENDIAN_LITTLE,
 		     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,
@@ -299,17 +309,15 @@ int libfwsi_delegate_values_read_data(
 			return( -1 );
 		}
 		libcnotify_printf(
-		 "%s: shell folder name\t\t\t: %s\n",
+		 "%s: delegate folder name\t\t: %s\n",
 		 function,
 		 libfwsi_shell_folder_identifier_get_name(
-		  &( data[ data_offset ] ) ) );
+		  delegate_folder_values->identifier ) );
 
 		libcnotify_printf(
 		 "\n" );
 	}
 #endif /* defined( HAVE_DEBUG_OUTPUT ) */
-
-	data_offset += 16;
 
 	return( 1 );
 }

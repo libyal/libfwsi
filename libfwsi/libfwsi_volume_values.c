@@ -343,29 +343,34 @@ int libfwsi_volume_values_read_data(
 
 		if( data_offset <= ( data_size - 16 ) )
 		{
-			if( memory_copy(
-			     volume_values->shell_folder_identifier,
+			if( memory_compare(
 			     &( data[ data_offset ] ),
-			     16 ) == NULL )
+			     libfwsi_shell_folder_identifier_empty,
+			     16 ) != 0 )
 			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-				 "%s: unable to copy shell folder identifier.",
-				 function );
+				if( memory_copy(
+				     volume_values->shell_folder_identifier,
+				     &( data[ data_offset ] ),
+				     16 ) == NULL )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_MEMORY,
+					 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+					 "%s: unable to copy shell folder identifier.",
+					 function );
 
-				return( -1 );
+					return( -1 );
+				}
+				volume_values->has_shell_folder_identifier = 1;
 			}
-			volume_values->has_shell_folder_identifier = 1;
-
 #if defined( HAVE_DEBUG_OUTPUT )
 			if( libcnotify_verbose != 0 )
 			{
 				if( libfwsi_debug_print_guid_value(
 				     function,
 				     "shell folder identifier\t\t",
-				     volume_values->shell_folder_identifier,
+				     &( data[ data_offset ] ),
 				     16,
 				     LIBFGUID_ENDIAN_LITTLE,
 				     LIBFGUID_STRING_FORMAT_FLAG_USE_UPPER_CASE | LIBFGUID_STRING_FORMAT_FLAG_USE_SURROUNDING_BRACES,

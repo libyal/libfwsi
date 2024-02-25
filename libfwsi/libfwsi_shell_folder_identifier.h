@@ -69,6 +69,7 @@ extern uint8_t libfwsi_shell_folder_identifier_programs_and_features[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_public[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_recent_places[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_recycle_bin[ 16 ];
+extern uint8_t libfwsi_shell_folder_identifier_removable_drives[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_run[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_search_folder[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_search_home[ 16 ];
@@ -76,9 +77,12 @@ extern uint8_t libfwsi_shell_folder_identifier_shared_documents[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_show_desktop[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_system[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_taskbar[ 16 ];
+extern uint8_t libfwsi_shell_folder_identifier_users_files_folder[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_users_libraries[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_window_switcher[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_windows_update[ 16 ];
+
+extern uint8_t libfwsi_shell_folder_identifier_empty[ 16 ];
 extern uint8_t libfwsi_shell_folder_identifier_unknown[ 16 ];
 
 LIBFWSI_EXTERN \

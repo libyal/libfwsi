@@ -1,5 +1,5 @@
 /*
- * Library users_files_folder_values type test program
+ * Library delegate_folder_values type test program
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -33,41 +33,36 @@
 #include "fwsi_test_memory.h"
 #include "fwsi_test_unused.h"
 
-#include "../libfwsi/libfwsi_users_files_folder_values.h"
+#include "../libfwsi/libfwsi_delegate_folder_values.h"
 
-uint8_t fwsi_test_users_files_folder_values_data1[ 130 ] = {
-	0x82, 0x00, 0x74, 0x00, 0x1c, 0x00, 0x43, 0x46, 0x53, 0x46, 0x16, 0x00, 0x31, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0xae, 0x46, 0x24, 0xb1, 0x12, 0x00, 0x41, 0x70, 0x70, 0x44, 0x61, 0x74, 0x61, 0x00,
+uint8_t fwsi_test_delegate_folder_values_data1[ 50 ] = {
+	0x32, 0x00, 0x2e, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x74, 0x1a, 0x59, 0x5e, 0x96, 0xdf, 0xd3, 0x48, 0x8d, 0x67, 0x17, 0x33, 0xbc, 0xee,
-	0x28, 0xba, 0xc5, 0xcd, 0xfa, 0xdf, 0x9f, 0x67, 0x56, 0x41, 0x89, 0x47, 0xc5, 0xc7, 0x6b, 0xc0,
-	0xb6, 0x7f, 0x40, 0x00, 0x09, 0x00, 0x04, 0x00, 0xef, 0xbe, 0xae, 0x46, 0x24, 0xb1, 0xae, 0x46,
-	0x24, 0xb1, 0x2e, 0x00, 0x00, 0x00, 0x15, 0x9d, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xee, 0xe3, 0x73, 0x00,
-	0x41, 0x00, 0x70, 0x00, 0x70, 0x00, 0x44, 0x00, 0x61, 0x00, 0x74, 0x00, 0x61, 0x00, 0x00, 0x00,
-	0x42, 0x00 };
+	0x28, 0xba, 0x47, 0x1a, 0x03, 0x59, 0x72, 0x3f, 0xa7, 0x44, 0x89, 0xc5, 0x55, 0x95, 0xfe, 0x6b,
+	0x30, 0xee };
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
-/* Tests the libfwsi_users_files_folder_values_initialize function
+/* Tests the libfwsi_delegate_folder_values_initialize function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_users_files_folder_values_initialize(
+int fwsi_test_delegate_folder_values_initialize(
      void )
 {
-	libcerror_error_t *error                                       = NULL;
-	libfwsi_users_files_folder_values_t *users_files_folder_values = NULL;
-	int result                                                     = 0;
+	libcerror_error_t *error                                 = NULL;
+	libfwsi_delegate_folder_values_t *delegate_folder_values = NULL;
+	int result                                               = 0;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
-	int number_of_malloc_fail_tests                                = 1;
-	int number_of_memset_fail_tests                                = 1;
-	int test_number                                                = 0;
+	int number_of_malloc_fail_tests                          = 1;
+	int number_of_memset_fail_tests                          = 1;
+	int test_number                                          = 0;
 #endif
 
 	/* Test regular cases
 	 */
-	result = libfwsi_users_files_folder_values_initialize(
-	          &users_files_folder_values,
+	result = libfwsi_delegate_folder_values_initialize(
+	          &delegate_folder_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -76,15 +71,15 @@ int fwsi_test_users_files_folder_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "users_files_folder_values",
-	 users_files_folder_values );
+	 "delegate_folder_values",
+	 delegate_folder_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	result = libfwsi_users_files_folder_values_free(
-	          &users_files_folder_values,
+	result = libfwsi_delegate_folder_values_free(
+	          &delegate_folder_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -93,8 +88,8 @@ int fwsi_test_users_files_folder_values_initialize(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "users_files_folder_values",
-	 users_files_folder_values );
+	 "delegate_folder_values",
+	 delegate_folder_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -102,7 +97,7 @@ int fwsi_test_users_files_folder_values_initialize(
 
 	/* Test error cases
 	 */
-	result = libfwsi_users_files_folder_values_initialize(
+	result = libfwsi_delegate_folder_values_initialize(
 	          NULL,
 	          &error );
 
@@ -118,10 +113,10 @@ int fwsi_test_users_files_folder_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	users_files_folder_values = (libfwsi_users_files_folder_values_t *) 0x12345678UL;
+	delegate_folder_values = (libfwsi_delegate_folder_values_t *) 0x12345678UL;
 
-	result = libfwsi_users_files_folder_values_initialize(
-	          &users_files_folder_values,
+	result = libfwsi_delegate_folder_values_initialize(
+	          &delegate_folder_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -136,7 +131,7 @@ int fwsi_test_users_files_folder_values_initialize(
 	libcerror_error_free(
 	 &error );
 
-	users_files_folder_values = NULL;
+	delegate_folder_values = NULL;
 
 #if defined( HAVE_FWSI_TEST_MEMORY )
 
@@ -144,22 +139,22 @@ int fwsi_test_users_files_folder_values_initialize(
 	     test_number < number_of_malloc_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_users_files_folder_values_initialize with malloc failing
+		/* Test libfwsi_delegate_folder_values_initialize with malloc failing
 		 */
 		fwsi_test_malloc_attempts_before_fail = test_number;
 
-		result = libfwsi_users_files_folder_values_initialize(
-		          &users_files_folder_values,
+		result = libfwsi_delegate_folder_values_initialize(
+		          &delegate_folder_values,
 		          &error );
 
 		if( fwsi_test_malloc_attempts_before_fail != -1 )
 		{
 			fwsi_test_malloc_attempts_before_fail = -1;
 
-			if( users_files_folder_values != NULL )
+			if( delegate_folder_values != NULL )
 			{
-				libfwsi_users_files_folder_values_free(
-				 &users_files_folder_values,
+				libfwsi_delegate_folder_values_free(
+				 &delegate_folder_values,
 				 NULL );
 			}
 		}
@@ -171,8 +166,8 @@ int fwsi_test_users_files_folder_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "users_files_folder_values",
-			 users_files_folder_values );
+			 "delegate_folder_values",
+			 delegate_folder_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -186,22 +181,22 @@ int fwsi_test_users_files_folder_values_initialize(
 	     test_number < number_of_memset_fail_tests;
 	     test_number++ )
 	{
-		/* Test libfwsi_users_files_folder_values_initialize with memset failing
+		/* Test libfwsi_delegate_folder_values_initialize with memset failing
 		 */
 		fwsi_test_memset_attempts_before_fail = test_number;
 
-		result = libfwsi_users_files_folder_values_initialize(
-		          &users_files_folder_values,
+		result = libfwsi_delegate_folder_values_initialize(
+		          &delegate_folder_values,
 		          &error );
 
 		if( fwsi_test_memset_attempts_before_fail != -1 )
 		{
 			fwsi_test_memset_attempts_before_fail = -1;
 
-			if( users_files_folder_values != NULL )
+			if( delegate_folder_values != NULL )
 			{
-				libfwsi_users_files_folder_values_free(
-				 &users_files_folder_values,
+				libfwsi_delegate_folder_values_free(
+				 &delegate_folder_values,
 				 NULL );
 			}
 		}
@@ -213,8 +208,8 @@ int fwsi_test_users_files_folder_values_initialize(
 			 -1 );
 
 			FWSI_TEST_ASSERT_IS_NULL(
-			 "users_files_folder_values",
-			 users_files_folder_values );
+			 "delegate_folder_values",
+			 delegate_folder_values );
 
 			FWSI_TEST_ASSERT_IS_NOT_NULL(
 			 "error",
@@ -234,19 +229,19 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( users_files_folder_values != NULL )
+	if( delegate_folder_values != NULL )
 	{
-		libfwsi_users_files_folder_values_free(
-		 &users_files_folder_values,
+		libfwsi_delegate_folder_values_free(
+		 &delegate_folder_values,
 		 NULL );
 	}
 	return( 0 );
 }
 
-/* Tests the libfwsi_users_files_folder_values_free function
+/* Tests the libfwsi_delegate_folder_values_free function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_users_files_folder_values_free(
+int fwsi_test_delegate_folder_values_free(
      void )
 {
 	libcerror_error_t *error = NULL;
@@ -254,7 +249,7 @@ int fwsi_test_users_files_folder_values_free(
 
 	/* Test error cases
 	 */
-	result = libfwsi_users_files_folder_values_free(
+	result = libfwsi_delegate_folder_values_free(
 	          NULL,
 	          &error );
 
@@ -281,20 +276,20 @@ on_error:
 	return( 0 );
 }
 
-/* Tests the libfwsi_users_files_folder_values_read_data function
+/* Tests the libfwsi_delegate_folder_values_read_data function
  * Returns 1 if successful or 0 if not
  */
-int fwsi_test_users_files_folder_values_read_data(
+int fwsi_test_delegate_folder_values_read_data(
      void )
 {
-	libcerror_error_t *error                                       = NULL;
-	libfwsi_users_files_folder_values_t *users_files_folder_values = NULL;
-	int result                                                     = 0;
+	libcerror_error_t *error                                 = NULL;
+	libfwsi_delegate_folder_values_t *delegate_folder_values = NULL;
+	int result                                               = 0;
 
 	/* Initialize test
 	 */
-	result = libfwsi_users_files_folder_values_initialize(
-	          &users_files_folder_values,
+	result = libfwsi_delegate_folder_values_initialize(
+	          &delegate_folder_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -303,8 +298,8 @@ int fwsi_test_users_files_folder_values_read_data(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
-	 "users_files_folder_values",
-	 users_files_folder_values );
+	 "delegate_folder_values",
+	 delegate_folder_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -312,11 +307,10 @@ int fwsi_test_users_files_folder_values_read_data(
 
 	/* Test regular cases
 	 */
-	result = libfwsi_users_files_folder_values_read_data(
-	          users_files_folder_values,
-	          fwsi_test_users_files_folder_values_data1,
-	          130,
-	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	result = libfwsi_delegate_folder_values_read_data(
+	          delegate_folder_values,
+	          fwsi_test_delegate_folder_values_data1,
+	          50,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -330,11 +324,10 @@ int fwsi_test_users_files_folder_values_read_data(
 
 	/* Test error cases
 	 */
-	result = libfwsi_users_files_folder_values_read_data(
+	result = libfwsi_delegate_folder_values_read_data(
 	          NULL,
-	          fwsi_test_users_files_folder_values_data1,
-	          130,
-	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          fwsi_test_delegate_folder_values_data1,
+	          50,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -349,11 +342,10 @@ int fwsi_test_users_files_folder_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	result = libfwsi_users_files_folder_values_read_data(
-	          users_files_folder_values,
+	result = libfwsi_delegate_folder_values_read_data(
+	          delegate_folder_values,
 	          NULL,
-	          130,
-	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          50,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -368,11 +360,10 @@ int fwsi_test_users_files_folder_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	result = libfwsi_users_files_folder_values_read_data(
-	          users_files_folder_values,
-	          fwsi_test_users_files_folder_values_data1,
+	result = libfwsi_delegate_folder_values_read_data(
+	          delegate_folder_values,
+	          fwsi_test_delegate_folder_values_data1,
 	          (size_t) SSIZE_MAX + 1,
-	          LIBFWSI_CODEPAGE_WINDOWS_1252,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -386,13 +377,11 @@ int fwsi_test_users_files_folder_values_read_data(
 
 	libcerror_error_free(
 	 &error );
-
-	/* TODO: test with invalid codepage */
 
 	/* Clean up
 	 */
-	result = libfwsi_users_files_folder_values_free(
-	          &users_files_folder_values,
+	result = libfwsi_delegate_folder_values_free(
+	          &delegate_folder_values,
 	          &error );
 
 	FWSI_TEST_ASSERT_EQUAL_INT(
@@ -401,8 +390,8 @@ int fwsi_test_users_files_folder_values_read_data(
 	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
-	 "users_files_folder_values",
-	 users_files_folder_values );
+	 "delegate_folder_values",
+	 delegate_folder_values );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -416,10 +405,10 @@ on_error:
 		libcerror_error_free(
 		 &error );
 	}
-	if( users_files_folder_values != NULL )
+	if( delegate_folder_values != NULL )
 	{
-		libfwsi_users_files_folder_values_free(
-		 &users_files_folder_values,
+		libfwsi_delegate_folder_values_free(
+		 &delegate_folder_values,
 		 NULL );
 	}
 	return( 0 );
@@ -445,16 +434,16 @@ int main(
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
 	FWSI_TEST_RUN(
-	 "libfwsi_users_files_folder_values_initialize",
-	 fwsi_test_users_files_folder_values_initialize );
+	 "libfwsi_delegate_folder_values_initialize",
+	 fwsi_test_delegate_folder_values_initialize );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_users_files_folder_values_free",
-	 fwsi_test_users_files_folder_values_free );
+	 "libfwsi_delegate_folder_values_free",
+	 fwsi_test_delegate_folder_values_free );
 
 	FWSI_TEST_RUN(
-	 "libfwsi_users_files_folder_values_read_data",
-	 fwsi_test_users_files_folder_values_read_data );
+	 "libfwsi_delegate_folder_values_read_data",
+	 fwsi_test_delegate_folder_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

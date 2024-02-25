@@ -134,7 +134,7 @@ stamp-h[1-9]
 /tests/fwsi_test_control_panel_category_values
 /tests/fwsi_test_control_panel_cpl_file_values
 /tests/fwsi_test_control_panel_item_values
-/tests/fwsi_test_delegate_values
+/tests/fwsi_test_delegate_folder_values
 /tests/fwsi_test_error
 /tests/fwsi_test_extension_block
 /tests/fwsi_test_extension_block_0xbeef0000_values
@@ -159,7 +159,6 @@ stamp-h[1-9]
 /tests/fwsi_test_support
 /tests/fwsi_test_uri_sub_values
 /tests/fwsi_test_uri_values
-/tests/fwsi_test_users_files_folder_values
 /tests/fwsi_test_users_property_view_values
 /tests/fwsi_test_volume_values
 /tests/tmp*

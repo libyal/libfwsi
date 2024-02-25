@@ -84,6 +84,10 @@ PyObject *pyfwsi_item_get_data(
            PyObject *arguments );
 #endif
 
+PyObject *pyfwsi_item_get_delegate_folder_identifier(
+           pyfwsi_item_t *pyfwsi_item,
+           PyObject *arguments );
+
 PyObject *pyfwsi_item_get_number_of_extension_blocks(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments );

@@ -34,6 +34,7 @@
 #include "pyfwsi_extension_blocks.h"
 #include "pyfwsi_file_entry.h"
 #include "pyfwsi_file_entry_extension.h"
+#include "pyfwsi_guid.h"
 #include "pyfwsi_item.h"
 #include "pyfwsi_item_list.h"
 #include "pyfwsi_libcerror.h"
@@ -71,14 +72,12 @@ PyMethodDef pyfwsi_item_object_methods[] = {
 	  "\n"
 	  "Returns the size of the item data." },
 
-#ifdef TODO
-	{ "get_data",
-	  (PyCFunction) pyfwsi_item_get_data,
+	{ "get_delegate_folder_identifier",
+	  (PyCFunction) pyfwsi_item_get_delegate_folder_identifier,
 	  METH_NOARGS,
-	  "get_data() -> String or None\n"
+	  "get_delegate_folder_identifier() -> Unicode string or None\n"
 	  "\n"
-	  "Returns the item data." },
-#endif
+	  "Retrieves the delegate folder identifier." },
 
 	/* Functions to access the extension blocks */
 
@@ -114,13 +113,11 @@ PyGetSetDef pyfwsi_item_object_get_set_definitions[] = {
 	  "The size of the item data.",
 	  NULL },
 
-#ifdef TODO
-	{ "data",
-	  (getter) pyfwsi_item_get_data,
+	{ "delegate_folder_identifier",
+	  (getter) pyfwsi_item_get_delegate_folder_identifier,
 	  (setter) 0,
-	  "The item data.",
+	  "The delegate folder identifier.",
 	  NULL },
-#endif
 
 	{ "number_of_extension_blocks",
 	  (getter) pyfwsi_item_get_number_of_extension_blocks,
@@ -594,7 +591,6 @@ PyObject *pyfwsi_item_copy_from_byte_stream(
 
 		case LIBFWSI_ITEM_TYPE_UNKNOWN:
 		case LIBFWSI_ITEM_TYPE_CDBURN:
-		case LIBFWSI_ITEM_TYPE_DELEGATE:
 		case LIBFWSI_ITEM_TYPE_GAME_FOLDER:
 		case LIBFWSI_ITEM_TYPE_URI:
 		default:
@@ -712,19 +708,18 @@ PyObject *pyfwsi_item_get_data_size(
 	         (unsigned long) data_size ) );
 }
 
-#ifdef TODO
-/* Retrieves the data
+/* Retrieves the delegate folder identifier
  * Returns a Python object if successful or NULL on error
  */
-PyObject *pyfwsi_item_get_data(
+PyObject *pyfwsi_item_get_delegate_folder_identifier(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
-	libcerror_error_t *error = NULL;
+	uint8_t guid_data[ 16 ];
+
 	PyObject *string_object  = NULL;
-	uint8_t *data            = NULL;
-	static char *function    = "pyfwsi_item_get_data";
-	size_t data_size         = 0;
+	libcerror_error_t *error = NULL;
+	static char *function    = "pyfwsi_item_get_delegate_folder_identifier";
 	int result               = 0;
 
 	PYFWSI_UNREFERENCED_PARAMETER( arguments )
@@ -740,9 +735,10 @@ PyObject *pyfwsi_item_get_data(
 	}
 	Py_BEGIN_ALLOW_THREADS
 
-	result = libfwsi_item_get_data_size(
+	result = libfwsi_item_get_delegate_folder_identifier(
 	          pyfwsi_item->item,
-	          &data_size,
+	          guid_data,
+	          16,
 	          &error );
 
 	Py_END_ALLOW_THREADS
@@ -752,80 +748,36 @@ PyObject *pyfwsi_item_get_data(
 		pyfwsi_error_raise(
 		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve data size.",
+		 "%s: unable to retrieve identifier.",
 		 function );
 
 		libcerror_error_free(
 		 &error );
 
-		goto on_error;
+		return( NULL );
 	}
-	else if( ( result == 0 )
-	      || ( data_size == 0 ) )
+	else if( result == 0 )
 	{
 		Py_IncRef(
 		 Py_None );
 
 		return( Py_None );
 	}
-	data = (uint8_t *) PyMem_Malloc(
-	                    sizeof( uint8_t ) * data_size );
+	string_object = pyfwsi_string_new_from_guid(
+	                 guid_data,
+	                 16 );
 
-	if( data == NULL )
+	if( string_object == NULL )
 	{
 		PyErr_Format(
-		 PyExc_MemoryError,
-		 "%s: unable to create data.",
-		 function );
-
-		goto on_error;
-	}
-	Py_BEGIN_ALLOW_THREADS
-
-	result = libfwsi_item_get_data(
-		  pyfwsi_item->item,
-		  data,
-		  data_size,
-		  &error );
-
-	Py_END_ALLOW_THREADS
-
-	if( result != 1 )
-	{
-		pyfwsi_error_raise(
-		 error,
 		 PyExc_IOError,
-		 "%s: unable to retrieve data.",
+		 "%s: unable to convert GUID into Unicode object.",
 		 function );
 
-		libcerror_error_free(
-		 &error );
-
-		goto on_error;
+		return( NULL );
 	}
-#if PY_MAJOR_VERSION >= 3
-	string_object = PyBytes_FromStringAndSize(
-			 (char *) data,
-			 (Py_ssize_t) data_size );
-#else
-	string_object = PyString_FromStringAndSize(
-			 (char *) data,
-			 (Py_ssize_t) data_size );
-#endif
-	PyMem_Free(
-	 data );
-
 	return( string_object );
-
-on_error:
-	if( data != NULL )
-	{
-		PyMem_Free(
-		 data );
-	}
-	return( NULL );
 }
-#endif
 
 /* Retrieves the number of extension blocks
  * Returns a Python object if successful or NULL on error

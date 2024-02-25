@@ -24,7 +24,6 @@
 #include <memory.h>
 #include <types.h>
 
-#include "libfwsi_delegate_values.h"
 #include "libfwsi_cdburn_values.h"
 #include "libfwsi_compressed_folder_values.h"
 #include "libfwsi_codepage.h"
@@ -32,6 +31,7 @@
 #include "libfwsi_control_panel_cpl_file_values.h"
 #include "libfwsi_control_panel_item_values.h"
 #include "libfwsi_definitions.h"
+#include "libfwsi_delegate_folder_values.h"
 #include "libfwsi_extension_block.h"
 #include "libfwsi_file_attributes.h"
 #include "libfwsi_file_entry_values.h"
@@ -51,7 +51,6 @@
 #include "libfwsi_types.h"
 #include "libfwsi_uri_values.h"
 #include "libfwsi_uri_sub_values.h"
-#include "libfwsi_users_files_folder_values.h"
 #include "libfwsi_users_property_view_values.h"
 #include "libfwsi_volume_values.h"
 
@@ -314,17 +313,21 @@ int libfwsi_item_copy_from_byte_stream(
      int ascii_codepage,
      libcerror_error_t **error )
 {
-        libfwsi_internal_extension_block_t *extension_block = NULL;
-	libfwsi_internal_item_t *internal_item              = NULL;
-	libfwsi_internal_item_t *internal_parent_item       = NULL;
-	static char *function                               = "libfwsi_item_copy_from_byte_stream";
-	size_t byte_stream_offset                           = 0;
-	size_t shell_item_data_size                         = 0;
-	uint32_t signature                                  = 0;
-	uint16_t first_extension_block_offset               = 0;
-	int entry_index                                     = 0;
-	int number_of_extension_blocks                      = 0;
-	int result                                          = 0;
+	libfwsi_delegate_folder_values_t *delegate_folder_values = NULL;
+        libfwsi_internal_extension_block_t *extension_block      = NULL;
+	libfwsi_internal_item_t *internal_item                   = NULL;
+	libfwsi_internal_item_t *internal_parent_item            = NULL;
+	static char *function                                    = "libfwsi_item_copy_from_byte_stream";
+	const uint8_t *shell_item_data                           = NULL;
+	size_t byte_stream_offset                                = 0;
+	size_t delegate_class_identifier_offset                  = 0;
+	size_t delegate_shell_item_data_size                     = 0;
+	size_t shell_item_data_size                              = 0;
+	uint32_t signature                                       = 0;
+	uint16_t first_extension_block_offset                    = 0;
+	int entry_index                                          = 0;
+	int number_of_extension_blocks                           = 0;
+	int result                                               = 0;
 
 	if( item == NULL )
 	{
@@ -350,24 +353,14 @@ int libfwsi_item_copy_from_byte_stream(
 
 		return( -1 );
 	}
-	if( byte_stream_size < 2 )
+	if( ( byte_stream_size < 2 )
+	 || ( byte_stream_size > (size_t) SSIZE_MAX ) )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: byte stream too small.",
-		 function );
-
-		return( -1 );
-	}
-	if( byte_stream_size > (size_t) SSIZE_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: byte stream size exceeds maximum.",
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: byte stream size value out of bounds.",
 		 function );
 
 		return( -1 );
@@ -426,6 +419,9 @@ int libfwsi_item_copy_from_byte_stream(
 
 		goto on_error;
 	}
+	shell_item_data      = byte_stream;
+	shell_item_data_size = internal_item->data_size;
+
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
@@ -433,30 +429,128 @@ int libfwsi_item_copy_from_byte_stream(
 		 "%s: data:\n",
 		 function );
 		libcnotify_print_data(
-		 &( byte_stream[ 2 ] ),
-		 internal_item->data_size - 2,
+		 &( shell_item_data[ 2 ] ),
+		 shell_item_data_size - 2,
 		 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 	}
 #endif
-	if( libfwsi_item_get_parent_item(
-	     (libfwsi_item_t *) internal_item,
-	     (libfwsi_item_t **) &internal_parent_item,
-	     error ) != 1 )
+	if( shell_item_data_size >= 38 )
 	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve parent shell item.",
-		 function );
+		byte_stream_copy_to_uint16_little_endian(
+		 &( byte_stream[ internal_item->data_size - 2 ] ),
+		 delegate_class_identifier_offset );
 
-		goto on_error;
+		if( ( delegate_class_identifier_offset >= 32 )
+		 && ( delegate_class_identifier_offset < ( shell_item_data_size - 2 ) ) )
+		{
+			delegate_shell_item_data_size = delegate_class_identifier_offset;
+		}
+		else
+		{
+			delegate_class_identifier_offset = shell_item_data_size;
+			delegate_shell_item_data_size    = shell_item_data_size;
+		}
+		delegate_class_identifier_offset -= 32;
+
+		if( memory_compare(
+		     &( shell_item_data[ delegate_class_identifier_offset ] ),
+		     libfwsi_delegate_class_identifier,
+		     16 ) == 0 )
+		{
+			if( libfwsi_delegate_folder_values_initialize(
+			     &delegate_folder_values,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create delegate folder values.",
+				 function );
+
+				goto on_error;
+			}
+			if( libfwsi_delegate_folder_values_read_data(
+			     delegate_folder_values,
+			     shell_item_data,
+			     delegate_shell_item_data_size,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_IO,
+				 LIBCERROR_IO_ERROR_READ_FAILED,
+				 "%s: unable to read delegate folder values.",
+				 function );
+
+				goto on_error;
+			}
+			if( memory_copy(
+			     internal_item->delegate_folder_identifier,
+			     delegate_folder_values->identifier,
+			     16 ) == NULL )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_MEMORY,
+				 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+				 "%s: unable to copy delegate folder identifier.",
+				 function );
+
+				goto on_error;
+			}
+			internal_item->has_delegate_folder_identifier = 1;
+
+			if( memory_compare(
+			     delegate_folder_values->identifier,
+			     libfwsi_shell_folder_identifier_search_folder,
+			     16 ) == 0 )
+			{
+				/* Do not realign shell_item_data */ 
+			}
+			else if( memory_compare(
+			          delegate_folder_values->identifier,
+			          libfwsi_shell_folder_identifier_users_files_folder,
+			          16 ) == 0 )
+			{
+/* TODO debug print unknown data */
+				shell_item_data      = &( delegate_folder_values->inner_data[ 6 ] );
+				shell_item_data_size = delegate_folder_values->inner_data_size - 6;
+			}
+			else if( memory_compare(
+			          delegate_folder_values->identifier,
+			          libfwsi_shell_folder_identifier_removable_drives,
+			          16 ) == 0 )
+			{
+/* TODO debug print unknown data */
+				shell_item_data      = &( delegate_folder_values->inner_data[ 6 ] );
+				shell_item_data_size = delegate_folder_values->inner_data_size - 6;
+			}
+			else
+			{
+				shell_item_data      = delegate_folder_values->inner_data;
+				shell_item_data_size = delegate_folder_values->inner_data_size;
+			}
+			if( libfwsi_delegate_folder_values_free(
+			     &delegate_folder_values,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free delegate folder values.",
+				 function );
+
+				goto on_error;
+			}
+		}
 	}
 	if( ( internal_item->type == 0 )
-	 && ( internal_item->data_size >= 8 ) )
+	 && ( shell_item_data_size >= 8 ) )
 	{
 		byte_stream_copy_to_uint32_little_endian(
-		 &( byte_stream[ 4 ] ),
+		 &( shell_item_data[ 4 ] ),
 		 signature );
 
 		switch( signature )
@@ -484,10 +578,10 @@ int libfwsi_item_copy_from_byte_stream(
 		}
 	}
 	if( ( internal_item->type == 0 )
-	 && ( internal_item->data_size >= 10 ) )
+	 && ( shell_item_data_size >= 10 ) )
 	{
 		byte_stream_copy_to_uint32_little_endian(
-		 &( byte_stream[ 6 ] ),
+		 &( shell_item_data[ 6 ] ),
 		 signature );
 
 		switch( signature )
@@ -508,29 +602,14 @@ int libfwsi_item_copy_from_byte_stream(
 				internal_item->type = LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW;
 				break;
 
-			case 0x46534643UL:
-				internal_item->type = LIBFWSI_ITEM_TYPE_USERS_FILES_FOLDER;
-				break;
-
 			default:
 				break;
 		}
 	}
 	if( ( internal_item->type == 0 )
-	 && ( internal_item->data_size >= 38 ) )
+	 && ( shell_item_data_size >= 3 ) )
 	{
-		if( memory_compare(
-		     &( byte_stream[ internal_item->data_size - 32 ] ),
-		     libfwsi_delegate_item_identifier,
-		     16 ) == 0 )
-		{
-			internal_item->type = LIBFWSI_ITEM_TYPE_DELEGATE;
-		}
-	}
-	if( ( internal_item->type == 0 )
-	 && ( internal_item->data_size >= 3 ) )
-	{
-		internal_item->class_type = byte_stream[ 2 ];
+		internal_item->class_type = shell_item_data[ 2 ];
 
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
@@ -587,6 +666,20 @@ int libfwsi_item_copy_from_byte_stream(
 				break;
 		}
 	}
+	if( libfwsi_item_get_parent_item(
+	     (libfwsi_item_t *) internal_item,
+	     (libfwsi_item_t **) &internal_parent_item,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve parent shell item.",
+		 function );
+
+		goto on_error;
+	}
 	if( ( internal_parent_item != NULL )
 	 && ( internal_parent_item->type == LIBFWSI_ITEM_TYPE_URI ) )
 	{
@@ -609,8 +702,8 @@ int libfwsi_item_copy_from_byte_stream(
 		}
 		result = libfwsi_uri_sub_values_read_data(
 		          (libfwsi_uri_sub_values_t *) internal_item->value,
-		          byte_stream,
-		          internal_item->data_size,
+		          shell_item_data,
+		          shell_item_data_size,
 		          ascii_codepage,
 		          error );
 
@@ -647,8 +740,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_cdburn_values_read_data(
 			          (libfwsi_cdburn_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -683,8 +776,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_compressed_folder_values_read_data(
 			          (libfwsi_compressed_folder_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -718,8 +811,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_control_panel_item_values_read_data(
 			          (libfwsi_control_panel_item_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -753,8 +846,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_control_panel_category_values_read_data(
 			          (libfwsi_control_panel_category_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -788,8 +881,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_control_panel_cpl_file_values_read_data(
 			          (libfwsi_control_panel_cpl_file_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -799,42 +892,6 @@ int libfwsi_item_copy_from_byte_stream(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
 				 "%s: unable to read control panel CPL file values.",
-				 function );
-
-				goto on_error;
-			}
-			break;
-
-		case LIBFWSI_ITEM_TYPE_DELEGATE:
-			internal_item->signature  = signature;
-			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_delegate_values_free;
-
-			if( libfwsi_delegate_values_initialize(
-			     (libfwsi_delegate_values_t **) &( internal_item->value ),
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create delegate values.",
-				 function );
-
-				goto on_error;
-			}
-			result = libfwsi_delegate_values_read_data(
-			          (libfwsi_delegate_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
-			          error );
-
-			if( result == -1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_IO,
-				 LIBCERROR_IO_ERROR_READ_FAILED,
-				 "%s: unable to read delegate values.",
 				 function );
 
 				goto on_error;
@@ -859,8 +916,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_file_entry_values_read_data(
 			          (libfwsi_file_entry_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          ascii_codepage,
 			          error );
 
@@ -896,8 +953,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_game_folder_values_read_data(
 			          (libfwsi_game_folder_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -932,8 +989,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_mtp_file_entry_values_read_data(
 			          (libfwsi_mtp_file_entry_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -968,8 +1025,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_mtp_volume_values_read_data(
 			          (libfwsi_mtp_volume_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          error );
 
 			if( result == -1 )
@@ -1003,8 +1060,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_network_location_values_read_data(
 			          (libfwsi_network_location_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          ascii_codepage,
 			          error );
 
@@ -1039,8 +1096,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_root_folder_values_read_data(
 				  (libfwsi_root_folder_values_t *) internal_item->value,
-				  byte_stream,
-				  internal_item->data_size,
+				  shell_item_data,
+				  shell_item_data_size,
 				  error );
 
 			if( result == -1 )
@@ -1074,8 +1131,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_uri_values_read_data(
 			          (libfwsi_uri_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          ascii_codepage,
 			          error );
 
@@ -1086,42 +1143,6 @@ int libfwsi_item_copy_from_byte_stream(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
 				 "%s: unable to read URI values.",
-				 function );
-
-				goto on_error;
-			}
-			break;
-
-		case LIBFWSI_ITEM_TYPE_USERS_FILES_FOLDER:
-			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_users_files_folder_values_free;
-
-			if( libfwsi_users_files_folder_values_initialize(
-			     (libfwsi_users_files_folder_values_t **) &( internal_item->value ),
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-				 "%s: unable to create users files folder values.",
-				 function );
-
-				goto on_error;
-			}
-			result = libfwsi_users_files_folder_values_read_data(
-			          (libfwsi_users_files_folder_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
-			          ascii_codepage,
-			          error );
-
-			if( result == -1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_IO,
-				 LIBCERROR_IO_ERROR_READ_FAILED,
-				 "%s: unable to read users files folder values.",
 				 function );
 
 				goto on_error;
@@ -1146,8 +1167,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_users_property_view_values_read_data(
 			          (libfwsi_users_property_view_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          ascii_codepage,
 			          error );
 
@@ -1182,8 +1203,8 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			result = libfwsi_volume_values_read_data(
 			          (libfwsi_volume_values_t *) internal_item->value,
-			          byte_stream,
-			          internal_item->data_size,
+			          shell_item_data,
+			          shell_item_data_size,
 			          ascii_codepage,
 			          error );
 
@@ -1322,7 +1343,7 @@ int libfwsi_item_copy_from_byte_stream(
 				 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 			}
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 	}
 	internal_item->ascii_codepage = ascii_codepage;
 
@@ -1333,6 +1354,12 @@ on_error:
 	{
 		libfwsi_internal_extension_block_free(
 		 &extension_block,
+		 NULL );
+	}
+	if( delegate_folder_values != NULL )
+	{
+		libfwsi_delegate_folder_values_free(
+		 &delegate_folder_values,
 		 NULL );
 	}
 	if( ( internal_item->value != NULL )
@@ -1502,6 +1529,75 @@ int libfwsi_item_get_data_size(
 	}
 	*data_size = (size_t) internal_item->data_size;
 
+	return( 1 );
+}
+
+/* Retrieves the delegate folder identifier
+ * The identifier is a GUID and is 16 bytes of size
+ * Returns 1 if successful, 0 if not available or -1 on error
+ */
+int libfwsi_item_get_delegate_folder_identifier(
+     libfwsi_item_t *item,
+     uint8_t *guid_data,
+     size_t guid_data_size,
+     libcerror_error_t **error )
+{
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_item_get_delegate_folder_identifier";
+
+	if( item == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid item.",
+		 function );
+
+		return( -1 );
+	}
+	internal_item = (libfwsi_internal_item_t *) item;
+
+	if( guid_data == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid GUID data.",
+		 function );
+
+		return( -1 );
+	}
+	if( guid_data_size < 16 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
+		 "%s: GUID data size too small.",
+		 function );
+
+		return( -1 );
+	}
+	if( internal_item->has_delegate_folder_identifier == 0 )
+	{
+		return( 0 );
+	}
+	if( memory_copy(
+	     guid_data,
+	     internal_item->delegate_folder_identifier,
+	     16 ) == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+		 "%s: unable to copy delegate folder identifier.",
+		 function );
+
+		return( -1 );
+	}
 	return( 1 );
 }
 

@@ -79,10 +79,10 @@ August 2014
 | Additional information on file entry 0x32 shell item – SWN1 and property view shell items. New findings on extension block 0xbeef0025 with thanks to E. Zimmerman and findings on file entry 0x36 shell item with thanks to F. Picasso.
 | 0.0.25 | J.B. Metz | August 2014 | Restructured document, textual changes and additional information on the CD burn, delegate, compressed folder and MTP storage device shell items and extension blocks with thanks to E. Zimmerman.
 | 0.0.26 | J.B. Metz | August 2014 | Moved property set information to LIBWPS documentation. +
-Updated information regarding the control panel CPL file and delegate shell item. +
+Updated information regarding the control panel CPL file and delegate folder shell item. +
 Additional information regarding extension blocks 0xbeef0000, 0xbeef0001, 0xbeef0008 and 0xbeef0010 with thanks to E. Zimmerman.
 | 0.0.27 | J.B. Metz | August 2014 | Textual changes. +
-Updated information regarding the delegate shell item.
+Updated information regarding the delegate folder shell item.
 | 0.0.28 | J.B. Metz | September 2014 | Additional information regarding shell item 0x67 and extension block 0xbeef0021 with thanks to E. Zimmerman.
 | 0.0.29 | J.B. Metz | October 2014 | Additional information regarding CDBurn shell item and extension blocks 0xbeef000b, 0xbeef000e and 0xbeef0016 with thanks to E. Zimmerman.
 | 0.0.30 | J.B. Metz | December 2014 | Switched to asccidoc format.
@@ -212,8 +212,7 @@ ControlPanelTasks | Control Panel shell item
 | 0x72 | Printers | [yellow-background]*Not seen in wild but reason to believe it exists.* +
 [yellow-background]*Printers*
 | 0x73 | CommonPlacesFolder | [yellow-background]*Not seen in wild but reason to believe it exists.*
-| 0x74 | CLSID_UsersFilesFolder | Users files folder shell item +
-See section: <<users_files_folder_shell_item,Users files folder shell item>>
+| 0x74 | | Seen used by UsersFiles namespace delegate folders
 | | |
 | 0x76 | | [yellow-background]*Unknown*
 | | |
@@ -754,7 +753,7 @@ Depending on flag 0x80 this value contains an ASCII or UTF-16 little-endian stri
 Depending on flag 0x80 this value contains an ASCII or UTF-16 little-endian string with end-of-string character. +
 Not always present is this controlled by flag 0x01 or 0x02 ?
 | ... | 2 | | [yellow-background]*Unknown (Empty values)* +
-Present if shell item contains more data (Seen in Vista in combination with MSIE 7)
+4+| _Present if shell item contains more data (Seen in Vista in combination with MSIE 7)_
 | ... | 4 | | Extension block 0xbeef0014 +
 See section: <<extension_block_0xbeef0014,Extension block 0xbeef0014>>
 |===
@@ -1141,9 +1140,12 @@ Contains an OLE defines property (variant) types. Also see `[LIBFOLE]`
 | 24 | ... | | Property value
 |===
 
-=== Delegate shell item
+=== Delegate folder shell item
 
-The delegate shell item is of variable size and consists of the following
+The delegate folder shell item (DELEGATEITEMID) is used by delegate folders as a
+substitute for a standard Shell Item list (ITEMIDLIST).
+
+The delegate folder shell item is of variable size and consists of the following
 values:
 
 [cols="1,1,1,5",options="header"]
@@ -1151,58 +1153,92 @@ values:
 | Offset | Size | Value | Description
 | 0 | 2 | | The size of the shell item +
 Includes the 2 bytes of the size itself
-| 2 | 1 | | Class type indicator +
-[yellow-background]*Seen: 0x2e, 0x53*
-| 3 | 1 | | [yellow-background]*Unknown* +
-[yellow-background]*Seen: 0x00, 0x44*
-| 4 | 2 | | Data size +
-Does not includes the 2 bytes of the size itself
-| 6 | ... | | Data
-| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate item identifier +
+| 2 | 1 | | Class type indicator
+| 3 | 1 | | [yellow-background]*Unknown*
+| 4 | 2 | | Inner data size
+| 6 | ... | | Inner data
+| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
 Contains a GUID
-| ... | 16 | | Shell folder identifier +
+| ... | 16 | | Delegate folder identifier +
 Contains a GUID +
 For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
 |===
 
-==== Delegate shell folders
+==== Delegate folders
 
-[cols="1,5",options="header"]
+[cols="1,1,5",options="header"]
 |===
-| Identifier | Description
-| 35786d3c-b075-49b9-88dd-029876e11c01 | Portable Devices
-| 59031a47-3f72-44a7-89c5-5595fe6b30ee | Shared Documents Folder (Users Files)
+| Identifier | Namespace | Description
+| 04731b67-d933-450a-90e6-4acd2e9408fe | | Search Folder
+| 289af617-1cc3-42a6-926c-e6a863f0e3ba | MyComputer | DLNA Media Servers Data Source
+| 3134ef9c-6b18-4996-ad04-ed5912e00eb5 | HomeFolderDesktop +
+HomeFolderMobile | Recent Files
+| 35786d3c-b075-49b9-88dd-029876e11c01 | MyComputer | Portable Devices
+| 3936e9e4-d92c-4eee-a85a-bc16d5ea0819 | HomeFolderDesktop | Frequent Places
+| 59031a47-3f72-44a7-89c5-5595fe6b30ee | MyComputer | Shared Documents (or Users Files)
+| 640167b4-59b0-47a6-b335-a6b3c0695aea | MyComputer | Portable Media Devices
+| 896664f7-12e1-490f-8782-c0835afd98fc | UsersLibraries | Libraries
+| 9113a02d-00a3-46b9-bc5f-9c04daddd5d7 | MyComputer | Enhanced Storage Data Source
+| 9db7a13c-f208-4981-8353-73cc61ae2783 | NetworkNeighborhood | Previous Versions
+| b155bdf8-02f0-451e-9a26-ae317cfd7779 | MyComputer | Nethood
+| c2b136e2-d50e-405c-8784-363c582bf43e | ControlPanel | Wireless Devices
+| d34a6ca6-62c2-4c34-8a7c-14709c1ad938 | CommonPlaces | Common places
+| dffacdc5-679f-4156-8947-c5c76bc0b67f | UsersFiles | Profile
+| ed50fc29-b964-48a9-afb3-15ebb9b97f36 | PrintersAndFaxes | Printhood
+| f5fb2c77-0e2f-4a16-a381-3e560c68bc83 | Desktop | Removable Drives
 |===
 
-===== Notes
+Also see: https://winreg-kb.readthedocs.io/en/latest/sources/explorer-keys/Delegate-folders.html[[WINREG-KB\]]
 
-Key: HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\DelegateFolders\%GUID%\
-Default value
-
-[cols="1,5",options="header"]
-|===
-| Identifier | Description
-| 9113a02d-00a3-46b9-bc5f-9c04daddd5d7 | Enhanced Storage Data Source
-| b155bdf8-02f0-451e-9a26-ae317cfd7779 | nethood delegate folder
-|===
-
-==== Delegate shell folder: 35786d3c-b075-49b9-88dd-029876e11c01 data
+==== Delegate folder: 04731b67-d933-450a-90e6-4acd2e9408fe
 
 [cols="1,1,1,5",options="header"]
 |===
 | Offset | Size | Value | Description
-| 0 | 4 | | [yellow-background]*Unknown*
-| 4 | 4 | [yellow-background]*Seen: 3* | [yellow-background]*Unknown*
-| 8 | 4 | | [yellow-background]*Unknown (empty values)*
-| 12 | 4 | [yellow-background]*Seen: 2* | [yellow-background]*Unknown*
-| 16 | 4 | | [yellow-background]*Unknown*
-| 20 | 4 | | [yellow-background]*Unknown*
-| 24 | 4 | | String 1 size +
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | | Class type indicator +
+Seen: 0x1f
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+4+| _Inner data_
+| 4 | ... | | Users property view data +
+See section: <<users_property_view_data,Users property view data>>
+4+| _Common_
+| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
+Contains a GUID
+| ... | 16 | 04731b67-d933-450a-90e6-4acd2e9408fe | Delegate folder identifier +
+Contains a GUID
+4+| _Present if shell item contains more data_
+| ... | ... | | One or more extension blocks +
+Seen extension block 0xbeef0013 and 0xbeef0019. +
+See section: <<extension_block_0xbeef0013,Extension block 0xbeef0013>> and <<extension_block_0xbeef0019,Extension block 0xbeef0019>>
+|===
+
+==== Delegate folder: 35786d3c-b075-49b9-88dd-029876e11c01
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | | Class type indicator +
+Seen: 0x2e
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+| 4 | 2 | | Inner data size +
+Does not includes the 2 bytes of the size itself
+4+| _Inner data_
+| 6 | 4 | | [yellow-background]*Unknown*
+| 10 | 4 | [yellow-background]*Seen: 3* | [yellow-background]*Unknown*
+| 14 | 4 | | [yellow-background]*Unknown (empty values)*
+| 18 | 4 | [yellow-background]*Seen: 2* | [yellow-background]*Unknown*
+| 22 | 4 | | [yellow-background]*Unknown*
+| 26 | 4 | | [yellow-background]*Unknown*
+| 30 | 4 | | String 1 size +
 Contains the number of characters which includes the end-of-string character
-| 28 | 4 | | String 2 size +
+| 34 | 4 | | String 2 size +
 Contains the number of characters which includes the end-of-string character
-| 32 | 2 | | [yellow-background]*Unknown*
-| 34 | ... | | String 1 +
+| 38 | 2 | | [yellow-background]*Unknown*
+| 40 | ... | | String 1 +
 Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | String 2 +
 Contains an UTF-16 little-endian string with end-of-string character
@@ -1212,39 +1248,35 @@ Contains a GUID
 | ... | 4 | | Number of properties
 | ... | ... | | Properties array
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
+4+| _Common_
+| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
+Contains a GUID
+| ... | 16 | 35786d3c-b075-49b9-88dd-029876e11c01 | Delegate folder identifier +
+Contains a GUID
 |===
 
-....
-00000000: 06 20 31 08 03 00 00 00  00 00 00 00 02 00 00 00   . 1..... ........
+==== Delegate folder: 59031a47-3f72-44a7-89c5-5595fe6b30ee
 
-number of chars in string 1
-number of chars in string 2?
-00000010: 74 00 00 00 01 00 00 00  0c 00 00 00 52 00 00 00   t....... ....R...
-00000020: 00 00 53 00 61 00 6e 00  73 00 61 00 20 00 6d 00   ..S.a.n. s.a. .m.
-00000030: 32 00 34 00 30 00 20 00  00 00 5c 00 5c 00 3f 00   2.4.0. . ..\.\.?.
-00000040: 5c 00 75 00 73 00 62 00  23 00 76 00 69 00 64 00   \.u.s.b. #.v.i.d.
-00000050: 5f 00 30 00 37 00 38 00  31 00 26 00 70 00 69 00   _.0.7.8. 1.&.p.i.
-00000060: 64 00 5f 00 37 00 34 00  30 00 30 00 23 00 30 00   d._.7.4. 0.0.#.0.
-00000070: 37 00 38 00 31 00 30 00  30 00 35 00 62 00 33 00   7.8.1.0. 0.5.b.3.
-00000080: 30 00 30 00 33 00 30 00  34 00 63 00 37 00 23 00   0.0.3.0. 4.c.7.#.
-00000090: 7b 00 36 00 61 00 63 00  32 00 37 00 38 00 37 00   {.6.a.c. 2.7.8.7.
-000000a0: 38 00 2d 00 61 00 36 00  66 00 61 00 2d 00 34 00   8.-.a.6. f.a.-.4.
-000000b0: 31 00 35 00 35 00 2d 00  62 00 61 00 38 00 35 00   1.5.5.-. b.a.8.5.
-000000c0: 2d 00 66 00 39 00 38 00  66 00 34 00 39 00 31 00   -.f.9.8. f.4.9.1.
-000000d0: 64 00 34 00 66 00 33 00  33 00 7d 00 00 00         d.4.f.3. 3.}.....
+The delegate folder: CLSID_UsersFilesFolder (59031a47-3f72-44a7-89c5-5595fe6b30ee)
+item is of variable size and consists of the following values:
 
-000000d0:                                            0d 00   d.4.f.3. 3.}.....
-000000e0: 00 00 03 d5 15 0c 17 d0  ce 47 90 16 7b 3f 97 87   ........ .G..{?..
-000000f0: 21 cc 02 00 00 00 9a 97  d4 26 43 e6 26 46 9e 2b   !....... .&C.&F.+
-00000100: 73 6d c0 c9 2f dc 0c 00  00 00 1f 00 00 00 18 00   sm../... ........
-00000110: 00 00 53 00 61 00 6e 00  73 00 61 00 20 00 6d 00   ..S.a.n. s.a. .m.
-00000120: 32 00 34 00 30 00 20 00  00 00 93 2d 05 8f ca ab   2.4.0. . ...-....
-00000130: c5 4f a5 ac b0 1d f4 db  e5 98 02 00 00 00 48 00   .O...... ......H.
-00000140: 00 00 6b 46 ea 08 a4 e3  36 43 a1 f3 a4 4d 2b 5c   ..kF.... 6C...M+\
-00000150: 43 8c 00 00                                        C...
-....
-
-==== Delegate shell folder: 59031a47-3f72-44a7-89c5-5595fe6b30ee data
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | | Class type indicator
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+| 4 | 2 | | Inner data size +
+Does not includes the 2 bytes of the size itself
+4+| _Inner data_
+| 6 | ... | | [yellow-background]*TODO describe*
+4+| _Common_
+| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
+Contains a GUID
+| ... | 16 | 59031a47-3f72-44a7-89c5-5595fe6b30ee | Delegate folder identifier +
+Contains a GUID
+|===
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1261,74 +1293,73 @@ Seen 12 and 32 bytes in size, where the 12 byte variant appears to be empty.
 00000000: 00 00 00 00 00 00 00 00  00 00 00 00               ........ ....
 ....
 
-==== Notes
+==== Delegate folder: dffacdc5-679f-4156-8947-c5c76bc0b67f
 
-....
-Data signature
-
-00000000        53 44 0e 00 d5 df  a3 23 00 00 04 00 00 00  |4.SD.....#......|
-00000010  00 00 00 00 74 1a 59 5e  96 df d3 48 8d 67 17 33  |....t.Y^...H.g.3|
-00000020  bc ee 28 ba 40 d0 13 e4  88 67 22 4c 95 7e 17 5d  |..(.@....g"L.~.]|
-00000030  1c 51 3a 34                                       |.Q:4..|
-00000036
-....
-
-=== [[users_files_folder_shell_item]]Users files folder shell item
-
-==== Users files folder delegate shell item
-
-The users files folder shell delegate item is of variable size and consists of
-the following values:
+The delegate folder: dffacdc5-679f-4156-8947-c5c76bc0b67f shell item is of
+variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
 | Offset | Size | Value | Description
 | 0 | 2 | | The size of the shell item +
 Includes the 2 bytes of the size itself
-| 2 | 1 | 0x74 | Class type indicator +
-[yellow-background]*Outer or delegating private data?*
+| 2 | 1 | | Class type indicator +
+Seen: 0x74
 | 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 2 | | [yellow-background]*Unknown (size?)* +
-Size does not Includes the 2 bytes of the size itself, should map up to the start of the delegate item identifier +
-[yellow-background]*Inner or delegated data size?*
-| 6 | 4 | "CFSF" +
-0x46534643 | [yellow-background]*Unknown (signature)*
-| 10 | 2 | | Sub shell item data size +
-Value does not includes the 2 bytes of the size itself +
-4+| _Sub shell item_
-| 12 | 1 | 0x31 | Sub class type indicator
-| 13 | 1 | | [yellow-background]*Unknown (empty value)*
-| 14 | 4 | | File size +
-[yellow-background]*What about > 32-bit file sizes?*
-| 8 | 4 | | Last modification date and time +
-Contains a FAT date and time in UTC
-| 12 | 2 | | File attribute flags +
-Contains the lower 16-bit part of the file attribute flags. +
-See section: <<file_attribute_flags,File attribute flags>>
-| 14 | ... | | Primary name +
-ASCII string with end-of-string character +
-This value is 16-bit aligned, so it can contain an additional zero byte
-| ... | 2 | | [yellow-background]*Unknown (Empty values)* +
-[yellow-background]*Empty extension block?*
+| 4 | 2 | | Inner data size +
+Does not includes the 2 bytes of the size itself
+4+| _Inner data_
+| 6 | 4 | "CFSF" (0x46534643) | [yellow-background]*Unknown (signature)*
+| 10 | 2 | | File entry shell item size
+Value does not includes the 2 bytes of the size itself
+| 12 | 2 | | File entry shell item +
+See section: <<file_entry_shell_item,File entry shell item>>
 4+| _Common_
-| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate item identifier +
+| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
 Contains a GUID
-| ... | 16 | dffacdc5-679f-4156-8947-c5c76bc0b67f | Shell folder identifier +
-Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+| ... | 16 | dffacdc5-679f-4156-8947-c5c76bc0b67f | Delegate folder identifier +
+Contains a GUID
 | ... | ... | | Extension block 0xbeef0004 +
+This value contains the the size of the extension block or 0 if not set +
 See section: <<extension_block_0xbeef004,File entry extension block (0xbeef0004)>>
 |===
 
-=== Users property view
+==== Delegate folder: f5fb2c77-0e2f-4a16-a381-3e560c68bc83
 
-==== Users property view shell item
+The delegate folder: f5fb2c77-0e2f-4a16-a381-3e560c68bc83 shell item is of
+variable size and consists of the following values:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | | Class type indicator +
+Seen: 0x1f
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+| 4 | 2 | | Inner data size +
+Does not includes the 2 bytes of the size itself
+4+| _Inner data_
+| 6 | 4 | 0xf5a6b710 | [yellow-background]*Unknown (signature)*
+| 10 | 2 | | Volume shell item size
+Value does not includes the 2 bytes of the size itself
+| 12 | ... | | Volume shell item +
+See section: <<volume_shell_item,Volume shell item>>
+| ... | ... | | [yellow-background]*Unknown (empty values)*
+4+| _Common_
+| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
+Contains a GUID
+| ... | 16 | f5fb2c77-0e2f-4a16-a381-3e560c68bc83 | Delegate folder identifier +
+Contains a GUID
+|===
+
+=== [[users_property_view_shell_item]]Users property view shell item
 
 Seen after root folder shell item pointing to Users Libraries shell folder
 identifier (031e4825-7b94-4dc3-b131-e946b44c8dd5) or Users shell folder
 identifier (59031a47-3f72-44a7-89c5-5595fe6b30ee).
 
-The Users property view shell item is of variable size and consists of the
+The users property view shell item is of variable size and consists of the
 following values:
 
 [cols="1,1,1,5",options="header"]
@@ -1336,26 +1367,39 @@ following values:
 | Offset | Size | Value | Description
 | 0 | 2 | | The size of the shell item +
 Includes the 2 bytes of the size itself
-| 2 | 1 | [yellow-background]*Seen: 0x00* | Class type indicator
+| 2 | 1 | | Class type indicator +
+Seen: 0x00
 | 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 2 | | Data size +
+| 4 | ... | | Users property view data +
+See section: <<users_property_view_data,Users property view data>>
+4+| _Present if shell item contains more data_
+| ... | ... | | One or more extension blocks +
+Seen extension blocks 0xbeef0000 and 0xbeef0019. +
+See sections: <<extension_block_0xbeef0000,Extension block 0xbeef0000>> and <<extension_block_0xbeef0019,Extension block 0xbeef0019>>
+|===
+
+==== [[users_property_view_data]]Users property view data
+
+The users property view data is of variable size and consists of the following
+values:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | Data size +
 The size of the following data, the extension block sizes not included
-| 6 | 4 | | Data signature +
+| 2 | 4 | | Data signature +
 See section: <<users_property_view_data_signatures,data signatures>>
-| 10 | 2 | | Property store data size +
+| ... | 2 | | Property store data size +
 Contains 0 if not present
-| 12 | 2 | | Identifier size
+| ... | 2 | | Identifier size
 4+| _If identifier size > 0_
-| 14 | ... | | Identifier data
+| ... | ... | | Identifier data
 4+| _If size of property store data size > 0_
 | ... | ... | | Property store data +
 See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 4+| _Common_
-| ... | 2 | | [yellow-background]*Unknown (Empty values)* +
-Present if shell item contains more data
-| ... | ... | | One or more extension blocks +
-Seen extension blocks 0xbeef0000 and 0xbeef0019. +
-See sections: <<extension_block_0xbeef0000,Extension block 0xbeef0000>> and <<extension_block_0xbeef0019,Extension block 0xbeef0019>>
+| ... | 2 | | [yellow-background]*Unknown (Empty values)*
 |===
 
 ===== [[users_property_view_data_signatures]]Data signatures
@@ -1364,6 +1408,7 @@ See sections: <<extension_block_0xbeef0000,Extension block 0xbeef0000>> and <<ex
 |===
 | Data signature | Size | Description
 | 0x10141981 | 32 | [yellow-background]*Unknown*
+| 0x23a3dfd5 | 4 | Contains a 32-bit value
 | 0x23febbee | 16 | Known folder identifier +
 Contains a GUID +
 For a list of known folder identifiers see: https://github.com/libyal/libfwsi/wiki/Known-Folder-Identifiers[[LIBFWSI-WIKI\]]
@@ -1371,49 +1416,11 @@ For a list of known folder identifiers see: https://github.com/libyal/libfwsi/wi
 | 0xbeebee00 | 4 | Contains a 32-bit value
 |===
 
-==== Users property view delegate item
-
-The users property view delegate item is of variable size and consists of the
-following values:
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 2 | | The size of the shell item +
-Includes the 2 bytes of the size itself
-| 2 | 1 | [yellow-background]*Seen: 0x1f* | Class type indicator
-| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 2 | | Data size +
-The size of the following data, the extension block sizes not included
-| 6 | 4 | | Data signature +
-See section: <<users_property_view_delegate_data_signatures,data signatures>>
-| 10 | 2 | | Property store data size +
-Contains 0 if not present
-| 12 | 2 | | Identifier size
-4+| _If identifier size > 0_
-| 14 | ... | | Identifier data
-4+| _If size of property store data size > 0_
-| ... | ... | | Property store data +
-See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
-4+| _Common_
-| ... | 2 | | [yellow-background]*Unknown (Empty values)*
-| ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate item identifier +
-Contains a GUID
-| ... | 16 | | Shell folder identifier +
-Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
-4+| _Present if shell item contains more data_
-| ... | ... | | Extension block +
-Seen extension block 0xbeef0013. +
-See section: <<extension_block_0xbeef0013,Extension block 0xbeef0013>>
-|===
-
 ===== [[users_property_view_delegate_data_signatures]]Data signatures
 
 [cols="1,1,5",options="header"]
 |===
 | Data signature | Size | Description
-| 0x23a3dfd5 | 4 | Contains a 32-bit value
 |===
 
 == Unknown shell items
@@ -2154,7 +2161,7 @@ Includes the 2 bytes of the size itself
 | 2 | 2 | | Extension version +
 [yellow-background]*Seen 0x0000*
 | 4 | 4 | 0xbeef0013 | Extension signature
-| 8 | 4 | | [yellow-background]*Unknown (flags?)*
+| 8 | 4 | | [yellow-background]*Unknown (1 byte of size of the data including itself or flags?)*
 | 12 | 24 | | [yellow-background]*Unknown (Empty values)*
 | 36 | 4 | | [yellow-background]*Unknown*
 | 40 | 2 | | First extension block version offset +
@@ -2399,8 +2406,8 @@ Includes the 2 bytes of the size itself
 | 4 | 4 | 0xbeef0019 | Extension signature
 | 8 | 16 | | Folder type identifier +
 Contains a GUID e.g. Documents Library: fbb3477e-c9e4-4b3b-a2ba-d3f5d3cd46f9
-| 24 | 16 | | [yellow-background]*Unknown* +
-Contains a GUID ([yellow-background]*related to TopViews?*)
+| 24 | 16 | | [yellow-background]*Unknown (identifier related to TopViews?)* +
+Contains a GUID
 | 40 | 2 | | First extension block version offset +
 The offset is relative from the start of the shell item.
 |===

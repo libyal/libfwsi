@@ -1,5 +1,5 @@
 /*
- * Users files folder (shell item) values functions
+ * Delegate folder (shell item) values functions
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_USERS_FILES_FOLDER_VALUES_H )
-#define _LIBFWSI_USERS_FILES_FOLDER_VALUES_H
+#if !defined( _LIBFWSI_DELEGATE_FOLDER_VALUES_H )
+#define _LIBFWSI_DELEGATE_FOLDER_VALUES_H
 
 #include <common.h>
 #include <types.h>
@@ -31,33 +31,42 @@
 extern "C" {
 #endif
 
-typedef struct libfwsi_users_files_folder_values libfwsi_users_files_folder_values_t;
+extern const uint8_t libfwsi_delegate_class_identifier[ 16 ];
 
-struct libfwsi_users_files_folder_values
+typedef struct libfwsi_delegate_folder_values libfwsi_delegate_folder_values_t;
+
+struct libfwsi_delegate_folder_values
 {
-	/* Dummy
+	/* Inner data
 	 */
-	int dummy;
+	const uint8_t *inner_data;
+
+	/* Inner data size
+	 */
+	size_t inner_data_size;
+
+	/* The identifier
+	 */
+	uint8_t identifier[ 16 ];
 };
 
-int libfwsi_users_files_folder_values_initialize(
-     libfwsi_users_files_folder_values_t **users_files_folder_values,
+int libfwsi_delegate_folder_values_initialize(
+     libfwsi_delegate_folder_values_t **delegate_folder_values,
      libcerror_error_t **error );
 
-int libfwsi_users_files_folder_values_free(
-     libfwsi_users_files_folder_values_t **users_files_folder_values,
+int libfwsi_delegate_folder_values_free(
+     libfwsi_delegate_folder_values_t **delegate_folder_values,
      libcerror_error_t **error );
 
-int libfwsi_users_files_folder_values_read_data(
-     libfwsi_users_files_folder_values_t *users_files_folder_values,
+int libfwsi_delegate_folder_values_read_data(
+     libfwsi_delegate_folder_values_t *delegate_folder_values,
      const uint8_t *data,
      size_t data_size,
-     int ascii_codepage,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_USERS_FILES_FOLDER_VALUES_H ) */
+#endif /* !defined( _LIBFWSI_DELEGATE_FOLDER_VALUES_H ) */
 

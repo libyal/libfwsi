@@ -26,7 +26,7 @@ libfwsi_la_SOURCES = \
 	libfwsi_control_panel_item_values.c libfwsi_control_panel_item_values.h \
 	libfwsi_debug.c libfwsi_debug.h \
 	libfwsi_definitions.h \
-	libfwsi_delegate_values.c libfwsi_delegate_values.h \
+	libfwsi_delegate_folder_values.c libfwsi_delegate_folder_values.h \
 	libfwsi_error.c libfwsi_error.h \
 	libfwsi_extern.h \
 	libfwsi_extension_block.c libfwsi_extension_block.h \
@@ -71,7 +71,6 @@ libfwsi_la_SOURCES = \
 	libfwsi_types.h \
 	libfwsi_uri_values.c libfwsi_uri_values.h \
 	libfwsi_uri_sub_values.c libfwsi_uri_sub_values.h \
-	libfwsi_users_files_folder_values.c libfwsi_users_files_folder_values.h \
 	libfwsi_users_property_view.c libfwsi_users_property_view.h \
 	libfwsi_users_property_view_values.c libfwsi_users_property_view_values.h \
 	libfwsi_unused.h \

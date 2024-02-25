@@ -1,4 +1,4 @@
-.Dd February 24, 2024
+.Dd February 25, 2024
 .Dt libfwsi 3
 .Os libfwsi
 .Sh NAME
@@ -62,6 +62,8 @@ Item functions
 .Fn libfwsi_item_get_signature "libfwsi_item_t *item" "uint32_t *signature" "libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_item_get_data_size "libfwsi_item_t *item" "size_t *data_size" "libfwsi_error_t **error"
+.Ft int
+.Fn libfwsi_item_get_delegate_folder_identifier "libfwsi_item_t *item" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_item_get_number_of_extension_blocks "libfwsi_item_t *item" "int *number_of_extension_blocks" "libfwsi_error_t **error"
 .Ft int

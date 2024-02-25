@@ -104,6 +104,9 @@ uint8_t libfwsi_shell_folder_identifier_recent_places[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_recycle_bin[ 16 ] = {
 	0x40, 0xf0, 0x5f, 0x64, 0x81, 0x50, 0x1b, 0x10, 0x9f, 0x08, 0x00, 0xaa, 0x00, 0x2f, 0x95, 0x4e };
 
+uint8_t libfwsi_shell_folder_identifier_removable_drives[ 16 ] = {
+	0x77, 0x2c, 0xfb, 0xf5, 0x2f, 0x0e, 0x16, 0x4a, 0xa3, 0x81, 0x3e, 0x56, 0x0c, 0x68, 0xbc, 0x83 };
+
 uint8_t libfwsi_shell_folder_identifier_run[ 16 ] = {
 	0xf3, 0xa1, 0x59, 0x25, 0xd7, 0x21, 0xd4, 0x11, 0xbd, 0xaf, 0x00, 0xc0, 0x4f, 0x60, 0xb9, 0xf0 };
 
@@ -125,6 +128,9 @@ uint8_t libfwsi_shell_folder_identifier_system[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_taskbar[ 16 ] = {
 	0xf4, 0xb0, 0xd7, 0x05, 0x21, 0x21, 0xff, 0x4e, 0xbf, 0x6b, 0xed, 0x3f, 0x69, 0xb8, 0x94, 0xd9 };
 
+uint8_t libfwsi_shell_folder_identifier_users_files_folder[ 16 ] = {
+	0xc5, 0xcd, 0xfa, 0xdf, 0x9f, 0x67, 0x56, 0x41, 0x89, 0x47, 0xc5, 0xc7, 0x6b, 0xc0, 0xb6, 0x7f };
+
 uint8_t libfwsi_shell_folder_identifier_users_libraries[ 16 ] = {
 	0x25, 0x48, 0x1e, 0x03, 0x94, 0x7b, 0xc3, 0x4d, 0xb1, 0x31, 0xe9, 0x46, 0xb4, 0x4c, 0x8d, 0xd5 };
 
@@ -133,6 +139,9 @@ uint8_t libfwsi_shell_folder_identifier_window_switcher[ 16 ] = {
 
 uint8_t libfwsi_shell_folder_identifier_windows_update[ 16 ] = {
 	0xdb, 0xf7, 0xee, 0x36, 0xad, 0x88, 0x81, 0x4e, 0xad, 0x49, 0x0e, 0x31, 0x3f, 0x0c, 0x35, 0xf8 };
+
+uint8_t libfwsi_shell_folder_identifier_empty[ 16 ] = {
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 uint8_t libfwsi_shell_folder_identifier_unknown[ 16 ] = {
 	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
@@ -163,6 +172,7 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	{ libfwsi_shell_folder_identifier_public,			"Public" },
 	{ libfwsi_shell_folder_identifier_recent_places,		"Recent Places" },
 	{ libfwsi_shell_folder_identifier_recycle_bin,			"Recycle Bin" },
+	{ libfwsi_shell_folder_identifier_removable_drives,		"Removable Drives" },
 	{ libfwsi_shell_folder_identifier_run,				"Run..." },
 	{ libfwsi_shell_folder_identifier_shared_documents,		"Shared Documents Folder (Users Files)" },
 	{ libfwsi_shell_folder_identifier_search_folder,		"Search Folder" },
@@ -170,6 +180,7 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	{ libfwsi_shell_folder_identifier_show_desktop,			"Show Desktop" },
 	{ libfwsi_shell_folder_identifier_system,			"System" },
 	{ libfwsi_shell_folder_identifier_taskbar,			"Taskbar" },
+	{ libfwsi_shell_folder_identifier_users_files_folder,		"Users Files Folder" },
 	{ libfwsi_shell_folder_identifier_users_libraries,		"Users Libraries" },
 	{ libfwsi_shell_folder_identifier_window_switcher,		"Window Switcher" },
 	{ libfwsi_shell_folder_identifier_windows_update,		"Windows Update" },

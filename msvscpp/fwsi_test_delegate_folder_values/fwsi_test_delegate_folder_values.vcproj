@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="fwsi_test_delegate_values"
-	ProjectGUID="{A781DD2B-2103-44D4-B4B2-D9943B26BA48}"
-	RootNamespace="fwsi_test_delegate_values"
+	Name="fwsi_test_delegate_folder_values"
+	ProjectGUID="{D028B999-8E13-43D9-96F9-EC51E51D50BF}"
+	RootNamespace="fwsi_test_delegate_folder_values"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -176,7 +176,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\tests\fwsi_test_delegate_values.c"
+				RelativePath="..\..\tests\fwsi_test_delegate_folder_values.c"
 				>
 			</File>
 			<File

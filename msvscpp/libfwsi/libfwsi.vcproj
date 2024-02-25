@@ -210,7 +210,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_delegate_values.c"
+				RelativePath="..\..\libfwsi\libfwsi_delegate_folder_values.c"
 				>
 			</File>
 			<File
@@ -350,10 +350,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_users_files_folder_values.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\libfwsi\libfwsi_users_property_view.c"
 				>
 			</File>
@@ -420,7 +416,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_delegate_values.h"
+				RelativePath="..\..\libfwsi\libfwsi_delegate_folder_values.h"
 				>
 			</File>
 			<File
@@ -601,10 +597,6 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_uri_values.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\libfwsi\libfwsi_users_files_folder_values.h"
 				>
 			</File>
 			<File

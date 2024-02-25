@@ -273,7 +273,8 @@ int libfwsi_file_entry_values_read_data(
 		libcnotify_printf(
 		 "\n" );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset = 14;
 
 	/* Check for SWN1 signature at offset -30

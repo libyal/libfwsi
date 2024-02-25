@@ -640,7 +640,6 @@ PyObject *pyfwsi_item_list_get_item_by_index(
 
 		case LIBFWSI_ITEM_TYPE_UNKNOWN:
 		case LIBFWSI_ITEM_TYPE_CDBURN:
-		case LIBFWSI_ITEM_TYPE_DELEGATE:
 		case LIBFWSI_ITEM_TYPE_GAME_FOLDER:
 		case LIBFWSI_ITEM_TYPE_URI:
 		default:

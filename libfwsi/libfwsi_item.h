@@ -64,6 +64,14 @@ struct libfwsi_internal_item
 	       intptr_t **value,
 	       libcerror_error_t **error );
 
+	/* Value to indicate the delegate folder identifier is set
+	 */
+	uint8_t has_delegate_folder_identifier;
+
+	/* The delegate folder identifier
+	 */
+	uint8_t delegate_folder_identifier[ 16 ];
+
 	/* The extension blocks array
 	 */
 	libcdata_array_t *extension_blocks_array;
@@ -129,6 +137,13 @@ LIBFWSI_EXTERN \
 int libfwsi_item_get_data_size(
      libfwsi_item_t *item,
      size_t *data_size,
+     libcerror_error_t **error );
+
+LIBFWSI_EXTERN \
+int libfwsi_item_get_delegate_folder_identifier(
+     libfwsi_item_t *item,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 LIBFWSI_EXTERN \
