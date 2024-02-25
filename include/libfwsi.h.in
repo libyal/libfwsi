@@ -565,6 +565,7 @@ int libfwsi_network_location_get_utf16_comments(
 /* Retrieves the control panel category identifier
  * Returns 1 if successful or -1 on error
  */
+LIBFWSI_EXTERN \
 int libfwsi_control_panel_category_get_identifier(
      libfwsi_item_t *control_panel_category,
      uint32_t *identifier,
