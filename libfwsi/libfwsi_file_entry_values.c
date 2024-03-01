@@ -277,18 +277,17 @@ int libfwsi_file_entry_values_read_data(
 
 	data_offset = 14;
 
-	/* Check for SWN1 signature at offset -30
+	/* Check for "S.W.N.1" signature at offset -30
 	 */
-	has_swn1 = -1;
-
-	if( ( data_offset + 30 ) <= data_size )
+	if( ( data_size > 30 )
+	 && ( memory_compare(
+	       &( data[ data_size - 30 ] ),
+	       "S.W.N.1",
+	       7 ) == 0 ) )
 	{
-		has_swn1 = memory_compare(
-		            &( data[ data_size - 30 ] ),
-		            "S.W.N.1",
-		            7 );
+		has_swn1 = 1;
 	}
-	if( ( has_swn1 == 0 )
+	if( ( has_swn1 != 0 )
 	 || ( ( class_type_indicator & LIBFWSI_FILE_ENTRY_FLAG_IS_UNICODE ) != 0 ) )
 	{
 		file_entry_values->is_unicode = 1;
@@ -434,7 +433,8 @@ int libfwsi_file_entry_values_read_data(
 		 &( data[ string_alignment_offset ] ),
 		 extension_size );
 	}
-	if( ( has_swn1 != 0 )
+	if( ( has_swn1 == 0 )
+	 && ( data_offset < data_size )
 	 && ( ( ( data_size - string_alignment_offset ) < 2 )
 	  ||  ( extension_size > data_size ) ) )
 	{
@@ -525,7 +525,7 @@ int libfwsi_file_entry_values_read_data(
 	{
 		data_offset += string_alignment_size;
 	}
-	if( has_swn1 == 0 )
+	if( has_swn1 != 0 )
 	{
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )

@@ -212,7 +212,7 @@ ControlPanelTasks | Control Panel shell item
 | 0x72 | Printers | [yellow-background]*Not seen in wild but reason to believe it exists.* +
 [yellow-background]*Printers*
 | 0x73 | CommonPlacesFolder | [yellow-background]*Not seen in wild but reason to believe it exists.*
-| 0x74 | | Seen used by UsersFiles namespace delegate folders
+| 0x74 | | Seen used by Removable Drives delegate folder
 | | |
 | 0x76 | | [yellow-background]*Unknown*
 | | |
@@ -250,6 +250,8 @@ For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wi
 | 20 | ... | | Extension block 0xbeef0017 +
 See section: <<extension_block_0xbeef0017,Extension block 0xbeef0017>>
 |===
+
+==== Notes
 
 Shell item from Windows 7 ShellMRU (Search Home)
 ....
@@ -1310,7 +1312,7 @@ Seen: 0x74
 Does not includes the 2 bytes of the size itself
 4+| _Inner data_
 | 6 | 4 | "CFSF" (0x46534643) | [yellow-background]*Unknown (signature)*
-| 10 | 2 | | File entry shell item size
+| 10 | 2 | | File entry shell item size +
 Value does not includes the 2 bytes of the size itself
 | 12 | 2 | | File entry shell item +
 See section: <<file_entry_shell_item,File entry shell item>>
@@ -1341,7 +1343,7 @@ Seen: 0x1f
 Does not includes the 2 bytes of the size itself
 4+| _Inner data_
 | 6 | 4 | 0xf5a6b710 | [yellow-background]*Unknown (signature)*
-| 10 | 2 | | Volume shell item size
+| 10 | 2 | | Volume shell item size +
 Value does not includes the 2 bytes of the size itself
 | 12 | ... | | Volume shell item +
 See section: <<volume_shell_item,Volume shell item>>
@@ -2681,15 +2683,6 @@ sub string 0x0b
 
 [NOTE]
 The My Computer folder identifier is unique for an installation of Windows.
-
-=== The delegate item
-
-CLSID_RegFolder		CRegFolder
-
-Related registry key
-....
-HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\DelegateFolders
-....
 
 === Related identifiers
 

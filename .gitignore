@@ -155,6 +155,7 @@ stamp-h[1-9]
 /tests/fwsi_test_mtp_file_entry_values
 /tests/fwsi_test_mtp_volume_values
 /tests/fwsi_test_network_location_values
+/tests/fwsi_test_notify
 /tests/fwsi_test_root_folder_values
 /tests/fwsi_test_support
 /tests/fwsi_test_uri_sub_values

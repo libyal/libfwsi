@@ -64,6 +64,7 @@ check_PROGRAMS = \
 	fwsi_test_mtp_file_entry_values \
 	fwsi_test_mtp_volume_values \
 	fwsi_test_network_location_values \
+	fwsi_test_notify \
 	fwsi_test_root_folder_values \
 	fwsi_test_support \
 	fwsi_test_uri_values \
@@ -377,6 +378,17 @@ fwsi_test_network_location_values_SOURCES = \
 	fwsi_test_unused.h
 
 fwsi_test_network_location_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_notify_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_notify.c \
+	fwsi_test_unused.h
+
+fwsi_test_notify_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 

@@ -25,6 +25,7 @@ MSVSCPP_FILES = \
 	fwsi_test_mtp_file_entry_values/fwsi_test_mtp_file_entry_values.vcproj \
 	fwsi_test_mtp_volume_values/fwsi_test_mtp_volume_values.vcproj \
 	fwsi_test_network_location_values/fwsi_test_network_location_values.vcproj \
+	fwsi_test_notify/fwsi_test_notify.vcproj \
 	fwsi_test_root_folder_values/fwsi_test_root_folder_values.vcproj \
 	fwsi_test_support/fwsi_test_support.vcproj \
 	fwsi_test_uri_sub_values/fwsi_test_uri_sub_values.vcproj \
