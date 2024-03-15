@@ -15,6 +15,7 @@ lib_LTLIBRARIES = libfwsi.la
 
 libfwsi_la_SOURCES = \
 	libfwsi.c \
+	libfwsi_acronis_tib_file_values.c libfwsi_acronis_tib_file_values.h \
 	libfwsi_cdburn_values.c libfwsi_cdburn_values.h \
 	libfwsi_codepage.h \
 	libfwsi_compressed_folder_values.c libfwsi_compressed_folder_values.h \
@@ -75,7 +76,8 @@ libfwsi_la_SOURCES = \
 	libfwsi_users_property_view_values.c libfwsi_users_property_view_values.h \
 	libfwsi_unused.h \
 	libfwsi_volume.c libfwsi_volume.h \
-	libfwsi_volume_values.c libfwsi_volume_values.h
+	libfwsi_volume_values.c libfwsi_volume_values.h \
+	libfwsi_web_site_values.c libfwsi_web_site_values.h
 
 libfwsi_la_LIBADD = \
 	@LIBCERROR_LIBADD@ \

@@ -147,7 +147,6 @@ int libfwsi_compressed_folder_values_read_data(
 {
 	static char *function = "libfwsi_compressed_folder_values_read_data";
 	size_t data_offset    = 0;
-	uint32_t string_size  = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint64_t value_64bit  = 0;
@@ -190,320 +189,142 @@ int libfwsi_compressed_folder_values_read_data(
 	}
 	/* Do not try to parse unsupported data sizes
 	 */
-	if( data_size < 6 )
+	if( data_size < 68 )
 	{
 		return( 0 );
 	}
 	/* Do not try to parse unknown class type indicators
 	 */
-	if( data[ 2 ] != 0x52 )
+	if( ( data[ 28 ] == (uint8_t) '/' )
+	 && ( data[ 29 ] == (uint8_t) 0 )
+	 && ( data[ 34 ] == (uint8_t) '/' )
+	 && ( data[ 35 ] == (uint8_t) 0 )
+	 && ( data[ 40 ] == (uint8_t) ' ' )
+	 && ( data[ 41 ] == (uint8_t) 0 )
+	 && ( data[ 42 ] == (uint8_t) ' ' )
+	 && ( data[ 43 ] == (uint8_t) 0 )
+	 && ( data[ 48 ] == (uint8_t) ':' )
+	 && ( data[ 49 ] == (uint8_t) 0 )
+	 && ( data[ 54 ] == (uint8_t) 0 )
+	 && ( data[ 55 ] == (uint8_t) 0 ) )
 	{
-		return( 0 );
-	}
-/* TODO: other variants not supported yet */
-	if( ( data[ 3 ] != 0x67 )
-	 || ( data[ 4 ] != 0xb1 )
-	 || ( data[ 5 ] != 0xac ) )
-	{
-		return( 0 );
-	}
-	if( ( data[ 3 ] == 0x67 )
-	 && ( data[ 4 ] == 0xb1 )
-	 && ( data[ 5 ] == 0xac ) )
-	{
-		if( data_size < 50 )
-		{
-			return( 0 );
-		}
+		/* Windows XP compressed folder */
+
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
+			byte_stream_copy_to_uint16_little_endian(
+			 &( data[ 2 ] ),
+			 value_16bit );
 			libcnotify_printf(
-			 "%s: unknown1\t\t\t\t: 0x%02" PRIx8 "\n",
+			 "%s: unknown1\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
-			 data[ 3 ] );
+			 value_16bit );
+
+			libcnotify_printf(
+			 "%s: unknown2:\n",
+			 function );
+			libcnotify_print_data(
+			 &( data[ 4 ] ),
+			 16,
+			 0 );
 
 			byte_stream_copy_to_uint16_little_endian(
-			 &( data[ 4 ] ),
+			 &( data[ 20 ] ),
 			 value_16bit );
 			libcnotify_printf(
-			 "%s: unknown2\t\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: unknown3\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 
-			byte_stream_copy_to_uint32_little_endian(
-			 &( data[ 6 ] ),
-			 value_32bit );
-			libcnotify_printf(
-			 "%s: unknown3\t\t\t\t: 0x%08" PRIx32 "\n",
-			 function,
-			 value_32bit );
-
-			byte_stream_copy_to_uint64_little_endian(
-			 &( data[ 10 ] ),
-			 value_64bit );
-			libcnotify_printf(
-			 "%s: unknown4\t\t\t\t: 0x%08" PRIx64 "\n",
-			 function,
-			 value_64bit );
-
-			byte_stream_copy_to_uint32_little_endian(
-			 &( data[ 18 ] ),
-			 value_32bit );
-			libcnotify_printf(
-			 "%s: unknown5\t\t\t\t: 0x%08" PRIx32 "\n",
-			 function,
-			 value_32bit );
-
-			byte_stream_copy_to_uint32_little_endian(
+			byte_stream_copy_to_uint16_little_endian(
 			 &( data[ 22 ] ),
-			 value_32bit );
+			 value_16bit );
 			libcnotify_printf(
-			 "%s: unknown6\t\t\t\t: 0x%08" PRIx32 "\n",
+			 "%s: unknown3\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
-			 value_32bit );
+			 value_16bit );
 
-			if( libfwsi_debug_print_fat_date_time_value(
-			     function,
-			     "unknown time1\t\t\t",
-			     &( data[ 26 ] ),
-			     4,
-			     LIBFDATETIME_ENDIAN_LITTLE,
-			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print FAT date time value.",
-				 function );
+			libcnotify_printf(
+			 "%s: unknown4:\n",
+			 function );
+			libcnotify_print_data(
+			 &( data[ 24 ] ),
+			 32,
+			 0 );
 
-				return( -1 );
-			}
+			byte_stream_copy_to_uint16_little_endian(
+			 &( data[ 56 ] ),
+			 value_16bit );
+			libcnotify_printf(
+			 "%s: unknown5\t\t\t: 0x%04" PRIx16 "\n",
+			 function,
+			 value_16bit );
+
+			byte_stream_copy_to_uint16_little_endian(
+			 &( data[ 58 ] ),
+			 value_16bit );
+			libcnotify_printf(
+			 "%s: unknown6\t\t\t: 0x%04" PRIx16 "\n",
+			 function,
+			 value_16bit );
+
 			byte_stream_copy_to_uint32_little_endian(
-			 &( data[ 30 ] ),
+			 &( data[ 60 ] ),
 			 value_32bit );
 			libcnotify_printf(
-			 "%s: unknown7\t\t\t\t: 0x%08" PRIx32 "\n",
+			 "%s: string1 data size\t\t: %" PRIu32 "\n",
 			 function,
 			 value_32bit );
 
-			if( libfwsi_debug_print_fat_date_time_value(
-			     function,
-			     "unknown time2\t\t\t",
-			     &( data[ 34 ] ),
-			     4,
-			     LIBFDATETIME_ENDIAN_LITTLE,
-			     LIBFDATETIME_STRING_FORMAT_TYPE_CTIME | LIBFDATETIME_STRING_FORMAT_FLAG_DATE_TIME,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print FAT date time value.",
-				 function );
-
-				return( -1 );
-			}
-			byte_stream_copy_to_uint64_little_endian(
-			 &( data[ 38 ] ),
-			 value_64bit );
+			byte_stream_copy_to_uint32_little_endian(
+			 &( data[ 64 ] ),
+			 value_32bit );
 			libcnotify_printf(
-			 "%s: unknown8\t\t\t\t: 0x%08" PRIx64 "\n",
+			 "%s: string2 data size\t\t: %" PRIu32 "\n",
 			 function,
-			 value_64bit );
+			 value_32bit );
 		}
-#endif
-		data_offset = 46;
-	}
-	byte_stream_copy_to_uint32_little_endian(
-	 &( data[ data_offset ] ),
-	 string_size );
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
+		data_offset = 68;
+	}
+	else if( ( data[ 36 ] == (uint8_t) 'N' )
+	      && ( data[ 37 ] == (uint8_t) 0 )
+	      && ( data[ 38 ] == (uint8_t) '/' )
+	      && ( data[ 39 ] == (uint8_t) 0 )
+	      && ( data[ 40 ] == (uint8_t) 'A' )
+	      && ( data[ 41 ] == (uint8_t) 0 )
+	      && ( data[ 42 ] == (uint8_t) 0 )
+	      && ( data[ 43 ] == (uint8_t) 0 ) )
+	{
+		/* Windows 10 compressed folder */
+	}
+	else
+	{
+		return( 0 );
+	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
-		libcnotify_printf(
-		 "%s: string size\t\t\t: %" PRIu32 "\n",
-		 function,
-		 string_size );
-	}
-#endif
-	data_offset += 4;
-
-	string_size *= 2;
-
-	if( ( string_size > 0 )
-         && ( string_size <= data_size )
-	 && ( data_offset <= ( data_size - string_size ) ) )
-	{
-#if defined( HAVE_DEBUG_OUTPUT )
-		if( libcnotify_verbose != 0 )
+		if( data_offset < data_size )
 		{
-			if( libfwsi_debug_print_utf16_string_value(
-			     function,
-			     "string\t\t\t\t",
-			     &( data[ data_offset ] ),
-			     string_size,
-			     LIBUNA_ENDIAN_LITTLE,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print UTF-16 string value.",
-				 function );
-
-				return( -1 );
-			}
+			libcnotify_printf(
+			 "%s: trailing data:\n",
+			 function );
+			libcnotify_print_data(
+			 &( data[ data_offset ] ),
+			 data_size - data_offset,
+			 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 		}
-#endif
-		data_offset += string_size;
-	}
-	byte_stream_copy_to_uint32_little_endian(
-	 &( data[ data_offset ] ),
-	 string_size );
-
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		libcnotify_printf(
-		 "%s: string size\t\t\t: %" PRIu32 "\n",
-		 function,
-		 string_size );
-	}
-#endif
-	data_offset += 4;
-
-	string_size *= 2;
-
-	if( ( string_size > 0 )
-         && ( string_size <= data_size )
-	 && ( data_offset <= ( data_size - string_size ) ) )
-	{
-#if defined( HAVE_DEBUG_OUTPUT )
-		if( libcnotify_verbose != 0 )
+		else
 		{
-			if( libfwsi_debug_print_utf16_string_value(
-			     function,
-			     "string\t\t\t\t",
-			     &( data[ data_offset ] ),
-			     string_size,
-			     LIBUNA_ENDIAN_LITTLE,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print UTF-16 string value.",
-				 function );
-
-				return( -1 );
-			}
+			libcnotify_printf(
+			 "\n" );
 		}
-#endif
-		data_offset += string_size;
 	}
-	byte_stream_copy_to_uint32_little_endian(
-	 &( data[ data_offset ] ),
-	 string_size );
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		libcnotify_printf(
-		 "%s: string size\t\t\t: %" PRIu32 "\n",
-		 function,
-		 string_size );
-	}
-#endif
-	data_offset += 4;
-
-	string_size *= 2;
-
-	if( ( string_size > 0 )
-         && ( string_size <= data_size )
-	 && ( data_offset <= ( data_size - string_size ) ) )
-	{
-#if defined( HAVE_DEBUG_OUTPUT )
-		if( libcnotify_verbose != 0 )
-		{
-			if( libfwsi_debug_print_utf16_string_value(
-			     function,
-			     "string\t\t\t\t",
-			     &( data[ data_offset ] ),
-			     string_size,
-			     LIBUNA_ENDIAN_LITTLE,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print UTF-16 string value.",
-				 function );
-
-				return( -1 );
-			}
-		}
-#endif
-		data_offset += string_size;
-	}
-	byte_stream_copy_to_uint32_little_endian(
-	 &( data[ data_offset ] ),
-	 string_size );
-
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		libcnotify_printf(
-		 "%s: string size\t\t\t: %" PRIu32 "\n",
-		 function,
-		 string_size );
-	}
-#endif
-	data_offset += 4;
-
-	string_size *= 2;
-
-	if( ( string_size > 0 )
-         && ( string_size <= data_size )
-	 && ( data_offset <= ( data_size - string_size ) ) )
-	{
-#if defined( HAVE_DEBUG_OUTPUT )
-		if( libcnotify_verbose != 0 )
-		{
-			if( libfwsi_debug_print_utf16_string_value(
-			     function,
-			     "string\t\t\t\t",
-			     &( data[ data_offset ] ),
-			     string_size,
-			     LIBUNA_ENDIAN_LITTLE,
-			     error ) != 1 )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-				 "%s: unable to print UTF-16 string value.",
-				 function );
-
-				return( -1 );
-			}
-		}
-#endif
-	}
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		libcnotify_printf(
-		 "\n" );
-	}
-#endif
 	return( 1 );
 }
 

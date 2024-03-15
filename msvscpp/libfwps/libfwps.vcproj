@@ -163,6 +163,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libfwps\libfwps_notify.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libfwps\libfwps_property_identifier.c"
 				>
 			</File>
@@ -230,6 +234,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwps\libfwps_libuna.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwps\libfwps_notify.h"
 				>
 			</File>
 			<File

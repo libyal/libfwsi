@@ -778,10 +778,10 @@ int fwsi_test_item_get_number_of_extension_blocks(
 	          &number_of_extension_blocks,
 	          &error );
 
-	FWSI_TEST_ASSERT_NOT_EQUAL_INT(
+	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 -1 );
+	 1 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -846,9 +846,11 @@ int main(
      char * const argv[] FWSI_TEST_ATTRIBUTE_UNUSED )
 #endif
 {
+#if !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 )
 	libcerror_error_t *error = NULL;
 	libfwsi_item_t *item     = NULL;
 	int result               = 0;
+#endif
 
 	FWSI_TEST_UNREFERENCED_PARAMETER( argc )
 	FWSI_TEST_UNREFERENCED_PARAMETER( argv )
@@ -953,6 +955,8 @@ int main(
 	return( EXIT_SUCCESS );
 
 on_error:
+#if !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 )
+
 	if( error != NULL )
 	{
 		libcerror_error_free(
@@ -964,6 +968,8 @@ on_error:
 		 &item,
 		 NULL );
 	}
+#endif /* !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 ) */
+
 	return( EXIT_FAILURE );
 }
 

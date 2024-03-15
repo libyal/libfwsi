@@ -213,6 +213,7 @@ int libfwsi_users_property_view_values_read_data(
 		case 0x23a3dfd5UL:
 		case 0x23febbeeUL:
 		case 0x3b93afbbUL:
+		case 0x49505241UL:
 		case 0xbeebee00UL:
 			break;
 
@@ -303,7 +304,7 @@ int libfwsi_users_property_view_values_read_data(
 		libcnotify_print_data(
 		 &( data[ data_offset ] ),
 		 identifier_size,
-		 0 );
+		 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 	}
 #endif
 	switch( signature )

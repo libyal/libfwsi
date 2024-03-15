@@ -8,11 +8,12 @@ Analysis of the Windows Shell Item format
 [abstract]
 == Summary
 
-The Windows Shell uses Shell Items (Shell item list) to identify items within
-the Windows Folder Hierarchy. A Shell Item list is much like a path, and is
-unique to its parent folder. The format of the Shell Item is undocumented and
-varies between Windows versions. This specification is based on publicly
-available work on the format and was enhanced by analyzing test data.
+The Windows Shell uses Shell Items to represents items within the Windows Shell,
+such as files or control panel items. Shell items can be identified by a list of
+identifiers, also refererred to as IDList or PIDL (pointer to an item identifier
+list). Such an item identifier list is comparable to a file system path with
+"Desktop" as the root item. The format of item identifiers are internal to the
+Shell Items, it is undocumented and varies between Windows versions.
 
 This document is intended as a working document of the data format specification
 for the libfwsi project.
@@ -73,7 +74,7 @@ Additional findings regarding class type indicator flag 0x80.
 | 0.0.21 | J.B. Metz | October 2013 | New findings on Windows 8.1 with thanks to E. Zimmerman.
 | 0.0.22 | J.B. Metz | July 2014 | Textual changes.
 | 0.0.22 | J.B. Metz | July 2014 | New findings on Control Panel 0x01 shell item with thanks to E. Zimmerman.
-| 0.0.23 | J.B. Metz | July 2014 | Found new file entry 0x32 shell item – SWN1. Added findings on the compressed folder 0x52 shell item with thanks to D. Pullega and findings on MTP and MSC storage device shell items with thanks to N. Ibrahim.
+| 0.0.23 | J.B. Metz | July 2014 | Found new file entry 0x32 shell item – SWN1. Added findings on the Acronis True Image (TIB) file shell item with thanks to D. Pullega and findings on MTP and MSC storage device shell items with thanks to N. Ibrahim.
 | 0.0.24 | J.B. Metz | July 2014 +
 August 2014
 | Additional information on file entry 0x32 shell item – SWN1 and property view shell items. New findings on extension block 0xbeef0025 with thanks to E. Zimmerman and findings on file entry 0x36 shell item with thanks to F. Picasso.
@@ -86,7 +87,7 @@ Updated information regarding the delegate folder shell item.
 | 0.0.28 | J.B. Metz | September 2014 | Additional information regarding shell item 0x67 and extension block 0xbeef0021 with thanks to E. Zimmerman.
 | 0.0.29 | J.B. Metz | October 2014 | Additional information regarding CDBurn shell item and extension blocks 0xbeef000b, 0xbeef000e and 0xbeef0016 with thanks to E. Zimmerman.
 | 0.0.30 | J.B. Metz | December 2014 | Switched to asccidoc format.
-| 0.0.31 | J.B. Metz | February 2015 | Additional information compressed folder 0x52 shell item with thanks to D. White and various yet unknown shell items with thanks to E. Zimmerman.
+| 0.0.31 | J.B. Metz | February 2015 | Additional information compressed folder shell item with thanks to D. White and various yet unknown shell items with thanks to E. Zimmerman.
 | 0.0.32 | J.B. Metz | June 2015 | Additional information regarding Windows 10 shell items from LNK files.
 | 0.0.33 | J.B. Metz | November 2017 | Additional information regarding extension blocks and extension block 0xbeef0013.
 | 0.0.34 | J.B. Metz | November 2017 | Additional information regarding FTP URI and URI sub shell items with thanks to S. Polshyn.
@@ -94,17 +95,23 @@ Updated information regarding the delegate folder shell item.
 | 0.0.36 | J.B. Metz | January 2023 | Small changes.
 | 0.0.37 | J.B. Metz | July 2023 | Additional information regarding encoding of filenames.
 | 0.0.38 | J.B. Metz | February 2024 | Additional information regarding extension blocks 0xbeef0026 and 0xbeef0029.
+| 0.0.39 | J.B. Metz | March 2024 | Additional information.
 |===
 
 :numbered:
 == Overview
 
-The Windows Shell uses Shell Items (Shell Item list) to identify items within
-the Windows Folder Hierarchy. A Shell Item list is much like a path, and is
-unique to its parent folder. The format of the Shell Item is undocumented and
-varies between Windows versions.
+The Windows Shell uses Shell Items to represents items within the Windows Shell,
+such as files or control panel items. Shell items can be identified by a list of
+identifiers, also refererred to as IDList or PIDL (pointer to an item identifier
+list). Such an item identifier list is comparable to a file system path with
+"Desktop" as the root item. The format of item identifiers are internal to the
+Shell Items, it is undocumented and varies between Windows versions.
 
-MSDN-SHELLEXT
+[NOTE]
+Note that this document uses the terms item identifier list and shell item
+interchangeably, where other documentation might use shell item to refer to
+the IShellItem COM interface.
 
 [cols="1,5",options="header"]
 |===
@@ -169,67 +176,35 @@ Includes the 2 bytes of the size itself, 0 if shell item is empty
 
 The class type indicator has proven not to be a foolproof indicator for all
 shell items, but it appears to be a strong one for others hence (for now) we
-divide the shell items into two categories:
+divide the shell items into the following categories:
 
-* type indicator-base shell items
-* signature-base shell items
+* type indicator-based shell items
+* signature-based shell items
+* ancestor-based shell items
 
 == Type indicator-based shell items
 
 ===  Class type indicator
 
-The class type indicator is a combination of a type, sub-type and flags.
+The class type indicator is a combination of a type, sub-type and flags. Known
+class type indicators are:
 
-[cols="1,1,5",options="header"]
+[cols="1,5",options="header"]
 |===
-| Value | Related class identifier (CLSID) | Description
-| 0x00 | | [yellow-background]*Unknown*
-| 0x01 | | [yellow-background]*Unknown*
+| Value | Description
+| 0x1f | Root folder shell item
 | | |
-| 0x17 | | [yellow-background]*Unknown*
-| | |
-| 0x1e | CLSID_ShellDesktop | [yellow-background]*Not seen in wild but reason to believe it exists.*
-| 0x1f | CLSID_ShellDesktop +
-[yellow-background]*Likely IshellFolder interface?* | Root folder shell item
-| | |
-| 0x20 – 0x2f | CLSID_MyComputer | Volume shell item +
+| 0x20 – 0x2f | Volume shell item +
 See section: <<volume_shell_item,Volume shell item>>
-| 0x30 – 0x3f | CLSID_ShellFSFolder | File entry shell item +
+| 0x30 – 0x3f | File entry shell item +
 See section: <<file_entry_shell_item,File entry shell item>>
-| 0x40 – 0x4f | [yellow-background]*CLSID_NetworkRoot* +
-[yellow-background]*CLSID_NetworkPlaces* | Network location shell item +
+| 0x40 – 0x4f | Network location shell item +
 See section: <<network_location_shell_item,Network location shell item>>
 | | |
-| 0x52 | | [yellow-background]*Compressed folder shell item* +
-See section: <<compressed_folder_shell_item,Compressed folder shell item>>
+| 0x61 | URI shell item
 | | |
-| 0x61 | CLSID_Internet | URI shell item
-| | |
-| 0x70 | ControlPanel | [yellow-background]*Not seen in wild but reason to believe it exists.* +
-[yellow-background]*item has no item data at offset 0x04*
-| 0x71 | ControlPanel +
-ControlPanelTasks | Control Panel shell item
-| 0x72 | Printers | [yellow-background]*Not seen in wild but reason to believe it exists.* +
-[yellow-background]*Printers*
-| 0x73 | CommonPlacesFolder | [yellow-background]*Not seen in wild but reason to believe it exists.*
-| 0x74 | | Seen used by Removable Drives delegate folder
-| | |
-| 0x76 | | [yellow-background]*Unknown*
-| | |
-| 0x80 | | [yellow-background]*Unknown – different meaning per class type indicator?*
-| | |
-| 0xff | | [yellow-background]*Unknown*
+| 0x71 | Control Panel shell item
 |===
-
-[yellow-background]*Type 0x08 (with size of 6) is alias ?*
-[yellow-background]*Type 0x0c is alias ?*
-
-[yellow-background]*0x3a Name space object? Link blessing? My Computer (CRegFolder)?*
-
-[yellow-background]*0x7b extension?*
-
-[yellow-background]*What is the relationship between the root (first) shell
-item (0x1f/0x1e?) and the other shell items?*
 
 === Root folder shell item
 
@@ -246,28 +221,15 @@ Includes the 2 bytes of the size itself
 | 4 | 16 | | Shell folder identifier +
 Contains a GUID +
 For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
-4+| _Present if shell item size > 20 (seen in Windows 7)_
-| 20 | ... | | Extension block 0xbeef0017 +
-See section: <<extension_block_0xbeef0017,Extension block 0xbeef0017>>
+4+| _Present if shell item size > 20_
+| 20 | ... | | Extension block +
+See section: <<extension_block_0xbeef0017,Extension block 0xbeef0017>> or <<extension_block_0xbeef0026,Extension block 0xbeef0026>>
 |===
 
-==== Notes
-
-Shell item from Windows 7 ShellMRU (Search Home)
-....
-00000000: 1f 80 2e 81 43 93 37 1c  49 4a a1 2e 4b 2d 81 0d   ....C.7. IJ..K-..
-00000010: 95 6b 46 00 01 00 17 00  ef be 00 00 00 00 01 00   .kF..... ........
-00000020: 00 00 02 00 00 80 01 00  00 00 01 00 00 00 02 00   ........ ........
-00000030: 00 00 00 00 00 00 00 00  00 00 02 00 00 00 00 00   ........ ........
-00000040: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ........ ........
-00000050: 00 00 00 00 00 00 14 00                            ........
-....
-
-Indicated as SHDID_ROOT_REGITEM by SHDESCRIPTIONID. The display name of the
-root shell item is dependent on the shell folder identifier e.g. the GUID
-20d04fe0-3aea-1069-a2d8-08002b30309d has a the display name "My Computer" on
-Windows XP and "This PC" and on Windows 10. The name is stored in the
-corresponding CLSID Windows Registry key.
+The display name of the root shell item is dependent on the shell folder
+identifier, for example 20d04fe0-3aea-1069-a2d8-08002b30309d has a the display
+name "My Computer" on Windows XP and "This PC" and on Windows 10. The name is
+stored in the corresponding CLSID Windows Registry key.
 
 ==== Sort index
 
@@ -290,9 +252,9 @@ corresponding CLSID Windows Registry key.
 
 === [[volume_shell_item]]Volume shell item
 
-The volume shell item is identified by a value of 0x20 after applying a bitmask
-of 0x70. The remaining bits in the class type indicator are presumed to be a
-sub-type or flags.
+The volume shell item can be identified by a value of 0x20 after applying a
+bitmask of 0x70. The remaining bits in the class type indicator are presumed to
+be a sub-type or flags.
 
 [cols="1,1,5",options="header"]
 |===
@@ -305,6 +267,10 @@ sub-type or flags.
 
 Values that have been seen: 0x23, 0x25, 0x29, 0x2a, 0x2e, 0x2f
 
+The value in the last two bytes of the shell can be used to find the offset of
+the extension block version and if this value is sane the file entry shell item
+contains an extension block (Windows XP or later).
+
 The volume shell item is variable bytes in size and consists of the following
 values:
 
@@ -316,7 +282,7 @@ Includes the 2 bytes of the size itself
 | 2 | 1 | | Class type indicator +
 0x20 after applying a bitmask of 0x70
 4+| _If class type indicator flag 0x01 (has name) is not set_
-| 3 | 1 | [yellow-background]*Unknown (Flags)*
+| 3 | 1 | [yellow-background]*Unknown (Flags)* +
 [yellow-background]*Seen 0x00, 0x1e, 0x80*
 | 4 | 16 | [yellow-background]*Volume identifier?* +
 Contains a GUID +
@@ -337,28 +303,9 @@ For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wi
 See section: <<extension_block_0xbeef0025,Extension block 0xbeef0025>> and <<extension_block_0xbeef0026,Extension block 0xbeef0026>>
 |===
 
-Found in Windows 7 BagMRU
-....
-00000000: 2f 44 3a 5c 00 00 00 00  00 00 00 00 00 00 00 00   /D:\.... ........
-00000010: 00 00 00 00 00 01 01 05  8a eb fb ee be 42 44 80   ........ .....BD.
-00000020: 4e 40 9d 6c 45 15 e9                               N@.lE..
-
-SHDID_FS_DIRECTORY with CLSID at offset 4
-
-00000000  32 00 2e 80 3a cc bf b4  2c db 4c 42 b0 29 7f e9  |2...:...,.LB.)..|
-00000010  9a 87 c6 41 1e 00 00 00  25 00 ef be 11 00 00 00  |...A....%.......|
-00000020  fa 66 a2 86 36 74 cf 01  2d 81 fe bc ba 9b cf 01  |.f..6t..-.......|
-00000030  14 00 00 00                                       |....|
-
-00000000  32 00 2e 80 90 e2 4d 37  3f 12 65 45 91 64 39 c4  |2.....M7?.eE.d9.|
-00000010  92 5e 46 7b 1e 00 00 00  25 00 ef be 11 00 00 00  |.^F{....%.......|
-00000020  fa 66 a2 86 36 74 cf 01  33 cb 2c 72 3b 74 cf 01  |.f..6t..3.,r;t..|
-00000030  14 00 00 00                                       |....|
-....
-
 === [[file_entry_shell_item]]File entry shell item
 
-The file entry shell item is identified by a value of 0x30 after applying a
+The file entry shell item can be identified by a value of 0x30 after applying a
 bitmask of 0x70. The remaining bits in the class type indicator are presumed to
 be a sub-type or flags.
 
@@ -526,23 +473,11 @@ This value contains the the size of the extension block or 0 if not set
 The primary name path string is not strict UTF-16 since it allows for unpaired
 surrogates, such as "U+d800" and "U+dc00".
 
-==== Notes
-
-[yellow-background]*File date and time values populated from WIN32_FIND_DATA?*
-
-[yellow-background]*Part before the extension block FolderItem typelib interface?*
-
-[cols="1,1,5",options="header"]
-|===
-| Class identifier (CLSID) | Related interface identifier(s) (IID) | Related class
-| CLSID_FolderItem | IID_IPersistFolder |
-|===
-
 === [[network_location_shell_item]]Network location shell item
 
-The network location shell item is identified by a value of 0x40 after applying
-a bitmask of 0x70. The remaining bits in the class type indicator are presumed
-to be a sub-type or flags.
+The network location shell item can be identified by a value of 0x40 after
+applying a bitmask of 0x70. The remaining bits in the class type indicator are
+presumed to be a sub-type or flags.
 
 [cols="1,1,5",options="header"]
 |===
@@ -595,119 +530,6 @@ ASCII string with end-of-string character
 [yellow-background]*0x0002* +
 [yellow-background]*0x000042*
 |===
-
-=== [[compressed_folder_shell_item]]Compressed folder shell item
-
-The compressed folder shell item is of variable size and consists of the
-following values:
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 2 | | The size of the shell item +
-Includes the 2 bytes of the size itself
-| 2 | 1 | 0x52 | Class type indicator
-| 3 | 1 | [yellow-background]*Seen: 0x67* | [yellow-background]*Unknown*
-| 4 | 2 | [yellow-background]*Seen: 0xacb1* | [yellow-background]*Unknown (flags or signature of some kind)*
-4+| [yellow-background]*Controlled by one of the flags?*
-| 6 | 4 | [yellow-background]*Seen: 1, 2, 3* | [yellow-background]*Unknown*
-| 10 | 8 | | [yellow-background]*Unknown (empty values)*
-| 18 | 4 | [yellow-background]*Seen: 0x10, 0x11, 0x16* | [yellow-background]*Unknown*
-| 22 | 4 | | [yellow-background]*Unknown* +
-[yellow-background]*Possibly used for higher precision timestamps*
-| 26 | 4 | | [yellow-background]*Unknown (date and time)*
-Contains a FAT date and time in UTC, or 0 if not set
-| 30 | 4 | | [yellow-background]*Unknown*
-[yellow-background]*Possibly used for higher precision timestamps*
-| 34 | 4 | | [yellow-background]*Unknown (date and time)* +
-Contains a FAT date and time in UTC, or 0 if not set
-| 38 | 8 | 0 | [yellow-background]*Unknown (empty values)*
-4+| _Common_
-| 46 | 4 | | [yellow-background]*Unknown string size* +
-Contains the number of characters which includes the end-of-string character +
-An empty strings is stored with a size of 1
-| 50 | ... | | [yellow-background]*Unknown string (file entry name?)* +
-Contains an UTF-16 little-endian string with end-of-string character.
-| ... | 4 | | [yellow-background]*Unknown string size* +
-Contains the number of characters which includes the end-of-string character +
-An empty strings is stored with a size of 1
-| ... | ... | | [yellow-background]*Unknown string* +
-Contains an UTF-16 little-endian string with end-of-string character.
-| ... | 4 | | Full path string size +
-Contains the number of characters which includes the end-of-string character +
-An empty strings is stored with a size of 1
-| ... | ... | | Full path string +
-Contains an UTF-16 little-endian string with end-of-string character.
-| ... | 4 | | [yellow-background]*Unknown string size* +
-Contains the number of characters which includes the end-of-string character +
-An empty strings is stored with a size of 1
-| ... | ... | | [yellow-background]*Unknown string* +
-Contains an UTF-16 little-endian string with end-of-string character.
-|===
-
-....
-Possible fields:
-* Compression ratio
-* Compression method
-* Compression CRC
-* File type
-* Original size
-* Compressed size
-* Encrypted status?
-....
-
-....
-00000000: 67 b1 ac 02 00 00 00 00  00 00 00 00 00 00 00 16   g....... ........
-00000010: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ........ ........
-00000020: 00 00 00 00 00 00 00 00  00 00 00 03 00 00 00 43   ........ .......C
-00000030: 00 3a 00 00 00 03 00 00  00 43 00 3a 00 00 00 03   .:...... .C.:....
-00000040: 00 00 00 43 00 3a 00 00  00 01 00 00 00 00 00      ...C.:.. .......
-
-00000000: 67 b1 ac 01 00 00 00 00  00 00 00 00 00 00 00 00   g....... ........
-00000010: 00 00 00 00 00 00 00 00  00 00 00 00 00 03 de 3d   ........ .......=
-00000020: 27 74 42 00 00 00 00 00  00 00 00 25 00 00 00 30   'tB..... ...%...0
-00000030: 00 43 00 32 00 46 00 34  00 45 00 45 00 42 00 2d   .C.2.F.4 .E.E.B.-
-00000040: 00 30 00 42 00 30 00 39  00 2d 00 34 00 43 00 39   .0.B.0.9 .-.4.C.9
-00000050: 00 32 00 2d 00 39 00 30  00 44 00 31 00 2d 00 34   .2.-.9.0 .D.1.-.4
-00000060: 00 31 00 39 00 31 00 30  00 41 00 31 00 41 00 41   .1.9.1.0 .A.1.A.A
-00000070: 00 46 00 42 00 33 00 00  00 0d 00 00 00 4d 00 79   .F.B.3.. .....M.y
-00000080: 00 20 00 44 00 6f 00 63  00 75 00 6d 00 65 00 6e   . .D.o.c .u.m.e.n
-00000090: 00 74 00 73 00 00 00 01  00 00 00 00 00 01 00 00   .t.s.... ........
-000000a0: 00 00 00                                           ...
-....
-
-....
-Different variants:
-
-00000000  52 00 67 45 23 01 00 00  36 00 37 00 45 00 46 00  |R.gE#...6.7.E.F.|
-00000010  33 00 38 00 38 00 31 00  2d 00 35 00 33 00 35 00  |3.8.8.1.-.5.3.5.|
-00000020  36 00 2d 00 34 00 65 00  61 00 35 00 2d 00 38 00  |6.-.4.e.a.5.-.8.|
-00000030  43 00 42 00 45 00 2d 00  43 00 43 00 46 00 38 00  |C.B.E.-.C.C.F.8.|
-00000040  33 00 42 00 46 00 41 00  36 00 43 00 42 00 34 00  |3.B.F.A.6.C.B.4.|
-00000050  00 00                                             |..|
-
-00000000: 52 00 45 00 47 00 00 00  00 00 00 00 00 00 00 00   R.E.G... ........
-00000010: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 10 00   ........ ........
-00000020: 00 00 4e 00 2f 00 41 00  00 00 00 00 00 00 90 64   ..N./.A. .......d
-00000030: 6d 07 00 00 00 00 00 00  00 00 00 00 00 00 b8 a0   m....... ........
-00000040: 3f f6 fe 07 00 00 40 80  00 00 00 00 00 00 ff ff   ?.....@. ........
-00000050: 00 00 24 00 00 00 00 00  00 00 53 00 75 00 62 00   ..$..... ..S.u.b.
-00000060: 77 00 61 00 79 00 20 00  53 00 75 00 72 00 66 00   w.a.y. . S.u.r.f.
-00000070: 65 00 72 00 73 00 20 00  2d 00 20 00 4c 00 61 00   e.r.s. . -. .L.a.
-00000080: 75 00 6e 00 63 00 68 00  20 00 54 00 72 00 61 00   u.n.c.h.  .T.r.a.
-00000090: 69 00 6c 00 65 00 72 00  20 00 32 00 30 00 31 00   i.l.e.r.  .2.0.1.
-000000a0: 33 00 00 00 00 00 34 03  00 00                     3.....4. ..
-....
-
-[cols="1,1",options="header"]
-|===
-| Interface identifier (IID) | GUID
-| CLSID_ZipFolder | e88dcce0-b7b3-11d1-a9f0-00aa0060fa31
-|===
-
-....
-%SystemRoot%\System32\zipfldr.dll
-....
 
 === URI shell item
 
@@ -830,6 +652,49 @@ For a list of control panel item identifiers see: https://github.com/libyal/libf
 
 == Signature-based shell items
 
+=== Acronis True Image (TIB) file shell item
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 4 | "\x52\x67\xb1\xac" (0xacb16752) | Signature
+| 6 | 4 | [yellow-background]*Seen: 1, 2, 3* | [yellow-background]*Unknown*
+| 10 | 8 | | [yellow-background]*Unknown (empty values)*
+| 18 | 4 | [yellow-background]*Seen: 0x10, 0x11, 0x16* | [yellow-background]*Unknown*
+| 22 | 4 | | [yellow-background]*Unknown* +
+[yellow-background]*Possibly used for higher precision timestamps*
+| 26 | 4 | | [yellow-background]*Unknown (date and time)*
+Contains a FAT date and time in UTC, or 0 if not set
+| 30 | 4 | | [yellow-background]*Unknown* +
+[yellow-background]*Possibly used for higher precision timestamps*
+| 34 | 4 | | [yellow-background]*Unknown (date and time)* +
+Contains a FAT date and time in UTC, or 0 if not set
+| 38 | 8 | 0 | [yellow-background]*Unknown (empty values)*
+4+| _Common_
+| 46 | 4 | | [yellow-background]*Unknown string size* +
+Contains the number of characters which includes the end-of-string character +
+An empty strings is stored with a size of 1
+| 50 | ... | | [yellow-background]*Unknown string (file entry name?)* +
+Contains an UTF-16 little-endian string with end-of-string character.
+| ... | 4 | | [yellow-background]*Unknown string size* +
+Contains the number of characters which includes the end-of-string character +
+An empty strings is stored with a size of 1
+| ... | ... | | [yellow-background]*Unknown string* +
+Contains an UTF-16 little-endian string with end-of-string character.
+| ... | 4 | | Full path string size +
+Contains the number of characters which includes the end-of-string character +
+An empty strings is stored with a size of 1
+| ... | ... | | Full path string +
+Contains an UTF-16 little-endian string with end-of-string character.
+| ... | 4 | | [yellow-background]*Unknown string size* +
+Contains the number of characters which includes the end-of-string character +
+An empty strings is stored with a size of 1
+| ... | ... | | [yellow-background]*Unknown string* +
+Contains an UTF-16 little-endian string with end-of-string character.
+|===
+
 === Application shell item
 
 Seen in Windows 10 after root shell item with applications shell folder identifier.
@@ -841,8 +706,7 @@ Seen in Windows 10 after root shell item with applications shell folder identifi
 Includes the 2 bytes of the size itself
 | 2 | 2 | | [yellow-background]*Unknown*
 | 4 | 2 | | [yellow-background]*Unknown (data size?)*
-| 6 | 4 | "APPS" +
-0x53505041 | Signature
+| 6 | 4 | "APPS" (0x53505041) | Signature
 | 10 | 4 | | [yellow-background]*Unknown*
 | 14 | 4 | | [yellow-background]*Unknown*
 4+| _If data size > 0 ?_
@@ -889,8 +753,7 @@ Includes the 2 bytes of the size itself
 [yellow-background]*Seen: 0, 1* +
 [yellow-background]*1 => flag to indicate trailing bytes after each shell item?*
 | 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 4 | "AugM" +
-0x4d677541 | Signature
+| 4 | 4 | "AugM" (0x4d677541) | Signature
 | 8 | 4 | | [yellow-background]*Unknown (number of 16-bit values that follow?)* +
 [yellow-background]*Seen: 2, 4*
 | 12 | 4 | | [yellow-background]*Unknown* +
@@ -964,9 +827,6 @@ Contains an UTF-16 little-endian string with end-of-string character
 
 ==== Control panel category shell item
 
-Seen in Windows 7 in BagMRU and also seen in LNK after shell item type 0x1f
-with a control panel item identifier.
-
 The control panel category shell item is 12 bytes in size and consists of the
 following values:
 
@@ -1002,144 +862,6 @@ No longer used as Windows Vista
 No longer used as Windows Vista, only available in Windows XP, SP2 or later
 | 11 | | Mobile PC +
 Only available in mobile version of Windows Vista
-|===
-
-=== Game Folder shell item
-
-Seen after root folder shell item containing a My Games shell folder identifier:
-ed228fdf-9ea8-4870-83b1-96b02cfe0d52.
-
-The Game Folder Shell Item is 32 bytes in size and consists of:
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 2 | | The size of the shell item +
-Includes the 2 bytes of the size itself
-| 2 | 1 | 0x00 | Class type indicator
-| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 4 | "GFSI" +
-0x49534647 | Signature
-| 8 | 16 | | Class identifier +
-Contains a GameExplorer related GUID +
-d1a7f7e0-d4e9-49e8-bf2c-ceaa01d2e670
-| 24 | 8 | | [yellow-background]*Unknown (Empty values)*
-|===
-
-=== MTP storage device shell items
-
-[yellow-background]*TODO*
-
-[yellow-background]*MTP => Media Transfer Protocol*
-
-Seen in Windows 7 BagMRU and LNK files
-
-==== MTP storage device volume shell item
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 2 | | The size of the shell item +
-Includes the 2 bytes of the size itself
-| 2 | 1 | 0x00 | Class type indicator
-| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 2 | | Data size +
-The size of the following data, the extension block sizes not included
-| 6 | 4 | 0x10312005 | Data signature
-4+| _Data_
-| 10 | 4 | [yellow-background]*Seen: 3* | [yellow-background]*Unknown*
-| 14 | 2 | | [yellow-background]*Unknown*
-| 16 | 2 | | [yellow-background]*Unknown*
-| 18 | 2 | | [yellow-background]*Unknown*
-| 20 | 2 | | [yellow-background]*Unknown*
-| 22 | 4 | | [yellow-background]*Unknown*
-| 26 | 8 | | [yellow-background]*Unknown (Empty values)*
-| 34 | 4 | | [yellow-background]*Unknown size*
-| 38 | 4 | | Name string size +
-Contains the number of characters including the end-of-string character
-| 42 | 4 | | Identifier string number of characters +
-Contains the number of characters including the end-of-string character
-| 46 | 4 | | File system string number of characters +
-Contains the number of characters including the end-of-string character
-| 50 | 4 | | Number of GUID strings
-| 54 | ... | | Name string +
-Contains an UTF-16 little-endian with end-of-string character
-| ... | ... | | Identifier string +
-Contains an UTF-16 little-endian with end-of-string character
-| ... | ... | | File system string +
-Contains an UTF-16 little-endian with end-of-string character
-| ... | 78 x n | | GUID strings +
-Contains an UTF-16 little-endian with end-of-string character +
-Each GUID string is 78 bytes in size +
-The GUIDs relate to WPD event handler identifiers
-| ... | 4 | 0xd | [yellow-background]*Unknown*
-| ... | 16 | | Class identifier +
-Contains a GUID +
-CLSID: PortableDeviceValues Class
-| ... | 4 | | Number of properties
-| ... | ... | | Properties array
-| ... | 2 | | [yellow-background]*Unknown (empty values)*
-|===
-
-==== MTP storage device file entry shell item
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 2 | | The size of the shell item +
-Includes the 2 bytes of the size itself
-| 2 | 1 | 0x00 | Class type indicator
-| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
-| 4 | 2 | | Data size +
-The size of the following data, the extension block sizes not included
-| 6 | 4 | 0x07192006 | Data signature
-| 10 | 4 | | [yellow-background]*Unknown*
-| 14 | 2 | | [yellow-background]*Unknown*
-| 16 | 2 | | [yellow-background]*Unknown*
-| 18 | 2 | | [yellow-background]*Unknown*
-| 20 | 2 | | [yellow-background]*Unknown*
-| 22 | 4 | | [yellow-background]*Unknown*
-| 26 | 8 | | [yellow-background]*Last modification time?* +
-Contains a FILETIME
-| 34 | 8 | | [yellow-background]*Creation time?* +
-Contains a FILETIME
-| 42 | 16 | | Contains a GUID +
-WPD_CONTENT_TYPE_FOLDER
-| 58 | 4 | | [yellow-background]*Unknown size*
-| 62 | 4 | | String 1 size
-| 66 | 4 | | String 2 size
-| 70 | 4 | | String 3 size
-| 74 | ... | | String 1 (Folder name) +
-Contains an UTF-16 little-endian with end-of-string character
-| ... | ... | | String 2 (Folder name) +
-Contains an UTF-16 little-endian with end-of-string character
-| ... | ... | | String 3 (Folder identifier) +
-Contains an UTF-16 little-endian with end-of-string character
-| ... | 4 | 0xd | [yellow-background]*Unknown*
-| ... | 16 | | Class identifier +
-Contains a GUID +
-CLSID: PortableDeviceValues Class
-| ... | 4 | | Number of properties
-| ... | ... | | Properties array
-| ... | 2 | | [yellow-background]*Unknown (empty values)*
-|===
-
-==== Properties array
-
-===== Property
-
-A property is of variable size and consists of:
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 16 | | Format class (or property set) identifier +
-Contains a GUID +
-For more information about property sets and values see: https://winsps-kb.readthedocs.io/en/latest/sources/property-sets/index.html[[WINSPS-KB\]]
-| 16 | 4 | | Property value identifier
-| 20 | 4 | | Property value type +
-Contains an OLE defines property (variant) types. Also see `[LIBFOLE]`
-| 24 | ... | | Property value
 |===
 
 === Delegate folder shell item
@@ -1248,7 +970,8 @@ Contains an UTF-16 little-endian string with end-of-string character
 | ... | 16 | | Class identifier +
 Contains a GUID
 | ... | 4 | | Number of properties
-| ... | ... | | Properties array
+| ... | ... | | Properties array +
+See section: <<properties_array,Properties array>>
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
 4+| _Common_
 | ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
@@ -1257,10 +980,28 @@ Contains a GUID
 Contains a GUID
 |===
 
+==== [[properties_array]]Properties array
+
+===== Property
+
+A property is of variable size and consists of:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 16 | | Format class (or property set) identifier +
+Contains a GUID +
+For more information about property sets and values see: https://winsps-kb.readthedocs.io/en/latest/sources/property-sets/index.html[[WINSPS-KB\]]
+| 16 | 4 | | Property value identifier
+| 20 | 4 | | Property value type +
+Contains an OLE defines property (variant) types. Also see `[LIBFOLE]`
+| 24 | ... | | Property value
+|===
+
 ==== Delegate folder: 59031a47-3f72-44a7-89c5-5595fe6b30ee
 
-The delegate folder: CLSID_UsersFilesFolder (59031a47-3f72-44a7-89c5-5595fe6b30ee)
-item is of variable size and consists of the following values:
+The delegate folder: 59031a47-3f72-44a7-89c5-5595fe6b30ee shell item is of
+variable size and consists of the following values:
 
 [cols="1,1,1,5",options="header"]
 |===
@@ -1272,28 +1013,19 @@ Includes the 2 bytes of the size itself
 | 4 | 2 | | Inner data size +
 Does not includes the 2 bytes of the size itself
 4+| _Inner data_
-| 6 | ... | | [yellow-background]*TODO describe*
+| 6 | 4 | | [yellow-background]*Unknown* +
+Seen: 0 and 2
+4+| _If previous value == 2_
+| 10 | ... | | [yellow-background]*Unknown (Username?)* +
+Contains an UTF-16 little-endian string with end-of-string character
+4+| _Common_
+| ... | 8 | | [yellow-background]*Unknown (empty values)*
 4+| _Common_
 | ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
 Contains a GUID
 | ... | 16 | 59031a47-3f72-44a7-89c5-5595fe6b30ee | Delegate folder identifier +
 Contains a GUID
 |===
-
-[cols="1,1,1,5",options="header"]
-|===
-| Offset | Size | Value | Description
-| 0 | 4 | [yellow-background]*Seen: 2* | [yellow-background]*Unknown*
-| 4 | ... | | [yellow-background]*Username?* +
-Contains an UTF-16 little-endian string with end-of-string character
-| ... | 8 | | [yellow-background]*Unknown (empty values)* +
-[yellow-background]*4-byte alignment padding?*
-|===
-
-Seen 12 and 32 bytes in size, where the 12 byte variant appears to be empty.
-....
-00000000: 00 00 00 00 00 00 00 00  00 00 00 00               ........ ....
-....
 
 ==== Delegate folder: dffacdc5-679f-4156-8947-c5c76bc0b67f
 
@@ -1355,6 +1087,126 @@ Contains a GUID
 Contains a GUID
 |===
 
+=== Game Folder shell item
+
+Seen after root folder shell item containing a My Games shell folder identifier:
+ed228fdf-9ea8-4870-83b1-96b02cfe0d52.
+
+The Game Folder Shell Item is 32 bytes in size and consists of:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | 0x00 | Class type indicator
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+| 4 | 4 | "GFSI" (0x49534647) | Signature
+| 8 | 16 | | Class identifier +
+Contains a GameExplorer related GUID (d1a7f7e0-d4e9-49e8-bf2c-ceaa01d2e670)
+| 24 | 8 | | [yellow-background]*Unknown (Empty values)*
+|===
+
+=== MTP storage device shell items
+
+[yellow-background]*TODO*
+
+[yellow-background]*MTP => Media Transfer Protocol*
+
+Seen in Windows 7 BagMRU and LNK files
+
+==== MTP storage device volume shell item
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | 0x00 | Class type indicator
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+| 4 | 2 | | Data size +
+The size of the following data, the extension block sizes not included
+| 6 | 4 | 0x10312005 | Data signature
+4+| _Data_
+| 10 | 4 | [yellow-background]*Seen: 3* | [yellow-background]*Unknown*
+| 14 | 2 | | [yellow-background]*Unknown*
+| 16 | 2 | | [yellow-background]*Unknown*
+| 18 | 2 | | [yellow-background]*Unknown*
+| 20 | 2 | | [yellow-background]*Unknown*
+| 22 | 4 | | [yellow-background]*Unknown*
+| 26 | 8 | | [yellow-background]*Unknown (Empty values)*
+| 34 | 4 | | [yellow-background]*Unknown size*
+| 38 | 4 | | Name string size +
+Contains the number of characters including the end-of-string character
+| 42 | 4 | | Identifier string number of characters +
+Contains the number of characters including the end-of-string character
+| 46 | 4 | | File system string number of characters +
+Contains the number of characters including the end-of-string character
+| 50 | 4 | | Number of GUID strings
+| 54 | ... | | Name string +
+Contains an UTF-16 little-endian with end-of-string character
+| ... | ... | | Identifier string +
+Contains an UTF-16 little-endian with end-of-string character
+| ... | ... | | File system string +
+Contains an UTF-16 little-endian with end-of-string character
+| ... | 78 x n | | GUID strings +
+Contains an UTF-16 little-endian with end-of-string character +
+Each GUID string is 78 bytes in size +
+The GUIDs relate to WPD event handler identifiers
+| ... | 4 | 0xd | [yellow-background]*Unknown*
+| ... | 16 | | Class identifier +
+Contains a GUID +
+CLSID: PortableDeviceValues Class
+| ... | 4 | | Number of properties
+| ... | ... | | Properties array +
+See section: <<properties_array,Properties array>>
+| ... | 2 | | [yellow-background]*Unknown (empty values)*
+|===
+
+==== MTP storage device file entry shell item
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | 0x00 | Class type indicator
+| 3 | 1 | | [yellow-background]*Unknown (Empty value)*
+| 4 | 2 | | Data size +
+The size of the following data, the extension block sizes not included
+| 6 | 4 | 0x07192006 | Data signature
+| 10 | 4 | | [yellow-background]*Unknown*
+| 14 | 2 | | [yellow-background]*Unknown*
+| 16 | 2 | | [yellow-background]*Unknown*
+| 18 | 2 | | [yellow-background]*Unknown*
+| 20 | 2 | | [yellow-background]*Unknown*
+| 22 | 4 | | [yellow-background]*Unknown*
+| 26 | 8 | | [yellow-background]*Last modification time?* +
+Contains a FILETIME
+| 34 | 8 | | [yellow-background]*Creation time?* +
+Contains a FILETIME
+| 42 | 16 | | Contains a GUID +
+WPD_CONTENT_TYPE_FOLDER
+| 58 | 4 | | [yellow-background]*Unknown size*
+| 62 | 4 | | String 1 size
+| 66 | 4 | | String 2 size
+| 70 | 4 | | String 3 size
+| 74 | ... | | String 1 (Folder name) +
+Contains an UTF-16 little-endian with end-of-string character
+| ... | ... | | String 2 (Folder name) +
+Contains an UTF-16 little-endian with end-of-string character
+| ... | ... | | String 3 (Folder identifier) +
+Contains an UTF-16 little-endian with end-of-string character
+| ... | 4 | 0xd | [yellow-background]*Unknown*
+| ... | 16 | | Class identifier +
+Contains a GUID +
+CLSID: PortableDeviceValues Class
+| ... | 4 | | Number of properties
+| ... | ... | | Properties array +
+See section: <<properties_array,Properties array>>
+| ... | 2 | | [yellow-background]*Unknown (empty values)*
+|===
+
 === [[users_property_view_shell_item]]Users property view shell item
 
 Seen after root folder shell item pointing to Users Libraries shell folder
@@ -1410,12 +1262,13 @@ See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Propert
 |===
 | Data signature | Size | Description
 | 0x10141981 | 32 | [yellow-background]*Unknown*
-| 0x23a3dfd5 | 4 | Contains a 32-bit value
+| 0x23a3dfd5 | 4 | [yellow-background]*Unknown*
 | 0x23febbee | 16 | Known folder identifier +
 Contains a GUID +
 For a list of known folder identifiers see: https://github.com/libyal/libfwsi/wiki/Known-Folder-Identifiers[[LIBFWSI-WIKI\]]
-| 0x3b93afbb | 4 | Contains a 32-bit value
-| 0xbeebee00 | 4 | Contains a 32-bit value
+| 0x3b93afbb | 4 | [yellow-background]*Unknown*
+| "ARPI" (0x49505241) | 1060 | [yellow-background]*Unknown*
+| 0xbeebee00 | 4 | [yellow-background]*Unknown*
 |===
 
 ===== [[users_property_view_delegate_data_signatures]]Data signatures
@@ -1423,6 +1276,135 @@ For a list of known folder identifiers see: https://github.com/libyal/libfwsi/wi
 [cols="1,1,5",options="header"]
 |===
 | Data signature | Size | Description
+|===
+
+=== Web Sites shell item
+
+Seen after root shell item with b28aa736-876b-46da-b3a8-84c5e30ba492 (Web Sites)
+shell folder identifier.
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | [yellow-background]*Unknown (empty values)*
+| 2 | 6 | "\x00\xb0\x01\xc0" (0xc001b000) | [yellow-background]*Unknown (signature)*
+| 8 | 4 | | [yellow-background]*Unknown (used data size?)*
+| 12 | 4 | | [yellow-background]*Unknown* +
+Seen: 4, 5
+| 16 | 4 | | [yellow-background]*Unknown* +
+Seen: 7
+| 20 | 4 | | String 1 data size
+| 24 | ... | | String 1 data +
+Contains an UTF-16 little-endian string with end-of-string character +
+Contains the page title or copy of URL (string 2)
+| ... | 4 | | [yellow-background]*Unknown* +
+Seen: 3
+| ... | 4 | | [yellow-background]*Unknown* +
+Seen: 4
+| ... | 4 | | [yellow-background]*Unknown* +
+Seen: 6, 7
+| ... | 4 | | [yellow-background]*Unknown* +
+Seen: 0x0e
+| ... | 4 | | String 2 data size
+| ... | ... | | String 2 data +
+Contains an UTF-16 little-endian string with end-of-string character +
+Contains the URL
+| ... | 4 | | [yellow-background]*Unknown* +
+Seen: 1
+| ... | 4 | | [yellow-background]*Unknown* +
+Seen: 4
+| ... | 2 | | [yellow-background]*Unknown*
+| ... | 2 | | [yellow-background]*Unknown*
+4+| _If data size > used data size_
+| ... | | | [yellow-background]*Unknown (empty values)*
+|===
+
+== Ancestor-based shell items
+
+=== [[compressed_folder_shell_item]]Compressed folder shell item
+
+A compressed folder shell item represents the contents of a ZIP archive
+file.
+
+==== Windows XP
+
+The compressed folder shell item is of variable size and consists of the
+following values:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | [yellow-background]*Unknown* +
+Seen: 0x08, 0x0b, 0x12
+| 4 | 16 | | [yellow-background]*Unknown (empty values)*
+| 20 | 2 | | [yellow-background]*Unknown* +
+Seen: 0x10, 0x30
+| 22 | 2 | | [yellow-background]*Unknown* +
+Seen: 0x00, 0x01
+| 24 | 32 | | [yellow-background]*Unknown (date and time string "11/26/04  21:00")*
+| 56 | 2 | | [yellow-background]*Unknown (empty values)*
+| 58 | 2 | | [yellow-background]*Unknown* +
+Seen: 0x08, 0x0b, 0x72
+| 60 | 4 | | String1 number of characters
+| 64 | 4 | | String2 number of characters
+| 68 | ... | | String1 data +
+Contains an UTF-16 little-endian string with end-of-string character
+| ... | ... | | String2 data +
+Contains an UTF-16 little-endian string with end-of-string character
+| ... | ... | | [yellow-background]*Unknown (trailing/remnant data)*
+|===
+
+==== Windows 10
+
+The compressed folder shell item is of variable size and consists of the
+following values:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 6 | | [yellow-background]*Unknown*
+| 8 | 8 | | Uncompressed file size
+| 16 | 8 | | Compressed file size
+| 24 | 2 | | Compression method +
+Seen: 0x00 (none), 0x08 (DEFLATE)
+| 26 | 2 | | [yellow-background]*Unknown*
+| 28 | 4 | | Checksum (CRC-32) +
+Contains 0 if not available
+| 32 | 2 | | [yellow-background]*Unknown* +
+Seen: 0x10 (folder?), 0x20 (file?)
+| 34 | 2 | | [yellow-background]*Unknown*
+Seen: 0x00 and 0x01
+4+| _If value at offset 34 is 0x00_
+| 36 | 8 | "4e 00 2f 00 41 00 00 00" | [yellow-background]*Unknown ("N/A" string)*
+| 44 | 4 | | [yellow-background]*Unknown (empty values)*
+| 48 | 4 | | [yellow-background]*Unknown (FAT date time?)*
+| 52 | 4 | | [yellow-background]*Unknown (empty values)*
+| 56 | 4 | 0x01 | [yellow-background]*Unknown*
+| 60 | 4 | | [yellow-background]*Unknown (empty values)*
+| 64 | 4 | | [yellow-background]*Unknown (FAT date time?)*
+| 68 | 4 | | [yellow-background]*Unknown (empty values)*
+| 72 | 4 | 0x01 | [yellow-background]*Unknown*
+| 78 | 4 | | [yellow-background]*Unknown (empty values)*
+4+| _If value at offset 34 is 0x01_
+| 36 | 42 | | [yellow-background]*Unknown (date and time string "06/15/2021  18:24:28")*
+4+| _Common_
+| 78 | 2 | | [yellow-background]*Unknown (empty values)*
+| 80 | 2 | | [yellow-background]*Unknown* +
+Seen: 0x00, 0x01, 0x04, 0x0c, 0xffff
+| 82 | 2 | | [yellow-background]*Unknown (empty values)*
+| 84 | 4 | | String1 number of characters
+| 88 | 4 | | String2 number of characters
+| 94 | ... | | String1  +
+Contains an UTF-16 little-endian string with end-of-string character
+| ... | ... | | String2  +
+Contains an UTF-16 little-endian string with end-of-string character
+| ... | ... | | [yellow-background]*Unknown (trailing/remnant data)*
 |===
 
 == Unknown shell items
@@ -1533,6 +1515,25 @@ Number of 16-bit characters?
 
 00000070:             00 00 00 00  00 00                     o.m..... ..
 ....
+
+=== 0x4e shell item
+
+....
+00000000: 4e 80 80 a2 27 22 ea 3a  69 10 a2 de 08 00 2b 30   N...'".: i.....+0
+00000010: 30 9d                                              0.
+....
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 1 | 0x4e | Class type indicator
+| 3 | 1 | | [yellow-background]*Unknown (flags?)*
+| 4 | 16 | | Shell folder identifier +
+Contains a GUID +
+For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+|===
 
 === 0x67 shell item
 
@@ -2683,207 +2684,6 @@ sub string 0x0b
 
 [NOTE]
 The My Computer folder identifier is unique for an installation of Windows.
-
-=== Related identifiers
-
-Related view interface IShellView
-
-[cols="1,1,5",options="header"]
-|===
-| Class identifier (CLSID) | Related interface identifier(s) (IID) | Related class
-| CLSID_ControlPanel | | CControlPanelFolder
-| CLSID_Internet | | CInternetFolder
-| CLSID_MyComputer | IID_IShellFolder +
-IID_IShellFolder2 | CDrivesFolder
-| CLSID_MyDocuments | |
-| CLSID_MruLongList | | CMruLongList
-| CLSID_MruPidlList | | CMruPidlList
-| CLSID_NetworkPlaces | | CNetRootFolder
-| CLSID_NetworkRoot | | CNetFolder
-| CLSID_Printers | | CPrinterFolder
-| CLSID_ShellDesktop | | CDesktopFolder
-| CLSID_ShellFSFolder | IID_IFileSystemBindData +
-IID_IFileSystemBindData2 | CFSFolder
-| CLSID_ShellItem | IID_IShellItem +
-IID_IShellItem2 | CShellItem
-|===
-
-What about SID_ names e.g. SID_SShellDesktop
-
-=== Class identifiers
-
-[cols="1,1",options="header"]
-|===
-| Interface identifier (IID) | GUID
-| CLSID_Briefcase | 85bbd920-42a0-1069-a2e4-08002b30309d
-| CLSID_BriefcaseFolder | 86747ac0-42a0-1069-a2e6-08002b30309d
-| CLSID_CCommonShellExtInit | a2ad3100-3b84-1069-a2df-08002b30309d
-| CLSID_CDocObjectFolder | e7e4bc40-e76a-11ce-a9bb-00aa004ae837
-| CLSID_CFonts | bd84b380-8ca2-1069-ab1d-08000948f534
-| CLSID_Clouds | 869dada0-42a0-1069-a2e7-08002b30309d
-| CLSID_CmdFileIcon | 57651662-ce3e-11d0-8d77-00c04fc99d61
-| CLSID_ControlPanel | 21ec2020-3aea-1069-a2dd-08002b30309d
-| CLSID_CShellFrameAuto | 20c46560-8491-11cf-960c-0080c7f4ee85
-| CLSID_CShellHlinkFrame | 2c5a8fc0-8401-11cf-a12b-00aa004ae837
-| CLSID_CSiteMapNode | a61d5780-ba29-11cf-952e-00c04fd705b4
-| CLSID_CStubBindStatusCallback | 2b4f54b1-3d6d-11d0-8258-00c04fd5ae38
-| CLSID_CURLFolder | 3dc7a020-0acd-11cf-a9bb-00aa004ae837
-| CLSID_ExeDropTarget | 86c86720-42a0-1069-a2e8-08002b30309d
-| CLSID_Internet | 871c5380-42a0-1069-a2ea-08002b30309d
-| CLSID_InternetShortcut | fbf23b40-e3f0-101b-8488-00aa003e56f8
-| CLSID_MruLongList | 53bd6b4e-3780-4693-afc3-7161c2f3ee9c
-| CLSID_MruPidlList | 42aedc87-2188-41fd-b9a3-0c966feabec1
-| CLSID_MyComputer | 20d04fe0-3aea-1069-a2d8-08002b30309d
-| CLSID_MyDocuments | 450d8fba-ad25-11d0-98a8-0800361b1103
-| CLSID_NetworkDomain | 46e06680-4bf0-11d1-83ee-00a0c90dc849
-| CLSID_NetworkPlaces | 208d2c60-3aea-1069-a2d7-08002b30309d
-| CLSID_NetworkRoot | 953d732d-ab45-11d2-84e0-00c04fa31a86
-| CLSID_NetworkServer | c0542a90-4bf0-11d1-83ee-00a0c90dc849
-| CLSID_NetworkShare | 54a754c0-4bf1-11d1-83ee-00a0c90dc849
-| CLSID_PifProperties | 86f19a00-42a0-1069-a2e9-08002b30309d
-| CLSID_Printers | 2227a280-3aea-1069-a2de-08002b30309d
-| CLSID_RecycleBin | 645ff040-5081-101b-9f08-00aa002f954e
-| CLSID_RegFolder | 0997898b-0713-11d2-a4aa-00c04f8eeb3e
-| CLSID_ShellCopyHook | 217fc9c0-3aea-1069-a2db-08002b30309d
-| CLSID_ShellDesktop | 00021400-0000-0000-c000-000000000046
-| CLSID_ShellDrvDefExt | 5f5295e0-429f-1069-a2e2-08002b30309d
-| CLSID_ShellFileDefExt | 21b22460-3aea-1069-a2dc-08002b30309d
-| CLSID_ShellFindExt | 61e218e0-65d3-101b-9f08-061ceac3d50d
-| CLSID_ShellFSFolder | f3364ba0-65b9-11ce-a9ba-00aa004ae837
-| CLSID_ShellItem | 9ac9fbe1-e0a2-4ad6-b4ee-e212013ea917
-| CLSID_ShellNetDefExt | 86422020-42a0-1069-a2e5-08002b30309d
-| CLSID_ShellSearchExt | 169a0691-8df9-11d1-a1c4-00c04fd75d13
-| CLSID_ShellViewerExt | 84f26ea0-42a0-1069-a2e3-08002b30309d
-| CLSID_WebSearchExt | 07798131-af23-11d1-9111-00a0c98ba67d
-| CLSID_FolderMarshalStub | bf50b68e-29b8-4386-ae9c-9734d5117cd5
-| CLSID_CDocObjectFolder | E7E4BC40-E76A-11CE-A9BB-00AA004AE837
-| CLSID_CBaseBrowser | A5E46E3A-8849-11D1-9D8C-00C04FC99D61
-| CLSID_TaskbarList | 56FDF344-FD6D-11d0-958A-006097C9A090
-| CLSID_ShellUIHelper | 64AB4BB7-111E-11d1-8F79-00C04FC2FBE1
-| CLSID_CUrlHistory | 3C374A40-BAE4-11CF-BF7D-00AA006946EE
-| CLSID_CURLSearchHook | CFBFAE00-17A6-11D0-99CB-00C04FD64497
-| CLSID_CStubBindStatusCallback | 2B4F54B1-3D6D-11d0-8258-00C04FD5AE38
-| CLSID_NSCTree | 43A8F463-4222-11d2-B641-006097DF5BD4
-| CLSID_Mshtml | 25336920-03F9-11CF-8FD0-00AA00686F13
-| CLSID_Internet | 871C5380-42A0-1069-A2EA-08002B30309D
-| CLSID_SHDocVwTypeLib | EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B
-| CLSID_WebBrowser1 | EAB22AC3-30C1-11CF-A7EB-0000C05BAE0B
-| CLSID_WebBrowser2 | 8856F961-340A-11D0-A96B-00C04FD705A2
-| CLSID_ShellDispatchInproc | 0A89A860-D7B1-11CE-8350-444553540000
-| CLSID_InternetShortcut | FBF23B40-E3F0-101B-8488-00AA003E56F8
-| CLSID_ShellLink | 00021401-0000-0000-C000-000000000046
-| CLSID_SplashScreen | A2B0DD40-CC59-11d0-A3A5-00C04FD706EC
-| CLSID_HIST | FF393560-C2A7-11CF-BFF4-444553540000
-| CLSID_CACHE | 7BD29E00-76C1-11CF-9DD0-00A0C9034933
-| CLSID_CACHE2 | 7BD29E01-76C1-11CF-9DD0-00A0C9034933
-| CLSID_WinListShellProc | ffdc1a80-d527-11d0-a32c-34af06c10000
-| CLSID_PanMap | BD84B381-8CA2-1069-AB1D-08000948F534
-| CLSID_CDFCopyHook | 67EA19A0-CCEF-11d0-8024-00C04FD75D13
-| CLSID_CacheCleaner | 9B0EFD60-F7B0-11D0-BAEF-00C04FC308C9
-| CLSID_OfflineCleaner | 8E6E6079-0CB7-11d2-8F10-0000F87ABD16
-| CLSID_DocFileInfoTip | 83799FE0-1F5A-11d1-95C7-00609797EA4F
-| CLSID_HostProxyISF | 4F748358-CD6B-11d0-9816-00C04FD91972
-| CLSID_DocHostUIHandler | 7057e952-bd1b-11d1-8919-00c04fc2c836
-| CLSID_ToolbarExtBand | E0DD6CAB-2D10-11d2-8F1A-0000F87ABD16
-| CLSID_ToolbarExtExec | 1FBA04EE-3024-11d2-8F1F-0000F87ABD16
-| CLSID_HistBand | EFA24E62-B078-11d0-89E4-00C04FC9E26E
-| CLSID_FavBand | EFA24E61-B078-11d0-89E4-00C04FC9E26E
-| CLSID_ExplorerBand | EFA24E64-B078-11d0-89E4-00C04FC9E26E
-| CLSID_NSCOC | 55136805-B2DE-11D1-B9F2-00A0C98BC547
-| CLSID_SearchAssistantOC | B45FF030-4447-11D2-85DE-00C04FA35C89
-| CLSID_TipOfTheDay | 4D5C8C25-D075-11d0-B416-00C04FB90376
-| CLSID_ISFBandOC | 131A6951-7F78-11D0-A979-00C04FD705A2
-| CLSID_SearchAssistant | 9461b922-3c5a-11d2-bf8b-00c04fb93661
-| CLSID_CShellFrameAuto | 20C46560-8491-11CF-960C-0080C7F4EE85
-| CLSID_CShellDataSource | D4903360-44DA-11D0-89E2-00A0C90A90AC
-|===
-
-=== Interface identifiers
-
-[cols="1,1",options="header"]
-|===
-| Interface identifier (IID) | GUID
-| IID_IAdviseSink | 0000010f-0000-0000-c000-000000000046
-| IID_ICommDlgBrowser | 000214f1-0000-0000-c000-000000000046
-| IID_IContextMenu | 000214e4-0000-0000-c000-000000000046
-| IID_IContextMenu2 | 000214f4-0000-0000-c000-000000000046
-| IID_ICopyHookA | 000214ef-0000-0000-c000-000000000046
-| IID_ICopyHookW | 000214fc-0000-0000-c000-000000000046
-| IID_IDataObject | 0000010e-0000-0000-c000-000000000046
-| IID_IEnumIDList | 000214f2-0000-0000-c000-000000000046
-| IID_IExtractIconA | 000214eb-0000-0000-c000-000000000046
-| IID_IExtractIconW | 000214fa-0000-0000-c000-000000000046
-| IID_IFileViewerA | 000214f0-0000-0000-c000-000000000046
-| IID_IFileViewerSite | 000214f3-0000-0000-c000-000000000046
-| IID_IFileViewerW | 000214f8-0000-0000-c000-000000000046
-| IID_INewShortcutHookA | 000214e1-0000-0000-c000-000000000046
-| IID_INewShortcutHookW | 000214f7-0000-0000-c000-000000000046
-| IID_IPersistFolder | 000214ea-0000-0000-c000-000000000046
-| IID_IShellBrowser | 000214e2-0000-0000-c000-000000000046
-| IID_IShellExecuteHookA | 000214f5-0000-0000-c000-000000000046
-| IID_IShellExecuteHookW | 000214fb-0000-0000-c000-000000000046
-| IID_IShellExtInit | 000214e8-0000-0000-c000-000000000046
-| IID_IShellFolder | 000214e6-0000-0000-c000-000000000046
-| IID_IShellFolder2 | 93f2f68c-1d1b-11d3-a30e-00c04f79abd1
-| IID_IShellIcon | 000214e5-0000-0000-c000-000000000046
-| IID_IShellItem | 43826d1e-e718-42ee-bc55-a1e261c37bfe
-| IID_IShellItem2 |
-| IID_IShellLinkA | 000214ee-0000-0000-c000-000000000046
-| IID_IShellLinkW | 000214f9-0000-0000-c000-000000000046
-| IID_IShellPropSheetExt | 000214e9-0000-0000-c000-000000000046
-| IID_IShellView | 000214e3-0000-0000-c000-000000000046
-| IID_IShellView2 | 88e39e80-3578-11cf-ae69-08002b2e1262
-|===
-
-=== Shell identifiers
-
-[cols="1,1",options="header"]
-|===
-| Shell Identifier (SID) | GUID
-| SID_IActiveDesktop | f490eb00-1240-11d1-9888-006097deacf9
-| SID_ICommDlgBrowser | 000214f1-0000-0000-c000-000000000046
-| SID_IContextMenu | 000214e4-0000-0000-c000-000000000046
-| SID_IContextMenu2 | 000214f4-0000-0000-c000-000000000046
-| SID_IContextMenu3 | bcfce0a0-ec17-11d0-8d10-00a0c90f2719
-| SID_IDeskBand | eb0fe172-1a3a-11d0-89b3-00a0c90a90ac
-| SID_IDockingWindow | 012dd920-7b26-11d0-8ca9-00a0c92dbfe8
-| SID_IDockingWindowFrame | 47d2657a-7b27-11d0-8ca9-00a0c92dbfe8
-| SID_IDockingWindowSite | 2a342fc2-7b26-11d0-8ca9-00a0c92dbfe8
-| SID_IEnumExtraSearch | 0e700be1-9db6-11d1-a1ce-00c04fd75d13
-| SID_IEnumIDList | 000214f2-0000-0000-c000-000000000046
-| SID_IExtractIconA | 000214eb-0000-0000-c000-000000000046
-| SID_IExtractIconW | 000214fa-0000-0000-c000-000000000046
-| SID_IFileViewerA | 000214f0-0000-0000-c000-000000000046
-| SID_IFileViewerSite | 000214f3-0000-0000-c000-000000000046
-| SID_IFileViewerW | 000214f8-0000-0000-c000-000000000046
-| SID_IInputObject | 68284faa-6a48-11d0-8c78-00c04fd918b4
-| SID_IInputObjectSite | f1db8392-7331-11d0-8c99-00a0c92dbfe8
-| SID_INewShortcutHookA | 000214e1-0000-0000-c000-000000000046
-| SID_INewShortcutHookW | 000214f7-0000-0000-c000-000000000046
-| SID_IPersistFolder | 000214ea-0000-0000-c000-000000000046
-| SID_IPersistFolder2 | 1ac3d9f0-175c-11d1-95be-00609797ea4f
-| SID_IPropSheetPage | 000214f6-0000-0000-c000-000000000046
-| SID_IQueryInfo | 00021500-0000-0000-c000-000000000046
-| SID_IShellBrowser | 000214e2-0000-0000-c000-000000000046
-| SID_IShellChangeNotify | 00000000-0000-0000-0000-000000000000
-| SID_IShellCopyHookA | 000214ef-0000-0000-c000-000000000046
-| SID_IShellCopyHookW | 000214fc-0000-0000-c000-000000000046
-| SID_IShellDetails | 000214ec-0000-0000-c000-000000000046
-| SID_IShellExecuteHookA | 000214f5-0000-0000-c000-000000000046
-| SID_IShellExecuteHookW | 000214fb-0000-0000-c000-000000000046
-| SID_IShellExtInit | 000214e8-0000-0000-c000-000000000046
-| SID_IShellFolder | 000214e6-0000-0000-c000-000000000046
-| SID_IShellFolder2 | b82c5aa8-a41b-11d2-be32-00c04fb93661
-| SID_IShellIcon | 000214e5-0000-0000-c000-000000000046
-| SID_IShellIconOverlay | 7d688a70-c613-11d0-999b-00c04fd655e1
-| SID_IShellIconOverlayIdentifier | 0c6c4200-c589-11d0-999a-00c04fd655e1
-| SID_IShellLinkA | 000214ee-0000-0000-c000-000000000046
-| SID_IShellLinkW | 000214f9-0000-0000-c000-000000000046
-| SID_IShellPropSheetExt | 000214e9-0000-0000-c000-000000000046
-| SID_IShellView | 000214e3-0000-0000-c000-000000000046
-| SID_IShellView2 | 88e39e80-3578-11cf-ae69-08002b2e1262
-| SID_IURLSearchHook | ac60f6a0-0fd9-11d0-99cb-00c04fd64497
-|===
 
 === Shell versions
 

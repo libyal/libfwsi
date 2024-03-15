@@ -174,6 +174,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libfwsi\libfwsi_acronis_tib_file_values.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\libfwsi\libfwsi_cdburn_values.c"
 				>
 			</File>
@@ -365,12 +369,20 @@
 				RelativePath="..\..\libfwsi\libfwsi_volume_values.c"
 				>
 			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_web_site_values.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_acronis_tib_file_values.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_cdburn_values.h"
 				>
@@ -613,6 +625,10 @@
 			</File>
 			<File
 				RelativePath="..\..\libfwsi\libfwsi_volume_values.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libfwsi\libfwsi_web_site_values.h"
 				>
 			</File>
 		</Filter>

@@ -234,7 +234,7 @@ int libfwsi_delegate_folder_values_read_data(
 
 		return( -1 );
 	}
-	delegate_folder_values->inner_data      = &( data[ 4 ] );
+	delegate_folder_values->inner_data      = &( data[ 6 ] );
 	delegate_folder_values->inner_data_size = inner_data_size;
 
 	if( memory_copy(

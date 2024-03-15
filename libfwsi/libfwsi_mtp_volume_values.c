@@ -220,7 +220,7 @@ int libfwsi_mtp_volume_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: class type indicator\t\t\t: 0x%02" PRIx8 "\n",
+		 "%s: class type indicator\t\t: 0x%02" PRIx8 "\n",
 		 function,
 		 data[ 2 ] );
 
@@ -239,7 +239,8 @@ int libfwsi_mtp_volume_values_read_data(
 		 function,
 		 signature );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	if( item_data_size == 0 )
 	{
 		return( 10 );
@@ -345,21 +346,22 @@ int libfwsi_mtp_volume_values_read_data(
 		 name_string_size );
 
 		libcnotify_printf(
-		 "%s: identifier string size\t\t\t: %" PRIu32 "\n",
+		 "%s: identifier string size\t\t: %" PRIu32 "\n",
 		 function,
 		 identifier_string_size );
 
 		libcnotify_printf(
-		 "%s: file system string size\t\t\t: %" PRIu32 "\n",
+		 "%s: file system string size\t\t: %" PRIu32 "\n",
 		 function,
 		 file_system_string_size );
 
 		libcnotify_printf(
-		 "%s: number of GUID strings\t\t\t: %" PRIu32 "\n",
+		 "%s: number of GUID strings\t\t: %" PRIu32 "\n",
 		 function,
 		 number_of_guid_strings );
 	}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 	data_offset = 54;
 
 	if( name_string_size > 0 )
@@ -372,7 +374,7 @@ int libfwsi_mtp_volume_values_read_data(
 		{
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
-			     "name\t\t\t\t\t",
+			     "name\t\t\t\t",
 			     &( data[ data_offset ] ),
 			     name_string_size,
 			     LIBUNA_ENDIAN_LITTLE,
@@ -430,7 +432,7 @@ int libfwsi_mtp_volume_values_read_data(
 		{
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
-			     "file system\t\t\t\t",
+			     "file system\t\t\t",
 			     &( data[ data_offset ] ),
 			     file_system_string_size,
 			     LIBUNA_ENDIAN_LITTLE,
@@ -459,7 +461,7 @@ int libfwsi_mtp_volume_values_read_data(
 		{
 			if( libfwsi_debug_print_utf16_string_value(
 			     function,
-			     "GUID\t\t\t\t\t",
+			     "GUID\t\t\t\t",
 			     &( data[ data_offset ] ),
 			     78,
 			     LIBUNA_ENDIAN_LITTLE,
@@ -532,7 +534,7 @@ int libfwsi_mtp_volume_values_read_data(
 		if( libcnotify_verbose != 0 )
 		{
 			libcnotify_printf(
-			 "%s: number of properties\t\t\t: %" PRIu32 "\n",
+			 "%s: number of properties\t\t: %" PRIu32 "\n",
 			 function,
 			 number_of_properties );
 		}
@@ -567,7 +569,7 @@ int libfwsi_mtp_volume_values_read_data(
 			{
 				if( libfwsi_debug_print_guid_value(
 				     function,
-				     "property set identifier\t\t\t",
+				     "property set identifier\t\t",
 				     &( data[ data_offset ] ),
 				     16,
 				     LIBFGUID_ENDIAN_LITTLE,
@@ -613,7 +615,7 @@ int libfwsi_mtp_volume_values_read_data(
 			if( libcnotify_verbose != 0 )
 			{
 				libcnotify_printf(
-				 "%s: property value type\t\t\t: 0x%08" PRIx32 " (%s : %s)\n",
+				 "%s: property value type\t\t: 0x%08" PRIx32 " (%s : %s)\n",
 				 function,
 				 property_value_type,
 				 libfole_value_type_get_identifier(
@@ -657,7 +659,7 @@ int libfwsi_mtp_volume_values_read_data(
 						 &( data[ data_offset ] ),
 						 value_16bit );
 						libcnotify_printf(
-						 "%s: value\t\t\t\t\t: 0x%04" PRIx16 "\n",
+						 "%s: value\t\t\t\t: 0x%04" PRIx16 "\n",
 						 function,
 						 value_16bit );
 
@@ -680,7 +682,7 @@ int libfwsi_mtp_volume_values_read_data(
 						 &( data[ data_offset ] ),
 						 value_32bit );
 						libcnotify_printf(
-						 "%s: value\t\t\t\t\t: 0x%08" PRIx32 "\n",
+						 "%s: value\t\t\t\t: 0x%08" PRIx32 "\n",
 						 function,
 						 value_32bit );
 
@@ -703,7 +705,7 @@ int libfwsi_mtp_volume_values_read_data(
 					if( libcnotify_verbose != 0 )
 					{
 						libcnotify_printf(
-						 "%s: string size\t\t\t\t: %" PRIu32 "\n",
+						 "%s: string size\t\t\t: %" PRIu32 "\n",
 						 function,
 						 string_size );
 					}
@@ -717,7 +719,7 @@ int libfwsi_mtp_volume_values_read_data(
 						{
 							if( libfwsi_debug_print_utf16_string_value(
 							     function,
-							     "string\t\t\t\t\t",
+							     "string\t\t\t\t",
 							     &( data[ data_offset ] ),
 							     string_size,
 							     LIBUNA_ENDIAN_LITTLE,
@@ -749,7 +751,7 @@ int libfwsi_mtp_volume_values_read_data(
 					{
 						if( libfwsi_debug_print_guid_value(
 						     function,
-						     "GUID\t\t\t\t\t",
+						     "GUID\t\t\t\t",
 						     &( data[ data_offset ] ),
 						     16,
 						     LIBFGUID_ENDIAN_LITTLE,

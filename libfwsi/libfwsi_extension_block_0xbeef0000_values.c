@@ -240,7 +240,7 @@ int libfwsi_extension_block_0xbeef0000_values_read_data(
 			}
 			if( libfwsi_debug_print_guid_value(
 			     function,
-			     "unknown identifier\t",
+			     "unknown identifier\t\t",
 			     &( data[ 24 ] ),
 			     16,
 			     LIBFGUID_ENDIAN_LITTLE,
@@ -257,7 +257,7 @@ int libfwsi_extension_block_0xbeef0000_values_read_data(
 				return( -1 );
 			}
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )

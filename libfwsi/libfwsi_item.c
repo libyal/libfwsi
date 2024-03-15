@@ -24,6 +24,7 @@
 #include <memory.h>
 #include <types.h>
 
+#include "libfwsi_acronis_tib_file_values.h"
 #include "libfwsi_cdburn_values.h"
 #include "libfwsi_compressed_folder_values.h"
 #include "libfwsi_codepage.h"
@@ -53,6 +54,7 @@
 #include "libfwsi_uri_sub_values.h"
 #include "libfwsi_users_property_view_values.h"
 #include "libfwsi_volume_values.h"
+#include "libfwsi_web_site_values.h"
 
 /* Creates an item
  * Make sure the value item is referencing, is set to NULL
@@ -506,7 +508,7 @@ int libfwsi_item_copy_from_byte_stream(
 			     libfwsi_shell_folder_identifier_search_folder,
 			     16 ) == 0 )
 			{
-				/* Do not realign shell_item_data */ 
+				/* Do not realign shell_item_data */
 			}
 			else if( memory_compare(
 			          delegate_folder_values->identifier,
@@ -547,6 +549,23 @@ int libfwsi_item_copy_from_byte_stream(
 		}
 	}
 	if( ( internal_item->type == 0 )
+	 && ( shell_item_data_size >= 6 ) )
+	{
+		byte_stream_copy_to_uint32_little_endian(
+		 &( shell_item_data[ 2 ] ),
+		 signature );
+
+		switch( signature )
+		{
+			case 0xacb16752UL:
+				internal_item->type = LIBFWSI_ITEM_TYPE_ACRONIS_TIB_FILE;
+				break;
+
+			default:
+				break;
+		}
+	}
+	if( ( internal_item->type == 0 )
 	 && ( shell_item_data_size >= 8 ) )
 	{
 		byte_stream_copy_to_uint32_little_endian(
@@ -567,6 +586,10 @@ int libfwsi_item_copy_from_byte_stream(
 			/* "GFSI" */
 			case 0x49534647UL:
 				internal_item->type = LIBFWSI_ITEM_TYPE_GAME_FOLDER;
+				break;
+
+			case 0xc001b000UL:
+				internal_item->type = LIBFWSI_ITEM_TYPE_WEB_SITE;
 				break;
 
 			case 0xffffff38UL:
@@ -598,12 +621,43 @@ int libfwsi_item_copy_from_byte_stream(
 			case 0x23a3dfd5UL:
 			case 0x23febbeeUL:
 			case 0x3b93afbbUL:
+			case 0x49505241UL:
 			case 0xbeebee00UL:
 				internal_item->type = LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW;
 				break;
 
 			default:
 				break;
+		}
+	}
+	if( ( internal_item->type == 0 )
+	 && ( shell_item_data_size >= 56 ) )
+	{
+		if( ( shell_item_data[ 28 ] == (uint8_t) '/' )
+		 && ( shell_item_data[ 29 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 34 ] == (uint8_t) '/' )
+		 && ( shell_item_data[ 35 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 40 ] == (uint8_t) ' ' )
+		 && ( shell_item_data[ 41 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 42 ] == (uint8_t) ' ' )
+		 && ( shell_item_data[ 43 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 48 ] == (uint8_t) ':' )
+		 && ( shell_item_data[ 49 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 54 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 55 ] == (uint8_t) 0 ) )
+		{
+			internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
+		}
+		else if( ( shell_item_data[ 36 ] == (uint8_t) 'N' )
+		      && ( shell_item_data[ 37 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 38 ] == (uint8_t) '/' )
+		      && ( shell_item_data[ 39 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 40 ] == (uint8_t) 'A' )
+		      && ( shell_item_data[ 41 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 42 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 43 ] == (uint8_t) 0 ) )
+		{
+			internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
 		}
 	}
 	if( ( internal_item->type == 0 )
@@ -641,20 +695,13 @@ int libfwsi_item_copy_from_byte_stream(
 				internal_item->type = LIBFWSI_ITEM_TYPE_NETWORK_LOCATION;
 				break;
 
-			case 0x50:
-				if( internal_item->class_type == 0x52 )
-				{
-					internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
-				}
-				break;
-
 			case 0x60:
 				if( internal_item->class_type == 0x61 )
 				{
 					internal_item->type = LIBFWSI_ITEM_TYPE_URI;
 				}
 				break;
-	
+
 			case 0x70:
 				if( internal_item->class_type == 0x71 )
 				{
@@ -680,47 +727,56 @@ int libfwsi_item_copy_from_byte_stream(
 
 		goto on_error;
 	}
-	if( ( internal_parent_item != NULL )
-	 && ( internal_parent_item->type == LIBFWSI_ITEM_TYPE_URI ) )
+	if( internal_parent_item != NULL )
 	{
-		internal_item->type = LIBFWSI_ITEM_TYPE_URI_SUB_VALUES;
-
-		internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_uri_sub_values_free;
-
-		if( libfwsi_uri_sub_values_initialize(
-		     (libfwsi_uri_sub_values_t **) &( internal_item->value ),
-		     error ) != 1 )
+		switch( internal_parent_item->type )
 		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create URI sub values.",
-			 function );
+			case LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER:
+				internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
+				break;
 
-			goto on_error;
-		}
-		result = libfwsi_uri_sub_values_read_data(
-		          (libfwsi_uri_sub_values_t *) internal_item->value,
-		          shell_item_data,
-		          shell_item_data_size,
-		          ascii_codepage,
-		          error );
-
-		if( result == -1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_IO,
-			 LIBCERROR_IO_ERROR_READ_FAILED,
-			 "%s: unable to read URI sub values.",
-			 function );
-
-			goto on_error;
+			case LIBFWSI_ITEM_TYPE_URI:
+				internal_item->type = LIBFWSI_ITEM_TYPE_URI_SUB_VALUES;
+				break;
 		}
 	}
-	else switch( internal_item->type )
+	switch( internal_item->type )
 	{
+		case LIBFWSI_ITEM_TYPE_ACRONIS_TIB_FILE:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_acronis_tib_file_values_free;
+
+			if( libfwsi_acronis_tib_file_values_initialize(
+			     (libfwsi_acronis_tib_file_values_t **) &( internal_item->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create Acronis True Image (TIB) file values.",
+				 function );
+
+				goto on_error;
+			}
+			result = libfwsi_acronis_tib_file_values_read_data(
+			          (libfwsi_acronis_tib_file_values_t *) internal_item->value,
+			          shell_item_data,
+			          shell_item_data_size,
+			          error );
+
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_IO,
+				 LIBCERROR_IO_ERROR_READ_FAILED,
+				 "%s: unable to read Acronis True Image (TIB) file values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
 		case LIBFWSI_ITEM_TYPE_CDBURN:
 			internal_item->signature  = signature;
 			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_cdburn_values_free;
@@ -1149,6 +1205,42 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			break;
 
+		case LIBFWSI_ITEM_TYPE_URI_SUB_VALUES:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_uri_sub_values_free;
+
+			if( libfwsi_uri_sub_values_initialize(
+			     (libfwsi_uri_sub_values_t **) &( internal_item->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create URI sub values.",
+				 function );
+
+				goto on_error;
+			}
+			result = libfwsi_uri_sub_values_read_data(
+			          (libfwsi_uri_sub_values_t *) internal_item->value,
+			          shell_item_data,
+			          shell_item_data_size,
+			          ascii_codepage,
+			          error );
+
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_IO,
+				 LIBCERROR_IO_ERROR_READ_FAILED,
+				 "%s: unable to read URI sub values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
 		case LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW:
 			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_users_property_view_values_free;
 
@@ -1215,6 +1307,41 @@ int libfwsi_item_copy_from_byte_stream(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_READ_FAILED,
 				 "%s: unable to read volume values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
+		case LIBFWSI_ITEM_TYPE_WEB_SITE:
+			internal_item->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_web_site_values_free;
+
+			if( libfwsi_web_site_values_initialize(
+			     (libfwsi_web_site_values_t **) &( internal_item->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create web site values.",
+				 function );
+
+				goto on_error;
+			}
+			result = libfwsi_web_site_values_read_data(
+			          (libfwsi_web_site_values_t *) internal_item->value,
+			          shell_item_data,
+			          shell_item_data_size,
+			          error );
+
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_IO,
+				 LIBCERROR_IO_ERROR_READ_FAILED,
+				 "%s: unable to read web site values.",
 				 function );
 
 				goto on_error;

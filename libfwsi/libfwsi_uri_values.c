@@ -319,7 +319,8 @@ int libfwsi_uri_values_read_data(
 			 function,
 			 value_32bit );
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset    += 36;
 		item_data_size -= 36;
 
@@ -381,7 +382,8 @@ int libfwsi_uri_values_read_data(
 			 string_data_size,
 			 0 );
 		}
-#endif
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
+
 		data_offset    += string_data_size;
 		item_data_size -= string_data_size;
 
