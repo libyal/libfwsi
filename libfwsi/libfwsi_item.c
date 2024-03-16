@@ -512,12 +512,12 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			else if( memory_compare(
 			          delegate_folder_values->identifier,
-			          libfwsi_shell_folder_identifier_users_files_folder,
+			          libfwsi_shell_folder_identifier_users_files_folder_delegate_folder,
 			          16 ) == 0 )
 			{
 /* TODO debug print unknown data */
-				shell_item_data      = &( delegate_folder_values->inner_data[ 6 ] );
-				shell_item_data_size = delegate_folder_values->inner_data_size - 6;
+				shell_item_data      = &( delegate_folder_values->inner_data[ 4 ] );
+				shell_item_data_size = delegate_folder_values->inner_data_size - 4;
 			}
 			else if( memory_compare(
 			          delegate_folder_values->identifier,
@@ -525,8 +525,8 @@ int libfwsi_item_copy_from_byte_stream(
 			          16 ) == 0 )
 			{
 /* TODO debug print unknown data */
-				shell_item_data      = &( delegate_folder_values->inner_data[ 6 ] );
-				shell_item_data_size = delegate_folder_values->inner_data_size - 6;
+				shell_item_data      = &( delegate_folder_values->inner_data[ 4 ] );
+				shell_item_data_size = delegate_folder_values->inner_data_size - 4;
 			}
 			else
 			{
