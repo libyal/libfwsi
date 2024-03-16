@@ -236,10 +236,8 @@ int libfwsi_file_entry_get_utf8_name_size(
      size_t *utf8_string_size,
      libcerror_error_t **error )
 {
-	libfwsi_internal_item_t *internal_item         = NULL;
-	libfwsi_file_entry_values_t *file_entry_values = NULL;
-	static char *function                          = "libfwsi_file_entry_get_utf8_name_size";
-	int result                                     = 0;
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_file_entry_get_utf8_name_size";
 
 	if( file_entry == NULL )
 	{
@@ -265,44 +263,17 @@ int libfwsi_file_entry_get_utf8_name_size(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid file entry - missing value.",
-		 function );
-
-		return( -1 );
-	}
-	file_entry_values = (libfwsi_file_entry_values_t *) internal_item->value;
-
-	if( file_entry_values->is_unicode != 0 )
-	{
-		result = libuna_utf8_string_size_from_utf16_stream(
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
-			  utf8_string_size,
-			  error );
-	}
-	else
-	{
-		result = libuna_utf8_string_size_from_byte_stream(
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-		          internal_item->ascii_codepage,
-			  utf8_string_size,
-			  error );
-	}
-	if( result != 1 )
+	if( libfwsi_file_entry_values_get_utf8_name_size(
+	     (libfwsi_file_entry_values_t *) internal_item->value,
+	     utf8_string_size,
+	     internal_item->ascii_codepage,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to determine size of UTF-8 string.",
+		 "%s: unable to retrieve size of UTF-8 string.",
 		 function );
 
 		return( -1 );
@@ -321,10 +292,8 @@ int libfwsi_file_entry_get_utf8_name(
      size_t utf8_string_size,
      libcerror_error_t **error )
 {
-	libfwsi_internal_item_t *internal_item         = NULL;
-	libfwsi_file_entry_values_t *file_entry_values = NULL;
-	static char *function                          = "libfwsi_file_entry_get_utf8_name";
-	int result                                     = 0;
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_file_entry_get_utf8_name";
 
 	if( file_entry == NULL )
 	{
@@ -350,46 +319,18 @@ int libfwsi_file_entry_get_utf8_name(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid file entry - missing value.",
-		 function );
-
-		return( -1 );
-	}
-	file_entry_values = (libfwsi_file_entry_values_t *) internal_item->value;
-
-	if( file_entry_values->is_unicode != 0 )
-	{
-		result = libuna_utf8_string_copy_from_utf16_stream(
-		          utf8_string,
-		          utf8_string_size,
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
-			  error );
-	}
-	else
-	{
-		result = libuna_utf8_string_copy_from_byte_stream(
-		          utf8_string,
-		          utf8_string_size,
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-		          internal_item->ascii_codepage,
-			  error );
-	}
-	if( result != 1 )
+	if( libfwsi_file_entry_values_get_utf8_name(
+	     (libfwsi_file_entry_values_t *) internal_item->value,
+	     utf8_string,
+	     utf8_string_size,
+	     internal_item->ascii_codepage,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable to set UTF-8 string.",
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve UTF-8 string.",
 		 function );
 
 		return( -1 );
@@ -407,10 +348,8 @@ int libfwsi_file_entry_get_utf16_name_size(
      size_t *utf16_string_size,
      libcerror_error_t **error )
 {
-	libfwsi_internal_item_t *internal_item         = NULL;
-	libfwsi_file_entry_values_t *file_entry_values = NULL;
-	static char *function                          = "libfwsi_file_entry_get_utf16_name_size";
-	int result                                     = 0;
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_file_entry_get_utf16_name_size";
 
 	if( file_entry == NULL )
 	{
@@ -436,44 +375,17 @@ int libfwsi_file_entry_get_utf16_name_size(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid file entry - missing value.",
-		 function );
-
-		return( -1 );
-	}
-	file_entry_values = (libfwsi_file_entry_values_t *) internal_item->value;
-
-	if( file_entry_values->is_unicode != 0 )
-	{
-		result = libuna_utf16_string_size_from_utf16_stream(
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
-			  utf16_string_size,
-			  error );
-	}
-	else
-	{
-		result = libuna_utf16_string_size_from_byte_stream(
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-		          internal_item->ascii_codepage,
-			  utf16_string_size,
-			  error );
-	}
-	if( result != 1 )
+	if( libfwsi_file_entry_values_get_utf16_name_size(
+	     (libfwsi_file_entry_values_t *) internal_item->value,
+	     utf16_string_size,
+	     internal_item->ascii_codepage,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to determine size of UTF-16 string.",
+		 "%s: unable to retrieve size of UTF-16 string.",
 		 function );
 
 		return( -1 );
@@ -492,10 +404,8 @@ int libfwsi_file_entry_get_utf16_name(
      size_t utf16_string_size,
      libcerror_error_t **error )
 {
-	libfwsi_internal_item_t *internal_item         = NULL;
-	libfwsi_file_entry_values_t *file_entry_values = NULL;
-	static char *function                          = "libfwsi_file_entry_get_utf16_name";
-	int result                                     = 0;
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_file_entry_get_utf16_name";
 
 	if( file_entry == NULL )
 	{
@@ -521,46 +431,18 @@ int libfwsi_file_entry_get_utf16_name(
 
 		return( -1 );
 	}
-	if( internal_item->value == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid file entry - missing value.",
-		 function );
-
-		return( -1 );
-	}
-	file_entry_values = (libfwsi_file_entry_values_t *) internal_item->value;
-
-	if( file_entry_values->is_unicode != 0 )
-	{
-		result = libuna_utf16_string_copy_from_utf16_stream(
-		          utf16_string,
-		          utf16_string_size,
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
-			  error );
-	}
-	else
-	{
-		result = libuna_utf16_string_copy_from_byte_stream(
-		          utf16_string,
-		          utf16_string_size,
-			  file_entry_values->name,
-			  file_entry_values->name_size,
-		          internal_item->ascii_codepage,
-			  error );
-	}
-	if( result != 1 )
+	if( libfwsi_file_entry_values_get_utf16_name(
+	     (libfwsi_file_entry_values_t *) internal_item->value,
+	     utf16_string,
+	     utf16_string_size,
+	     internal_item->ascii_codepage,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-		 "%s: unable to set UTF-16 string.",
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve UTF-16 string.",
 		 function );
 
 		return( -1 );

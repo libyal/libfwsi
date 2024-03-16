@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_compressed_folder.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_control_panel_category.c"
 				>
 			</File>
@@ -261,6 +265,10 @@
 			</File>
 			<File
 				RelativePath="..\..\pyfwsi\pyfwsi_codepage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\pyfwsi\pyfwsi_compressed_folder.h"
 				>
 			</File>
 			<File

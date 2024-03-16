@@ -386,7 +386,7 @@ int libfwsi_users_property_view_values_read_data(
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: property set data:\n",
+		 "%s: property store data:\n",
 		 function );
 		libcnotify_print_data(
 		 &( data[ data_offset ] ),

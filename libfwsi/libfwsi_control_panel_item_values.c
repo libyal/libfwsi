@@ -184,7 +184,7 @@ int libfwsi_control_panel_item_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( data[ 2 ] != 0x71 )
 	{

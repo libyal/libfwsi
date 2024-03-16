@@ -37,6 +37,7 @@
 #include "libfwsi_extension_block_0xbeef0019_values.h"
 #include "libfwsi_extension_block_0xbeef0025_values.h"
 #include "libfwsi_extension_block_0xbeef0026_values.h"
+#include "libfwsi_extension_block_0xbeef0027_values.h"
 #include "libfwsi_extension_block_0xbeef0029_values.h"
 #include "libfwsi_file_entry_extension_values.h"
 #include "libfwsi_libcerror.h"
@@ -746,6 +747,42 @@ int libfwsi_extension_block_copy_from_byte_stream(
 			}
 			break;
 
+		case 0xbeef0027UL:
+			internal_extension_block->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_extension_block_0xbeef0027_values_free;
+
+			if( libfwsi_extension_block_0xbeef0027_values_initialize(
+			     (libfwsi_extension_block_0xbeef0027_values_t **) &( internal_extension_block->value ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
+				 "%s: unable to create extension block 0xbeef0027 values.",
+				 function );
+
+				goto on_error;
+			}
+			result = libfwsi_extension_block_0xbeef0027_values_read_data(
+			          (libfwsi_extension_block_0xbeef0027_values_t *) internal_extension_block->value,
+			          byte_stream,
+			          internal_extension_block->data_size,
+			          ascii_codepage,
+			          error );
+
+			if( result == -1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
+				 "%s: unable to copy byte stream to extension block 0xbeef0027 values.",
+				 function );
+
+				goto on_error;
+			}
+			break;
+
 		case 0xbeef0029UL:
 			internal_extension_block->free_value = (int (*)(intptr_t **, libcerror_error_t **)) &libfwsi_extension_block_0xbeef0029_values_free;
 
@@ -832,13 +869,14 @@ int libfwsi_extension_block_copy_from_byte_stream(
 		 value_16bit );
 
 		libcnotify_printf(
-		 "%s: version offset\t\t: %" PRIu16 "\n",
+		 "%s: first extention offset\t: %" PRIu16 "\n",
 		 function,
 		 value_16bit );
+
+		libcnotify_printf(
+		 "\n" );
 	}
 #endif
-	byte_stream_offset += 2;
-
 	return( 1 );
 
 on_error:

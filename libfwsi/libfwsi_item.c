@@ -648,14 +648,35 @@ int libfwsi_item_copy_from_byte_stream(
 		{
 			internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
 		}
-		else if( ( shell_item_data[ 36 ] == (uint8_t) 'N' )
-		      && ( shell_item_data[ 37 ] == (uint8_t) 0 )
-		      && ( shell_item_data[ 38 ] == (uint8_t) '/' )
-		      && ( shell_item_data[ 39 ] == (uint8_t) 0 )
-		      && ( shell_item_data[ 40 ] == (uint8_t) 'A' )
+	}
+	if( ( internal_item->type == 0 )
+	 && ( shell_item_data_size >= 78 ) )
+	{
+		if( ( shell_item_data[ 36 ] == (uint8_t) 'N' )
+		 && ( shell_item_data[ 37 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 38 ] == (uint8_t) '/' )
+		 && ( shell_item_data[ 39 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 40 ] == (uint8_t) 'A' )
+		 && ( shell_item_data[ 41 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 42 ] == (uint8_t) 0 )
+		 && ( shell_item_data[ 43 ] == (uint8_t) 0 ) )
+		{
+			internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
+		}
+		else if( ( shell_item_data[ 40 ] == (uint8_t) '/' )
 		      && ( shell_item_data[ 41 ] == (uint8_t) 0 )
-		      && ( shell_item_data[ 42 ] == (uint8_t) 0 )
-		      && ( shell_item_data[ 43 ] == (uint8_t) 0 ) )
+		      && ( shell_item_data[ 46 ] == (uint8_t) '/' )
+		      && ( shell_item_data[ 47 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 56 ] == (uint8_t) ' ' )
+		      && ( shell_item_data[ 57 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 58 ] == (uint8_t) ' ' )
+		      && ( shell_item_data[ 59 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 64 ] == (uint8_t) ':' )
+		      && ( shell_item_data[ 65 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 70 ] == (uint8_t) ':' )
+		      && ( shell_item_data[ 71 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 76 ] == (uint8_t) 0 )
+		      && ( shell_item_data[ 77 ] == (uint8_t) 0 ) )
 		{
 			internal_item->type = LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER;
 		}

@@ -63,6 +63,12 @@ int libfwsi_debug_print_guid_value(
      uint32_t string_format_flags,
      libcerror_error_t **error );
 
+int libfwsi_debug_print_property_set_value(
+     const uint8_t *byte_stream,
+     size_t byte_stream_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
 int libfwsi_debug_print_property_store_value(
      const uint8_t *byte_stream,
      size_t byte_stream_size,

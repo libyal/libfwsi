@@ -190,7 +190,7 @@ int libfwsi_delegate_folder_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( memory_compare(
 	     &( data[ data_size - 32 ] ),

@@ -268,7 +268,7 @@ be a sub-type or flags.
 Values that have been seen: 0x23, 0x25, 0x29, 0x2a, 0x2e, 0x2f
 
 The value in the last two bytes of the shell can be used to find the offset of
-the extension block version and if this value is sane the file entry shell item
+the first extension block and if this value is sane the file entry shell item
 contains an extension block (Windows XP or later).
 
 The volume shell item is variable bytes in size and consists of the following
@@ -299,8 +299,7 @@ For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wi
 [yellow-background]*Also seen in combination with Documents folder namespace CLSID, maybe this value should be Class identifier?*
 4+| _Present if shell item contains more data_
 | ... | ... | | Extension block +
-[yellow-background]*Seen extension block 0xbeef0025 and 0xbeef0026.* +
-See section: <<extension_block_0xbeef0025,Extension block 0xbeef0025>> and <<extension_block_0xbeef0026,Extension block 0xbeef0026>>
+See section: <<extension_block_0xbeef0025,Extension block 0xbeef0025>>, <<extension_block_0xbeef0026,Extension block 0xbeef0026>> or <<extension_block_0xbeef0026,Extension block 0xbeef0027>>
 |===
 
 === [[file_entry_shell_item]]File entry shell item
@@ -325,7 +324,7 @@ Values that have been seen: 0x30, 0x31, 0x32, 0x35, 0x36, 0xb1.
 [yellow-background]*Possible other values: 0x38.*
 
 The value in the last two bytes of the shell can be used to find the offset of
-the extension block version and if this value is sane the file entry shell item
+the first extension block and if this value is sane the file entry shell item
 contains an extension block (Windows XP or later) or otherwise the secondary
 name value (pre Windows XP).
 
@@ -1328,6 +1327,10 @@ Seen: 4
 A compressed folder shell item represents the contents of a ZIP archive
 file.
 
+[NOTE]
+Note that Windows shell emulates shell items for directories, since the ZIP
+archive technically does not store directories.
+
 ==== Windows XP
 
 The compressed folder shell item is of variable size and consists of the
@@ -1341,21 +1344,21 @@ Includes the 2 bytes of the size itself
 | 2 | 2 | | [yellow-background]*Unknown* +
 Seen: 0x08, 0x0b, 0x12
 | 4 | 16 | | [yellow-background]*Unknown (empty values)*
-| 20 | 2 | | [yellow-background]*Unknown* +
-Seen: 0x10, 0x30
-| 22 | 2 | | [yellow-background]*Unknown* +
-Seen: 0x00, 0x01
-| 24 | 32 | | [yellow-background]*Unknown (date and time string "11/26/04  21:00")*
+| 20 | 2 | | [yellow-background]*Unknown (ZIP external file attibutes?)*
+| 22 | 2 | | [yellow-background]*Unknown (ZIP disk number start?)*
+| 24 | 32 | | Last modification time +
+Contains an UTF-16 little-endian string with end-of-string character formatted as "mm/dd/yy  HH:MM" for example "11/26/04  21:00"
 | 56 | 2 | | [yellow-background]*Unknown (empty values)*
 | 58 | 2 | | [yellow-background]*Unknown* +
 Seen: 0x08, 0x0b, 0x72
-| 60 | 4 | | String1 number of characters
-| 64 | 4 | | String2 number of characters
-| 68 | ... | | String1 data +
+| 60 | 4 | | Name string size +
+Contains the number of characters without the enf-of-string character
+| 64 | 4 | | String2 size +
+Contains the number of characters without the enf-of-string character
+| 68 | ... | | Name string data +
 Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | String2 data +
 Contains an UTF-16 little-endian string with end-of-string character
-| ... | ... | | [yellow-background]*Unknown (trailing/remnant data)*
 |===
 
 ==== Windows 10
@@ -1369,18 +1372,16 @@ following values:
 | 0 | 2 | | The size of the shell item +
 Includes the 2 bytes of the size itself
 | 2 | 6 | | [yellow-background]*Unknown*
-| 8 | 8 | | Uncompressed file size
-| 16 | 8 | | Compressed file size
+| 8 | 8 | | Uncompressed size
+| 16 | 8 | | Compressed size
 | 24 | 2 | | Compression method +
 Seen: 0x00 (none), 0x08 (DEFLATE)
 | 26 | 2 | | [yellow-background]*Unknown*
 | 28 | 4 | | Checksum (CRC-32) +
 Contains 0 if not available
-| 32 | 2 | | [yellow-background]*Unknown* +
-Seen: 0x10 (folder?), 0x20 (file?)
-| 34 | 2 | | [yellow-background]*Unknown*
-Seen: 0x00 and 0x01
-4+| _If value at offset 34 is 0x00_
+| 32 | 2 | | [yellow-background]*Unknown (ZIP external file attibutes?)*
+| 34 | 2 | | [yellow-background]*Unknown (ZIP disk number start? or flag to control the date and time string?)*
+4+| _If value at offset 34 is "N/A" string_
 | 36 | 8 | "4e 00 2f 00 41 00 00 00" | [yellow-background]*Unknown ("N/A" string)*
 | 44 | 4 | | [yellow-background]*Unknown (empty values)*
 | 48 | 4 | | [yellow-background]*Unknown (FAT date time?)*
@@ -1391,20 +1392,23 @@ Seen: 0x00 and 0x01
 | 68 | 4 | | [yellow-background]*Unknown (empty values)*
 | 72 | 4 | 0x01 | [yellow-background]*Unknown*
 | 78 | 4 | | [yellow-background]*Unknown (empty values)*
-4+| _If value at offset 34 is 0x01_
-| 36 | 42 | | [yellow-background]*Unknown (date and time string "06/15/2021  18:24:28")*
+4+| _If value at offset 34 is date and time string_
+| 36 | 42 | | Last modification time +
+Contains an UTF-16 little-endian string with end-of-string character formatted as "mm/dd/yyyy  HH:MM:SS" for example "06/15/2021  18:24:28"
 4+| _Common_
 | 78 | 2 | | [yellow-background]*Unknown (empty values)*
 | 80 | 2 | | [yellow-background]*Unknown* +
 Seen: 0x00, 0x01, 0x04, 0x0c, 0xffff
 | 82 | 2 | | [yellow-background]*Unknown (empty values)*
-| 84 | 4 | | String1 number of characters
-| 88 | 4 | | String2 number of characters
-| 94 | ... | | String1  +
+| 84 | 4 | | Name string size +
+Contains the number of characters without the enf-of-string character
+| 88 | 4 | | String2 size +
+Contains the number of characters without the enf-of-string character
+| 92 | ... | | Name string  +
 Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | String2  +
 Contains an UTF-16 little-endian string with end-of-string character
-| ... | ... | | [yellow-background]*Unknown (trailing/remnant data)*
+| ... | 4 | | [yellow-background]*Unknown*
 |===
 
 == Unknown shell items
@@ -1638,17 +1642,16 @@ Includes the 2 bytes of the size itself, 0 if the extension block is empty
 | 2 | 2 | | Extension version
 | 4 | 4 | | Extension signature
 | 8 | ... | | Extension block data
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
 The extension signature seems to always consist of 0xbeef followed by a 16-bit
 value that indicates the block type.
 
-The first extension block version offset value is likely used to determine if
-the file shell entry item contains the secondary name or not. So likely this
-value is used for internal validation of the shell item and extension block
-data.
+The first extension block offset value is likely used to determine if the file
+shell entry item contains the secondary name or not. So likely this value is
+used for internal validation of the shell item and extension block data.
 
 === [[extension_block_0xbeef0000]]Extension block 0xbeef0000
 
@@ -1670,7 +1673,7 @@ Contains a GUID
 | 24 | 16 | [yellow-background]*Unknown* +
 [yellow-background]*Contains a GUID (related to TopViews?)*
 4+| _Common_
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -1741,7 +1744,7 @@ Includes the 2 bytes of the size itself
 | 8 | 16 | | Shell folder identifier +
 Contains a GUID +
 For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
-| 24 | 2 | | First extension block version offset +
+| 24 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -1801,7 +1804,7 @@ E.g. @shell32.dll,-21781
 Contains an UTF-16 little-endian string with end-of-string character +
 E.g. @shell32.dll,-21781
 4+| _If extension version >= 3_
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -1839,7 +1842,7 @@ Includes the 2 bytes of the size itself
 | 8 | 16 | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*Could this be reserved for a GUID?*
 | 24 | ... | | Embedded shell item list
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -1861,7 +1864,7 @@ Includes the 2 bytes of the size itself
 | 4 | 4 | 0xbeef0006 | Extension signature
 | 8 | ... | | Username +
 Contains an UTF-16 little-endian string with end-of-string character
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -1893,7 +1896,7 @@ Contains an UTF-16 little-endian string with end-of-string character
 Contains an UTF-16 little-endian string with end-of-string character
 | ... | ... | | [yellow-background]*Unknown*
 | | | |
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -1970,7 +1973,7 @@ Includes the 2 bytes of the size itself
 | 2 | 2 | 0 | Extension version
 | 4 | 4 | 0xbeef000a | Extension signature
 | 8 | 4 | | [yellow-background]*Unknown (empty values)*
-| 12 | 2 | | First extension block version offset +
+| 12 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2016,7 +2019,7 @@ Contains an UTF-16 little-endian string with end-of-string character +
 | ... | ... | | [yellow-background]*Unknown (empty values)* +
 [yellow-background]*Maybe an empty string array or 4-byte alignment padding?*
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2041,7 +2044,7 @@ Includes the 2 bytes of the size itself
 | 6 | 2 | | [yellow-background]*Unknown (number of sub shell items?)* +
 [yellow-background]*Seen: 0x0002*
 | 8 | ... | | Sub shell item list
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2066,7 +2069,7 @@ See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Propert
 4+| _Common_
 | ... | 4 | | [yellow-background]*Unknown*
 | ... | 12 | | [yellow-background]*Unknown (empty values)*
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2167,7 +2170,7 @@ Includes the 2 bytes of the size itself
 | 8 | 4 | | [yellow-background]*Unknown (1 byte of size of the data including itself or flags?)*
 | 12 | 24 | | [yellow-background]*Unknown (Empty values)*
 | 36 | 4 | | [yellow-background]*Unknown*
-| 40 | 2 | | First extension block version offset +
+| 40 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2184,7 +2187,7 @@ Includes the 2 bytes of the size itself
 | 4 | 4 | 0xbeef0014 | Extension signature
 | 8 | 16 | | Class identifier
 | 24 | ... | | Class data
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2357,7 +2360,7 @@ Includes the 2 bytes of the size itself
 | 8 | ... | | [yellow-background]*Unknown string?* +
 Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: "boy" and "order"*
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2382,7 +2385,7 @@ Includes the 2 bytes of the size itself
 | 36 | 8 | | [yellow-background]*Unknown (Empty values)*
 | 44 | 4 | | [yellow-background]*Unknown*
 | 48 | 24 | | [yellow-background]*Unknown (Empty values)*
-| 72 | 2 | | First extension block version offset +
+| 72 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2411,7 +2414,7 @@ Includes the 2 bytes of the size itself
 Contains a GUID e.g. Documents Library: fbb3477e-c9e4-4b3b-a2ba-d3f5d3cd46f9
 | 24 | 16 | | [yellow-background]*Unknown (identifier related to TopViews?)* +
 Contains a GUID
-| 40 | 2 | | First extension block version offset +
+| 40 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2443,7 +2446,7 @@ Includes the 2 bytes of the size itself
 Contains an UTF-16 little-endian string with end-of-string character +
 [yellow-background]*Seen: "AcroExch.Document"*
 | 24 | ... | | Embedded shell item list
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2462,7 +2465,7 @@ Includes the 2 bytes of the size itself
 | 8 | ... | | Property set data +
 See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
-| ... | 2 | | First extension block version offset +
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2484,7 +2487,7 @@ Includes the 2 bytes of the size itself
 Contains a FILETIME
 | 20 | 8 | | [yellow-background]*Unknown* +
 Contains a FILETIME
-| 28 | 4 | | First extension block version offset +
+| 28 | 4 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2508,7 +2511,27 @@ Contains a FILETIME
 Contains a FILETIME
 | 28 | 8 | | [yellow-background]*Unknown* +
 Contains a FILETIME
-| 36 | 4 | | First extension block version offset +
+| 36 | 4 | | First extension block offset +
+The offset is relative from the start of the shell item.
+|===
+
+=== [[extension_block_0xbeef0027]]Extension block 0xbeef0027
+
+The extension block 0xbeef027 is is of variable size and consists of:
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | Extension size +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | Extension version +
+[yellow-background]*Seen 0x0000*
+| 4 | 4 | 0xbeef0027 | Extension signature
+| 8 | 2 | | [yellow-background]*Unknown*
+| 10 | ... | | Property store data +
+See: https://github.com/libyal/libfwps/blob/main/documentation/Windows%20Property%20Store%20format.asciidoc[[LIBFWPS\]]
+| ... | 4 | | [yellow-background]*Unknown (empty values)*
+| ... | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 
@@ -2525,7 +2548,7 @@ Includes the 2 bytes of the size itself
 [yellow-background]*Seen 0x0000*
 | 4 | 4 | 0xbeef0029 | Extension signature
 | 8 | 2 | | [yellow-background]*Unknown*
-| 10 | 2 | | First extension block version offset +
+| 10 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
 

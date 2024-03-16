@@ -196,7 +196,7 @@ int libfwsi_web_site_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( ( data[ 4 ] != 0x00 )
 	 || ( data[ 5 ] != 0xb0 )

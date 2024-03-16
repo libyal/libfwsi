@@ -194,7 +194,7 @@ int libfwsi_volume_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( ( data[ 2 ] != 0x23 )
 	 && ( data[ 2 ] != 0x25 )
@@ -210,7 +210,6 @@ int libfwsi_volume_values_read_data(
 	volume_values->has_name                    = 0;
 	volume_values->has_identifier              = 0;
 	volume_values->has_shell_folder_identifier = 0;
-	volume_values->ascii_codepage              = ascii_codepage;
 
 	if( class_type_indicator == 0x2e )
 	{
@@ -412,6 +411,7 @@ int libfwsi_volume_values_read_data(
 int libfwsi_volume_values_get_utf8_name_size(
      libfwsi_volume_values_t *volume_values,
      size_t *utf8_string_size,
+     int ascii_codepage,
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_volume_values_get_utf8_name_size";
@@ -434,7 +434,7 @@ int libfwsi_volume_values_get_utf8_name_size(
 	if( libuna_utf8_string_size_from_byte_stream(
 	     volume_values->name,
 	     volume_values->name_size,
-	     volume_values->ascii_codepage,
+	     ascii_codepage,
 	     utf8_string_size,
 	     error ) != 1 )
 	{
@@ -457,6 +457,7 @@ int libfwsi_volume_values_get_utf8_name(
      libfwsi_volume_values_t *volume_values,
      uint8_t *utf8_string,
      size_t utf8_string_size,
+     int ascii_codepage,
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_volume_values_get_utf8_name";
@@ -481,7 +482,7 @@ int libfwsi_volume_values_get_utf8_name(
 	     utf8_string_size,
 	     volume_values->name,
 	     volume_values->name_size,
-	     volume_values->ascii_codepage,
+	     ascii_codepage,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -502,6 +503,7 @@ int libfwsi_volume_values_get_utf8_name(
 int libfwsi_volume_values_get_utf16_name_size(
      libfwsi_volume_values_t *volume_values,
      size_t *utf16_string_size,
+     int ascii_codepage,
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_volume_values_get_utf16_name_size";
@@ -524,7 +526,7 @@ int libfwsi_volume_values_get_utf16_name_size(
 	if( libuna_utf16_string_size_from_byte_stream(
 	     volume_values->name,
 	     volume_values->name_size,
-	     volume_values->ascii_codepage,
+	     ascii_codepage,
 	     utf16_string_size,
 	     error ) != 1 )
 	{
@@ -547,6 +549,7 @@ int libfwsi_volume_values_get_utf16_name(
      libfwsi_volume_values_t *volume_values,
      uint16_t *utf16_string,
      size_t utf16_string_size,
+     int ascii_codepage,
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_volume_values_get_utf16_name";
@@ -571,7 +574,7 @@ int libfwsi_volume_values_get_utf16_name(
 	     utf16_string_size,
 	     volume_values->name,
 	     volume_values->name_size,
-	     volume_values->ascii_codepage,
+	     ascii_codepage,
 	     error ) != 1 )
 	{
 		libcerror_error_set(

@@ -208,7 +208,7 @@ int libfwsi_file_entry_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( ( data[ 2 ] != 0x30 )
 	 && ( data[ 2 ] != 0x31 )
@@ -669,5 +669,239 @@ on_error:
 	file_entry_values->name_size = 0;
 
 	return( -1 );
+}
+
+/* Retrieves the size of the UTF-8 formatted name
+ * This function uses UTF-8 RFC 2279 (or 6-byte UTF-8) to support characters outside Unicode
+ * The size includes the end of string character
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_file_entry_values_get_utf8_name_size(
+     libfwsi_file_entry_values_t *file_entry_values,
+     size_t *utf8_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
+{
+	static char *function = "libfwsi_file_entry_values_get_utf8_name_size";
+	int result            = 0;
+
+	if( file_entry_values == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid file entry values.",
+		 function );
+
+		return( -1 );
+	}
+	if( file_entry_values->is_unicode != 0 )
+	{
+		result = libuna_utf8_string_size_from_utf16_stream(
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
+			  utf8_string_size,
+			  error );
+	}
+	else
+	{
+		result = libuna_utf8_string_size_from_byte_stream(
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+		          ascii_codepage,
+			  utf8_string_size,
+			  error );
+	}
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to determine size of UTF-8 string.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
+}
+
+/* Retrieves the UTF-8 formatted name
+ * This function uses UTF-8 RFC 2279 (or 6-byte UTF-8) to support characters outside Unicode
+ * The size should include the end of string character
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_file_entry_values_get_utf8_name(
+     libfwsi_file_entry_values_t *file_entry_values,
+     uint8_t *utf8_string,
+     size_t utf8_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
+{
+	static char *function = "libfwsi_file_entry_values_get_utf8_name";
+	int result            = 0;
+
+	if( file_entry_values == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid file entry values.",
+		 function );
+
+		return( -1 );
+	}
+	if( file_entry_values->is_unicode != 0 )
+	{
+		result = libuna_utf8_string_copy_from_utf16_stream(
+		          utf8_string,
+		          utf8_string_size,
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
+			  error );
+	}
+	else
+	{
+		result = libuna_utf8_string_copy_from_byte_stream(
+		          utf8_string,
+		          utf8_string_size,
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+		          ascii_codepage,
+			  error );
+	}
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set UTF-8 string.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
+}
+
+/* Retrieves the size of the UTF-16 formatted name
+ * This function uses UCS-2 (with surrogates) to support characters outside Unicode
+ * The size includes the end of string character
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_file_entry_values_get_utf16_name_size(
+     libfwsi_file_entry_values_t *file_entry_values,
+     size_t *utf16_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
+{
+	static char *function = "libfwsi_file_entry_values_get_utf16_name_size";
+	int result            = 0;
+
+	if( file_entry_values == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid file entry values.",
+		 function );
+
+		return( -1 );
+	}
+	if( file_entry_values->is_unicode != 0 )
+	{
+		result = libuna_utf16_string_size_from_utf16_stream(
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
+			  utf16_string_size,
+			  error );
+	}
+	else
+	{
+		result = libuna_utf16_string_size_from_byte_stream(
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+		          ascii_codepage,
+			  utf16_string_size,
+			  error );
+	}
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to determine size of UTF-16 string.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
+}
+
+/* Retrieves the UTF-16 formatted name
+ * This function uses UCS-2 (with surrogates) to support characters outside Unicode
+ * The size should include the end of string character
+ * Returns 1 if successful or -1 on error
+ */
+int libfwsi_file_entry_values_get_utf16_name(
+     libfwsi_file_entry_values_t *file_entry_values,
+     uint16_t *utf16_string,
+     size_t utf16_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error )
+{
+	static char *function = "libfwsi_file_entry_values_get_utf16_name";
+	int result            = 0;
+
+	if( file_entry_values == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid file entry values.",
+		 function );
+
+		return( -1 );
+	}
+	if( file_entry_values->is_unicode != 0 )
+	{
+		result = libuna_utf16_string_copy_from_utf16_stream(
+		          utf16_string,
+		          utf16_string_size,
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+			  LIBUNA_ENDIAN_LITTLE | LIBUNA_UTF16_STREAM_ALLOW_UNPAIRED_SURROGATE,
+			  error );
+	}
+	else
+	{
+		result = libuna_utf16_string_copy_from_byte_stream(
+		          utf16_string,
+		          utf16_string_size,
+			  file_entry_values->name,
+			  file_entry_values->name_size,
+		          ascii_codepage,
+			  error );
+	}
+	if( result != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set UTF-16 string.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
 }
 

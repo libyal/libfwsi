@@ -18,6 +18,7 @@ libfwsi_la_SOURCES = \
 	libfwsi_acronis_tib_file_values.c libfwsi_acronis_tib_file_values.h \
 	libfwsi_cdburn_values.c libfwsi_cdburn_values.h \
 	libfwsi_codepage.h \
+	libfwsi_compressed_folder.c libfwsi_compressed_folder.h \
 	libfwsi_compressed_folder_values.c libfwsi_compressed_folder_values.h \
 	libfwsi_control_panel_category.c libfwsi_control_panel_category.h \
 	libfwsi_control_panel_category_values.c libfwsi_control_panel_category_values.h \
@@ -42,6 +43,7 @@ libfwsi_la_SOURCES = \
 	libfwsi_extension_block_0xbeef0019_values.c libfwsi_extension_block_0xbeef0019_values.h \
 	libfwsi_extension_block_0xbeef0025_values.c libfwsi_extension_block_0xbeef0025_values.h \
 	libfwsi_extension_block_0xbeef0026_values.c libfwsi_extension_block_0xbeef0026_values.h \
+	libfwsi_extension_block_0xbeef0027_values.c libfwsi_extension_block_0xbeef0027_values.h \
 	libfwsi_extension_block_0xbeef0029_values.c libfwsi_extension_block_0xbeef0029_values.h \
 	libfwsi_file_attributes.c libfwsi_file_attributes.h \
 	libfwsi_file_entry.c libfwsi_file_entry.h \

@@ -28,6 +28,7 @@
 #endif
 
 #include "pyfwsi.h"
+#include "pyfwsi_compressed_folder.h"
 #include "pyfwsi_control_panel_category.h"
 #include "pyfwsi_control_panel_item.h"
 #include "pyfwsi_error.h"
@@ -285,6 +286,23 @@ PyMODINIT_FUNC initpyfwsi(
 	 module,
 	 "network_location",
 	 (PyObject *) &pyfwsi_network_location_type_object );
+
+	/* Setup the compressed folder type object
+	 */
+	pyfwsi_compressed_folder_type_object.tp_new = PyType_GenericNew;
+
+	if( PyType_Ready(
+	     &pyfwsi_compressed_folder_type_object ) < 0 )
+	{
+		goto on_error;
+	}
+	Py_IncRef(
+	 (PyObject *) &pyfwsi_compressed_folder_type_object );
+
+	PyModule_AddObject(
+	 module,
+	 "compressed_folder",
+	 (PyObject *) &pyfwsi_compressed_folder_type_object );
 
 	/* Setup the control panel category type object
 	 */

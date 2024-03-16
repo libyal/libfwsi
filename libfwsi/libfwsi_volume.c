@@ -69,6 +69,7 @@ int libfwsi_volume_get_utf8_name_size(
 	result = libfwsi_volume_values_get_utf8_name_size(
 	          (libfwsi_volume_values_t *) internal_item->value,
 	          utf8_string_size,
+	          internal_item->ascii_codepage,
 	          error );
 
 	if( result == -1 )
@@ -126,6 +127,7 @@ int libfwsi_volume_get_utf8_name(
 	          (libfwsi_volume_values_t *) internal_item->value,
 	          utf8_string,
 	          utf8_string_size,
+	          internal_item->ascii_codepage,
 	          error );
 
 	if( result == -1 )
@@ -181,6 +183,7 @@ int libfwsi_volume_get_utf16_name_size(
 	result = libfwsi_volume_values_get_utf16_name_size(
 	          (libfwsi_volume_values_t *) internal_item->value,
 	          utf16_string_size,
+	          internal_item->ascii_codepage,
 	          error );
 
 	if( result == -1 )
@@ -238,6 +241,7 @@ int libfwsi_volume_get_utf16_name(
 	          (libfwsi_volume_values_t *) internal_item->value,
 	          utf16_string,
 	          utf16_string_size,
+	          internal_item->ascii_codepage,
 	          error );
 
 	if( result == -1 )

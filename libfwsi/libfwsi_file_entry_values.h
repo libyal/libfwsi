@@ -79,6 +79,32 @@ int libfwsi_file_entry_values_read_data(
      int ascii_codepage,
      libcerror_error_t **error );
 
+int libfwsi_file_entry_values_get_utf8_name_size(
+     libfwsi_file_entry_values_t *file_entry_values,
+     size_t *utf8_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
+int libfwsi_file_entry_values_get_utf8_name(
+     libfwsi_file_entry_values_t *file_entry_values,
+     uint8_t *utf8_string,
+     size_t utf8_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
+int libfwsi_file_entry_values_get_utf16_name_size(
+     libfwsi_file_entry_values_t *file_entry_values,
+     size_t *utf16_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
+int libfwsi_file_entry_values_get_utf16_name(
+     libfwsi_file_entry_values_t *file_entry_values,
+     uint16_t *utf16_string,
+     size_t utf16_string_size,
+     int ascii_codepage,
+     libcerror_error_t **error );
+
 #if defined( __cplusplus )
 }
 #endif

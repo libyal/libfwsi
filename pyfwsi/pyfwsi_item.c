@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #endif
 
+#include "pyfwsi_compressed_folder.h"
 #include "pyfwsi_control_panel_category.h"
 #include "pyfwsi_control_panel_item.h"
 #include "pyfwsi_error.h"
@@ -561,6 +562,10 @@ PyObject *pyfwsi_item_copy_from_byte_stream(
 	}
 	switch( item_type )
 	{
+		case LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER:
+			type_object = &pyfwsi_compressed_folder_type_object;
+			break;
+
 		case LIBFWSI_ITEM_TYPE_CONTROL_PANEL_CATEGORY:
 			type_object = &pyfwsi_control_panel_category_type_object;
 			break;

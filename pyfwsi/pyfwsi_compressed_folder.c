@@ -1,5 +1,5 @@
 /*
- * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_VOLUME
+ * Python object wrapper of libfwsi_item_t type LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER
  *
  * Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>
  *
@@ -33,64 +33,38 @@
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
 #include "pyfwsi_unused.h"
-#include "pyfwsi_volume.h"
+#include "pyfwsi_compressed_folder.h"
 
-PyMethodDef pyfwsi_volume_object_methods[] = {
+PyMethodDef pyfwsi_compressed_folder_object_methods[] = {
 
 	{ "get_name",
-	  (PyCFunction) pyfwsi_volume_get_name,
+	  (PyCFunction) pyfwsi_compressed_folder_get_name,
 	  METH_NOARGS,
-	  "get_name() -> Unicode string or None\n"
+	  "get_name() -> Unicode string\n"
 	  "\n"
 	  "Retrieves the name." },
-
-	{ "get_identifier",
-	  (PyCFunction) pyfwsi_volume_get_identifier,
-	  METH_NOARGS,
-	  "get_identifier() -> Unicode string or None\n"
-	  "\n"
-	  "Retrieves the identifier." },
-
-	{ "get_shell_folder_identifier",
-	  (PyCFunction) pyfwsi_volume_get_shell_folder_identifier,
-	  METH_NOARGS,
-	  "get_shell_folder_identifier() -> Unicode string or None\n"
-	  "\n"
-	  "Retrieves the shell folder identifier." },
 
 	/* Sentinel */
 	{ NULL, NULL, 0, NULL }
 };
 
-PyGetSetDef pyfwsi_volume_object_get_set_definitions[] = {
+PyGetSetDef pyfwsi_compressed_folder_object_get_set_definitions[] = {
 
 	{ "name",
-	  (getter) pyfwsi_volume_get_name,
+	  (getter) pyfwsi_compressed_folder_get_name,
 	  (setter) 0,
 	  "The name.",
-	  NULL },
-
-	{ "identifier",
-	  (getter) pyfwsi_volume_get_identifier,
-	  (setter) 0,
-	  "The identifier.",
-	  NULL },
-
-	{ "shell_folder_identifier",
-	  (getter) pyfwsi_volume_get_shell_folder_identifier,
-	  (setter) 0,
-	  "The shell folder identifier.",
 	  NULL },
 
 	/* Sentinel */
 	{ NULL, NULL, NULL, NULL, NULL }
 };
 
-PyTypeObject pyfwsi_volume_type_object = {
+PyTypeObject pyfwsi_compressed_folder_type_object = {
 	PyVarObject_HEAD_INIT( NULL, 0 )
 
 	/* tp_name */
-	"pyfwsi.volume",
+	"pyfwsi.compressed_folder",
 	/* tp_basicsize */
 	sizeof( pyfwsi_item_t ),
 	/* tp_itemsize */
@@ -128,7 +102,7 @@ PyTypeObject pyfwsi_volume_type_object = {
 	/* tp_flags */
 	Py_TPFLAGS_DEFAULT,
 	/* tp_doc */
-	"pyfwsi volume object (wraps libfwsi_item_t type LIBFWSI_ITEM_TYPE_VOLUME)",
+	"pyfwsi compressed folder object (wraps libfwsi_item_t type LIBFWSI_ITEM_TYPE_COMPRESSED_FOLDER)",
 	/* tp_traverse */
 	0,
 	/* tp_clear */
@@ -142,11 +116,11 @@ PyTypeObject pyfwsi_volume_type_object = {
 	/* tp_iternext */
 	0,
 	/* tp_methods */
-	pyfwsi_volume_object_methods,
+	pyfwsi_compressed_folder_object_methods,
 	/* tp_members */
 	0,
 	/* tp_getset */
-	pyfwsi_volume_object_get_set_definitions,
+	pyfwsi_compressed_folder_object_get_set_definitions,
 	/* tp_base */
 	&pyfwsi_item_type_object,
 	/* tp_dict */
@@ -184,13 +158,13 @@ PyTypeObject pyfwsi_volume_type_object = {
 /* Retrieves the name
  * Returns a Python object if successful or NULL on error
  */
-PyObject *pyfwsi_volume_get_name(
+PyObject *pyfwsi_compressed_folder_get_name(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
 {
 	PyObject *string_object  = NULL;
 	libcerror_error_t *error = NULL;
-	static char *function    = "pyfwsi_volume_get_name";
+	static char *function    = "pyfwsi_compressed_folder_get_name";
 	char *utf8_string        = NULL;
 	size_t utf8_string_size  = 0;
 	int result               = 0;
@@ -208,14 +182,14 @@ PyObject *pyfwsi_volume_get_name(
 	}
 	Py_BEGIN_ALLOW_THREADS
 
-	result = libfwsi_volume_get_utf8_name_size(
+	result = libfwsi_compressed_folder_get_utf8_name_size(
 	          pyfwsi_item->item,
 	          &utf8_string_size,
 	          &error );
 
 	Py_END_ALLOW_THREADS
 
-	if( result == -1 )
+	if( result != 1 )
 	{
 		pyfwsi_error_raise(
 		 error,
@@ -227,14 +201,6 @@ PyObject *pyfwsi_volume_get_name(
 		 &error );
 
 		goto on_error;
-	}
-	else if( ( result == 0 )
-	      || ( utf8_string_size == 0 ) )
-	{
-		Py_IncRef(
-		 Py_None );
-
-		return( Py_None );
 	}
 	utf8_string = (char *) PyMem_Malloc(
 	                        sizeof( char ) * utf8_string_size );
@@ -250,7 +216,7 @@ PyObject *pyfwsi_volume_get_name(
 	}
 	Py_BEGIN_ALLOW_THREADS
 
-	result = libfwsi_volume_get_utf8_name(
+	result = libfwsi_compressed_folder_get_utf8_name(
 	          pyfwsi_item->item,
 	          (uint8_t *) utf8_string,
 	          utf8_string_size,
@@ -300,147 +266,5 @@ on_error:
 		 utf8_string );
 	}
 	return( NULL );
-}
-
-/* Retrieves the identifier
- * Returns a Python object if successful or NULL on error
- */
-PyObject *pyfwsi_volume_get_identifier(
-           pyfwsi_item_t *pyfwsi_item,
-           PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
-{
-	uint8_t guid_data[ 16 ];
-
-	PyObject *string_object  = NULL;
-	libcerror_error_t *error = NULL;
-	static char *function    = "pyfwsi_volume_get_identifier";
-	int result               = 0;
-
-	PYFWSI_UNREFERENCED_PARAMETER( arguments )
-
-	if( pyfwsi_item == NULL )
-	{
-		PyErr_Format(
-		 PyExc_TypeError,
-		 "%s: invalid item.",
-		 function );
-
-		return( NULL );
-	}
-	Py_BEGIN_ALLOW_THREADS
-
-	result = libfwsi_volume_get_identifier(
-	          pyfwsi_item->item,
-	          guid_data,
-	          16,
-	          &error );
-
-	Py_END_ALLOW_THREADS
-
-	if( result == -1 )
-	{
-		pyfwsi_error_raise(
-		 error,
-		 PyExc_IOError,
-		 "%s: unable to retrieve identifier.",
-		 function );
-
-		libcerror_error_free(
-		 &error );
-
-		return( NULL );
-	}
-	else if( result == 0 )
-	{
-		Py_IncRef(
-		 Py_None );
-
-		return( Py_None );
-	}
-	string_object = pyfwsi_string_new_from_guid(
-	                 guid_data,
-	                 16 );
-
-	if( string_object == NULL )
-	{
-		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to convert GUID into Unicode object.",
-		 function );
-
-		return( NULL );
-	}
-	return( string_object );
-}
-
-/* Retrieves the shell folder identifier
- * Returns a Python object if successful or NULL on error
- */
-PyObject *pyfwsi_volume_get_shell_folder_identifier(
-           pyfwsi_item_t *pyfwsi_item,
-           PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
-{
-	uint8_t guid_data[ 16 ];
-
-	PyObject *string_object  = NULL;
-	libcerror_error_t *error = NULL;
-	static char *function    = "pyfwsi_volume_get_shell_folder_identifier";
-	int result               = 0;
-
-	PYFWSI_UNREFERENCED_PARAMETER( arguments )
-
-	if( pyfwsi_item == NULL )
-	{
-		PyErr_Format(
-		 PyExc_TypeError,
-		 "%s: invalid item.",
-		 function );
-
-		return( NULL );
-	}
-	Py_BEGIN_ALLOW_THREADS
-
-	result = libfwsi_volume_get_shell_folder_identifier(
-	          pyfwsi_item->item,
-	          guid_data,
-	          16,
-	          &error );
-
-	Py_END_ALLOW_THREADS
-
-	if( result == -1 )
-	{
-		pyfwsi_error_raise(
-		 error,
-		 PyExc_IOError,
-		 "%s: unable to retrieve shell folder identifier.",
-		 function );
-
-		libcerror_error_free(
-		 &error );
-
-		return( NULL );
-	}
-	else if( result == 0 )
-	{
-		Py_IncRef(
-		 Py_None );
-
-		return( Py_None );
-	}
-	string_object = pyfwsi_string_new_from_guid(
-	                 guid_data,
-	                 16 );
-
-	if( string_object == NULL )
-	{
-		PyErr_Format(
-		 PyExc_IOError,
-		 "%s: unable to convert GUID into Unicode object.",
-		 function );
-
-		return( NULL );
-	}
-	return( string_object );
 }
 

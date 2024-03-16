@@ -194,7 +194,7 @@ int libfwsi_acronis_tib_file_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( ( data[ 2 ] != 0x52 )
 	 || ( data[ 3 ] != 0x67 )

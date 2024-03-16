@@ -14,6 +14,7 @@ pyexec_LTLIBRARIES = pyfwsi.la
 pyfwsi_la_SOURCES = \
 	pyfwsi.c pyfwsi.h \
 	pyfwsi_codepage.c pyfwsi_codepage.h \
+	pyfwsi_compressed_folder.c pyfwsi_compressed_folder.h \
 	pyfwsi_control_panel_category.c pyfwsi_control_panel_category.h \
 	pyfwsi_control_panel_item.c pyfwsi_control_panel_item.h \
 	pyfwsi_datetime.c pyfwsi_datetime.h \

@@ -179,6 +179,39 @@ int libfwsi_network_location_values_read_data(
 
 		return( -1 );
 	}
+	if( network_location_values->location != NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
+		 "%s: invalid network location values - location value already set.",
+		 function );
+
+		return( -1 );
+	}
+	if( network_location_values->description != NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
+		 "%s: invalid network location values - description value already set.",
+		 function );
+
+		return( -1 );
+	}
+	if( network_location_values->comments != NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_ALREADY_SET,
+		 "%s: invalid network location values - comments value already set.",
+		 function );
+
+		return( -1 );
+	}
 	if( data == NULL )
 	{
 		libcerror_error_set(
@@ -207,7 +240,7 @@ int libfwsi_network_location_values_read_data(
 	{
 		return( 0 );
 	}
-	/* Do not try to parse unknown class type indicators
+	/* Do not try to parse unsupported data
 	 */
 	if( ( data[ 2 ] != 0x41 )
 	 && ( data[ 2 ] != 0x42 )

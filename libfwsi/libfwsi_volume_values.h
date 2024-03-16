@@ -62,10 +62,6 @@ struct libfwsi_volume_values
 	/* The shell folder (class) identifier
 	 */
 	uint8_t shell_folder_identifier[ 16 ];
-
-	/* The ASCII codepage
-	 */
-	int ascii_codepage;
 };
 
 int libfwsi_volume_values_initialize(
@@ -86,23 +82,27 @@ int libfwsi_volume_values_read_data(
 int libfwsi_volume_values_get_utf8_name_size(
      libfwsi_volume_values_t *volume_values,
      size_t *utf8_string_size,
+     int ascii_codepage,
      libcerror_error_t **error );
 
 int libfwsi_volume_values_get_utf8_name(
      libfwsi_volume_values_t *volume_values,
      uint8_t *utf8_string,
      size_t utf8_string_size,
+     int ascii_codepage,
      libcerror_error_t **error );
 
 int libfwsi_volume_values_get_utf16_name_size(
      libfwsi_volume_values_t *volume_values,
      size_t *utf16_string_size,
+     int ascii_codepage,
      libcerror_error_t **error );
 
 int libfwsi_volume_values_get_utf16_name(
      libfwsi_volume_values_t *volume_values,
      uint16_t *utf16_string,
      size_t utf16_string_size,
+     int ascii_codepage,
      libcerror_error_t **error );
 
 int libfwsi_volume_values_get_identifier(

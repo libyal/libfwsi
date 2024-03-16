@@ -35,9 +35,13 @@ typedef struct libfwsi_compressed_folder_values libfwsi_compressed_folder_values
 
 struct libfwsi_compressed_folder_values
 {
-	/* Dummy
+	/* The name
 	 */
-	int dummy;
+	uint8_t *name;
+
+	/* The name size
+	 */
+	size_t name_size;
 };
 
 int libfwsi_compressed_folder_values_initialize(
@@ -52,6 +56,28 @@ int libfwsi_compressed_folder_values_read_data(
      libfwsi_compressed_folder_values_t *compressed_folder_values,
      const uint8_t *data,
      size_t data_size,
+     libcerror_error_t **error );
+
+int libfwsi_compressed_folder_values_get_utf8_name_size(
+     libfwsi_compressed_folder_values_t *compressed_folder_values,
+     size_t *utf8_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_compressed_folder_values_get_utf8_name(
+     libfwsi_compressed_folder_values_t *compressed_folder_values,
+     uint8_t *utf8_string,
+     size_t utf8_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_compressed_folder_values_get_utf16_name_size(
+     libfwsi_compressed_folder_values_t *compressed_folder_values,
+     size_t *utf16_string_size,
+     libcerror_error_t **error );
+
+int libfwsi_compressed_folder_values_get_utf16_name(
+     libfwsi_compressed_folder_values_t *compressed_folder_values,
+     uint16_t *utf16_string,
+     size_t utf16_string_size,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )
