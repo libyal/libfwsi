@@ -35,6 +35,14 @@ typedef struct libfwsi_users_property_view_values libfwsi_users_property_view_va
 
 struct libfwsi_users_property_view_values
 {
+	/* Value to indicate the known folder identifier is set
+	 */
+	uint8_t has_known_folder_identifier;
+
+	/* The known folder identifier
+	 */
+	uint8_t known_folder_identifier[ 16 ];
+
 	/* The property store data
 	 */
 	uint8_t *property_store_data;
@@ -57,6 +65,12 @@ int libfwsi_users_property_view_values_read_data(
      const uint8_t *data,
      size_t data_size,
      int ascii_codepage,
+     libcerror_error_t **error );
+
+int libfwsi_users_property_view_values_get_known_folder_identifier(
+     libfwsi_users_property_view_values_t *users_property_view_values,
+     uint8_t *guid_data,
+     size_t guid_data_size,
      libcerror_error_t **error );
 
 #if defined( __cplusplus )

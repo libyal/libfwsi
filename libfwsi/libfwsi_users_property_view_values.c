@@ -220,6 +220,8 @@ int libfwsi_users_property_view_values_read_data(
 		default:
 			return( 0 );
 	}
+	users_property_view_values->has_known_folder_identifier = 0;
+
 	byte_stream_copy_to_uint32_little_endian(
 	 &( data[ 4 ] ),
 	 item_data_size );
@@ -333,6 +335,22 @@ int libfwsi_users_property_view_values_read_data(
 		case 0x23febbeeUL:
 			if( identifier_size == 16 )
 			{
+				if( memory_copy(
+				     users_property_view_values->known_folder_identifier,
+				     &( data[ data_offset ] ),
+				     16 ) == NULL )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_MEMORY,
+					 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+					 "%s: unable to copy known folder identifier.",
+					 function );
+
+					goto on_error;
+				}
+				users_property_view_values->has_known_folder_identifier = 1;
+
 #if defined( HAVE_DEBUG_OUTPUT )
 				if( libcnotify_verbose != 0 )
 				{
@@ -478,5 +496,71 @@ on_error:
 	users_property_view_values->property_store_data_size = 0;
 
 	return( -1 );
+}
+
+/* Retrieves the known folder identifier
+ * The identifier is a GUID and is 16 bytes of size
+ * Returns 1 if successful, 0 if not available or -1 on error
+ */
+int libfwsi_users_property_view_values_get_known_folder_identifier(
+     libfwsi_users_property_view_values_t *users_property_view_values,
+     uint8_t *guid_data,
+     size_t guid_data_size,
+     libcerror_error_t **error )
+{
+	static char *function = "libfwsi_users_property_view_values_get_known_folder_identifier";
+
+	if( users_property_view_values == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid users property view values.",
+		 function );
+
+		return( -1 );
+	}
+	if( guid_data == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid GUID data.",
+		 function );
+
+		return( -1 );
+	}
+	if( guid_data_size < 16 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
+		 "%s: GUID data size too small.",
+		 function );
+
+		return( -1 );
+	}
+	if( users_property_view_values->has_known_folder_identifier == 0 )
+	{
+		return( 0 );
+	}
+	if( memory_copy(
+	     guid_data,
+	     users_property_view_values->known_folder_identifier,
+	     16 ) == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+		 "%s: unable to copy known folder identifier.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
 }
 

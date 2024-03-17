@@ -35,7 +35,7 @@ typedef struct libfwsi_root_folder_values libfwsi_root_folder_values_t;
 
 struct libfwsi_root_folder_values
 {
-	/* The shell folder (class) identifier
+	/* The shell folder identifier
 	 */
 	uint8_t shell_folder_identifier[ 16 ];
 };

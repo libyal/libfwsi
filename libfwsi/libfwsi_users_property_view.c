@@ -30,6 +30,64 @@
 #include "libfwsi_users_property_view.h"
 #include "libfwsi_users_property_view_values.h"
 
+/* Retrieves the known folder identifier
+ * The identifier is a GUID and is 16 bytes of size
+ * Returns 1 if successful, 0 if not available or -1 on error
+ */
+int libfwsi_users_property_view_get_known_folder_identifier(
+     libfwsi_item_t *users_property_view,
+     uint8_t *guid_data,
+     size_t guid_data_size,
+     libcerror_error_t **error )
+{
+	libfwsi_internal_item_t *internal_item = NULL;
+	static char *function                  = "libfwsi_users_property_view_get_known_folder_identifier";
+	int result                             = 0;
+
+	if( users_property_view == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
+		 "%s: invalid users property view.",
+		 function );
+
+		return( -1 );
+	}
+	internal_item = (libfwsi_internal_item_t *) users_property_view;
+
+	if( internal_item->type != LIBFWSI_ITEM_TYPE_USERS_PROPERTY_VIEW )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
+		 "%s: unsupported item type.",
+		 function );
+
+		return( -1 );
+	}
+	result = libfwsi_users_property_view_values_get_known_folder_identifier(
+	          (libfwsi_users_property_view_values_t *) internal_item->value,
+	          guid_data,
+	          guid_data_size,
+	          error );
+
+	if( result == -1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve known folder identifier.",
+		 function );
+
+		return( -1 );
+	}
+	return( result );
+}
+
 /* Retrieves the property store data size
  * Returns 1 if successful or -1 on error
  */

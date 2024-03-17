@@ -26,11 +26,17 @@
 #include "libfwsi_libcerror.h"
 #include "libfwsi_shell_folder_identifier.h"
 
+uint8_t libfwsi_shell_folder_identifier_3d_objects[ 16 ] = {
+	0x3f, 0xe0, 0xb7, 0x0d, 0x29, 0xfc, 0xc6, 0x4d, 0x90, 0x20, 0xff, 0x41, 0xb5, 0x9e, 0x51, 0x3a };
+
 uint8_t libfwsi_shell_folder_identifier_activex_cache_folder[ 16 ] = {
 	0x81, 0xc3, 0xc6, 0x88, 0x85, 0x2e, 0xd0, 0x11, 0x94, 0xde, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 };
 
 uint8_t libfwsi_shell_folder_identifier_add_network_place[ 16 ] = {
 	0x50, 0x0a, 0x48, 0xd4, 0x28, 0xba, 0xd1, 0x11, 0x8e, 0x75, 0x00, 0xc0, 0x4f, 0xa3, 0x1a, 0x86 };
+
+uint8_t libfwsi_shell_folder_identifier_administrative_tools[ 16 ] = {
+	0xe1, 0xa4, 0x0e, 0xd2, 0x57, 0x39, 0xd2, 0x11, 0xa4, 0x0b, 0x0c, 0x50, 0x20, 0x52, 0x41, 0x53 };
 
 uint8_t libfwsi_shell_folder_identifier_all_control_panel_items[ 16 ] = {
 	0x20, 0x20, 0xec, 0x21, 0xea, 0x3a, 0x69, 0x10, 0xa2, 0xdd, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
@@ -41,11 +47,11 @@ uint8_t libfwsi_shell_folder_identifier_all_tasks[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_all_tasks2[ 16 ] = {
 	0x7b, 0x62, 0x0c, 0xf9, 0x80, 0x72, 0xdb, 0x45, 0xbc, 0x26, 0xcc, 0xe7, 0xbd, 0xd6, 0x20, 0xa4 };
 
+uint8_t libfwsi_shell_folder_identifier_application_suggested_locations[ 16 ] = {
+	0x66, 0x60, 0x7a, 0xc5, 0xa3, 0x66, 0x91, 0x4d, 0x9e, 0xb9, 0x41, 0x53, 0x21, 0x79, 0xf0, 0xa5 };
+
 uint8_t libfwsi_shell_folder_identifier_applications[ 16 ] = {
 	0x9b, 0xd4, 0x34, 0x42, 0x45, 0x02, 0xf3, 0x4d, 0xb7, 0x80, 0x38, 0x93, 0x94, 0x34, 0x56, 0xe1 };
-
-uint8_t libfwsi_shell_folder_identifier_appsuggestedlocations[ 16 ] = {
-	0x66, 0x60, 0x7a, 0xc5, 0xa3, 0x66, 0x91, 0x4d, 0x9e, 0xb9, 0x41, 0x53, 0x21, 0x79, 0xf0, 0xa5 };
 
 uint8_t libfwsi_shell_folder_identifier_autoplay[ 16 ] = {
 	0x1e, 0xde, 0x60, 0x9c, 0xfc, 0xe5, 0xf4, 0x40, 0xa4, 0x87, 0x46, 0x08, 0x51, 0xa8, 0xd9, 0x15 };
@@ -71,17 +77,11 @@ uint8_t libfwsi_shell_folder_identifier_cabinet_file[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_command_folder[ 16 ] = {
 	0xc0, 0xf9, 0x7f, 0x43, 0x7f, 0xa0, 0xa0, 0x4f, 0xaf, 0x80, 0x84, 0xb6, 0xc6, 0x44, 0x0a, 0x16 };
 
-uint8_t libfwsi_shell_folder_identifier_common_places[ 16 ] = {
-	0x80, 0xa6, 0x3c, 0x32, 0x4d, 0xc2, 0x99, 0x40, 0xb9, 0x4d, 0x44, 0x6d, 0xd2, 0xd7, 0x24, 0x9e };
-
 uint8_t libfwsi_shell_folder_identifier_common_places_fs_folder[ 16 ] = {
 	0xa6, 0x6c, 0x4a, 0xd3, 0xc2, 0x62, 0x34, 0x4c, 0x8a, 0x7c, 0x14, 0x70, 0x9c, 0x1a, 0xd9, 0x38 };
 
-uint8_t libfwsi_shell_folder_identifier_compressedfolder[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_compressed_folder[ 16 ] = {
 	0xe0, 0xcc, 0x8d, 0xe8, 0xb3, 0xb7, 0xd1, 0x11, 0xa9, 0xf0, 0x00, 0xaa, 0x00, 0x60, 0xfa, 0x31 };
-
-uint8_t libfwsi_shell_folder_identifier_computer[ 16 ] = {
-	0xe0, 0x4f, 0xd0, 0x20, 0xea, 0x3a, 0x69, 0x10, 0xa2, 0xd8, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
 
 uint8_t libfwsi_shell_folder_identifier_computer_delegate_folder[ 16 ] = {
 	0xf8, 0xbd, 0x55, 0xb1, 0xf0, 0x02, 0x1e, 0x45, 0x9a, 0x26, 0xae, 0x31, 0x7c, 0xfd, 0x77, 0x79 };
@@ -101,7 +101,10 @@ uint8_t libfwsi_shell_folder_identifier_control_panel_command_object_for_start_m
 uint8_t libfwsi_shell_folder_identifier_credential_manager[ 16 ] = {
 	0xf1, 0xf5, 0x06, 0x12, 0x69, 0x05, 0x2c, 0x41, 0x8f, 0xec, 0x32, 0x04, 0x63, 0x0d, 0xfb, 0x70 };
 
-uint8_t libfwsi_shell_folder_identifier_defaultlocation[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_db_folder[ 16 ] = {
+	0x16, 0x2b, 0x95, 0xb2, 0x07, 0x0e, 0x5a, 0x4e, 0xb9, 0x93, 0x58, 0xc5, 0x2c, 0xb9, 0x4c, 0xae };
+
+uint8_t libfwsi_shell_folder_identifier_default_location[ 16 ] = {
 	0x5f, 0xd9, 0xc6, 0x00, 0x9c, 0x32, 0x9a, 0x40, 0x81, 0xd7, 0xc4, 0x6c, 0x66, 0xea, 0x7f, 0x33 };
 
 uint8_t libfwsi_shell_folder_identifier_desktop[ 16 ] = {
@@ -110,7 +113,7 @@ uint8_t libfwsi_shell_folder_identifier_desktop[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_device_center[ 16 ] = {
 	0x66, 0x1a, 0xa9, 0xa8, 0x7d, 0x3a, 0x24, 0x44, 0x8d, 0x24, 0x04, 0xe1, 0x80, 0x69, 0x5c, 0x7a };
 
-uint8_t libfwsi_shell_folder_identifier_devicecenter_initialization[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_device_center_initialization[ 16 ] = {
 	0xe2, 0x36, 0xb1, 0xc2, 0x0e, 0xd5, 0x5c, 0x40, 0x87, 0x84, 0x36, 0x3c, 0x58, 0x2b, 0xf4, 0x3e };
 
 uint8_t libfwsi_shell_folder_identifier_devicepairingfolder_initialization[ 16 ] = {
@@ -149,10 +152,19 @@ uint8_t libfwsi_shell_folder_identifier_explorer_browser_results_folder[ 16 ] = 
 uint8_t libfwsi_shell_folder_identifier_extensions_manager_folder[ 16 ] = {
 	0x39, 0x03, 0x2f, 0x69, 0xaa, 0xcb, 0xe6, 0x47, 0xb5, 0xb5, 0x3b, 0x84, 0xdb, 0x60, 0x4e, 0x87 };
 
+uint8_t libfwsi_shell_folder_identifier_favorites[ 16 ] = {
+	0x80, 0xa6, 0x3c, 0x32, 0x4d, 0xc2, 0x99, 0x40, 0xb9, 0x4d, 0x44, 0x6d, 0xd2, 0xd7, 0x24, 0x9e };
+
+uint8_t libfwsi_shell_folder_identifier_feedback_tool[ 16 ] = {
+	0x7c, 0x45, 0x43, 0x83, 0x03, 0x87, 0x0f, 0x41, 0xba, 0x8b, 0x8b, 0x02, 0x6e, 0x43, 0x17, 0x43 };
+
 uint8_t libfwsi_shell_folder_identifier_file_backup_index[ 16 ] = {
 	0xac, 0xa5, 0x7c, 0x87, 0x41, 0xcb, 0x42, 0x48, 0x9c, 0x69, 0x91, 0x36, 0xe4, 0x2d, 0x47, 0xe2 };
 
-uint8_t libfwsi_shell_folder_identifier_filehistorydatasource[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_file_explorer[ 16 ] = {
+	0xd8, 0x5f, 0x20, 0x52, 0xfb, 0x5d, 0x7d, 0x44, 0x80, 0x1a, 0xd0, 0xb5, 0x2f, 0x2e, 0x83, 0xe1 };
+
+uint8_t libfwsi_shell_folder_identifier_file_history_data_source[ 16 ] = {
 	0x5c, 0xe8, 0x6c, 0x2f, 0xee, 0xf9, 0xca, 0x43, 0x90, 0xc7, 0x8a, 0x9b, 0xd5, 0x3a, 0x24, 0x67 };
 
 uint8_t libfwsi_shell_folder_identifier_folder_options[ 16 ] = {
@@ -176,26 +188,32 @@ uint8_t libfwsi_shell_folder_identifier_fusion_cache[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_games_explorer[ 16 ] = {
 	0xdf, 0x8f, 0x22, 0xed, 0xa8, 0x9e, 0x70, 0x48, 0x83, 0xb1, 0x96, 0xb0, 0x2c, 0xfe, 0x0d, 0x52 };
 
-uint8_t libfwsi_shell_folder_identifier_getting_started[ 16 ] = {
-	0x8c, 0x7f, 0x1b, 0xcb, 0x0a, 0xc5, 0x76, 0x41, 0xb6, 0x04, 0x9e, 0x24, 0xde, 0xe8, 0xd4, 0xd1 };
-
 uint8_t libfwsi_shell_folder_identifier_help_and_support[ 16 ] = {
 	0xf1, 0xa1, 0x59, 0x25, 0xd7, 0x21, 0xd4, 0x11, 0xbd, 0xaf, 0x00, 0xc0, 0x4f, 0x60, 0xb9, 0xf0 };
 
 uint8_t libfwsi_shell_folder_identifier_history[ 16 ] = {
+	0x00, 0x8b, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 };
+
+uint8_t libfwsi_shell_folder_identifier_history2[ 16 ] = {
+	0x20, 0xa0, 0xc7, 0x3d, 0xcd, 0x0a, 0xcf, 0x11, 0xa9, 0xbb, 0x00, 0xaa, 0x00, 0x4a, 0xe8, 0x37 };
+
+uint8_t libfwsi_shell_folder_identifier_history3[ 16 ] = {
+	0x10, 0x7d, 0x66, 0x88, 0xf0, 0x10, 0xd0, 0x11, 0x81, 0x50, 0x00, 0xaa, 0x00, 0xbf, 0x84, 0x57 };
+
+uint8_t libfwsi_shell_folder_identifier_history4[ 16 ] = {
 	0x60, 0x35, 0x39, 0xff, 0xa7, 0xc2, 0xcf, 0x11, 0xbf, 0xf4, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 };
 
 uint8_t libfwsi_shell_folder_identifier_history_vault[ 16 ] = {
 	0x65, 0xe9, 0xb6, 0xf6, 0xb2, 0xe9, 0x4b, 0x44, 0x92, 0x86, 0x10, 0xc9, 0x15, 0x2e, 0xdb, 0xc5 };
 
-uint8_t libfwsi_shell_folder_identifier_homegroup_control_panel[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_home_group_control_panel[ 16 ] = {
 	0x50, 0x76, 0xca, 0x67, 0xe6, 0x96, 0xdd, 0x4f, 0xbb, 0x43, 0xa8, 0xe7, 0x74, 0xf7, 0x3a, 0x57 };
 
-uint8_t libfwsi_shell_folder_identifier_ie_history_and_feeds_shell_data_source_for_windows_search[ 16 ] = {
-	0x01, 0x61, 0x01, 0x11, 0x66, 0xe3, 0x22, 0x4d, 0xbc, 0x06, 0x4a, 0xda, 0x33, 0x5c, 0x89, 0x2b };
+uint8_t libfwsi_shell_folder_identifier_inbox[ 16 ] = {
+	0x75, 0x0d, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 };
 
-uint8_t libfwsi_shell_folder_identifier_ie_rss_feeds_folder[ 16 ] = {
-	0xb5, 0x6b, 0x09, 0x9a, 0xc3, 0x9d, 0x1c, 0x4d, 0x85, 0x26, 0xc3, 0xcb, 0xf9, 0x91, 0xea, 0x4e };
+uint8_t libfwsi_shell_folder_identifier_inbox2[ 16 ] = {
+	0x76, 0x0d, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 };
 
 uint8_t libfwsi_shell_folder_identifier_install_new_programs[ 16 ] = {
 	0x2e, 0xe9, 0xea, 0x15, 0x7a, 0xf1, 0x31, 0x44, 0x9f, 0x28, 0x80, 0x5e, 0x48, 0x2d, 0xaf, 0xd4 };
@@ -206,13 +224,22 @@ uint8_t libfwsi_shell_folder_identifier_installed_updates[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_internet[ 16 ] = {
 	0xf4, 0xa1, 0x59, 0x25, 0xd7, 0x21, 0xd4, 0x11, 0xbd, 0xaf, 0x00, 0xc0, 0x4f, 0x60, 0xb9, 0xf0 };
 
+uint8_t libfwsi_shell_folder_identifier_internet_explorer[ 16 ] = {
+	0x42, 0x3b, 0xf2, 0xfb, 0xf0, 0xe3, 0x1b, 0x10, 0x84, 0x88, 0x00, 0xaa, 0x00, 0x3e, 0x56, 0xf8 };
+
+uint8_t libfwsi_shell_folder_identifier_internet_explorer_history_and_feeds_shell_data_source_for_windows_search[ 16 ] = {
+	0x01, 0x61, 0x01, 0x11, 0x66, 0xe3, 0x22, 0x4d, 0xbc, 0x06, 0x4a, 0xda, 0x33, 0x5c, 0x89, 0x2b };
+
+uint8_t libfwsi_shell_folder_identifier_internet_explorer_rss_feeds_folder[ 16 ] = {
+	0xb5, 0x6b, 0x09, 0x9a, 0xc3, 0x9d, 0x1c, 0x4d, 0x85, 0x26, 0xc3, 0xcb, 0xf9, 0x91, 0xea, 0x4e };
+
 uint8_t libfwsi_shell_folder_identifier_internet_folder[ 16 ] = {
 	0x80, 0x53, 0x1c, 0x87, 0xa0, 0x42, 0x69, 0x10, 0xa2, 0xea, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
 
 uint8_t libfwsi_shell_folder_identifier_language_settings[ 16 ] = {
 	0xc9, 0x2c, 0x78, 0xbf, 0x52, 0x5a, 0x17, 0x4a, 0x80, 0x6c, 0x2a, 0x89, 0x4f, 0xfe, 0xea, 0xc5 };
 
-uint8_t libfwsi_shell_folder_identifier_layoutfolder[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_layout_folder[ 16 ] = {
 	0x46, 0x03, 0x8b, 0x32, 0xaf, 0x7e, 0xbe, 0x4b, 0xa4, 0x79, 0x7c, 0xb8, 0x8a, 0x09, 0x5f, 0x5b };
 
 uint8_t libfwsi_shell_folder_identifier_libraries_users_files_folder_delegate_folder[ 16 ] = {
@@ -236,6 +263,12 @@ uint8_t libfwsi_shell_folder_identifier_microsoft_browser_architecture2[ 16 ] = 
 uint8_t libfwsi_shell_folder_identifier_microsoft_ftp_folder[ 16 ] = {
 	0xc0, 0x6e, 0xda, 0x63, 0x98, 0x2e, 0xcf, 0x11, 0x8d, 0x82, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 };
 
+uint8_t libfwsi_shell_folder_identifier_microsoft_office_outlook[ 16 ] = {
+	0x76, 0x35, 0xd8, 0x89, 0xd1, 0x6b, 0x86, 0x4c, 0x94, 0x54, 0xbe, 0xb0, 0x4e, 0x94, 0xc8, 0x19 };
+
+uint8_t libfwsi_shell_folder_identifier_microsoft_onenote_namespace_extension_for_windows_desktop_search[ 16 ] = {
+	0xb6, 0xdc, 0x75, 0x08, 0x86, 0xc6, 0x43, 0x42, 0x94, 0x32, 0xad, 0xcc, 0xf0, 0xb9, 0xf2, 0xd7 };
+
 uint8_t libfwsi_shell_folder_identifier_microsoft_windows_font_folder[ 16 ] = {
 	0x80, 0xb3, 0x84, 0xbd, 0xa2, 0x8c, 0x69, 0x10, 0xab, 0x1d, 0x08, 0x00, 0x09, 0x48, 0xf5, 0x34 };
 
@@ -248,26 +281,35 @@ uint8_t libfwsi_shell_folder_identifier_mobility_center_control_panel[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_ms_graph_recent_file_folder[ 16 ] = {
 	0xe9, 0x4e, 0x25, 0x42, 0x25, 0xe6, 0x65, 0x40, 0x8f, 0x70, 0x77, 0x50, 0x90, 0x25, 0x6f, 0x72 };
 
+uint8_t libfwsi_shell_folder_identifier_my_computer[ 16 ] = {
+	0xe0, 0x4f, 0xd0, 0x20, 0xea, 0x3a, 0x69, 0x10, 0xa2, 0xd8, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
+
 uint8_t libfwsi_shell_folder_identifier_my_documents[ 16 ] = {
 	0xba, 0x8f, 0x0d, 0x45, 0x25, 0xad, 0xd0, 0x11, 0x98, 0xa8, 0x08, 0x00, 0x36, 0x1b, 0x11, 0x03 };
 
 uint8_t libfwsi_shell_folder_identifier_my_network_places[ 16 ] = {
 	0x60, 0x2c, 0x8d, 0x20, 0xea, 0x3a, 0x69, 0x10, 0xa2, 0xd7, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
 
-uint8_t libfwsi_shell_folder_identifier_network_and_sharing_center[ 16 ] = {
-	0xc9, 0x8f, 0x90, 0x8e, 0xcc, 0xbe, 0xf6, 0x40, 0x91, 0x5b, 0xf4, 0xca, 0x0e, 0x70, 0xd0, 0x3d };
-
-uint8_t libfwsi_shell_folder_identifier_network_connections[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_network_and_dialup_connections[ 16 ] = {
 	0xc7, 0xac, 0x07, 0x70, 0x02, 0x32, 0xd1, 0x11, 0xaa, 0xd2, 0x00, 0x80, 0x5f, 0xc1, 0x27, 0x0e };
 
-uint8_t libfwsi_shell_folder_identifier_network_connections2[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_network_and_dialup_connections2[ 16 ] = {
 	0xa0, 0xff, 0x2c, 0x99, 0x57, 0xf5, 0x1a, 0x10, 0x88, 0xec, 0x00, 0xdd, 0x01, 0x0c, 0xcc, 0x48 };
+
+uint8_t libfwsi_shell_folder_identifier_network_and_sharing_center[ 16 ] = {
+	0xc9, 0x8f, 0x90, 0x8e, 0xcc, 0xbe, 0xf6, 0x40, 0x91, 0x5b, 0xf4, 0xca, 0x0e, 0x70, 0xd0, 0x3d };
 
 uint8_t libfwsi_shell_folder_identifier_network_map[ 16 ] = {
 	0x1a, 0x9b, 0xde, 0xe7, 0x33, 0x75, 0x56, 0x45, 0x94, 0x84, 0xb2, 0x6f, 0xb4, 0x86, 0x47, 0x5e };
 
 uint8_t libfwsi_shell_folder_identifier_network_setup_wizard[ 16 ] = {
 	0x0d, 0x52, 0x28, 0x27, 0xc8, 0x1e, 0x68, 0x4c, 0xa5, 0x51, 0x31, 0x6b, 0x68, 0x4c, 0x4e, 0xa7 };
+
+uint8_t libfwsi_shell_folder_identifier_offline_files[ 16 ] = {
+	0x7b, 0x2e, 0x7a, 0xbd, 0xcb, 0x21, 0xb2, 0x41, 0xa0, 0x86, 0xb3, 0x09, 0x68, 0x0c, 0x6b, 0x7e };
+
+uint8_t libfwsi_shell_folder_identifier_offline_files_folder[ 16 ] = {
+	0x70, 0x1f, 0xdb, 0xaf, 0x4c, 0x2a, 0xd2, 0x11, 0x90, 0x39, 0x00, 0xc0, 0x4f, 0x8e, 0xeb, 0x3e };
 
 uint8_t libfwsi_shell_folder_identifier_other_users_folder[ 16 ] = {
 	0xac, 0xbf, 0x85, 0x67, 0x2d, 0x9d, 0xe5, 0x4b, 0xb7, 0xe2, 0x59, 0x93, 0x7e, 0x8f, 0xb8, 0x0a };
@@ -308,7 +350,7 @@ uint8_t libfwsi_shell_folder_identifier_previous_versions_results_delegate_folde
 uint8_t libfwsi_shell_folder_identifier_previous_versions_results_folder[ 16 ] = {
 	0x3b, 0xab, 0xc2, 0xf8, 0xbc, 0x17, 0xda, 0x41, 0x97, 0x58, 0x33, 0x9d, 0x7d, 0xbf, 0x2d, 0x88 };
 
-uint8_t libfwsi_shell_folder_identifier_printers[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_printers_and_faxes[ 16 ] = {
 	0x80, 0xa2, 0x27, 0x22, 0xea, 0x3a, 0x69, 0x10, 0xa2, 0xde, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
 
 uint8_t libfwsi_shell_folder_identifier_printhood_delegate_folder[ 16 ] = {
@@ -323,8 +365,14 @@ uint8_t libfwsi_shell_folder_identifier_programs_folder[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_programs_folder_and_fast_items[ 16 ] = {
 	0x76, 0x5e, 0x5e, 0x86, 0x83, 0xad, 0xca, 0x4d, 0xa1, 0x09, 0x50, 0xdc, 0x21, 0x13, 0xce, 0x9a };
 
+uint8_t libfwsi_shell_folder_identifier_proximity_cpl[ 16 ] = {
+	0xe3, 0xb2, 0x60, 0x80, 0xd7, 0xc9, 0x5d, 0x4a, 0x8c, 0x6b, 0xce, 0x8e, 0xba, 0x11, 0x13, 0x28 };
+
 uint8_t libfwsi_shell_folder_identifier_public_folder[ 16 ] = {
 	0x4d, 0xa5, 0x36, 0x43, 0x8b, 0x03, 0x85, 0x46, 0xab, 0x02, 0x99, 0xbb, 0x52, 0xd3, 0xfb, 0x8b };
+
+uint8_t libfwsi_shell_folder_identifier_quick_access[ 16 ] = {
+	0xcb, 0x85, 0x9f, 0x67, 0x20, 0x02, 0x80, 0x40, 0xb2, 0x9b, 0x55, 0x40, 0xcc, 0x05, 0xaa, 0xb6 };
 
 uint8_t libfwsi_shell_folder_identifier_recent_items_instance_folder[ 16 ] = {
 	0x5e, 0xb2, 0x64, 0x45, 0xcd, 0x30, 0x87, 0x47, 0x82, 0xba, 0x39, 0xe7, 0x3a, 0x75, 0x0b, 0x14 };
@@ -368,7 +416,10 @@ uint8_t libfwsi_shell_folder_identifier_search_connector_folder[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_search_folder[ 16 ] = {
 	0x67, 0x1b, 0x73, 0x04, 0x33, 0xd9, 0x0a, 0x45, 0x90, 0xe6, 0x4a, 0xcd, 0x2e, 0x94, 0x08, 0xfe };
 
-uint8_t libfwsi_shell_folder_identifier_search_results_folder[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_search_home[ 16 ] = {
+	0x2e, 0x81, 0x43, 0x93, 0x37, 0x1c, 0x49, 0x4a, 0xa1, 0x2e, 0x4b, 0x2d, 0x81, 0x0d, 0x95, 0x6b };
+
+uint8_t libfwsi_shell_folder_identifier_search_results[ 16 ] = {
 	0xc0, 0x4f, 0x7d, 0xe1, 0x64, 0x55, 0xd1, 0x11, 0x83, 0xf2, 0x00, 0xa0, 0xc9, 0x0d, 0xc8, 0x49 };
 
 uint8_t libfwsi_shell_folder_identifier_secure_startup[ 16 ] = {
@@ -391,6 +442,9 @@ uint8_t libfwsi_shell_folder_identifier_set_program_access_and_defaults[ 16 ] = 
 
 uint8_t libfwsi_shell_folder_identifier_set_user_defaults[ 16 ] = {
 	0x88, 0x94, 0xcd, 0x17, 0x28, 0x12, 0x2f, 0x4b, 0x88, 0xce, 0x42, 0x98, 0xe9, 0x3e, 0x09, 0x66 };
+
+uint8_t libfwsi_shell_folder_identifier_shared_documents_folder[ 16 ] = {
+	0x47, 0x1a, 0x03, 0x59, 0x72, 0x3f, 0xa7, 0x44, 0x89, 0xc5, 0x55, 0x95, 0xfe, 0x6b, 0x30, 0xee };
 
 uint8_t libfwsi_shell_folder_identifier_shell_docobject_viewer[ 16 ] = {
 	0x40, 0xbc, 0xe4, 0xe7, 0x6a, 0xe7, 0xce, 0x11, 0xa9, 0xbb, 0x00, 0xaa, 0x00, 0x4a, 0xe8, 0x37 };
@@ -416,14 +470,20 @@ uint8_t libfwsi_shell_folder_identifier_show_desktop[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_skydrive[ 16 ] = {
 	0x36, 0xd2, 0x74, 0x8e, 0x35, 0x7f, 0x20, 0x47, 0xb1, 0x38, 0x1f, 0xed, 0x0b, 0x85, 0xea, 0x75 };
 
+uint8_t libfwsi_shell_folder_identifier_softex_omnipass_encrypted_folder[ 16 ] = {
+	0x4e, 0x94, 0xb1, 0xd5, 0x4e, 0xdb, 0x2e, 0x48, 0xb3, 0xf1, 0xdb, 0x05, 0x82, 0x7f, 0x09, 0x78 };
+
+uint8_t libfwsi_shell_folder_identifier_solidworks_enterprise_pdm[ 16 ] = {
+	0x93, 0xe7, 0xd8, 0x0b, 0x71, 0xd3, 0xd1, 0x11, 0xb0, 0xb5, 0x00, 0x60, 0x97, 0x29, 0x19, 0xd7 };
+
 uint8_t libfwsi_shell_folder_identifier_speech_recognition[ 16 ] = {
 	0x45, 0xc7, 0xe3, 0x58, 0x71, 0xd9, 0x81, 0x40, 0x90, 0x34, 0x86, 0xe3, 0x4b, 0x30, 0x83, 0x6a };
 
+uint8_t libfwsi_shell_folder_identifier_start_menu_all_programs[ 16 ] = {
+	0xe7, 0x80, 0xfa, 0xad, 0x69, 0x97, 0xd9, 0x4a, 0x99, 0x2c, 0x55, 0xdc, 0x57, 0xe1, 0x00, 0x8c };
+
 uint8_t libfwsi_shell_folder_identifier_start_menu_folder[ 16 ] = {
 	0xab, 0xca, 0xe7, 0x48, 0x18, 0xb9, 0x58, 0x4e, 0xa9, 0x4d, 0x50, 0x55, 0x19, 0xc7, 0x95, 0xdc };
-
-uint8_t libfwsi_shell_folder_identifier_startmenuallprograms[ 16 ] = {
-	0xe7, 0x80, 0xfa, 0xad, 0x69, 0x97, 0xd9, 0x4a, 0x99, 0x2c, 0x55, 0xdc, 0x57, 0xe1, 0x00, 0x8c };
 
 uint8_t libfwsi_shell_folder_identifier_sticky_notes_namespace_extension_for_windows_desktop_search[ 16 ] = {
 	0x4c, 0x82, 0xf5, 0xf3, 0x58, 0xad, 0x28, 0x47, 0xaf, 0x59, 0xa1, 0xeb, 0xe3, 0x39, 0x27, 0x99 };
@@ -431,7 +491,7 @@ uint8_t libfwsi_shell_folder_identifier_sticky_notes_namespace_extension_for_win
 uint8_t libfwsi_shell_folder_identifier_storage_spaces[ 16 ] = {
 	0x06, 0xc6, 0x42, 0xf9, 0x14, 0x09, 0xab, 0x47, 0xbe, 0x56, 0x13, 0x21, 0xb8, 0x03, 0x50, 0x96 };
 
-uint8_t libfwsi_shell_folder_identifier_streambackedfolder[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_stream_backed_folder[ 16 ] = {
 	0xd6, 0x78, 0xc9, 0xed, 0x53, 0x4d, 0x2f, 0x4b, 0xa2, 0x65, 0x58, 0x05, 0x67, 0x4b, 0xe5, 0x68 };
 
 uint8_t libfwsi_shell_folder_identifier_subscription_folder[ 16 ] = {
@@ -470,7 +530,7 @@ uint8_t libfwsi_shell_folder_identifier_system_restore[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_taskbar[ 16 ] = {
 	0xf4, 0xb0, 0xd7, 0x05, 0x21, 0x21, 0xff, 0x4e, 0xbf, 0x6b, 0xed, 0x3f, 0x69, 0xb8, 0x94, 0xd9 };
 
-uint8_t libfwsi_shell_folder_identifier_taskbar2[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_taskbar_and_start_menu[ 16 ] = {
 	0xaa, 0x4e, 0xf4, 0x0d, 0x21, 0xff, 0x12, 0x44, 0x82, 0x8e, 0x26, 0x0a, 0x87, 0x28, 0xe7, 0xf1 };
 
 uint8_t libfwsi_shell_folder_identifier_temporary_internet_files[ 16 ] = {
@@ -494,26 +554,29 @@ uint8_t libfwsi_shell_folder_identifier_tree_property_value_folder[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_troubleshooting[ 16 ] = {
 	0x93, 0x48, 0x8c, 0xc5, 0xe0, 0x3b, 0x45, 0x4b, 0xab, 0xb5, 0xa6, 0x3e, 0x4b, 0x8c, 0x86, 0x51 };
 
+uint8_t libfwsi_shell_folder_identifier_uncfatshellfolder_class[ 16 ] = {
+	0x80, 0xa0, 0x91, 0xc2, 0x00, 0xb4, 0x34, 0x4e, 0xae, 0x3f, 0x3d, 0x2b, 0x96, 0x37, 0xd5, 0x6c };
+
 uint8_t libfwsi_shell_folder_identifier_user_accounts[ 16 ] = {
 	0x54, 0x27, 0x63, 0x60, 0x23, 0xc5, 0x62, 0x4b, 0xb4, 0x5c, 0x41, 0x72, 0xda, 0x01, 0x26, 0x19 };
-
-uint8_t libfwsi_shell_folder_identifier_user_accounts2[ 16 ] = {
-	0xbd, 0x77, 0x9d, 0x7a, 0x03, 0x54, 0xd2, 0x11, 0x87, 0x85, 0x2e, 0x04, 0x20, 0x52, 0x41, 0x53 };
 
 uint8_t libfwsi_shell_folder_identifier_user_pinned[ 16 ] = {
 	0xc8, 0x27, 0x34, 0x1f, 0x10, 0x5c, 0x10, 0x42, 0xaa, 0x03, 0x2e, 0xe4, 0x52, 0x87, 0xd6, 0x68 };
 
+uint8_t libfwsi_shell_folder_identifier_users_and_passwords[ 16 ] = {
+	0xbd, 0x77, 0x9d, 0x7a, 0x03, 0x54, 0xd2, 0x11, 0x87, 0x85, 0x2e, 0x04, 0x20, 0x52, 0x41, 0x53 };
+
 uint8_t libfwsi_shell_folder_identifier_users_files_folder_delegate_folder[ 16 ] = {
 	0xc5, 0xcd, 0xfa, 0xdf, 0x9f, 0x67, 0x56, 0x41, 0x89, 0x47, 0xc5, 0xc7, 0x6b, 0xc0, 0xb6, 0x7f };
 
-uint8_t libfwsi_shell_folder_identifier_usersfiles[ 16 ] = {
-	0x47, 0x1a, 0x03, 0x59, 0x72, 0x3f, 0xa7, 0x44, 0x89, 0xc5, 0x55, 0x95, 0xfe, 0x6b, 0x30, 0xee };
-
-uint8_t libfwsi_shell_folder_identifier_userslibraries[ 16 ] = {
+uint8_t libfwsi_shell_folder_identifier_users_libraries[ 16 ] = {
 	0x25, 0x48, 0x1e, 0x03, 0x94, 0x7b, 0xc3, 0x4d, 0xb1, 0x31, 0xe9, 0x46, 0xb4, 0x4c, 0x8d, 0xd5 };
 
 uint8_t libfwsi_shell_folder_identifier_web_folders[ 16 ] = {
 	0x00, 0xdf, 0xea, 0xbd, 0x65, 0xc2, 0xd0, 0x11, 0xbc, 0xed, 0x00, 0xa0, 0xc9, 0x0a, 0xb5, 0x0f };
+
+uint8_t libfwsi_shell_folder_identifier_welcome_center[ 16 ] = {
+	0x8c, 0x7f, 0x1b, 0xcb, 0x0a, 0xc5, 0x76, 0x41, 0xb6, 0x04, 0x9e, 0x24, 0xde, 0xe8, 0xd4, 0xd1 };
 
 uint8_t libfwsi_shell_folder_identifier_window_switcher[ 16 ] = {
 	0x0e, 0xf9, 0x80, 0x30, 0xad, 0xd7, 0xd9, 0x11, 0xbd, 0x98, 0x00, 0x00, 0x94, 0x7b, 0x02, 0x57 };
@@ -524,14 +587,23 @@ uint8_t libfwsi_shell_folder_identifier_windows_anytime_upgrade[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_windows_defender[ 16 ] = {
 	0xb9, 0x9e, 0x55, 0xd8, 0xc0, 0x20, 0x0e, 0x41, 0xbe, 0xda, 0x7e, 0xd4, 0x16, 0xae, 0xcc, 0x2a };
 
-uint8_t libfwsi_shell_folder_identifier_windows_defender_firewall[ 16 ] = {
-	0x2f, 0x49, 0x26, 0x40, 0x69, 0x2f, 0xb8, 0x46, 0xb9, 0xbf, 0x56, 0x54, 0xfc, 0x07, 0xe4, 0x23 };
+uint8_t libfwsi_shell_folder_identifier_windows_desktop_search[ 16 ] = {
+	0x12, 0xf6, 0xe7, 0x13, 0x61, 0xf2, 0x91, 0x43, 0xbe, 0xa2, 0x39, 0xdf, 0x4f, 0x3f, 0xa3, 0x11 };
+
+uint8_t libfwsi_shell_folder_identifier_windows_desktop_search_mapi_namespace_extension_class[ 16 ] = {
+	0x8c, 0xa5, 0x43, 0x1f, 0x28, 0xea, 0xe6, 0x43, 0x9e, 0xc4, 0x34, 0x57, 0x4a, 0x16, 0xeb, 0xb7 };
 
 uint8_t libfwsi_shell_folder_identifier_windows_features[ 16 ] = {
 	0x15, 0x84, 0x71, 0x67, 0x50, 0xc4, 0x3c, 0x4f, 0xbf, 0x8a, 0xb4, 0x87, 0x64, 0x2d, 0xc3, 0x9b };
 
+uint8_t libfwsi_shell_folder_identifier_windows_firewall[ 16 ] = {
+	0x2f, 0x49, 0x26, 0x40, 0x69, 0x2f, 0xb8, 0x46, 0xb9, 0xbf, 0x56, 0x54, 0xfc, 0x07, 0xe4, 0x23 };
+
 uint8_t libfwsi_shell_folder_identifier_windows_search_service_media_center_namespace_extension_handler[ 16 ] = {
 	0x50, 0x97, 0xd9, 0x98, 0x8a, 0x0b, 0x59, 0x4c, 0x91, 0x51, 0x58, 0x90, 0x53, 0x68, 0x3d, 0x73 };
+
+uint8_t libfwsi_shell_folder_identifier_windows_search_service_outlook_express_protocol_handler[ 16 ] = {
+	0xd0, 0xcf, 0x26, 0xd4, 0xfc, 0x87, 0x06, 0x49, 0x98, 0xd9, 0xa2, 0x3f, 0x5d, 0x51, 0x5d, 0x61 };
 
 uint8_t libfwsi_shell_folder_identifier_windows_security[ 16 ] = {
 	0xf2, 0xa1, 0x59, 0x25, 0xd7, 0x21, 0xd4, 0x11, 0xbd, 0xaf, 0x00, 0xc0, 0x4f, 0x60, 0xb9, 0xf0 };
@@ -539,24 +611,12 @@ uint8_t libfwsi_shell_folder_identifier_windows_security[ 16 ] = {
 uint8_t libfwsi_shell_folder_identifier_windows_sideshow[ 16 ] = {
 	0x61, 0x48, 0x5a, 0xe9, 0x7a, 0xd5, 0xe1, 0x4b, 0xad, 0x0f, 0x35, 0x26, 0x7e, 0x26, 0x17, 0x39 };
 
-uint8_t libfwsi_shell_folder_identifier_windows_tools[ 16 ] = {
-	0xe1, 0xa4, 0x0e, 0xd2, 0x57, 0x39, 0xd2, 0x11, 0xa4, 0x0b, 0x0c, 0x50, 0x20, 0x52, 0x41, 0x53 };
-
 uint8_t libfwsi_shell_folder_identifier_windows_update[ 16 ] = {
 	0xdb, 0xf7, 0xee, 0x36, 0xad, 0x88, 0x81, 0x4e, 0xad, 0x49, 0x0e, 0x31, 0x3f, 0x0c, 0x35, 0xf8 };
 
 uint8_t libfwsi_shell_folder_identifier_workspaces_center[ 16 ] = {
 	0x96, 0x7c, 0x1d, 0x24, 0xbf, 0xf8, 0x85, 0x4f, 0xb0, 0x1f, 0xe2, 0xb0, 0x43, 0x34, 0x1a, 0x4b };
 
-
-uint8_t libfwsi_shell_folder_identifier_file_explorer[ 16 ] = {
-	0xd8, 0x5f, 0x20, 0x52, 0xfb, 0x5d, 0x7d, 0x44, 0x80, 0x1a, 0xd0, 0xb5, 0x2f, 0x2e, 0x83, 0xe1 };
-
-uint8_t libfwsi_shell_folder_identifier_quick_access[ 16 ] = {
-	0xcb, 0x85, 0x9f, 0x67, 0x20, 0x02, 0x80, 0x40, 0xb2, 0x9b, 0x55, 0x40, 0xcc, 0x05, 0xaa, 0xb6 };
-
-uint8_t libfwsi_shell_folder_identifier_search_home[ 16 ] = {
-	0x2e, 0x81, 0x43, 0x93, 0x37, 0x1c, 0x49, 0x4a, 0xa1, 0x2e, 0x4b, 0x2d, 0x81, 0x0d, 0x95, 0x6b };
 
 uint8_t libfwsi_shell_folder_identifier_empty[ 16 ] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -568,20 +628,24 @@ uint8_t libfwsi_shell_folder_identifier_unknown[ 16 ] = {
  */
 libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_definitions[ ] = {
 
+	{ libfwsi_shell_folder_identifier_3d_objects,
+	  "3D Objects" },
 	{ libfwsi_shell_folder_identifier_activex_cache_folder,
 	  "ActiveX Cache Folder" },
 	{ libfwsi_shell_folder_identifier_add_network_place,
 	  "Add Network Place" },
+	{ libfwsi_shell_folder_identifier_administrative_tools,
+	  "Administrative Tools" },
 	{ libfwsi_shell_folder_identifier_all_control_panel_items,
 	  "All Control Panel Items" },
 	{ libfwsi_shell_folder_identifier_all_tasks,
 	  "All Tasks" },
 	{ libfwsi_shell_folder_identifier_all_tasks2,
 	  "All Tasks" },
+	{ libfwsi_shell_folder_identifier_application_suggested_locations,
+	  "Application Suggested Locations" },
 	{ libfwsi_shell_folder_identifier_applications,
 	  "Applications" },
-	{ libfwsi_shell_folder_identifier_appsuggestedlocations,
-	  "AppSuggestedLocations" },
 	{ libfwsi_shell_folder_identifier_autoplay,
 	  "AutoPlay" },
 	{ libfwsi_shell_folder_identifier_backup_and_restore,
@@ -598,18 +662,14 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Cabinet File" },
 	{ libfwsi_shell_folder_identifier_command_folder,
 	  "Command Folder" },
-	{ libfwsi_shell_folder_identifier_common_places,
-	  "Favorites" },
 	{ libfwsi_shell_folder_identifier_common_places_fs_folder,
 	  "Common Places FS Folder" },
-	{ libfwsi_shell_folder_identifier_compressedfolder,
-	  "CompressedFolder" },
-	{ libfwsi_shell_folder_identifier_computer,
-	  "My Computer" },
+	{ libfwsi_shell_folder_identifier_compressed_folder,
+	  "Compressed Folder" },
 	{ libfwsi_shell_folder_identifier_computer_delegate_folder,
 	  "Computer (delegate folder)" },
 	{ libfwsi_shell_folder_identifier_computer_search_results_folder,
-	  "Search Results - Computers" },
+	  "Computer Search Results Folder" },
 	{ libfwsi_shell_folder_identifier_computers_and_devices,
 	  "Computers and Devices" },
 	{ libfwsi_shell_folder_identifier_control_panel,
@@ -618,14 +678,16 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Control Panel command object for Start menu and desktop" },
 	{ libfwsi_shell_folder_identifier_credential_manager,
 	  "Credential Manager" },
-	{ libfwsi_shell_folder_identifier_defaultlocation,
-	  "DefaultLocation" },
+	{ libfwsi_shell_folder_identifier_db_folder,
+	  "DB Folder" },
+	{ libfwsi_shell_folder_identifier_default_location,
+	  "Default Location" },
 	{ libfwsi_shell_folder_identifier_desktop,
 	  "Desktop" },
 	{ libfwsi_shell_folder_identifier_device_center,
 	  "Device Center" },
-	{ libfwsi_shell_folder_identifier_devicecenter_initialization,
-	  "DeviceCenter Initialization" },
+	{ libfwsi_shell_folder_identifier_device_center_initialization,
+	  "Device Center Initialization" },
 	{ libfwsi_shell_folder_identifier_devicepairingfolder_initialization,
 	  "DevicePairingFolder Initialization" },
 	{ libfwsi_shell_folder_identifier_directory,
@@ -650,10 +712,16 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Explorer Browser Results Folder" },
 	{ libfwsi_shell_folder_identifier_extensions_manager_folder,
 	  "Extensions Manager Folder" },
+	{ libfwsi_shell_folder_identifier_favorites,
+	  "Favorites" },
+	{ libfwsi_shell_folder_identifier_feedback_tool,
+	  "Feedback Tool" },
 	{ libfwsi_shell_folder_identifier_file_backup_index,
 	  "File Backup Index" },
-	{ libfwsi_shell_folder_identifier_filehistorydatasource,
-	  "FileHistoryDataSource" },
+	{ libfwsi_shell_folder_identifier_file_explorer,
+	  "File Explorer" },
+	{ libfwsi_shell_folder_identifier_file_history_data_source,
+	  "File History Data Source" },
 	{ libfwsi_shell_folder_identifier_folder_options,
 	  "Folder Options" },
 	{ libfwsi_shell_folder_identifier_folder_shortcut,
@@ -668,32 +736,42 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Fusion Cache" },
 	{ libfwsi_shell_folder_identifier_games_explorer,
 	  "Games Explorer" },
-	{ libfwsi_shell_folder_identifier_getting_started,
-	  "Getting Started" },
 	{ libfwsi_shell_folder_identifier_help_and_support,
 	  "Help and Support" },
 	{ libfwsi_shell_folder_identifier_history,
 	  "History" },
+	{ libfwsi_shell_folder_identifier_history2,
+	  "History" },
+	{ libfwsi_shell_folder_identifier_history3,
+	  "History" },
+	{ libfwsi_shell_folder_identifier_history4,
+	  "History" },
 	{ libfwsi_shell_folder_identifier_history_vault,
 	  "History Vault" },
-	{ libfwsi_shell_folder_identifier_homegroup_control_panel,
-	  "HomeGroup Control Panel" },
-	{ libfwsi_shell_folder_identifier_ie_history_and_feeds_shell_data_source_for_windows_search,
-	  "IE History and Feeds Shell Data Source for Windows Search" },
-	{ libfwsi_shell_folder_identifier_ie_rss_feeds_folder,
-	  "IE RSS Feeds Folder" },
+	{ libfwsi_shell_folder_identifier_home_group_control_panel,
+	  "Home Group Control Panel" },
+	{ libfwsi_shell_folder_identifier_inbox,
+	  "Inbox" },
+	{ libfwsi_shell_folder_identifier_inbox2,
+	  "Inbox" },
 	{ libfwsi_shell_folder_identifier_install_new_programs,
 	  "Install New Programs" },
 	{ libfwsi_shell_folder_identifier_installed_updates,
 	  "Installed Updates" },
 	{ libfwsi_shell_folder_identifier_internet,
 	  "Internet" },
+	{ libfwsi_shell_folder_identifier_internet_explorer,
+	  "Internet Explorer" },
+	{ libfwsi_shell_folder_identifier_internet_explorer_history_and_feeds_shell_data_source_for_windows_search,
+	  "Internet Explorer History and Feeds Shell Data Source for Windows Search" },
+	{ libfwsi_shell_folder_identifier_internet_explorer_rss_feeds_folder,
+	  "Internet Explorer RSS Feeds Folder" },
 	{ libfwsi_shell_folder_identifier_internet_folder,
 	  "Internet Folder" },
 	{ libfwsi_shell_folder_identifier_language_settings,
 	  "Language Settings" },
-	{ libfwsi_shell_folder_identifier_layoutfolder,
-	  "LayoutFolder" },
+	{ libfwsi_shell_folder_identifier_layout_folder,
+	  "Layout Folder" },
 	{ libfwsi_shell_folder_identifier_libraries_users_files_folder_delegate_folder,
 	  "Libraries Users Files Folder (delegate folder)" },
 	{ libfwsi_shell_folder_identifier_library_folder,
@@ -708,6 +786,10 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Microsoft Browser Architecture" },
 	{ libfwsi_shell_folder_identifier_microsoft_ftp_folder,
 	  "Microsoft FTP Folder" },
+	{ libfwsi_shell_folder_identifier_microsoft_office_outlook,
+	  "Microsoft Office Outlook" },
+	{ libfwsi_shell_folder_identifier_microsoft_onenote_namespace_extension_for_windows_desktop_search,
+	  "Microsoft OneNote Namespace Extension for Windows Desktop Search" },
 	{ libfwsi_shell_folder_identifier_microsoft_windows_font_folder,
 	  "Microsoft Windows Font Folder" },
 	{ libfwsi_shell_folder_identifier_mobile_broadband_profile_settings_editor,
@@ -716,20 +798,26 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Mobility Center Control Panel" },
 	{ libfwsi_shell_folder_identifier_ms_graph_recent_file_folder,
 	  "MS Graph Recent File Folder" },
+	{ libfwsi_shell_folder_identifier_my_computer,
+	  "My Computer" },
 	{ libfwsi_shell_folder_identifier_my_documents,
 	  "My Documents" },
 	{ libfwsi_shell_folder_identifier_my_network_places,
 	  "My Network Places" },
+	{ libfwsi_shell_folder_identifier_network_and_dialup_connections,
+	  "Network and Dial-up Connections" },
+	{ libfwsi_shell_folder_identifier_network_and_dialup_connections2,
+	  "Network and Dial-up Connections" },
 	{ libfwsi_shell_folder_identifier_network_and_sharing_center,
 	  "Network and Sharing Center" },
-	{ libfwsi_shell_folder_identifier_network_connections,
-	  "Network Connections" },
-	{ libfwsi_shell_folder_identifier_network_connections2,
-	  "Network Connections" },
 	{ libfwsi_shell_folder_identifier_network_map,
 	  "Network Map" },
 	{ libfwsi_shell_folder_identifier_network_setup_wizard,
 	  "Network Setup Wizard" },
+	{ libfwsi_shell_folder_identifier_offline_files,
+	  "Offline Files" },
+	{ libfwsi_shell_folder_identifier_offline_files_folder,
+	  "Offline Files Folder" },
 	{ libfwsi_shell_folder_identifier_other_users_folder,
 	  "Other Users Folder" },
 	{ libfwsi_shell_folder_identifier_other_users_folder2,
@@ -756,18 +844,22 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Previous Versions Results Delegate Folder" },
 	{ libfwsi_shell_folder_identifier_previous_versions_results_folder,
 	  "Previous Versions Results Folder" },
-	{ libfwsi_shell_folder_identifier_printers,
-	  "Printers" },
+	{ libfwsi_shell_folder_identifier_printers_and_faxes,
+	  "Printers and Faxes" },
 	{ libfwsi_shell_folder_identifier_printhood_delegate_folder,
-	  "printhood delegate folder" },
+	  "Printhood delegate folder" },
 	{ libfwsi_shell_folder_identifier_programs_and_features,
 	  "Programs and Features" },
 	{ libfwsi_shell_folder_identifier_programs_folder,
 	  "Programs Folder" },
 	{ libfwsi_shell_folder_identifier_programs_folder_and_fast_items,
 	  "Programs Folder and Fast Items" },
+	{ libfwsi_shell_folder_identifier_proximity_cpl,
+	  "Proximity CPL" },
 	{ libfwsi_shell_folder_identifier_public_folder,
 	  "Public Folder" },
+	{ libfwsi_shell_folder_identifier_quick_access,
+	  "Quick Access" },
 	{ libfwsi_shell_folder_identifier_recent_items_instance_folder,
 	  "Recent Items Instance Folder" },
 	{ libfwsi_shell_folder_identifier_recent_places_folder,
@@ -796,8 +888,10 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Search Connector Folder" },
 	{ libfwsi_shell_folder_identifier_search_folder,
 	  "Search Folder" },
-	{ libfwsi_shell_folder_identifier_search_results_folder,
-	  "Search Results Folder" },
+	{ libfwsi_shell_folder_identifier_search_home,
+	  "Search Home" },
+	{ libfwsi_shell_folder_identifier_search_results,
+	  "Search Results" },
 	{ libfwsi_shell_folder_identifier_secure_startup,
 	  "Secure Startup" },
 	{ libfwsi_shell_folder_identifier_security_and_maintenance_cpl,
@@ -812,6 +906,8 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Set Program Access and Defaults" },
 	{ libfwsi_shell_folder_identifier_set_user_defaults,
 	  "Set User Defaults" },
+	{ libfwsi_shell_folder_identifier_shared_documents_folder,
+	  "Shared Documents Folder" },
 	{ libfwsi_shell_folder_identifier_shell_docobject_viewer,
 	  "Shell DocObject Viewer" },
 	{ libfwsi_shell_folder_identifier_shell_favorite_folder,
@@ -828,18 +924,22 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Show Desktop" },
 	{ libfwsi_shell_folder_identifier_skydrive,
 	  "SkyDrive" },
+	{ libfwsi_shell_folder_identifier_softex_omnipass_encrypted_folder,
+	  "Softex OmniPass Encrypted Folder" },
+	{ libfwsi_shell_folder_identifier_solidworks_enterprise_pdm,
+	  "SolidWorks Enterprise PDM" },
 	{ libfwsi_shell_folder_identifier_speech_recognition,
 	  "Speech Recognition" },
+	{ libfwsi_shell_folder_identifier_start_menu_all_programs,
+	  "Start Menu All Programs" },
 	{ libfwsi_shell_folder_identifier_start_menu_folder,
 	  "Start Menu Folder" },
-	{ libfwsi_shell_folder_identifier_startmenuallprograms,
-	  "StartMenuAllPrograms" },
 	{ libfwsi_shell_folder_identifier_sticky_notes_namespace_extension_for_windows_desktop_search,
 	  "Sticky Notes Namespace Extension for Windows Desktop Search" },
 	{ libfwsi_shell_folder_identifier_storage_spaces,
 	  "Storage Spaces" },
-	{ libfwsi_shell_folder_identifier_streambackedfolder,
-	  "StreamBackedFolder" },
+	{ libfwsi_shell_folder_identifier_stream_backed_folder,
+	  "Stream Backed Folder" },
 	{ libfwsi_shell_folder_identifier_subscription_folder,
 	  "Subscription Folder" },
 	{ libfwsi_shell_folder_identifier_sync_center_conflict_delegate_folder,
@@ -864,7 +964,7 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "System Restore" },
 	{ libfwsi_shell_folder_identifier_taskbar,
 	  "Taskbar" },
-	{ libfwsi_shell_folder_identifier_taskbar2,
+	{ libfwsi_shell_folder_identifier_taskbar_and_start_menu,
 	  "Taskbar and Start Menu" },
 	{ libfwsi_shell_folder_identifier_temporary_internet_files,
 	  "Temporary Internet Files" },
@@ -880,49 +980,48 @@ libfwsi_shell_folder_identifier_definition_t libfwsi_shell_folder_identifier_def
 	  "Tree property value folder" },
 	{ libfwsi_shell_folder_identifier_troubleshooting,
 	  "Troubleshooting" },
+	{ libfwsi_shell_folder_identifier_uncfatshellfolder_class,
+	  "UNCFATShellFolder Class" },
 	{ libfwsi_shell_folder_identifier_user_accounts,
-	  "User Accounts" },
-	{ libfwsi_shell_folder_identifier_user_accounts2,
 	  "User Accounts" },
 	{ libfwsi_shell_folder_identifier_user_pinned,
 	  "User Pinned" },
+	{ libfwsi_shell_folder_identifier_users_and_passwords,
+	  "Users and Passwords" },
 	{ libfwsi_shell_folder_identifier_users_files_folder_delegate_folder,
 	  "Users Files Folder (delegate folder)" },
-	{ libfwsi_shell_folder_identifier_usersfiles,
-	  "UsersFiles" },
-	{ libfwsi_shell_folder_identifier_userslibraries,
-	  "UsersLibraries" },
+	{ libfwsi_shell_folder_identifier_users_libraries,
+	  "Users Libraries" },
 	{ libfwsi_shell_folder_identifier_web_folders,
 	  "Web Folders" },
+	{ libfwsi_shell_folder_identifier_welcome_center,
+	  "Welcome Center" },
 	{ libfwsi_shell_folder_identifier_window_switcher,
 	  "Window Switcher" },
 	{ libfwsi_shell_folder_identifier_windows_anytime_upgrade,
 	  "Windows Anytime Upgrade" },
 	{ libfwsi_shell_folder_identifier_windows_defender,
 	  "Windows Defender" },
-	{ libfwsi_shell_folder_identifier_windows_defender_firewall,
-	  "Windows Firewall" },
+	{ libfwsi_shell_folder_identifier_windows_desktop_search,
+	  "Windows Desktop Search" },
+	{ libfwsi_shell_folder_identifier_windows_desktop_search_mapi_namespace_extension_class,
+	  "Windows Desktop Search MAPI Namespace Extension Class" },
 	{ libfwsi_shell_folder_identifier_windows_features,
 	  "Windows Features" },
+	{ libfwsi_shell_folder_identifier_windows_firewall,
+	  "Windows Firewall" },
 	{ libfwsi_shell_folder_identifier_windows_search_service_media_center_namespace_extension_handler,
 	  "Windows Search Service Media Center Namespace Extension Handler" },
+	{ libfwsi_shell_folder_identifier_windows_search_service_outlook_express_protocol_handler,
+	  "Windows Search Service Outlook Express Protocol Handler" },
 	{ libfwsi_shell_folder_identifier_windows_security,
 	  "Windows Security" },
 	{ libfwsi_shell_folder_identifier_windows_sideshow,
 	  "Windows SideShow" },
-	{ libfwsi_shell_folder_identifier_windows_tools,
-	  "Windows Tools" },
 	{ libfwsi_shell_folder_identifier_windows_update,
 	  "Windows Update" },
 	{ libfwsi_shell_folder_identifier_workspaces_center,
 	  "Workspaces Center" },
-
-	{ libfwsi_shell_folder_identifier_file_explorer,
-	  "File Explorer" },
-	{ libfwsi_shell_folder_identifier_quick_access,
-	  "Quick Access" },
-	{ libfwsi_shell_folder_identifier_search_home,
-	  "Search Home" },
 
 	{ libfwsi_shell_folder_identifier_unknown,
 	  "Unknown" } };

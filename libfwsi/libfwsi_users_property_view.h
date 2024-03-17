@@ -34,6 +34,13 @@ extern "C" {
 #endif
 
 LIBFWSI_EXTERN \
+int libfwsi_users_property_view_get_known_folder_identifier(
+     libfwsi_item_t *users_property_view,
+     uint8_t *guid_data,
+     size_t guid_data_size,
+     libcerror_error_t **error );
+
+LIBFWSI_EXTERN \
 int libfwsi_users_property_view_get_property_store_data_size(
      libfwsi_item_t *users_property_view,
      size_t *data_size,

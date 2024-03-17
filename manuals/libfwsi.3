@@ -1,4 +1,4 @@
-.Dd March 16, 2024
+.Dd March 17, 2024
 .Dt libfwsi 3
 .Os libfwsi
 .Sh NAME
@@ -148,6 +148,8 @@ Control panel item functions
 .Fn libfwsi_control_panel_item_get_identifier "libfwsi_item_t *control_panel_item" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
 .Pp
 Users property view functions
+.Ft int
+.Fn libfwsi_users_property_view_get_known_folder_identifier "libfwsi_item_t *users_property_view" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
 .Ft int
 .Fn libfwsi_users_property_view_get_property_store_data_size "libfwsi_item_t *users_property_view" "size_t *data_size" "libfwsi_error_t **error"
 .Ft int

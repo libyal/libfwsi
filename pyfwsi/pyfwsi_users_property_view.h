@@ -35,6 +35,10 @@ extern "C" {
 extern PyMethodDef pyfwsi_users_property_view_object_methods[];
 extern PyTypeObject pyfwsi_users_property_view_type_object;
 
+PyObject *pyfwsi_users_property_view_get_known_folder_identifier(
+           pyfwsi_item_t *pyfwsi_item,
+           PyObject *arguments );
+
 PyObject *pyfwsi_users_property_view_get_property_store_data(
            pyfwsi_item_t *pyfwsi_item,
            PyObject *arguments );

@@ -26,16 +26,24 @@
 #include <stdlib.h>
 #endif
 
-#include "pyfwsi_users_property_view.h"
 #include "pyfwsi_error.h"
+#include "pyfwsi_guid.h"
 #include "pyfwsi_integer.h"
 #include "pyfwsi_item.h"
 #include "pyfwsi_libcerror.h"
 #include "pyfwsi_libfwsi.h"
 #include "pyfwsi_python.h"
 #include "pyfwsi_unused.h"
+#include "pyfwsi_users_property_view.h"
 
 PyMethodDef pyfwsi_users_property_view_object_methods[] = {
+
+	{ "get_known_folder_identifier",
+	  (PyCFunction) pyfwsi_users_property_view_get_known_folder_identifier,
+	  METH_NOARGS,
+	  "get_known_folder_identifier() -> Unicode string or None\n"
+	  "\n"
+	  "Retrieves the known folder identifier." },
 
 	{ "get_property_store_data",
 	  (PyCFunction) pyfwsi_users_property_view_get_property_store_data,
@@ -49,6 +57,12 @@ PyMethodDef pyfwsi_users_property_view_object_methods[] = {
 };
 
 PyGetSetDef pyfwsi_users_property_view_object_get_set_definitions[] = {
+
+	{ "known_folder_identifier",
+	  (getter) pyfwsi_users_property_view_get_known_folder_identifier,
+	  (setter) 0,
+	  "The known folder identifier.",
+	  NULL },
 
 	{ "property_store_data",
 	  (getter) pyfwsi_users_property_view_get_property_store_data,
@@ -154,6 +168,77 @@ PyTypeObject pyfwsi_users_property_view_type_object = {
 	/* tp_del */
 	0
 };
+
+/* Retrieves the known folder identifier
+ * Returns a Python object if successful or NULL on error
+ */
+PyObject *pyfwsi_users_property_view_get_known_folder_identifier(
+           pyfwsi_item_t *pyfwsi_item,
+           PyObject *arguments PYFWSI_ATTRIBUTE_UNUSED )
+{
+	uint8_t guid_data[ 16 ];
+
+	PyObject *string_object  = NULL;
+	libcerror_error_t *error = NULL;
+	static char *function    = "pyfwsi_users_property_view_get_known_folder_identifier";
+	int result               = 0;
+
+	PYFWSI_UNREFERENCED_PARAMETER( arguments )
+
+	if( pyfwsi_item == NULL )
+	{
+		PyErr_Format(
+		 PyExc_TypeError,
+		 "%s: invalid item.",
+		 function );
+
+		return( NULL );
+	}
+	Py_BEGIN_ALLOW_THREADS
+
+	result = libfwsi_users_property_view_get_known_folder_identifier(
+	          pyfwsi_item->item,
+	          guid_data,
+	          16,
+	          &error );
+
+	Py_END_ALLOW_THREADS
+
+	if( result == -1 )
+	{
+		pyfwsi_error_raise(
+		 error,
+		 PyExc_IOError,
+		 "%s: unable to retrieve known folder identifier.",
+		 function );
+
+		libcerror_error_free(
+		 &error );
+
+		return( NULL );
+	}
+	else if( result == 0 )
+	{
+		Py_IncRef(
+		 Py_None );
+
+		return( Py_None );
+	}
+	string_object = pyfwsi_string_new_from_guid(
+	                 guid_data,
+	                 16 );
+
+	if( string_object == NULL )
+	{
+		PyErr_Format(
+		 PyExc_IOError,
+		 "%s: unable to convert GUID into Unicode object.",
+		 function );
+
+		return( NULL );
+	}
+	return( string_object );
+}
 
 /* Retrieves the property store data
  * Returns a Python object if successful or NULL on error
