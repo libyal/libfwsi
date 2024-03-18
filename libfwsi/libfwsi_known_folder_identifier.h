@@ -38,11 +38,11 @@ typedef struct libfwsi_known_folder_identifier_definition libfwsi_known_folder_i
 
 struct libfwsi_known_folder_identifier_definition
 {
-	/* The folder identifier
+	/* The identifier
 	 */
 	uint8_t *identifier;
 
-	/* The folder name
+	/* The name
 	 */
 	const char *name;
 };

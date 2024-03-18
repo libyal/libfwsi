@@ -202,11 +202,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_control_panel_identifier.c"
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_control_panel_item.c"
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item_identifier.c"
 				>
 			</File>
 			<File
@@ -420,11 +420,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_control_panel_identifier.h"
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\libfwsi\libfwsi_control_panel_item.h"
+				RelativePath="..\..\libfwsi\libfwsi_control_panel_item_identifier.h"
 				>
 			</File>
 			<File

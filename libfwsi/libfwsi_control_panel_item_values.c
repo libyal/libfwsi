@@ -24,7 +24,7 @@
 #include <memory.h>
 #include <types.h>
 
-#include "libfwsi_control_panel_identifier.h"
+#include "libfwsi_control_panel_item_identifier.h"
 #include "libfwsi_control_panel_item_values.h"
 #include "libfwsi_debug.h"
 #include "libfwsi_libcerror.h"
@@ -241,7 +241,7 @@ int libfwsi_control_panel_item_values_read_data(
 		libcnotify_printf(
 		 "%s: control panel name\t\t: %s\n",
 		 function,
-		 libfwsi_control_panel_identifier_get_name(
+		 libfwsi_control_panel_item_identifier_get_name(
 		  control_panel_item_values->identifier ) );
 
 		libcnotify_printf(

@@ -220,7 +220,7 @@ Includes the 2 bytes of the size itself
 | 3 | 1 | | Sort index
 | 4 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+For a list of shell folder identifiers see: https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html[[WINSHL-KB\]]
 4+| _Present if shell item size > 20_
 | 20 | ... | | Extension block +
 See section: <<extension_block_0xbeef0017,Extension block 0xbeef0017>> or <<extension_block_0xbeef0026,Extension block 0xbeef0026>>
@@ -295,7 +295,7 @@ Remaining bytes are filled with 0 byte values
 3+ | [yellow-background]*Present if shell item size > 25 (seen in Windows 7) or is this indicated by another value?*
 | 25 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]] +
+For a list of shell folder identifiers see: https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html[[WINSHL-KB\]] +
 [yellow-background]*Also seen in combination with Documents folder namespace CLSID, maybe this value should be Class identifier?*
 4+| _Present if shell item contains more data_
 | ... | ... | | Extension block +
@@ -363,7 +363,7 @@ Also see below.
 4+| _If class type indicator flag 0x80 is set_
 | ... | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+For a list of shell folder identifiers see: https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html[[WINSHL-KB\]]
 |===
 
 The primary name contains the long name if available otherwise it contains the
@@ -783,6 +783,25 @@ Includes the 2 bytes of the size itself
 000000c2
 ....
 
+=== Cabinet file shell item
+
+A cabinet file shell item represents the contents of a cabinet (.cab) archive
+file.
+
+[cols="1,1,1,5",options="header"]
+|===
+| Offset | Size | Value | Description
+| 0 | 2 | | The size of the shell item +
+Includes the 2 bytes of the size itself
+| 2 | 2 | | [yellow-background]*Unknown (Empty values)*
+| 4 | 4 | | [yellow-background]*Unknown*
+| 8 | 4 | "\x71\x58\x5a\x9e" (0x9e5a5871) | Signature
+| 12 | 4 | | [yellow-background]*Unknown (size of next data including 4 bytes of the size itself?)*
+| 16 | ... | | Name +
+Contains an UTF-16 little-endian string with end-of-string character
+| ... | 2 | | [yellow-background]*Unknown (Empty values)*
+|===
+
 === Control panel shell items
 
 ==== Control panel CPL file shell item
@@ -882,9 +901,9 @@ Includes the 2 bytes of the size itself
 | 6 | ... | | Inner data
 | ... | 16 | 5e591a74-df96-48d3-8d67-1733bcee28ba | Delegate class identifier +
 Contains a GUID
-| ... | 16 | | Delegate folder identifier +
+| ... | 16 | | Delegate (shell) folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+For a list of shell folder identifiers see: https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html[[WINSHL-KB\]]
 |===
 
 ==== Delegate folders
@@ -1536,7 +1555,7 @@ Includes the 2 bytes of the size itself
 | 3 | 1 | | [yellow-background]*Unknown (flags?)*
 | 4 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+For a list of shell folder identifiers see: https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html[[WINSHL-KB\]]
 |===
 
 === 0x67 shell item
@@ -1743,7 +1762,7 @@ Includes the 2 bytes of the size itself
 | 4 | 4 | 0xbeef0003 | Extension signature
 | 8 | 16 | | Shell folder identifier +
 Contains a GUID +
-For a list of shell folder identifiers see: https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers[[LIBFWSI-WIKI\]]
+For a list of shell folder identifiers see: https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html[[WINSHL-KB\]]
 | 24 | 2 | | First extension block offset +
 The offset is relative from the start of the shell item.
 |===
@@ -2831,14 +2850,6 @@ Windows XP
 | URL: | https://github.com/libyal/libfole/blob/main/documentation/OLE%20definitions.asciidoc
 |===
 
-`[LIBFWSI-WIKI]`
-
-[cols="1,5",options="header"]
-|===
-| Title: | Shell Folder Identifiers
-| URL: | https://github.com/libyal/libfwsi/wiki/Shell-Folder-identifiers
-|===
-
 `[LIBFWPS]`
 
 [cols="1,5",options="header"]
@@ -2946,6 +2957,14 @@ https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/ne-shlwapi-url_schem
 |===
 | Title: | Windows Properties
 | URL: | https://learn.microsoft.com/en-us/windows/win32/properties/props
+|===
+
+`[WINSHL-KB]`
+
+[cols="1,5",options="header"]
+|===
+| Title: | Shell Folders
+| URL: | https://winshl-kb.readthedocs.io/en/latest/sources/shell-folders/index.html
 |===
 
 [appendix]
