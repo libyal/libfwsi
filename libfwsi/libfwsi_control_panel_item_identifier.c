@@ -26,11 +26,20 @@
 #include "libfwsi_control_panel_item_identifier.h"
 #include "libfwsi_libcerror.h"
 
+uint8_t libfwsi_control_panel_item_identifier_action_center_cpl[ 16 ] = {
+	0xa7, 0xf8, 0x64, 0xbb, 0xe7, 0xbe, 0x1a, 0x4e, 0xab, 0x8d, 0x7d, 0x82, 0x73, 0xf7, 0xfd, 0xb6 };
+
 uint8_t libfwsi_control_panel_item_identifier_add_new_hardware[ 16 ] = {
 	0x62, 0x92, 0x97, 0x7a, 0xce, 0x40, 0xff, 0x46, 0xae, 0xee, 0x78, 0x84, 0xac, 0x3b, 0x61, 0x36 };
 
+uint8_t libfwsi_control_panel_item_identifier_administrative_tools[ 16 ] = {
+	0xe1, 0xa4, 0x0e, 0xd2, 0x57, 0x39, 0xd2, 0x11, 0xa4, 0x0b, 0x0c, 0x50, 0x20, 0x52, 0x41, 0x53 };
+
 uint8_t libfwsi_control_panel_item_identifier_autoplay[ 16 ] = {
 	0x1e, 0xde, 0x60, 0x9c, 0xfc, 0xe5, 0xf4, 0x40, 0xa4, 0x87, 0x46, 0x08, 0x51, 0xa8, 0xd9, 0x15 };
+
+uint8_t libfwsi_control_panel_item_identifier_backup_and_restore[ 16 ] = {
+	0xea, 0x2b, 0x8a, 0xb9, 0x42, 0x7d, 0x58, 0x45, 0x8b, 0xd1, 0x83, 0x2f, 0x41, 0xba, 0xc6, 0xfd };
 
 uint8_t libfwsi_control_panel_item_identifier_backup_and_restore_center[ 16 ] = {
 	0xdd, 0x31, 0x5a, 0x33, 0x4b, 0xf0, 0x76, 0x4d, 0xa9, 0x25, 0xd6, 0xb4, 0x7c, 0xf3, 0x60, 0xdf };
@@ -82,9 +91,6 @@ uint8_t libfwsi_control_panel_item_identifier_fonts[ 16 ] = {
 
 uint8_t libfwsi_control_panel_item_identifier_get_programs_online[ 16 ] = {
 	0x4c, 0xfb, 0x7e, 0x3e, 0xf1, 0xfa, 0x3d, 0x45, 0x89, 0xeb, 0x56, 0x02, 0x68, 0x75, 0xef, 0x90 };
-
-uint8_t libfwsi_control_panel_item_identifier_getting_started[ 16 ] = {
-	0x8c, 0x7f, 0x1b, 0xcb, 0x0a, 0xc5, 0x76, 0x41, 0xb6, 0x04, 0x9e, 0x24, 0xde, 0xe8, 0xd4, 0xd1 };
 
 uint8_t libfwsi_control_panel_item_identifier_history_vault[ 16 ] = {
 	0x65, 0xe9, 0xb6, 0xf6, 0xb2, 0xe9, 0x4b, 0x44, 0x92, 0x86, 0x10, 0xc9, 0x15, 0x2e, 0xdb, 0xc5 };
@@ -179,9 +185,6 @@ uint8_t libfwsi_control_panel_item_identifier_scheduled_tasks[ 16 ] = {
 uint8_t libfwsi_control_panel_item_identifier_secure_startup[ 16 ] = {
 	0x27, 0x87, 0xef, 0xd9, 0xc2, 0xca, 0x60, 0x4e, 0x80, 0x9e, 0x86, 0xf8, 0x0a, 0x66, 0x6c, 0x91 };
 
-uint8_t libfwsi_control_panel_item_identifier_security_and_maintenance_cpl[ 16 ] = {
-	0xa7, 0xf8, 0x64, 0xbb, 0xe7, 0xbe, 0x1a, 0x4e, 0xab, 0x8d, 0x7d, 0x82, 0x73, 0xf7, 0xfd, 0xb6 };
-
 uint8_t libfwsi_control_panel_item_identifier_sensors[ 16 ] = {
 	0x54, 0x01, 0x95, 0xe9, 0x18, 0xc4, 0x9e, 0x41, 0xa9, 0x0a, 0x20, 0xc5, 0x28, 0x7a, 0xe2, 0x4b };
 
@@ -224,8 +227,8 @@ uint8_t libfwsi_control_panel_item_identifier_user_accounts[ 16 ] = {
 uint8_t libfwsi_control_panel_item_identifier_view_available_networks[ 16 ] = {
 	0x28, 0x85, 0xa9, 0x38, 0xbf, 0x6c, 0xa9, 0x4c, 0x8d, 0xc0, 0xb1, 0xe1, 0xd1, 0x0f, 0x7b, 0x1b };
 
-uint8_t libfwsi_control_panel_item_identifier_windows_7_file_recovery[ 16 ] = {
-	0xea, 0x2b, 0x8a, 0xb9, 0x42, 0x7d, 0x58, 0x45, 0x8b, 0xd1, 0x83, 0x2f, 0x41, 0xba, 0xc6, 0xfd };
+uint8_t libfwsi_control_panel_item_identifier_welcome_center[ 16 ] = {
+	0x8c, 0x7f, 0x1b, 0xcb, 0x0a, 0xc5, 0x76, 0x41, 0xb6, 0x04, 0x9e, 0x24, 0xde, 0xe8, 0xd4, 0xd1 };
 
 uint8_t libfwsi_control_panel_item_identifier_windows_anytime_upgrade[ 16 ] = {
 	0x0e, 0x2a, 0x12, 0xbe, 0x03, 0x45, 0xda, 0x11, 0x8b, 0xde, 0xf6, 0x6b, 0xad, 0x1e, 0x3f, 0x3a };
@@ -233,7 +236,7 @@ uint8_t libfwsi_control_panel_item_identifier_windows_anytime_upgrade[ 16 ] = {
 uint8_t libfwsi_control_panel_item_identifier_windows_defender[ 16 ] = {
 	0xb9, 0x9e, 0x55, 0xd8, 0xc0, 0x20, 0x0e, 0x41, 0xbe, 0xda, 0x7e, 0xd4, 0x16, 0xae, 0xcc, 0x2a };
 
-uint8_t libfwsi_control_panel_item_identifier_windows_defender_firewall[ 16 ] = {
+uint8_t libfwsi_control_panel_item_identifier_windows_firewall[ 16 ] = {
 	0x2f, 0x49, 0x26, 0x40, 0x69, 0x2f, 0xb8, 0x46, 0xb9, 0xbf, 0x56, 0x54, 0xfc, 0x07, 0xe4, 0x23 };
 
 uint8_t libfwsi_control_panel_item_identifier_windows_sidebar_properties[ 16 ] = {
@@ -241,9 +244,6 @@ uint8_t libfwsi_control_panel_item_identifier_windows_sidebar_properties[ 16 ] =
 
 uint8_t libfwsi_control_panel_item_identifier_windows_sideshow[ 16 ] = {
 	0x61, 0x48, 0x5a, 0xe9, 0x7a, 0xd5, 0xe1, 0x4b, 0xad, 0x0f, 0x35, 0x26, 0x7e, 0x26, 0x17, 0x39 };
-
-uint8_t libfwsi_control_panel_item_identifier_windows_tools[ 16 ] = {
-	0xe1, 0xa4, 0x0e, 0xd2, 0x57, 0x39, 0xd2, 0x11, 0xa4, 0x0b, 0x0c, 0x50, 0x20, 0x52, 0x41, 0x53 };
 
 uint8_t libfwsi_control_panel_item_identifier_windows_update[ 16 ] = {
 	0xdb, 0xf7, 0xee, 0x36, 0xad, 0x88, 0x81, 0x4e, 0xad, 0x49, 0x0e, 0x31, 0x3f, 0x0c, 0x35, 0xf8 };
@@ -262,10 +262,16 @@ uint8_t libfwsi_control_panel_item_identifier_unknown[ 16 ] = {
  */
 libfwsi_control_panel_item_identifier_definition_t libfwsi_control_panel_item_identifier_definitions[ ] = {
 
+	{ libfwsi_control_panel_item_identifier_action_center_cpl,
+	  "Action Center CPL" },
 	{ libfwsi_control_panel_item_identifier_add_new_hardware,
 	  "Add New Hardware" },
+	{ libfwsi_control_panel_item_identifier_administrative_tools,
+	  "Administrative Tools" },
 	{ libfwsi_control_panel_item_identifier_autoplay,
 	  "AutoPlay" },
+	{ libfwsi_control_panel_item_identifier_backup_and_restore,
+	  "Backup And Restore" },
 	{ libfwsi_control_panel_item_identifier_backup_and_restore_center,
 	  "Backup and Restore Center" },
 	{ libfwsi_control_panel_item_identifier_biometrics,
@@ -300,8 +306,6 @@ libfwsi_control_panel_item_identifier_definition_t libfwsi_control_panel_item_id
 	  "Fonts" },
 	{ libfwsi_control_panel_item_identifier_get_programs_online,
 	  "Get Programs Online" },
-	{ libfwsi_control_panel_item_identifier_getting_started,
-	  "Getting Started" },
 	{ libfwsi_control_panel_item_identifier_history_vault,
 	  "History Vault" },
 	{ libfwsi_control_panel_item_identifier_homegroup_control_panel,
@@ -364,8 +368,6 @@ libfwsi_control_panel_item_identifier_definition_t libfwsi_control_panel_item_id
 	  "Scheduled Tasks" },
 	{ libfwsi_control_panel_item_identifier_secure_startup,
 	  "Secure Startup" },
-	{ libfwsi_control_panel_item_identifier_security_and_maintenance_cpl,
-	  "Security and Maintenance CPL" },
 	{ libfwsi_control_panel_item_identifier_sensors,
 	  "Sensors" },
 	{ libfwsi_control_panel_item_identifier_set_user_defaults,
@@ -394,20 +396,18 @@ libfwsi_control_panel_item_identifier_definition_t libfwsi_control_panel_item_id
 	  "User Accounts" },
 	{ libfwsi_control_panel_item_identifier_view_available_networks,
 	  "View Available Networks" },
-	{ libfwsi_control_panel_item_identifier_windows_7_file_recovery,
-	  "Windows 7 File Recovery" },
+	{ libfwsi_control_panel_item_identifier_welcome_center,
+	  "Welcome Center" },
 	{ libfwsi_control_panel_item_identifier_windows_anytime_upgrade,
 	  "Windows Anytime Upgrade" },
 	{ libfwsi_control_panel_item_identifier_windows_defender,
 	  "Windows Defender" },
-	{ libfwsi_control_panel_item_identifier_windows_defender_firewall,
-	  "Windows Defender Firewall" },
+	{ libfwsi_control_panel_item_identifier_windows_firewall,
+	  "Windows Firewall" },
 	{ libfwsi_control_panel_item_identifier_windows_sidebar_properties,
 	  "Windows Sidebar Properties" },
 	{ libfwsi_control_panel_item_identifier_windows_sideshow,
 	  "Windows SideShow" },
-	{ libfwsi_control_panel_item_identifier_windows_tools,
-	  "Windows Tools" },
 	{ libfwsi_control_panel_item_identifier_windows_update,
 	  "Windows Update" },
 	{ libfwsi_control_panel_item_identifier_workspaces_center,
