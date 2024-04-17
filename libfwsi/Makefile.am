@@ -1,6 +1,6 @@
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/common \
+	-I../include -I$(top_srcdir)/include \
+	-I../common -I$(top_srcdir)/common \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCDATA_CPPFLAGS@ \
 	@LIBCNOTIFY_CPPFLAGS@ \
@@ -98,13 +98,11 @@ EXTRA_DIST = \
 	libfwsi.rc \
 	libfwsi.rc.in
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	libfwsi_definitions.h \
+	libfwsi.rc \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f libfwsi_definitions.h
-	-rm -f libfwsi.rc
-	-rm -f Makefile
 
 sources-local: $(BUILT_SOURCES)
 

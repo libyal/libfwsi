@@ -15,13 +15,11 @@ EXTRA_DIST = \
 	libfwsi/features.h.in \
 	libfwsi/types.h.in
 
-MAINTAINERCLEANFILES = \
+DISTCLEANFILES = \
+	libfwsi.h \
+	libfwsi/definitions.h \
+	libfwsi/features.h \
+	libfwsi/types.h \
+	Makefile \
 	Makefile.in
-
-distclean: clean
-	-rm -f libfwsi.h
-	-rm -f libfwsi/definitions.h
-	-rm -f libfwsi/features.h
-	-rm -f libfwsi/types.h
-	-rm -f Makefile
 
