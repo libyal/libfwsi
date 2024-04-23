@@ -19,8 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFWSI_SHELL_FOLDER_IDENTIFIER_H )
-#define _LIBFWSI_SHELL_FOLDER_IDENTIFIER_H
+#if !defined( _LIBFWSI_KNOWN_FOLDER_IDENTIFIER_H )
+#define _LIBFWSI_KNOWN_FOLDER_IDENTIFIER_H
 
 #include <common.h>
 #include <types.h>
@@ -203,5 +203,5 @@ const char *libfwsi_known_folder_identifier_get_name(
 }
 #endif
 
-#endif /* !defined( _LIBFWSI_SHELL_FOLDER_IDENTIFIER_H ) */
+#endif /* !defined( _LIBFWSI_KNOWN_FOLDER_IDENTIFIER_H ) */
 
