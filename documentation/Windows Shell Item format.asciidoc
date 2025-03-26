@@ -193,16 +193,13 @@ class type indicators are:
 |===
 | Value | Description
 | 0x1f | Root folder shell item
-| | |
 | 0x20 – 0x2f | Volume shell item +
 See section: <<volume_shell_item,Volume shell item>>
 | 0x30 – 0x3f | File entry shell item +
 See section: <<file_entry_shell_item,File entry shell item>>
 | 0x40 – 0x4f | Network location shell item +
 See section: <<network_location_shell_item,Network location shell item>>
-| | |
 | 0x61 | URI shell item
-| | |
 | 0x71 | Control Panel shell item
 |===
 
