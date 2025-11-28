@@ -1,12 +1,12 @@
 AC_PREREQ([2.71])
 
 AC_INIT(
- [libfwsi],
- [20240717],
- [joachim.metz@gmail.com])
+  [libfwsi],
+  [20251128],
+  [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
- [include/libfwsi.h.in])
+  [include/libfwsi.h.in])
 
 AM_INIT_AUTOMAKE([gnu 1.6 tar-ustar])
 AM_EXTRA_RECURSIVE_TARGETS([sources splint])
@@ -122,21 +122,21 @@ CFLAGS="$CFLAGS -Wall";
 
 dnl Check if requires and build requires should be set in spec file
 AS_IF(
- [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcthreads" = xyes || test "x$ac_cv_libcdata" = xyes || test "x$ac_cv_libclocale" = xyes || test "x$ac_cv_libcnotify" = xyes || test "x$ac_cv_libuna" = xyes || test "x$ac_cv_libfdatetime" = xyes || test "x$ac_cv_libfguid" = xyes || test "x$ac_cv_libfole" = xyes || test "x$ac_cv_libfwps" = xyes],
- [AC_SUBST(
-  [libfwsi_spec_requires],
-  [Requires:])
- ])
+  [test "x$ac_cv_libcerror" = xyes || test "x$ac_cv_libcthreads" = xyes || test "x$ac_cv_libcdata" = xyes || test "x$ac_cv_libclocale" = xyes || test "x$ac_cv_libcnotify" = xyes || test "x$ac_cv_libuna" = xyes || test "x$ac_cv_libfdatetime" = xyes || test "x$ac_cv_libfguid" = xyes || test "x$ac_cv_libfole" = xyes || test "x$ac_cv_libfwps" = xyes],
+  [AC_SUBST(
+    [libfwsi_spec_requires],
+    [Requires:])
+  ])
 
 dnl Set the date for the dpkg files
 AC_SUBST(
- [DPKG_DATE],
- [`date -R 2> /dev/null`])
+  [DPKG_DATE],
+  [`date -R 2> /dev/null`])
 
 dnl Set the date for the spec file
 AC_SUBST(
- [SPEC_DATE],
- [`date +"%a %b %e %Y" 2> /dev/null`])
+  [SPEC_DATE],
+  [`date +"%a %b %e %Y" 2> /dev/null`])
 
 dnl Generate Makefiles
 AC_CONFIG_FILES([Makefile])
