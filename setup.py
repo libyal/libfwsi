@@ -241,8 +241,6 @@ CMDCLASS = {
   "build_ext": custom_build_ext,
   "sdist": custom_sdist}
 
-SOURCES = []
-
 # TODO: replace by detection of MSC
 DEFINE_MACROS = []
 if platform.system() == "Windows":
@@ -257,6 +255,8 @@ if platform.system() == "Windows":
 # Put everything inside the Python module to prevent issues with finding
 # shared libaries since pip does not integrate well with the system package
 # management.
+SOURCES = []
+
 for library_name in project_information.library_names:
   for source_file in glob.glob(os.path.join(library_name, "*.[ly]")):
     generated_source_file = "{0:s}.c".format(source_file[:-2])
