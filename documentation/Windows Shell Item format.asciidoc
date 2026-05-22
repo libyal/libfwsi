@@ -33,7 +33,7 @@ for the libfwsi project.
 == License
 
 ....
-Copyright (C) 2010-2024, Joachim Metz <joachim.metz@gmail.com>.
+Copyright (C) 2010-2026, Joachim Metz <joachim.metz@gmail.com>.
 Permission is granted to copy, distribute and/or modify this document under the
 terms of the GNU Free Documentation License, Version 1.3 or any later version
 published by the Free Software Foundation; with no Invariant Sections, no
@@ -96,6 +96,7 @@ Updated information regarding the delegate folder shell item.
 | 0.0.37 | J.B. Metz | July 2023 | Additional information regarding encoding of filenames.
 | 0.0.38 | J.B. Metz | February 2024 | Additional information regarding extension blocks 0xbeef0026 and 0xbeef0029.
 | 0.0.39 | J.B. Metz | March 2024 | Additional information.
+| 0.0.40 | J.B. Metz | May 2026 | Additional information.
 |===
 
 :numbered:
@@ -193,16 +194,16 @@ class type indicators are:
 |===
 | Value | Description
 | 0x1f | Root folder shell item
-| | |
+| |
 | 0x20 – 0x2f | Volume shell item +
 See section: <<volume_shell_item,Volume shell item>>
 | 0x30 – 0x3f | File entry shell item +
 See section: <<file_entry_shell_item,File entry shell item>>
 | 0x40 – 0x4f | Network location shell item +
 See section: <<network_location_shell_item,Network location shell item>>
-| | |
+| |
 | 0x61 | URI shell item
-| | |
+| |
 | 0x71 | Control Panel shell item
 |===
 
@@ -1793,11 +1794,8 @@ Includes the 2 bytes of the size itself
 Contains a FAT date and time in UTC
 | 12 | 4 | | Last access date and time +
 Contains a FAT date and time in UTC
-| 16 | 2 | | [yellow-background]*Unknown (version or identifier?)* +
-[yellow-background]*0x14 => Windows XP or 2003* +
-[yellow-background]*0x26 => Windows Vista (SP0)* +
-[yellow-background]*0x2a => Windows 2008, 7, 8.0* +
-[yellow-background]*0x2e => Windows 8.1, 10*
+| 16 | 2 | | Long name offset +
+The offset is relative from the start of the extension block.
 4+| _If extension version >= 7_
 | ... | 2 | | [yellow-background]*Unknown (empty values)*
 | ... | 8 | | File reference +
@@ -1805,8 +1803,8 @@ See section: <<ntfs_file_reference,NTFS file reference>> +
 [yellow-background]*Not always a file reference value?*
 | ... | 8 | | [yellow-background]*Unknown*
 4+| _If extension version >= 3_
-| ... | 2 | | Long string size +
-Contains the size of long name and localized name or 0 if no localized name is present. For extension version 8 and later it also includes the size of values after this size and before the long name.
+| ... | 2 | | Localized name offset +
+The offset is relative from the start of the extension block.
 4+| _If extension version >= 9_
 | ... | 4 | | [yellow-background]*Unknown (empty values)*
 4+| _If extension version >= 8_

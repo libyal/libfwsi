@@ -155,12 +155,13 @@ int libfwsi_file_entry_extension_values_read_data(
      int ascii_codepage,
      libcerror_error_t **error )
 {
-	static char *function     = "libfwsi_file_entry_extension_values_read_data";
-	size_t data_offset        = 0;
-	size_t string_size        = 0;
-	uint32_t signature        = 0;
-	uint16_t long_string_size = 0;
-	uint16_t version          = 0;
+	static char *function          = "libfwsi_file_entry_extension_values_read_data";
+	size_t data_offset             = 0;
+	size_t string_size             = 0;
+	uint32_t signature             = 0;
+	uint16_t localized_name_offset = 0;
+	uint16_t long_name_offset      = 0;
+	uint16_t version               = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint16_t value_16bit      = 0;
@@ -238,6 +239,10 @@ int libfwsi_file_entry_extension_values_read_data(
 	 &( data[ 12 ] ),
 	 file_entry_extension_values->access_time );
 
+	byte_stream_copy_to_uint16_little_endian(
+	 &( data[ 16 ] ),
+	 long_name_offset );
+
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
@@ -277,13 +282,10 @@ int libfwsi_file_entry_extension_values_read_data(
 
 			goto on_error;
 		}
-		byte_stream_copy_to_uint16_little_endian(
-		 &( data[ 16 ] ),
-		 value_16bit );
 		libcnotify_printf(
-		 "%s: unknown1\t\t\t: 0x%04" PRIx16 "\n",
+		 "%s: long name offset\t\t: 0x%04" PRIx16 "\n",
 		 function,
-		 value_16bit );
+		 long_name_offset );
 	}
 #endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
@@ -305,7 +307,7 @@ int libfwsi_file_entry_extension_values_read_data(
 			 value_16bit );
 
 			libcnotify_printf(
-			 "%s: unknown2\t\t\t: 0x%04" PRIx16 "\n",
+			 "%s: unknown1\t\t\t: 0x%04" PRIx16 "\n",
 			 function,
 			 value_16bit );
 		}
@@ -342,7 +344,7 @@ int libfwsi_file_entry_extension_values_read_data(
 		if( libcnotify_verbose != 0 )
 		{
 			libcnotify_printf(
-			 "%s: unknown4:\n",
+			 "%s: unknown2:\n",
 			 function );
 			libcnotify_print_data(
 			 &( data[ data_offset ] ),
@@ -360,15 +362,15 @@ int libfwsi_file_entry_extension_values_read_data(
 	}
 	byte_stream_copy_to_uint16_little_endian(
 	 &( data[ data_offset ] ),
-	 long_string_size );
+	 localized_name_offset );
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
 		libcnotify_printf(
-		 "%s: long name size\t\t: %" PRIu16 "\n",
+		 "%s: localized name offset\t: 0x%04" PRIx16 "\n",
 		 function,
-		 long_string_size );
+		 localized_name_offset );
 	}
 #endif
 	data_offset += 2;
@@ -385,7 +387,7 @@ int libfwsi_file_entry_extension_values_read_data(
 		if( libcnotify_verbose != 0 )
 		{
 			libcnotify_printf(
-			 "%s: unknown5:\n",
+			 "%s: unknown4:\n",
 			 function );
 			libcnotify_print_data(
 			 &( data[ data_offset ] ),
@@ -407,7 +409,7 @@ int libfwsi_file_entry_extension_values_read_data(
 		if( libcnotify_verbose != 0 )
 		{
 			libcnotify_printf(
-			 "%s: unknown6:\n",
+			 "%s: unknown5:\n",
 			 function );
 			libcnotify_print_data(
 			 &( data[ data_offset ] ),
@@ -417,96 +419,98 @@ int libfwsi_file_entry_extension_values_read_data(
 #endif
 		data_offset += 4;
 	}
-	/* Do not try to parse unsupported data sizes
-	 */
-	if( data_offset >= data_size )
+	if( long_name_offset > 0 )
 	{
-		return( 0 );
-	}
-	/* Determine the long name size
-	 */
-	for( string_size = data_offset;
-	     ( string_size + 1 ) < data_size - 2;
-	     string_size += 2 )
-	{
-		if( ( data[ string_size ] == 0 )
-		 && ( data[ string_size + 1 ] == 0 ) )
+		/* Do not try to parse unsupported data sizes
+		 */
+		if( data_offset >= data_size )
 		{
-			string_size += 2;
-
-			break;
+			return( 0 );
 		}
-	}
-	string_size -= data_offset;
+		/* Determine the long name size
+		 */
+		for( string_size = data_offset;
+		     ( string_size + 1 ) < data_size - 2;
+		     string_size += 2 )
+		{
+			if( ( data[ string_size ] == 0 )
+			 && ( data[ string_size + 1 ] == 0 ) )
+			{
+				string_size += 2;
 
-	if( ( string_size == 0 )
-	 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
-		 "%s: invalid long name string size value out of bounds.",
-		 function );
+				break;
+			}
+		}
+		string_size -= data_offset;
 
-		goto on_error;
-	}
-	file_entry_extension_values->long_name = (uint8_t *) memory_allocate(
-	                                                      sizeof( uint8_t ) * string_size );
-
-	if( file_entry_extension_values->long_name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
-		 "%s: unable to create long name.",
-		 function );
-
-		goto on_error;
-	}
-	if( memory_copy(
-	     file_entry_extension_values->long_name,
-	     &( data[ data_offset ] ),
-	     string_size ) == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_MEMORY,
-		 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-		 "%s: unable to copy long name.",
-		 function );
-
-		goto on_error;
-	}
-	file_entry_extension_values->long_name_size = string_size;
-
-#if defined( HAVE_DEBUG_OUTPUT )
-	if( libcnotify_verbose != 0 )
-	{
-		if( libfwsi_debug_print_utf16_string_value(
-		     function,
-		     "long name\t\t",
-		     file_entry_extension_values->long_name,
-		     file_entry_extension_values->long_name_size,
-		     LIBUNA_ENDIAN_LITTLE,
-		     error ) != 1 )
+		if( ( string_size == 0 )
+		 || ( string_size > (size_t) MEMORY_MAXIMUM_ALLOCATION_SIZE ) )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
-			 "%s: unable to print UTF-16 string value.",
+			 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+			 "%s: invalid long name string size value out of bounds.",
 			 function );
 
 			goto on_error;
 		}
-	}
+		file_entry_extension_values->long_name = (uint8_t *) memory_allocate(
+		                                                      sizeof( uint8_t ) * string_size );
+
+		if( file_entry_extension_values->long_name == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+			 "%s: unable to create long name.",
+			 function );
+
+			goto on_error;
+		}
+		if( memory_copy(
+		     file_entry_extension_values->long_name,
+		     &( data[ data_offset ] ),
+		     string_size ) == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_MEMORY,
+			 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
+			 "%s: unable to copy long name.",
+			 function );
+
+			goto on_error;
+		}
+		file_entry_extension_values->long_name_size = string_size;
+
+#if defined( HAVE_DEBUG_OUTPUT )
+		if( libcnotify_verbose != 0 )
+		{
+			if( libfwsi_debug_print_utf16_string_value(
+			     function,
+			     "long name\t\t",
+			     file_entry_extension_values->long_name,
+			     file_entry_extension_values->long_name_size,
+			     LIBUNA_ENDIAN_LITTLE,
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_PRINT_FAILED,
+				 "%s: unable to print UTF-16 string value.",
+				 function );
+
+				goto on_error;
+			}
+		}
 #endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
-	data_offset += string_size;
-
-	if( long_string_size > 0 )
+		data_offset += string_size;
+	}
+	if( localized_name_offset > 0 )
 	{
 		/* Do not try to parse unsupported data sizes
 		 */

@@ -869,7 +869,7 @@ int libfwsi_extension_block_copy_from_byte_stream(
 		 value_16bit );
 
 		libcnotify_printf(
-		 "%s: first extention offset\t: %" PRIu16 "\n",
+		 "%s: first extention offset\t: 0x%04" PRIx16 "\n",
 		 function,
 		 value_16bit );
 
