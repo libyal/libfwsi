@@ -31,14 +31,17 @@
  */
 #if defined( LIBFWSI_DLL_EXPORT )
 #define LIBFWSI_EXTERN __declspec(dllexport)
+#define LIBFWSI_EXTERN_VARIABLE extern __declspec(dllexport)
 
 #elif defined( LIBFWSI_DLL_IMPORT )
-#define LIBFWSI_EXTERN extern __declspec(dllimport)
+#define LIBFWSI_EXTERN __declspec(dllimport)
+#define LIBFWSI_EXTERN_VARIABLE extern __declspec(dllimport)
 
 #else
 #define LIBFWSI_EXTERN extern
+#define LIBFWSI_EXTERN_VARIABLE extern
 
-#endif
+#endif /* defined( LIBFWSI_DLL_EXPORT ) */
 
 #endif /* !defined( _LIBFWSI_EXTERN_H ) */
 

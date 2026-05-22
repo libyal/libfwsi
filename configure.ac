@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
   [libfwsi],
-  [20260505],
+  [20260522],
   [joachim.metz@gmail.com])
 
 AC_CONFIG_SRCDIR(
@@ -21,7 +21,6 @@ LT_INIT([win32-dll])
 
 dnl Checks for programs
 AC_PROG_CC
-AC_PROG_GCC_TRADITIONAL
 AC_PROG_CXX
 AC_PROG_MAKE_SET
 AC_PROG_INSTALL
@@ -172,7 +171,7 @@ AC_CONFIG_FILES([dpkg/changelog])
 AC_CONFIG_FILES([libfwsi/libfwsi.rc])
 AC_CONFIG_FILES([libfwsi.pc])
 AC_CONFIG_FILES([libfwsi.spec])
-AC_CONFIG_FILES([setup.cfg])
+AC_CONFIG_FILES([pyproject.toml])
 dnl Generate a source configuration file
 AC_CONFIG_HEADERS([common/config.h])
 

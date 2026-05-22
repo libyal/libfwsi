@@ -1,6 +1,6 @@
 # Files to ignore by git
 #
-# Version: 20231119
+# Version: 20251129
 
 # Generic auto-generated build files
 *~
@@ -127,7 +127,7 @@ stamp-h[1-9]
 /libfwsi.spec
 /libfwsi/libfwsi.rc
 /libfwsi/libfwsi_definitions.h
-/setup.cfg
+/pyproject.toml
 /tests/*.exe
 /tests/fwsi_test_cdburn_values
 /tests/fwsi_test_compressed_folder_values
