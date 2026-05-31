@@ -285,8 +285,10 @@ int libfwsi_item_list_copy_from_byte_stream(
 		}
 		if( shell_item_size == 0 )
 		{
+#if defined( HAVE_DEBUG_OUTPUT )
 			byte_stream                   += 2;
 			byte_stream_size              -= 2;
+#endif
 			internal_item_list->data_size += 2;
 
 			break;

@@ -420,9 +420,9 @@ int libfwsi_web_site_values_read_data(
 		 function,
 		 value_16bit );
 	}
-#endif /* defined( HAVE_DEBUG_OUTPUT ) */
-
 	data_offset += 12;
+
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )

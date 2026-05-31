@@ -646,8 +646,8 @@ int libfwsi_file_entry_values_read_data(
 			 libfwsi_shell_folder_identifier_get_name(
 			  &( data[ data_offset ] ) ) );
 		}
-#endif
 		data_offset += 16;
+#endif
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )

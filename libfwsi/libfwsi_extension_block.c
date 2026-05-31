@@ -858,8 +858,8 @@ int libfwsi_extension_block_copy_from_byte_stream(
 			 internal_extension_block->data_size - 2,
 			 LIBCNOTIFY_PRINT_DATA_FLAG_GROUP_DATA );
 		}
-#endif
 		byte_stream_offset += internal_extension_block->data_size - 2;
+#endif
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -869,7 +869,7 @@ int libfwsi_extension_block_copy_from_byte_stream(
 		 value_16bit );
 
 		libcnotify_printf(
-		 "%s: first extention offset\t: 0x%04" PRIx16 "\n",
+		 "%s: first extension offset\t: 0x%04" PRIx16 "\n",
 		 function,
 		 value_16bit );
 

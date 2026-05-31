@@ -143,11 +143,11 @@ int libfwsi_control_panel_cpl_file_values_read_data(
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_control_panel_cpl_file_values_read_data";
-	size_t data_offset    = 0;
-	size_t string_size    = 0;
 	uint32_t signature    = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
+	size_t data_offset    = 0;
+	size_t string_size    = 0;
 	uint32_t value_32bit  = 0;
 	uint16_t value_16bit  = 0;
 #endif
@@ -259,9 +259,9 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 		 function,
 		 value_16bit );
 	}
-#endif
 	data_offset = 24;
-
+#endif
+#if defined( HAVE_DEBUG_OUTPUT )
 	if( data_offset <= ( data_size - 2 ) )
 	{
 		for( string_size = data_offset;
@@ -277,7 +277,6 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 		}
 		string_size -= data_offset;
 
-#if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			if( libfwsi_debug_print_utf16_string_value(
@@ -298,9 +297,10 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 				return( -1 );
 			}
 		}
-#endif
 		data_offset += string_size;
 	}
+#endif
+#if defined( HAVE_DEBUG_OUTPUT )
 	if( data_offset <= ( data_size - 2 ) )
 	{
 		for( string_size = data_offset;
@@ -316,7 +316,6 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 		}
 		string_size -= data_offset;
 
-#if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			if( libfwsi_debug_print_utf16_string_value(
@@ -337,9 +336,10 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 				return( -1 );
 			}
 		}
-#endif
 		data_offset += string_size;
 	}
+#endif
+#if defined( HAVE_DEBUG_OUTPUT )
 	if( data_offset <= ( data_size - 2 ) )
 	{
 		for( string_size = data_offset;
@@ -355,7 +355,6 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 		}
 		string_size -= data_offset;
 
-#if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
 			if( libfwsi_debug_print_utf16_string_value(
@@ -376,9 +375,9 @@ int libfwsi_control_panel_cpl_file_values_read_data(
 				return( -1 );
 			}
 		}
-#endif
 		data_offset += string_size;
 	}
+#endif
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{

@@ -463,9 +463,9 @@ int libfwsi_users_property_view_values_read_data(
 				goto on_error;
 			}
 		}
-#endif /* defined( HAVE_DEBUG_OUTPUT ) */
-
 		data_offset += property_store_size;
+
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )

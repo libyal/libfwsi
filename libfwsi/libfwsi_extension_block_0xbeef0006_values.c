@@ -144,9 +144,12 @@ int libfwsi_extension_block_0xbeef0006_values_read_data(
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_extension_block_0xbeef0006_values_read_data";
+	uint32_t signature    = 0;
+
+#if defined( HAVE_DEBUG_OUTPUT )
 	size_t data_offset    = 0;
 	size_t string_size    = 0;
-	uint32_t signature    = 0;
+#endif
 
 	if( extension_block_0xbeef0006_values == NULL )
 	{
@@ -197,6 +200,7 @@ int libfwsi_extension_block_0xbeef0006_values_read_data(
 	{
 		return( 0 );
 	}
+#if defined( HAVE_DEBUG_OUTPUT )
 	data_offset = 8;
 
 	for( string_size = data_offset;
@@ -213,7 +217,6 @@ int libfwsi_extension_block_0xbeef0006_values_read_data(
 	}
 	string_size -= data_offset;
 
-#if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{
 		if( libfwsi_debug_print_utf16_string_value(
@@ -234,9 +237,8 @@ int libfwsi_extension_block_0xbeef0006_values_read_data(
 			return( -1 );
 		}
 	}
-#endif
 	data_offset += string_size;
-
+#endif
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
 	{

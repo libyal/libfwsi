@@ -535,8 +535,8 @@ int libfwsi_network_location_values_read_data(
 			 function,
 			 value_16bit );
 		}
-#endif
 		data_offset += 2;
+#endif
 	}
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )

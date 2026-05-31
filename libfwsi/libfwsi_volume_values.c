@@ -265,9 +265,9 @@ int libfwsi_volume_values_read_data(
 			 libfwsi_shell_folder_identifier_get_name(
 			  volume_values->identifier ) );
 		}
-#endif /* defined( HAVE_DEBUG_OUTPUT ) */
-
 		data_offset = 20;
+
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 	}
 	else
 	{
@@ -390,9 +390,9 @@ int libfwsi_volume_values_read_data(
 				 libfwsi_shell_folder_identifier_get_name(
 				  &( data[ data_offset ] ) ) );
 			}
-#endif /* defined( HAVE_DEBUG_OUTPUT ) */
-
 			data_offset += 16;
+
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 		}
 	}
 #if defined( HAVE_DEBUG_OUTPUT )

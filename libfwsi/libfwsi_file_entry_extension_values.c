@@ -683,7 +683,9 @@ int libfwsi_file_entry_extension_values_read_data(
 			}
 #endif /* defined( HAVE_DEBUG_OUTPUT ) */
 		}
+#if defined( HAVE_DEBUG_OUTPUT )
 		data_offset += string_size;
+#endif
 	}
 	return( 1 );
 

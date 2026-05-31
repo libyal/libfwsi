@@ -328,8 +328,11 @@ int libfwsi_item_copy_from_byte_stream(
 	uint32_t signature                                       = 0;
 	uint16_t first_extension_block_offset                    = 0;
 	int entry_index                                          = 0;
-	int number_of_extension_blocks                           = 0;
 	int result                                               = 0;
+
+#if defined( HAVE_DEBUG_OUTPUT )
+	int number_of_extension_blocks                           = 0;
+#endif
 
 	if( item == NULL )
 	{
@@ -1458,7 +1461,9 @@ int libfwsi_item_copy_from_byte_stream(
 			}
 			extension_block = NULL;
 
+#if defined( HAVE_DEBUG_OUTPUT )
 			number_of_extension_blocks++;
+#endif
 		}
 		if( extension_block != NULL )
 		{

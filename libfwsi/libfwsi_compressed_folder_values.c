@@ -581,8 +581,10 @@ int libfwsi_compressed_folder_values_read_data(
 
 		goto on_error;
 	}
+#if defined( HAVE_DEBUG_OUTPUT )
 	string2_size += 1;
 	string2_size *= 2;
+#endif
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
@@ -618,9 +620,9 @@ int libfwsi_compressed_folder_values_read_data(
 			goto on_error;
 		}
 	}
-#endif /* defined( HAVE_DEBUG_OUTPUT ) */
-
 	data_offset += string2_size;
+
+#endif /* defined( HAVE_DEBUG_OUTPUT ) */
 
 #if defined( HAVE_DEBUG_OUTPUT )
 	if( libcnotify_verbose != 0 )
