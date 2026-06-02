@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Script that runs the tests
 #
-# Version: 20260529
+# Version: 20260531
 
 EXIT_SUCCESS=0
 EXIT_FAILURE=1
@@ -92,7 +92,7 @@ run_configure_make_check_with_asan()
 		return ${RESULT}
 	fi
 
-	make check CHECK_WITH_ASAN=1 CHECK_WITH_STDERR=1
+	make check CHECK_WITH_STDERR=1
 	RESULT=$?
 
 	if test ${RESULT} -ne ${EXIT_SUCCESS}

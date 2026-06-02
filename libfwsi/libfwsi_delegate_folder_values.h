@@ -26,12 +26,14 @@
 #include <types.h>
 
 #include "libfwsi_libcerror.h"
+#include "libfwsi_extern.h"
 
 #if defined( __cplusplus )
 extern "C" {
 #endif
 
-extern const uint8_t libfwsi_delegate_class_identifier[ 16 ];
+LIBFWSI_INTERNAL \
+const uint8_t libfwsi_delegate_class_identifier[ 16 ];
 
 typedef struct libfwsi_delegate_folder_values libfwsi_delegate_folder_values_t;
 

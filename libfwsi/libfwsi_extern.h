@@ -24,6 +24,19 @@
 
 #include <common.h>
 
+#if !defined( __CYGWIN__ ) && !defined( _WIN32 ) && defined( __has_attribute )
+#if __has_attribute( visibility )
+#define LIBFWSI_INTERNAL	__attribute__((visibility("hidden"))) extern
+
+#else
+#define LIBFWSI_INTERNAL	extern
+
+#endif /* __has_attribute( visibility ) */
+#else
+#define LIBFWSI_INTERNAL	extern
+
+#endif /* !defined( __CYGWIN__ ) && !defined( _WIN32 ) && defined( __has_attribute ) */
+
 /* Define HAVE_LOCAL_LIBFWSI for local use of libfwsi
  */
 #if !defined( HAVE_LOCAL_LIBFWSI )
@@ -32,7 +45,7 @@
 
 #else
 #define LIBFWSI_EXTERN		/* extern */
-#define LIBFWSI_EXTERN_VARIABLE	extern
+#define LIBFWSI_EXTERN_VARIABLE	LIBFWSI_INTERNAL
 
 #endif /* !defined( HAVE_LOCAL_LIBFWSI ) */
 
