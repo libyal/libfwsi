@@ -1,6 +1,6 @@
-.Dd April 17, 2024
-.Dt libfwsi 3
-.Os libfwsi
+.Dd June 11, 2026
+.Dt LIBFWSI 3
+.Os
 .Sh NAME
 .Nm libfwsi.h
 .Nd Library to access the Windows Shell Item format
@@ -8,207 +8,677 @@
 .In libfwsi.h
 .Pp
 Support functions
+.nf
 .Ft const char *
-.Fn libfwsi_get_version "void"
+.Fo libfwsi_get_version
+.Fa "void"
+.Fc
+.fi
 .Pp
 Notify functions
+.nf
 .Ft void
-.Fn libfwsi_notify_set_verbose "int verbose"
+.Fo libfwsi_notify_set_verbose
+.Fa "int verbose"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_notify_set_stream "FILE *stream" "libfwsi_error_t **error"
+.Fo libfwsi_notify_set_stream
+.Fa "FILE *stream"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_notify_stream_open "const char *filename" "libfwsi_error_t **error"
+.Fo libfwsi_notify_stream_open
+.Fa "const char *filename"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_notify_stream_close "libfwsi_error_t **error"
+.Fo libfwsi_notify_stream_close
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Error functions
+.nf
 .Ft void
-.Fn libfwsi_error_free "libfwsi_error_t **error"
+.Fo libfwsi_error_free
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_error_fprint "libfwsi_error_t *error" "FILE *stream"
+.Fo libfwsi_error_fprint
+.Fa "libfwsi_error_t *error"
+.Fa "FILE *stream"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_error_sprint "libfwsi_error_t *error" "char *string" "size_t size"
+.Fo libfwsi_error_sprint
+.Fa "libfwsi_error_t *error"
+.Fa "char *string"
+.Fa "size_t size"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_error_backtrace_fprint "libfwsi_error_t *error" "FILE *stream"
+.Fo libfwsi_error_backtrace_fprint
+.Fa "libfwsi_error_t *error"
+.Fa "FILE *stream"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_error_backtrace_sprint "libfwsi_error_t *error" "char *string" "size_t size"
+.Fo libfwsi_error_backtrace_sprint
+.Fa "libfwsi_error_t *error"
+.Fa "char *string"
+.Fa "size_t size"
+.Fc
+.fi
 .Pp
 Item list functions
+.nf
 .Ft int
-.Fn libfwsi_item_list_initialize "libfwsi_item_list_t **item_list" "libfwsi_error_t **error"
+.Fo libfwsi_item_list_initialize
+.Fa "libfwsi_item_list_t **item_list"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_list_free "libfwsi_item_list_t **item_list" "libfwsi_error_t **error"
+.Fo libfwsi_item_list_free
+.Fa "libfwsi_item_list_t **item_list"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_list_copy_from_byte_stream "libfwsi_item_list_t *item_list" "const uint8_t *byte_stream" "size_t byte_stream_size" "int ascii_codepage" "libfwsi_error_t **error"
+.Fo libfwsi_item_list_copy_from_byte_stream
+.Fa "libfwsi_item_list_t *item_list"
+.Fa "const uint8_t *byte_stream"
+.Fa "size_t byte_stream_size"
+.Fa "int ascii_codepage"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_list_get_data_size "libfwsi_item_list_t *item_list" "size_t *data_size" "libfwsi_error_t **error"
+.Fo libfwsi_item_list_get_data_size
+.Fa "libfwsi_item_list_t *item_list"
+.Fa "size_t *data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_list_get_number_of_items "libfwsi_item_list_t *item_list" "int *number_of_items" "libfwsi_error_t **error"
+.Fo libfwsi_item_list_get_number_of_items
+.Fa "libfwsi_item_list_t *item_list"
+.Fa "int *number_of_items"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_list_get_item "libfwsi_item_list_t *item_list" "int item_index" "libfwsi_item_t **item" "libfwsi_error_t **error"
+.Fo libfwsi_item_list_get_item
+.Fa "libfwsi_item_list_t *item_list"
+.Fa "int item_index"
+.Fa "libfwsi_item_t **item"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Item functions
+.nf
 .Ft int
-.Fn libfwsi_item_initialize "libfwsi_item_t **item" "libfwsi_error_t **error"
+.Fo libfwsi_item_initialize
+.Fa "libfwsi_item_t **item"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_free "libfwsi_item_t **item" "libfwsi_error_t **error"
+.Fo libfwsi_item_free
+.Fa "libfwsi_item_t **item"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_copy_from_byte_stream "libfwsi_item_t *item" "const uint8_t *byte_stream" "size_t byte_stream_size" "int ascii_codepage" "libfwsi_error_t **error"
+.Fo libfwsi_item_copy_from_byte_stream
+.Fa "libfwsi_item_t *item"
+.Fa "const uint8_t *byte_stream"
+.Fa "size_t byte_stream_size"
+.Fa "int ascii_codepage"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_type "libfwsi_item_t *item" "int *type" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_type
+.Fa "libfwsi_item_t *item"
+.Fa "int *type"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_class_type "libfwsi_item_t *item" "uint8_t *class_type" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_class_type
+.Fa "libfwsi_item_t *item"
+.Fa "uint8_t *class_type"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_signature "libfwsi_item_t *item" "uint32_t *signature" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_signature
+.Fa "libfwsi_item_t *item"
+.Fa "uint32_t *signature"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_data_size "libfwsi_item_t *item" "size_t *data_size" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_data_size
+.Fa "libfwsi_item_t *item"
+.Fa "size_t *data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_delegate_folder_identifier "libfwsi_item_t *item" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_delegate_folder_identifier
+.Fa "libfwsi_item_t *item"
+.Fa "uint8_t *guid_data"
+.Fa "size_t guid_data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_number_of_extension_blocks "libfwsi_item_t *item" "int *number_of_extension_blocks" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_number_of_extension_blocks
+.Fa "libfwsi_item_t *item"
+.Fa "int *number_of_extension_blocks"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_item_get_extension_block "libfwsi_item_t *item" "int extension_block_index" "libfwsi_extension_block_t **extension_block" "libfwsi_error_t **error"
+.Fo libfwsi_item_get_extension_block
+.Fa "libfwsi_item_t *item"
+.Fa "int extension_block_index"
+.Fa "libfwsi_extension_block_t **extension_block"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Root folder item functions
+.nf
 .Ft int
-.Fn libfwsi_root_folder_get_shell_folder_identifier "libfwsi_item_t *root_folder" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fo libfwsi_root_folder_get_shell_folder_identifier
+.Fa "libfwsi_item_t *root_folder"
+.Fa "uint8_t *guid_data"
+.Fa "size_t guid_data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Volume item functions
+.nf
 .Ft int
-.Fn libfwsi_volume_get_utf8_name_size "libfwsi_item_t *volume" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_volume_get_utf8_name_size
+.Fa "libfwsi_item_t *volume"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_volume_get_utf8_name "libfwsi_item_t *volume" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_volume_get_utf8_name
+.Fa "libfwsi_item_t *volume"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_volume_get_utf16_name_size "libfwsi_item_t *volume" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_volume_get_utf16_name_size
+.Fa "libfwsi_item_t *volume"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_volume_get_utf16_name "libfwsi_item_t *volume" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_volume_get_utf16_name
+.Fa "libfwsi_item_t *volume"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_volume_get_identifier "libfwsi_item_t *volume" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fo libfwsi_volume_get_identifier
+.Fa "libfwsi_item_t *volume"
+.Fa "uint8_t *guid_data"
+.Fa "size_t guid_data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_volume_get_shell_folder_identifier "libfwsi_item_t *volume" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fo libfwsi_volume_get_shell_folder_identifier
+.Fa "libfwsi_item_t *volume"
+.Fa "uint8_t *guid_data"
+.Fa "size_t guid_data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 File entry item functions
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_file_size "libfwsi_item_t *file_entry" "uint32_t *file_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_file_size
+.Fa "libfwsi_item_t *file_entry"
+.Fa "uint32_t *file_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_modification_time "libfwsi_item_t *file_entry" "uint32_t *fat_date_time" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_modification_time
+.Fa "libfwsi_item_t *file_entry"
+.Fa "uint32_t *fat_date_time"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_file_attribute_flags "libfwsi_item_t *file_entry" "uint32_t *file_attribute_flags" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_file_attribute_flags
+.Fa "libfwsi_item_t *file_entry"
+.Fa "uint32_t *file_attribute_flags"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_utf8_name_size "libfwsi_item_t *file_entry" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_utf8_name_size
+.Fa "libfwsi_item_t *file_entry"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_utf8_name "libfwsi_item_t *file_entry" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_utf8_name
+.Fa "libfwsi_item_t *file_entry"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_utf16_name_size "libfwsi_item_t *file_entry" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_utf16_name_size
+.Fa "libfwsi_item_t *file_entry"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_get_utf16_name "libfwsi_item_t *file_entry" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_get_utf16_name
+.Fa "libfwsi_item_t *file_entry"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Network location item functions
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf8_location_size "libfwsi_item_t *network_location" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf8_location_size
+.Fa "libfwsi_item_t *network_location"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf8_location "libfwsi_item_t *network_location" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf8_location
+.Fa "libfwsi_item_t *network_location"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf16_location_size "libfwsi_item_t *network_location" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf16_location_size
+.Fa "libfwsi_item_t *network_location"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf16_location "libfwsi_item_t *network_location" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf16_location
+.Fa "libfwsi_item_t *network_location"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf8_description_size "libfwsi_item_t *network_location" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf8_description_size
+.Fa "libfwsi_item_t *network_location"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf8_description "libfwsi_item_t *network_location" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf8_description
+.Fa "libfwsi_item_t *network_location"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf16_description_size "libfwsi_item_t *network_location" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf16_description_size
+.Fa "libfwsi_item_t *network_location"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf16_description "libfwsi_item_t *network_location" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf16_description
+.Fa "libfwsi_item_t *network_location"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf8_comments_size "libfwsi_item_t *network_location" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf8_comments_size
+.Fa "libfwsi_item_t *network_location"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf8_comments "libfwsi_item_t *network_location" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf8_comments
+.Fa "libfwsi_item_t *network_location"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf16_comments_size "libfwsi_item_t *network_location" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf16_comments_size
+.Fa "libfwsi_item_t *network_location"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_network_location_get_utf16_comments "libfwsi_item_t *network_location" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_network_location_get_utf16_comments
+.Fa "libfwsi_item_t *network_location"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Compressed folder functions
+.nf
 .Ft int
-.Fn libfwsi_compressed_folder_get_utf8_name_size "libfwsi_item_t *compressed_folder" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_compressed_folder_get_utf8_name_size
+.Fa "libfwsi_item_t *compressed_folder"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_compressed_folder_get_utf8_name "libfwsi_item_t *compressed_folder" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_compressed_folder_get_utf8_name
+.Fa "libfwsi_item_t *compressed_folder"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_compressed_folder_get_utf16_name_size "libfwsi_item_t *compressed_folder" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_compressed_folder_get_utf16_name_size
+.Fa "libfwsi_item_t *compressed_folder"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_compressed_folder_get_utf16_name "libfwsi_item_t *compressed_folder" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_compressed_folder_get_utf16_name
+.Fa "libfwsi_item_t *compressed_folder"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Control panel category functions
+.nf
 .Ft int
-.Fn libfwsi_control_panel_category_get_identifier "libfwsi_item_t *control_panel_category" "uint32_t *identifier" "libfwsi_error_t **error"
+.Fo libfwsi_control_panel_category_get_identifier
+.Fa "libfwsi_item_t *control_panel_category"
+.Fa "uint32_t *identifier"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Control panel item functions
+.nf
 .Ft int
-.Fn libfwsi_control_panel_item_get_identifier "libfwsi_item_t *control_panel_item" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fo libfwsi_control_panel_item_get_identifier
+.Fa "libfwsi_item_t *control_panel_item"
+.Fa "uint8_t *guid_data"
+.Fa "size_t guid_data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Users property view functions
+.nf
 .Ft int
-.Fn libfwsi_users_property_view_get_known_folder_identifier "libfwsi_item_t *users_property_view" "uint8_t *guid_data" "size_t guid_data_size" "libfwsi_error_t **error"
+.Fo libfwsi_users_property_view_get_known_folder_identifier
+.Fa "libfwsi_item_t *users_property_view"
+.Fa "uint8_t *guid_data"
+.Fa "size_t guid_data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_users_property_view_get_property_store_data_size "libfwsi_item_t *users_property_view" "size_t *data_size" "libfwsi_error_t **error"
+.Fo libfwsi_users_property_view_get_property_store_data_size
+.Fa "libfwsi_item_t *users_property_view"
+.Fa "size_t *data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_users_property_view_copy_property_store_data "libfwsi_item_t *users_property_view" "uint8_t *data" "size_t data_size" "libfwsi_error_t **error"
+.Fo libfwsi_users_property_view_copy_property_store_data
+.Fa "libfwsi_item_t *users_property_view"
+.Fa "uint8_t *data"
+.Fa "size_t data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Extension block functions
+.nf
 .Ft int
-.Fn libfwsi_extension_block_free "libfwsi_extension_block_t **extension_block" "libfwsi_error_t **error"
+.Fo libfwsi_extension_block_free
+.Fa "libfwsi_extension_block_t **extension_block"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_extension_block_get_signature "libfwsi_extension_block_t *extension_block" "uint32_t *signature" "libfwsi_error_t **error"
+.Fo libfwsi_extension_block_get_signature
+.Fa "libfwsi_extension_block_t *extension_block"
+.Fa "uint32_t *signature"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_extension_block_get_data_size "libfwsi_extension_block_t *extension_block" "size_t *data_size" "libfwsi_error_t **error"
+.Fo libfwsi_extension_block_get_data_size
+.Fa "libfwsi_extension_block_t *extension_block"
+.Fa "size_t *data_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 File entry extension functions
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_creation_time "libfwsi_extension_block_t *file_entry_extension" "uint32_t *fat_date_time" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_creation_time
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint32_t *fat_date_time"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_access_time "libfwsi_extension_block_t *file_entry_extension" "uint32_t *fat_date_time" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_access_time
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint32_t *fat_date_time"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_file_reference "libfwsi_extension_block_t *file_entry_extension" "uint64_t *file_reference" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_file_reference
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint64_t *file_reference"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf8_long_name_size "libfwsi_extension_block_t *file_entry_extension" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf8_long_name_size
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf8_long_name "libfwsi_extension_block_t *file_entry_extension" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf8_long_name
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf16_long_name_size "libfwsi_extension_block_t *file_entry_extension" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf16_long_name_size
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf16_long_name "libfwsi_extension_block_t *file_entry_extension" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf16_long_name
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf8_localized_name_size "libfwsi_extension_block_t *file_entry_extension" "size_t *utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf8_localized_name_size
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "size_t *utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf8_localized_name "libfwsi_extension_block_t *file_entry_extension" "uint8_t *utf8_string" "size_t utf8_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf8_localized_name
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint8_t *utf8_string"
+.Fa "size_t utf8_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf16_localized_name_size "libfwsi_extension_block_t *file_entry_extension" "size_t *utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf16_localized_name_size
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "size_t *utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
+.nf
 .Ft int
-.Fn libfwsi_file_entry_extension_get_utf16_localized_name "libfwsi_extension_block_t *file_entry_extension" "uint16_t *utf16_string" "size_t utf16_string_size" "libfwsi_error_t **error"
+.Fo libfwsi_file_entry_extension_get_utf16_localized_name
+.Fa "libfwsi_extension_block_t *file_entry_extension"
+.Fa "uint16_t *utf16_string"
+.Fa "size_t utf16_string_size"
+.Fa "libfwsi_error_t **error"
+.Fc
+.fi
 .Pp
 Shell folder identifier functions
+.nf
 .Ft const char *
-.Fn libfwsi_shell_folder_identifier_get_name "const uint8_t *shell_folder_identifier"
+.Fo libfwsi_shell_folder_identifier_get_name
+.Fa "const uint8_t *shell_folder_identifier"
+.Fc
+.fi
 .Sh DESCRIPTION
 The
 .Fn libfwsi_get_version
 function is used to retrieve the library version.
 .Sh RETURN VALUES
-Most of the functions return NULL or \-1 on error, dependent on the return type.
-For the actual return values see "libfwsi.h".
+Most of the functions return NULL or \-1 on error, dependent on the return \
+type.
+For the actual return values see
+.In libfwsi.h .
 .Sh ENVIRONMENT
 None
 .Sh FILES
 None
+.Sh SEE ALSO
+.In libfwsi.h
+.Sh AUTHORS
+.An Joachim Metz <joachim.metz@gmail.com>
 .Sh BUGS
-Please report bugs of any kind on the project issue tracker: https://github.com/libyal/libfwsi/issues
-.Sh AUTHOR
-These man pages are generated from "libfwsi.h".
+Please report bugs of any kind on the project issue tracker: \
+https://github.com/libyal/libfwsi/issues
 .Sh COPYRIGHT
 Copyright (C) 2010-2026, Joachim Metz <joachim.metz@gmail.com>.
 .sp
 This is free software; see the source for copying conditions.
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-.Sh SEE ALSO
-the libfwsi.h include file
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A \
+PARTICULAR PURPOSE.

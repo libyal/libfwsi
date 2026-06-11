@@ -26,6 +26,7 @@ jobs:
     - uses: actions/checkout@v6
     - name: Install build dependencies
       run: |
+        sudo apt -y update
         sudo apt -y install autoconf automake autopoint build-essential git libtool pkg-config
     - name: Download test data
       run: |
@@ -37,10 +38,10 @@ jobs:
         ./synclibs.sh --use-head
         ./autogen.sh
         ./configure ${{ matrix.configure_options }}
-        make > /dev/null
+        make -j4 > /dev/null
     - name: Run tests
       run: |
-        tests/runtests.sh
+        tests/runtests.sh -j4 VERBOSE=1
   build_dist:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -53,6 +54,7 @@ jobs:
     - uses: actions/checkout@v6
     - name: Install build dependencies
       run: |
+        sudo apt -y update
         sudo apt -y install autoconf automake autopoint build-essential git libtool pkg-config
     - name: Download test data
       run: |
@@ -64,10 +66,10 @@ jobs:
         ./synclibs.sh --use-head
         ./autogen.sh
         ./configure ${{ matrix.configure_options }}
-        make > /dev/null
+        make -j4 > /dev/null
     - name: Run tests
       run: |
-        make distcheck
+        make distcheck AM_MAKEFLAGS="-j4" VERBOSE=1
   build_python:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -81,8 +83,7 @@ jobs:
     - uses: actions/checkout@v6
     - name: Install build dependencies
       run: |
-        sudo add-apt-repository universe &&
-        sudo apt update &&
+        sudo apt -y update
         sudo apt -y install autoconf automake autopoint build-essential git libtool pkg-config python3-dev
     - name: Download test data
       run: |
@@ -94,12 +95,12 @@ jobs:
         ./synclibs.sh --use-head
         ./autogen.sh
         ./configure ${{ matrix.configure_options }}
-        make > /dev/null
+        make -j4 > /dev/null
     - name: Run tests
       env:
         PYTHON_VERSION: ${{ matrix.python_version }}
       run: |
-        tests/runtests.sh
+        tests/runtests.sh -j4 VERBOSE=1
   build_pyproject:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -112,8 +113,7 @@ jobs:
     - uses: actions/checkout@v6
     - name: Install build dependencies
       run: |
-        sudo add-apt-repository universe &&
-        sudo apt update &&
+        sudo apt -y update
         sudo apt -y install autoconf automake autopoint build-essential git libtool pkg-config python3 python3-build python3-dev
     - name: Build from source
       env:
@@ -122,7 +122,7 @@ jobs:
         ./synclibs.sh --use-head
         ./autogen.sh
         ./configure ${{ matrix.configure_options }}
-        make > /dev/null
+        make -j4 > /dev/null
     - name: Build Python module
       run: |
         python -m build
@@ -138,6 +138,7 @@ jobs:
     - uses: actions/checkout@v6
     - name: Install build dependencies
       run: |
+        sudo apt -y update
         sudo apt -y install autoconf automake autopoint build-essential git libtool pkg-config
     - name: Download test data
       run: |
@@ -152,7 +153,7 @@ jobs:
         ./synclibs.sh --use-head
         ./autogen.sh
         ./configure ${{ matrix.configure_options }}
-        make > /dev/null
+        make -j4 > /dev/null
     - name: Run tests
       run: |
-        tests/runtests.sh
+        tests/runtests.sh -j4 VERBOSE=1
