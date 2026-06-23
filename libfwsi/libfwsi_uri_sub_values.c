@@ -28,6 +28,7 @@
 #include "libfwsi_libcerror.h"
 #include "libfwsi_libcnotify.h"
 #include "libfwsi_libfdatetime.h"
+#include "libfwsi_unused.h"
 #include "libfwsi_uri_sub_values.h"
 
 /* Creates URI sub values
@@ -140,7 +141,7 @@ int libfwsi_uri_sub_values_read_data(
      libfwsi_uri_sub_values_t *uri_sub_values,
      const uint8_t *data,
      size_t data_size,
-     int ascii_codepage,
+     int ascii_codepage LIBFWSI_ATTRIBUTE_UNUSED,
      libcerror_error_t **error )
 {
 	static char *function = "libfwsi_uri_sub_values_read_data";
@@ -149,6 +150,8 @@ int libfwsi_uri_sub_values_read_data(
 	uint32_t value_32bit  = 0;
 	uint16_t value_16bit  = 0;
 #endif
+
+	LIBFWSI_UNREFERENCED_PARAMETER( ascii_codepage )
 
 	if( uri_sub_values == NULL )
 	{

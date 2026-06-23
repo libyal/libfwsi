@@ -2,7 +2,7 @@ AC_PREREQ([2.71])
 
 AC_INIT(
   [libfwsi],
-  [20260618],
+  [20260623],
   [https://github.com/libyal/libfwsi/issues])
 
 AC_CONFIG_SRCDIR(

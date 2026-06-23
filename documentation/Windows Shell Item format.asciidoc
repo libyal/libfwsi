@@ -2603,7 +2603,7 @@ The content of the file or directory should not be indexed by the indexing servi
 
 == Notes
 
-Related to .libary-ms XML files. These files also contain serialized data.
+Related to .library-ms XML files. These files also contain serialized data.
 ....
 {DF0AD8E0-F91C-4109-AE46-1EAA5CD8AB08} WMEncMonMainPage Class WMEnc.WMEncMonMainPage.1
 {DF0AD8E1-F91C-4109-AE46-1EAA5CD8AB08} WMEncMonStatsPage Class WMEnc.WMEncMonStatsPage.1
