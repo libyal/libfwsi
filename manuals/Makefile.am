@@ -2,7 +2,7 @@ man_MANS = \
 	libfwsi.3
 
 EXTRA_DIST = \
-	libfwsi.3
+	$(man_MANS)
 
 DISTCLEANFILES = \
 	Makefile \
