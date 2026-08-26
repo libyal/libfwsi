@@ -500,10 +500,12 @@ test_python_module: \
 	test_python_module.at
 
 EXTRA_DIST = \
-	$(check_AUTOTESTS:=.at) \
 	$(check_SCRIPTS) \
 	package.m4 \
-	test_macros.at
+	test_library.at \
+	test_macros.at \
+	test_manpages.at \
+	test_python_module.at
 
 CLEANFILES = \
 	$(check_AUTOTESTS) \
