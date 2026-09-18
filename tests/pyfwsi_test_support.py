@@ -25,15 +25,15 @@ import pyfwsi
 
 
 class SupportFunctionsTests(unittest.TestCase):
-  """Tests the support functions."""
+    """Tests the support functions."""
 
-  def test_get_version(self):
-    """Tests the get_version function."""
-    version = pyfwsi.get_version()
+    def test_get_version(self):
+        """Tests the get_version function."""
+        version = pyfwsi.get_version()
 
-    # TODO: check version.
-    # self.assertEqual(version, "00000000")
+        # TODO: check version.
+        # self.assertEqual(version, "00000000")
 
 
 if __name__ == "__main__":
-  unittest.main(verbosity=2)
+    unittest.main(verbosity=2)
