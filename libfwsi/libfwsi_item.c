@@ -519,6 +519,17 @@ int libfwsi_item_copy_from_byte_stream(
 			          16 ) == 0 )
 			{
 /* TODO debug print unknown data */
+				if( delegate_folder_values->inner_data_size < 4 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+					 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+					 "%s: invalid inner data size value out of bounds.",
+					 function );
+
+					goto on_error;
+				}
 				shell_item_data      = &( delegate_folder_values->inner_data[ 4 ] );
 				shell_item_data_size = delegate_folder_values->inner_data_size - 4;
 			}
@@ -528,6 +539,17 @@ int libfwsi_item_copy_from_byte_stream(
 			          16 ) == 0 )
 			{
 /* TODO debug print unknown data */
+				if( delegate_folder_values->inner_data_size < 4 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+					 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+					 "%s: invalid inner data size value out of bounds.",
+					 function );
+
+					goto on_error;
+				}
 				shell_item_data      = &( delegate_folder_values->inner_data[ 4 ] );
 				shell_item_data_size = delegate_folder_values->inner_data_size - 4;
 			}

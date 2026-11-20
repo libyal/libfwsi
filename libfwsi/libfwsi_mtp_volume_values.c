@@ -257,6 +257,11 @@ int libfwsi_mtp_volume_values_read_data(
 
 		return( -1 );
 	}
+	/* Do not try to parse unsupported MTP volume values data sizes */
+	if( data_size < 54 )
+	{
+		return( 0 );
+	}
 	byte_stream_copy_to_uint32_little_endian(
 	 &( data[ 38 ] ),
 	 name_string_size );
@@ -368,7 +373,11 @@ int libfwsi_mtp_volume_values_read_data(
 	{
 		name_string_size *= 2;
 
-/* TODO check bounds */
+		/* Do not try to parse a string value that does not fit */
+		if( name_string_size > ( data_size - data_offset ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -397,7 +406,11 @@ int libfwsi_mtp_volume_values_read_data(
 	{
 		identifier_string_size *= 2;
 
-/* TODO check bounds */
+		/* Do not try to parse a string value that does not fit */
+		if( identifier_string_size > ( data_size - data_offset ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -426,7 +439,11 @@ int libfwsi_mtp_volume_values_read_data(
 	{
 		file_system_string_size *= 2;
 
-/* TODO check bounds */
+		/* Do not try to parse a string value that does not fit */
+		if( file_system_string_size > ( data_size - data_offset ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -451,11 +468,20 @@ int libfwsi_mtp_volume_values_read_data(
 #endif
 		data_offset += file_system_string_size;
 	}
+	/* Do not try to parse more GUID strings than fit */
+	if( number_of_guid_strings > ( ( data_size - data_offset ) / 78 ) )
+	{
+		return( 0 );
+	}
 	for( guid_string_index = 0;
 	     guid_string_index < number_of_guid_strings;
 	     guid_string_index++ )
 	{
-/* TODO check bounds */
+		/* Do not try to parse a GUID string that does not fit */
+		if( data_offset > ( data_size - 78 ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -552,6 +578,8 @@ int libfwsi_mtp_volume_values_read_data(
 	     property_index < number_of_properties;
 	     property_index++ )
 	{
+		property_value_type = 0;
+
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -561,7 +589,11 @@ int libfwsi_mtp_volume_values_read_data(
 			 property_index );
 		}
 #endif
-/* TODO at least 24 bytes in size ? */
+		/* A property value requires at least 24 bytes in size */
+		if( data_offset > ( data_size - 24 ) )
+		{
+			return( 0 );
+		}
 		if( data_offset < ( data_size - 16 ) )
 		{
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -714,6 +746,11 @@ int libfwsi_mtp_volume_values_read_data(
 
 					if( string_size > 0 )
 					{
+						/* Do not try to parse a string value that does not fit */
+						if( string_size > ( data_size - data_offset ) )
+						{
+							return( 0 );
+						}
 #if defined( HAVE_DEBUG_OUTPUT )
 						if( libcnotify_verbose != 0 )
 						{

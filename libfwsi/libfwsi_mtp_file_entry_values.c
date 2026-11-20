@@ -254,6 +254,11 @@ int libfwsi_mtp_file_entry_values_read_data(
 
 		return( -1 );
 	}
+	/* Do not try to parse unsupported MTP file entry values data sizes */
+	if( data_size < 74 )
+	{
+		return( 0 );
+	}
 /* TODO */
 	byte_stream_copy_to_uint32_little_endian(
 	 &( data[ 62 ] ),
@@ -357,7 +362,11 @@ int libfwsi_mtp_file_entry_values_read_data(
 	{
 		name_string_size *= 2;
 
-/* TODO check bounds */
+		/* Do not try to parse a string value that does not fit */
+		if( name_string_size > ( data_size - data_offset ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -386,7 +395,11 @@ int libfwsi_mtp_file_entry_values_read_data(
 	{
 		name2_string_size *= 2;
 
-/* TODO check bounds */
+		/* Do not try to parse a string value that does not fit */
+		if( name2_string_size > ( data_size - data_offset ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -415,7 +428,11 @@ int libfwsi_mtp_file_entry_values_read_data(
 	{
 		identifier_string_size *= 2;
 
-/* TODO check bounds */
+		/* Do not try to parse a string value that does not fit */
+		if( identifier_string_size > ( data_size - data_offset ) )
+		{
+			return( 0 );
+		}
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -512,6 +529,8 @@ int libfwsi_mtp_file_entry_values_read_data(
 	     property_index < number_of_properties;
 	     property_index++ )
 	{
+		property_value_type = 0;
+
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
@@ -521,7 +540,11 @@ int libfwsi_mtp_file_entry_values_read_data(
 			 property_index );
 		}
 #endif
-/* TODO at least 24 bytes in size ? */
+		/* A property value requires at least 24 bytes in size */
+		if( data_offset > ( data_size - 24 ) )
+		{
+			return( 0 );
+		}
 		if( data_offset < ( data_size - 16 ) )
 		{
 #if defined( HAVE_DEBUG_OUTPUT )
@@ -674,6 +697,11 @@ int libfwsi_mtp_file_entry_values_read_data(
 
 					if( string_size > 0 )
 					{
+						/* Do not try to parse a string value that does not fit */
+						if( string_size > ( data_size - data_offset ) )
+						{
+							return( 0 );
+						}
 #if defined( HAVE_DEBUG_OUTPUT )
 						if( libcnotify_verbose != 0 )
 						{

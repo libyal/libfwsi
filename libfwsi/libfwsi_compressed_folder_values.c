@@ -477,7 +477,8 @@ int libfwsi_compressed_folder_values_read_data(
 
 		data_offset = 92;
 	}
-	if( name_string_size > ( ( data_size - data_offset - 1 ) / 2 ) )
+	/* Do not try to parse a string value that does not fit */
+	if( ( ( (size_t) name_string_size ) + 1 ) * 2 > ( data_size - data_offset ) )
 	{
 		libcerror_error_set(
 		 error,
@@ -570,7 +571,8 @@ int libfwsi_compressed_folder_values_read_data(
 
 	data_offset += name_string_size;
 
-	if( string2_size > ( ( data_size - data_offset - 1 ) / 2 ) )
+	/* Do not try to parse a string value that does not fit */
+	if( ( ( (size_t) string2_size ) + 1 ) * 2 > ( data_size - data_offset ) )
 	{
 		libcerror_error_set(
 		 error,
