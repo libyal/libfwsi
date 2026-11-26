@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <file_stream.h>
+#include <memory.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
@@ -323,8 +324,15 @@ on_error:
 int fwsi_test_mtp_file_entry_values_read_data(
      void )
 {
+	uint8_t short_data[ 9 ]      = { 0x09, 0x00 };
+	uint8_t wrong_sig_data[ 12 ] = { 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x22, 0x33, 0x44 };
+	uint8_t zero_size_data[ 10 ] = { 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x20, 0x19, 0x07 };
+	uint8_t bad_size_data[ 20 ]  = { 0x14, 0x00, 0x00, 0x00, 0x14, 0x00, 0x06, 0x20, 0x19, 0x07 };
+	uint8_t small_full_data[ 60 ] = { 0x3c, 0x00, 0x00, 0x00, 0x32, 0x00, 0x06, 0x20, 0x19, 0x07 };
+	uint8_t props_data[ 300 ];
 	libcerror_error_t *error                               = NULL;
 	libfwsi_mtp_file_entry_values_t *mtp_file_entry_values = NULL;
+	size_t offset                                          = 0;
 	int result                                             = 0;
 
 	/* Initialize test
@@ -362,6 +370,174 @@ int fwsi_test_mtp_file_entry_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test item_data_size == 0 (returns 10)
+	 */
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          zero_size_data,
+	          10,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 10 );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          short_data,
+	          9,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          wrong_sig_data,
+	          12,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          small_full_data,
+	          60,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Craft synthetic MTP file entry with all property types + OOB checks
+	 */
+	memory_set(
+	 props_data,
+	 0,
+	 sizeof( props_data ) );
+	props_data[ 4 ] = 0x40;
+	props_data[ 6 ] = 0x06;
+	props_data[ 7 ] = 0x20;
+	props_data[ 8 ] = 0x19;
+	props_data[ 9 ] = 0x07;
+
+	/* name_string_size OOB
+	 */
+	props_data[ 62 ] = 200;
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          props_data,
+	          80,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 62 ] = 0;
+
+	/* name2_string_size OOB
+	 */
+	props_data[ 66 ] = 200;
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          props_data,
+	          80,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 66 ] = 0;
+
+	/* identifier_string_size OOB
+	 */
+	props_data[ 70 ] = 200;
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          props_data,
+	          80,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 70 ] = 0;
+
+	/* 5 properties covering types 0x05, 0x0b, 0x0a, 0x1f, 0x48
+	 * offset 74 + 4 (unk10) + 16 (clsid) = 94 (number_of_properties)
+	 * property 0 at 98: 24 + 8 = 32 -> 130
+	 * property 1 at 130: 24 + 2 = 26 -> 156
+	 * property 2 at 156: 24 + 4 = 28 -> 184
+	 * property 3 at 184: 24 + 4 + 4 = 32 -> 216
+	 * property 4 at 216: 24 + 16 = 40 -> 256
+	 */
+	props_data[ 94 ] = 5;
+	offset = 98;
+	props_data[ offset + 20 ] = 0x05;
+	offset += 24 + 8;
+	props_data[ offset + 20 ] = 0x0b;
+	offset += 24 + 2;
+	props_data[ offset + 20 ] = 0x0a;
+	offset += 24 + 4;
+	props_data[ offset + 20 ] = 0x1f;
+	props_data[ offset + 24 ] = 4;
+	offset += 24 + 4 + 4;
+	props_data[ offset + 20 ] = 0x48;
+
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          props_data,
+	          300,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Property OOB (< 24 bytes left)
+	 */
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          props_data,
+	          110,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Property 0x1f string_size OOB
+	 */
+	props_data[ 184 + 24 ] = 200;
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          props_data,
+	          250,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* item_data_size < 44 && > data_size - 10 error
+	 */
+	result = libfwsi_mtp_file_entry_values_read_data(
+	          mtp_file_entry_values,
+	          bad_size_data,
+	          20,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
 
 	/* Test error cases
 	 */

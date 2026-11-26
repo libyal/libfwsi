@@ -1,8 +1,13 @@
 MSVSCPP_FILES = \
+	fwsi_test_acronis_tib_file_values/fwsi_test_acronis_tib_file_values.vcproj \
 	fwsi_test_cdburn_values/fwsi_test_cdburn_values.vcproj \
+	fwsi_test_compressed_folder/fwsi_test_compressed_folder.vcproj \
 	fwsi_test_compressed_folder_values/fwsi_test_compressed_folder_values.vcproj \
+	fwsi_test_control_panel_category/fwsi_test_control_panel_category.vcproj \
 	fwsi_test_control_panel_category_values/fwsi_test_control_panel_category_values.vcproj \
 	fwsi_test_control_panel_cpl_file_values/fwsi_test_control_panel_cpl_file_values.vcproj \
+	fwsi_test_control_panel_item/fwsi_test_control_panel_item.vcproj \
+	fwsi_test_control_panel_item_identifier/fwsi_test_control_panel_item_identifier.vcproj \
 	fwsi_test_control_panel_item_values/fwsi_test_control_panel_item_values.vcproj \
 	fwsi_test_delegate_folder_values/fwsi_test_delegate_folder_values.vcproj \
 	fwsi_test_error/fwsi_test_error.vcproj \
@@ -17,21 +22,33 @@ MSVSCPP_FILES = \
 	fwsi_test_extension_block_0xbeef0014_values/fwsi_test_extension_block_0xbeef0014_values.vcproj \
 	fwsi_test_extension_block_0xbeef0019_values/fwsi_test_extension_block_0xbeef0019_values.vcproj \
 	fwsi_test_extension_block_0xbeef0025_values/fwsi_test_extension_block_0xbeef0025_values.vcproj \
+	fwsi_test_extension_block_0xbeef0026_values/fwsi_test_extension_block_0xbeef0026_values.vcproj \
+	fwsi_test_extension_block_0xbeef0027_values/fwsi_test_extension_block_0xbeef0027_values.vcproj \
+	fwsi_test_extension_block_0xbeef0029_values/fwsi_test_extension_block_0xbeef0029_values.vcproj \
+	fwsi_test_file_entry/fwsi_test_file_entry.vcproj \
+	fwsi_test_file_entry_extension/fwsi_test_file_entry_extension.vcproj \
 	fwsi_test_file_entry_extension_values/fwsi_test_file_entry_extension_values.vcproj \
 	fwsi_test_file_entry_values/fwsi_test_file_entry_values.vcproj \
 	fwsi_test_game_folder_values/fwsi_test_game_folder_values.vcproj \
 	fwsi_test_item/fwsi_test_item.vcproj \
 	fwsi_test_item_list/fwsi_test_item_list.vcproj \
+	fwsi_test_known_folder_identifier/fwsi_test_known_folder_identifier.vcproj \
 	fwsi_test_mtp_file_entry_values/fwsi_test_mtp_file_entry_values.vcproj \
 	fwsi_test_mtp_volume_values/fwsi_test_mtp_volume_values.vcproj \
+	fwsi_test_network_location/fwsi_test_network_location.vcproj \
 	fwsi_test_network_location_values/fwsi_test_network_location_values.vcproj \
 	fwsi_test_notify/fwsi_test_notify.vcproj \
+	fwsi_test_root_folder/fwsi_test_root_folder.vcproj \
 	fwsi_test_root_folder_values/fwsi_test_root_folder_values.vcproj \
+	fwsi_test_shell_folder_identifier/fwsi_test_shell_folder_identifier.vcproj \
 	fwsi_test_support/fwsi_test_support.vcproj \
 	fwsi_test_uri_sub_values/fwsi_test_uri_sub_values.vcproj \
 	fwsi_test_uri_values/fwsi_test_uri_values.vcproj \
+	fwsi_test_users_property_view/fwsi_test_users_property_view.vcproj \
 	fwsi_test_users_property_view_values/fwsi_test_users_property_view_values.vcproj \
+	fwsi_test_volume/fwsi_test_volume.vcproj \
 	fwsi_test_volume_values/fwsi_test_volume_values.vcproj \
+	fwsi_test_web_site_values/fwsi_test_web_site_values.vcproj \
 	libcdata/libcdata.vcproj \
 	libcerror/libcerror.vcproj \
 	libclocale/libclocale.vcproj \

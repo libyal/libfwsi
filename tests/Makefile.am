@@ -25,10 +25,15 @@ check_SCRIPTS = \
 	pyfwsi_test_support.py
 
 check_PROGRAMS = \
+	fwsi_test_acronis_tib_file_values \
 	fwsi_test_cdburn_values \
+	fwsi_test_compressed_folder \
 	fwsi_test_compressed_folder_values \
+	fwsi_test_control_panel_category \
 	fwsi_test_control_panel_category_values \
 	fwsi_test_control_panel_cpl_file_values \
+	fwsi_test_control_panel_item \
+	fwsi_test_control_panel_item_identifier \
 	fwsi_test_control_panel_item_values \
 	fwsi_test_delegate_folder_values \
 	fwsi_test_error \
@@ -43,21 +48,45 @@ check_PROGRAMS = \
 	fwsi_test_extension_block_0xbeef0014_values \
 	fwsi_test_extension_block_0xbeef0019_values \
 	fwsi_test_extension_block_0xbeef0025_values \
+	fwsi_test_extension_block_0xbeef0026_values \
+	fwsi_test_extension_block_0xbeef0027_values \
+	fwsi_test_extension_block_0xbeef0029_values \
+	fwsi_test_file_entry \
+	fwsi_test_file_entry_extension \
 	fwsi_test_file_entry_extension_values \
 	fwsi_test_file_entry_values \
 	fwsi_test_game_folder_values \
 	fwsi_test_item \
 	fwsi_test_item_list \
+	fwsi_test_known_folder_identifier \
 	fwsi_test_mtp_file_entry_values \
 	fwsi_test_mtp_volume_values \
+	fwsi_test_network_location \
 	fwsi_test_network_location_values \
 	fwsi_test_notify \
+	fwsi_test_root_folder \
 	fwsi_test_root_folder_values \
+	fwsi_test_shell_folder_identifier \
 	fwsi_test_support \
 	fwsi_test_uri_values \
 	fwsi_test_uri_sub_values \
+	fwsi_test_users_property_view \
 	fwsi_test_users_property_view_values \
-	fwsi_test_volume_values
+	fwsi_test_volume \
+	fwsi_test_volume_values \
+	fwsi_test_web_site_values
+
+fwsi_test_acronis_tib_file_values_SOURCES = \
+	fwsi_test_acronis_tib_file_values.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_acronis_tib_file_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
 
 fwsi_test_cdburn_values_SOURCES = \
 	fwsi_test_cdburn_values.c \
@@ -71,6 +100,18 @@ fwsi_test_cdburn_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
+fwsi_test_compressed_folder_SOURCES = \
+	fwsi_test_compressed_folder.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_compressed_folder_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
 fwsi_test_compressed_folder_values_SOURCES = \
 	fwsi_test_compressed_folder_values.c \
 	fwsi_test_libcerror.h \
@@ -80,6 +121,18 @@ fwsi_test_compressed_folder_values_SOURCES = \
 	fwsi_test_unused.h
 
 fwsi_test_compressed_folder_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_control_panel_category_SOURCES = \
+	fwsi_test_control_panel_category.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_control_panel_category_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
@@ -106,6 +159,27 @@ fwsi_test_control_panel_cpl_file_values_SOURCES = \
 fwsi_test_control_panel_cpl_file_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
+
+fwsi_test_control_panel_item_SOURCES = \
+	fwsi_test_control_panel_item.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_control_panel_item_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_control_panel_item_identifier_SOURCES = \
+	fwsi_test_control_panel_item_identifier.c \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_unused.h
+
+fwsi_test_control_panel_item_identifier_LDADD = \
+	../libfwsi/libfwsi.la
 
 fwsi_test_control_panel_item_values_SOURCES = \
 	fwsi_test_control_panel_item_values.c \
@@ -272,6 +346,66 @@ fwsi_test_extension_block_0xbeef0025_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
+fwsi_test_extension_block_0xbeef0026_values_SOURCES = \
+	fwsi_test_extension_block_0xbeef0026_values.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_extension_block_0xbeef0026_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_extension_block_0xbeef0027_values_SOURCES = \
+	fwsi_test_extension_block_0xbeef0027_values.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_extension_block_0xbeef0027_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_extension_block_0xbeef0029_values_SOURCES = \
+	fwsi_test_extension_block_0xbeef0029_values.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_extension_block_0xbeef0029_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_file_entry_SOURCES = \
+	fwsi_test_file_entry.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_file_entry_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_file_entry_extension_SOURCES = \
+	fwsi_test_file_entry_extension.c \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h
+
+fwsi_test_file_entry_extension_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
 fwsi_test_file_entry_extension_values_SOURCES = \
 	fwsi_test_file_entry_extension_values.c \
 	fwsi_test_libcerror.h \
@@ -332,6 +466,15 @@ fwsi_test_item_list_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
+fwsi_test_known_folder_identifier_SOURCES = \
+	fwsi_test_known_folder_identifier.c \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_unused.h
+
+fwsi_test_known_folder_identifier_LDADD = \
+	../libfwsi/libfwsi.la
+
 fwsi_test_mtp_file_entry_values_SOURCES = \
 	fwsi_test_libcerror.h \
 	fwsi_test_libfwsi.h \
@@ -353,6 +496,18 @@ fwsi_test_mtp_volume_values_SOURCES = \
 	fwsi_test_unused.h
 
 fwsi_test_mtp_volume_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_network_location_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_network_location.c \
+	fwsi_test_unused.h
+
+fwsi_test_network_location_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
@@ -379,6 +534,18 @@ fwsi_test_notify_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
+fwsi_test_root_folder_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_root_folder.c \
+	fwsi_test_unused.h
+
+fwsi_test_root_folder_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
 fwsi_test_root_folder_values_SOURCES = \
 	fwsi_test_libcerror.h \
 	fwsi_test_libfwsi.h \
@@ -390,6 +557,15 @@ fwsi_test_root_folder_values_SOURCES = \
 fwsi_test_root_folder_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
+
+fwsi_test_shell_folder_identifier_SOURCES = \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_shell_folder_identifier.c \
+	fwsi_test_unused.h
+
+fwsi_test_shell_folder_identifier_LDADD = \
+	../libfwsi/libfwsi.la
 
 fwsi_test_support_SOURCES = \
 	fwsi_test_libfwsi.h \
@@ -424,6 +600,18 @@ fwsi_test_uri_sub_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
+fwsi_test_users_property_view_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h \
+	fwsi_test_users_property_view.c
+
+fwsi_test_users_property_view_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
 fwsi_test_users_property_view_values_SOURCES = \
 	fwsi_test_libcerror.h \
 	fwsi_test_libfwsi.h \
@@ -436,6 +624,18 @@ fwsi_test_users_property_view_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 
+fwsi_test_volume_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h \
+	fwsi_test_volume.c
+
+fwsi_test_volume_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
 fwsi_test_volume_values_SOURCES = \
 	fwsi_test_libcerror.h \
 	fwsi_test_libfwsi.h \
@@ -445,6 +645,18 @@ fwsi_test_volume_values_SOURCES = \
 	fwsi_test_volume_values.c
 
 fwsi_test_volume_values_LDADD = \
+	../libfwsi/libfwsi.la \
+	@LIBCERROR_LIBADD@
+
+fwsi_test_web_site_values_SOURCES = \
+	fwsi_test_libcerror.h \
+	fwsi_test_libfwsi.h \
+	fwsi_test_macros.h \
+	fwsi_test_memory.c fwsi_test_memory.h \
+	fwsi_test_unused.h \
+	fwsi_test_web_site_values.c
+
+fwsi_test_web_site_values_LDADD = \
 	../libfwsi/libfwsi.la \
 	@LIBCERROR_LIBADD@
 

@@ -280,8 +280,25 @@ on_error:
 int fwsi_test_volume_values_read_data(
      void )
 {
+	uint8_t short_data[ 19 ]      = { 0x13, 0x00, 0x2f };
+	uint8_t wrong_type_data[ 25 ] = { 0x19, 0x00, 0x20 };
+	uint8_t guid_vol_data[ 20 ]   = {
+		0x14, 0x00, 0x2e, 0x80,
+		0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+		0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10 };
+	uint8_t sf_vol_data[ 41 ]     = {
+		0x29, 0x00, 0x2f, 'C', ':', '\\', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x20, 0xd0, 0x4f, 0xe0, 0x3a, 0xea, 0x69, 0x10,
+		0xa2, 0xd8, 0x08, 0x00, 0x2b, 0x30, 0x30, 0x9d };
+	uint8_t empty_sf_data[ 41 ]   = {
+		0x29, 0x00, 0x2f, 'D', ':', '\\', 0x00 };
+	uint8_t utf8_string[ 32 ];
+	uint16_t utf16_string[ 32 ];
+	uint8_t guid_data[ 16 ];
 	libcerror_error_t *error               = NULL;
 	libfwsi_volume_values_t *volume_values = NULL;
+	size_t string_size                     = 0;
 	int result                             = 0;
 
 	/* Initialize test
@@ -320,6 +337,383 @@ int fwsi_test_volume_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test class 0x2e (GUID identifier)
+	 */
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          guid_vol_data,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Getters when only identifier is set
+	 */
+	result = libfwsi_volume_values_get_utf8_name_size(
+	          volume_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_get_utf8_name(
+	          volume_values,
+	          utf8_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_get_utf16_name_size(
+	          volume_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_get_utf16_name(
+	          volume_values,
+	          utf16_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_get_identifier(
+	          volume_values,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_volume_values_get_shell_folder_identifier(
+	          volume_values,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Test class 0x2f with empty shell folder identifier
+	 */
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          empty_sf_data,
+	          41,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test class 0x2f with non-empty shell folder identifier
+	 */
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          sf_vol_data,
+	          41,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_volume_values_get_utf8_name_size(
+	          volume_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_volume_values_get_utf8_name(
+	          volume_values,
+	          utf8_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_volume_values_get_utf16_name_size(
+	          volume_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_volume_values_get_utf16_name(
+	          volume_values,
+	          utf16_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_volume_values_get_identifier(
+	          volume_values,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_get_shell_folder_identifier(
+	          volume_values,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test getter error cases
+	 */
+	result = libfwsi_volume_values_get_utf8_name_size(
+	          NULL,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf8_name_size(
+	          volume_values,
+	          NULL,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf8_name(
+	          NULL,
+	          utf8_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf8_name(
+	          volume_values,
+	          utf8_string,
+	          1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf16_name_size(
+	          NULL,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf16_name_size(
+	          volume_values,
+	          NULL,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf16_name(
+	          NULL,
+	          utf16_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_utf16_name(
+	          volume_values,
+	          utf16_string,
+	          1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_identifier(
+	          NULL,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_identifier(
+	          volume_values,
+	          NULL,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_identifier(
+	          volume_values,
+	          guid_data,
+	          8,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_shell_folder_identifier(
+	          NULL,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_shell_folder_identifier(
+	          volume_values,
+	          NULL,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_volume_values_get_shell_folder_identifier(
+	          volume_values,
+	          guid_data,
+	          8,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          short_data,
+	          19,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          wrong_type_data,
+	          25,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_volume_values_read_data(
+	          volume_values,
+	          fwsi_test_volume_values_data1,
+	          24,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 
 	/* Test error cases
 	 */
@@ -379,8 +773,6 @@ int fwsi_test_volume_values_read_data(
 
 	libcerror_error_free(
 	 &error );
-
-	/* TODO: test with invalid codepage */
 
 	/* Clean up
 	 */

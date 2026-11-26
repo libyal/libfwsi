@@ -280,6 +280,8 @@ on_error:
 int fwsi_test_root_folder_values_read_data(
      void )
 {
+	uint8_t short_data[ 19 ]      = { 0x13, 0x00, 0x1f };
+	uint8_t wrong_type_data[ 20 ] = { 0x14, 0x00, 0x20 };
 	libcerror_error_t *error                         = NULL;
 	libfwsi_root_folder_values_t *root_folder_values = NULL;
 	int result                                       = 0;
@@ -319,6 +321,28 @@ int fwsi_test_root_folder_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_root_folder_values_read_data(
+	          root_folder_values,
+	          short_data,
+	          19,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_root_folder_values_read_data(
+	          root_folder_values,
+	          wrong_type_data,
+	          20,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 
 	/* Test error cases
 	 */

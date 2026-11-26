@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <file_stream.h>
+#include <memory.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
@@ -280,6 +281,16 @@ on_error:
 int fwsi_test_network_location_values_read_data(
      void )
 {
+	uint8_t short_data[ 5 ]      = { 0x05, 0x00, 0x47, 0x00, 0x00 };
+	uint8_t wrong_type_data[ 8 ] = { 0x08, 0x00, 0x40, 0x00, 0x00, 'a', 0x00, 0x00 };
+	uint8_t full_data[ 24 ]      = {
+		0x18, 0x00, 0x41, 0x00, 0xc0,
+		'l', 'o', 'c', 0x00,
+		'd', 'e', 's', 'c', 0x00,
+		'c', 'o', 'm', 'm', 'e', 'n', 't', 0x00,
+		0x00, 0x00 };
+	uint8_t bad_comments_data[ 14 ] = {
+		0x0e, 0x00, 0x42, 0x00, 0xc0, 'l', 'o', 'c', 0x00, 'd', 'e', 's', 'c', 0x00 };
 	libcerror_error_t *error                                   = NULL;
 	libfwsi_network_location_values_t *network_location_values = NULL;
 	int result                                                 = 0;
@@ -303,45 +314,38 @@ int fwsi_test_network_location_values_read_data(
 	 "error",
 	 error );
 
-	/* Test regular cases
+	/* Test unsupported data cases
 	 */
 	result = libfwsi_network_location_values_read_data(
 	          network_location_values,
-	          fwsi_test_network_location_values_data1,
-	          20,
+	          short_data,
+	          5,
 	          LIBFWSI_CODEPAGE_WINDOWS_1252,
 	          &error );
-
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 1 );
-
+	 0 );
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	/* Test error cases
-	 */
 	result = libfwsi_network_location_values_read_data(
-	          NULL,
-	          fwsi_test_network_location_values_data1,
-	          20,
+	          network_location_values,
+	          wrong_type_data,
+	          8,
 	          LIBFWSI_CODEPAGE_WINDOWS_1252,
 	          &error );
-
 	FWSI_TEST_ASSERT_EQUAL_INT(
 	 "result",
 	 result,
-	 -1 );
-
-	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
 
-	libcerror_error_free(
-	 &error );
-
+	/* Test error cases before setting location
+	 */
 	result = libfwsi_network_location_values_read_data(
 	          network_location_values,
 	          NULL,
@@ -380,7 +384,155 @@ int fwsi_test_network_location_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	/* TODO: test with invalid codepage */
+	/* Test missing comments error (triggers on_error cleanup of location)
+	 */
+	result = libfwsi_network_location_values_read_data(
+	          network_location_values,
+	          bad_comments_data,
+	          14,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* Test regular case with location, description, and comments
+	 */
+	result = libfwsi_network_location_values_read_data(
+	          network_location_values,
+	          full_data,
+	          24,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test already-set errors (location, description, comments)
+	 */
+	result = libfwsi_network_location_values_read_data(
+	          network_location_values,
+	          fwsi_test_network_location_values_data1,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	memory_free(
+	 network_location_values->location );
+	network_location_values->location = NULL;
+
+	result = libfwsi_network_location_values_read_data(
+	          network_location_values,
+	          fwsi_test_network_location_values_data1,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	memory_free(
+	 network_location_values->description );
+	network_location_values->description = NULL;
+
+	result = libfwsi_network_location_values_read_data(
+	          network_location_values,
+	          fwsi_test_network_location_values_data1,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* Re-initialize and test regular case data1
+	 */
+	result = libfwsi_network_location_values_free(
+	          &network_location_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_network_location_values_initialize(
+	          &network_location_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_network_location_values_read_data(
+	          network_location_values,
+	          fwsi_test_network_location_values_data1,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_network_location_values_read_data(
+	          NULL,
+	          fwsi_test_network_location_values_data1,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	/* Clean up
 	 */

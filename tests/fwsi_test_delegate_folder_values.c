@@ -282,6 +282,14 @@ on_error:
 int fwsi_test_delegate_folder_values_read_data(
      void )
 {
+	uint8_t short_data[ 37 ]     = { 0x25, 0x00 };
+	uint8_t wrong_guid_data[ 38 ] = { 0x26, 0x00 };
+	uint8_t bad_inner_data[ 38 ] = {
+		0x26, 0x00, 0x74, 0x00, 0x10, 0x00,
+		0x74, 0x1a, 0x59, 0x5e, 0x96, 0xdf, 0xd3, 0x48,
+		0x8d, 0x67, 0x17, 0x33, 0xbc, 0xee, 0x28, 0xba,
+		0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+		0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10 };
 	libcerror_error_t *error                                 = NULL;
 	libfwsi_delegate_folder_values_t *delegate_folder_values = NULL;
 	int result                                               = 0;
@@ -321,6 +329,45 @@ int fwsi_test_delegate_folder_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_delegate_folder_values_read_data(
+	          delegate_folder_values,
+	          short_data,
+	          37,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_delegate_folder_values_read_data(
+	          delegate_folder_values,
+	          wrong_guid_data,
+	          38,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Test inner_data_size out of bounds
+	 */
+	result = libfwsi_delegate_folder_values_read_data(
+	          delegate_folder_values,
+	          bad_inner_data,
+	          38,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
 
 	/* Test error cases
 	 */

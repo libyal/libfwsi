@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <file_stream.h>
+#include <memory.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
@@ -358,8 +359,15 @@ on_error:
 int fwsi_test_mtp_volume_values_read_data(
      void )
 {
+	uint8_t short_data[ 9 ]       = { 0x09, 0x00 };
+	uint8_t wrong_sig_data[ 12 ]  = { 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x22, 0x33, 0x44 };
+	uint8_t zero_size_data[ 10 ]  = { 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x20, 0x31, 0x10 };
+	uint8_t bad_size_data[ 20 ]   = { 0x14, 0x00, 0x00, 0x00, 0x14, 0x00, 0x05, 0x20, 0x31, 0x10 };
+	uint8_t small_full_data[ 50 ] = { 0x32, 0x00, 0x00, 0x00, 0x32, 0x00, 0x05, 0x20, 0x31, 0x10 };
+	uint8_t props_data[ 300 ];
 	libcerror_error_t *error                       = NULL;
 	libfwsi_mtp_volume_values_t *mtp_volume_values = NULL;
+	size_t offset                                  = 0;
 	int result                                     = 0;
 
 	/* Initialize test
@@ -397,6 +405,183 @@ int fwsi_test_mtp_volume_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test item_data_size == 0 (returns 10)
+	 */
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          zero_size_data,
+	          10,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 10 );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          short_data,
+	          9,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          wrong_sig_data,
+	          12,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          small_full_data,
+	          50,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Craft synthetic MTP volume with OOB checks and all property types
+	 */
+	memory_set(
+	 props_data,
+	 0,
+	 sizeof( props_data ) );
+	props_data[ 4 ] = 0x40;
+	props_data[ 6 ] = 0x05;
+	props_data[ 7 ] = 0x20;
+	props_data[ 8 ] = 0x31;
+	props_data[ 9 ] = 0x10;
+
+	/* name_string_size OOB
+	 */
+	props_data[ 38 ] = 200;
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          60,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 38 ] = 0;
+
+	/* identifier_string_size OOB
+	 */
+	props_data[ 42 ] = 200;
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          60,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 42 ] = 0;
+
+	/* file_system_string_size OOB
+	 */
+	props_data[ 46 ] = 200;
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          60,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 46 ] = 0;
+
+	/* number_of_guid_strings OOB
+	 */
+	props_data[ 50 ] = 10;
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          60,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	props_data[ 50 ] = 0;
+
+	/* 5 properties covering types 0x05, 0x0b, 0x0a, 0x1f, 0x48
+	 * offset 54 + 4 + 16 = 74 (number_of_properties)
+	 */
+	props_data[ 74 ] = 5;
+	offset = 78;
+	props_data[ offset + 20 ] = 0x05;
+	offset += 24 + 8;
+	props_data[ offset + 20 ] = 0x0b;
+	offset += 24 + 2;
+	props_data[ offset + 20 ] = 0x0a;
+	offset += 24 + 4;
+	props_data[ offset + 20 ] = 0x1f;
+	props_data[ offset + 24 ] = 4;
+	offset += 24 + 4 + 4;
+	props_data[ offset + 20 ] = 0x48;
+
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          300,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Property OOB
+	 */
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          90,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Property 0x1f string_size OOB
+	 */
+	props_data[ 164 + 24 ] = 200;
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          props_data,
+	          230,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* item_data_size < 44 && > data_size - 10 error
+	 */
+	result = libfwsi_mtp_volume_values_read_data(
+	          mtp_volume_values,
+	          bad_size_data,
+	          20,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
 
 	/* Test error cases
 	 */

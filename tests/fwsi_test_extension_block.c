@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <file_stream.h>
+#include <memory.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
@@ -240,8 +241,30 @@ on_error:
 int fwsi_test_extension_block_free(
      void )
 {
-	libcerror_error_t *error = NULL;
-	int result               = 0;
+	libcerror_error_t *error                   = NULL;
+	libfwsi_extension_block_t *extension_block = NULL;
+	int result                                 = 0;
+
+	/* Test regular cases
+	 */
+	extension_block = (libfwsi_extension_block_t *) 0x12345678UL;
+
+	result = libfwsi_extension_block_free(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "extension_block",
+	 extension_block );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
 
 	/* Test error cases
 	 */
@@ -261,6 +284,26 @@ int fwsi_test_extension_block_free(
 	libcerror_error_free(
 	 &error );
 
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
+
+	result = libfwsi_internal_extension_block_free(
+	          NULL,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+
 	return( 1 );
 
 on_error:
@@ -273,6 +316,242 @@ on_error:
 }
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
+
+/* Tests the libfwsi_extension_block_copy_from_byte_stream function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_extension_block_copy_from_byte_stream(
+     void )
+{
+	uint8_t zero_data[ 2 ]        = { 0x00, 0x00 };
+	uint8_t small_block[ 10 ]     = { 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0xef, 0xbe, 0x00, 0x00 };
+	uint8_t non_beef[ 12 ]        = { 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	uint8_t oob_block[ 10 ]       = { 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0xef, 0xbe, 0x00, 0x00 };
+	uint8_t bad_0004_block[ 22 ]  = {
+		0x16, 0x00, 0x03, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x14, 0x00, 0x00, 0x00, 0x14, 0x00 };
+	uint32_t signatures[ 15 ]     = {
+		0xbeef0000UL, 0xbeef0001UL, 0xbeef0003UL, 0xbeef0004UL, 0xbeef0005UL,
+		0xbeef0006UL, 0xbeef000aUL, 0xbeef0013UL, 0xbeef0014UL, 0xbeef0019UL,
+		0xbeef0025UL, 0xbeef0026UL, 0xbeef0027UL, 0xbeef0029UL, 0xbeef9999UL };
+	uint8_t block_data[ 64 ];
+	libcerror_error_t *error                   = NULL;
+	libfwsi_extension_block_t *extension_block = NULL;
+	int result                                 = 0;
+	int sig_index                              = 0;
+
+	/* Initialize test
+	 */
+	result = libfwsi_extension_block_initialize(
+	          &extension_block,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test zero-size terminator block
+	 */
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          zero_data,
+	          2,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test unsupported data cases (returns 0)
+	 */
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          zero_data,
+	          1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          small_block,
+	          10,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          non_beef,
+	          7,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          non_beef,
+	          12,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Test error cases
+	 */
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          NULL,
+	          zero_data,
+	          2,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          NULL,
+	          2,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          zero_data,
+	          (size_t) SSIZE_MAX + 1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          oob_block,
+	          10,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_extension_block_copy_from_byte_stream(
+	          (libfwsi_internal_extension_block_t *) extension_block,
+	          bad_0004_block,
+	          22,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_internal_extension_block_free(
+	          (libfwsi_internal_extension_block_t **) &extension_block,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test all supported and unknown 0xbeefxxxx signatures
+	 */
+	for( sig_index = 0;
+	     sig_index < 15;
+	     sig_index++ )
+	{
+		memory_set(
+		 block_data,
+		 0,
+		 sizeof( block_data ) );
+		block_data[ 0 ] = 64;
+		block_data[ 1 ] = 0;
+		block_data[ 2 ] = 7;
+		block_data[ 3 ] = 0;
+		block_data[ 4 ] = (uint8_t) ( signatures[ sig_index ] & 0xff );
+		block_data[ 5 ] = (uint8_t) ( ( signatures[ sig_index ] >> 8 ) & 0xff );
+		block_data[ 6 ] = (uint8_t) ( ( signatures[ sig_index ] >> 16 ) & 0xff );
+		block_data[ 7 ] = (uint8_t) ( ( signatures[ sig_index ] >> 24 ) & 0xff );
+
+		result = libfwsi_extension_block_initialize(
+		          &extension_block,
+		          &error );
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 1 );
+
+		result = libfwsi_extension_block_copy_from_byte_stream(
+		          (libfwsi_internal_extension_block_t *) extension_block,
+		          block_data,
+		          64,
+		          LIBFWSI_CODEPAGE_WINDOWS_1252,
+		          &error );
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 1 );
+		FWSI_TEST_ASSERT_IS_NULL(
+		 "error",
+		 error );
+
+		result = libfwsi_internal_extension_block_free(
+		          (libfwsi_internal_extension_block_t **) &extension_block,
+		          &error );
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 1 );
+	}
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( extension_block != NULL )
+	{
+		libfwsi_internal_extension_block_free(
+		 (libfwsi_internal_extension_block_t **) &extension_block,
+		 NULL );
+	}
+	return( 0 );
+}
 
 /* Tests the libfwsi_extension_block_get_signature function
  * Returns 1 if successful or 0 if not
@@ -551,7 +830,9 @@ int main(
 
 #if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
 
-	/* TODO: add tests for libfwsi_extension_block_copy_from_byte_stream */
+	FWSI_TEST_RUN(
+	 "libfwsi_extension_block_copy_from_byte_stream",
+	 fwsi_test_extension_block_copy_from_byte_stream );
 
 	FWSI_TEST_RUN(
 	 "libfwsi_extension_block_get_signature",

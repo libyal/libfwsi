@@ -270,6 +270,66 @@ on_error:
 	return( 0 );
 }
 
+/* Tests the libfwsi_control_panel_category_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_control_panel_category_values_read_data(
+     void )
+{
+	uint8_t data1[ 12 ] = {
+		0x0c, 0x00, 0x00, 0x00, 0x84, 0x21, 0xde, 0x39, 0x05, 0x00, 0x00, 0x00 };
+
+	uint8_t unsupported_data[ 12 ] = {
+		0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00 };
+
+	libcerror_error_t *error                                               = NULL;
+	libfwsi_control_panel_category_values_t *control_panel_category_values = NULL;
+	int result                                                             = 0;
+
+	result = libfwsi_control_panel_category_values_initialize( &control_panel_category_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	result = libfwsi_control_panel_category_values_read_data( control_panel_category_values, data1, 12, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	result = libfwsi_control_panel_category_values_read_data( control_panel_category_values, data1, 8, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 0 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	result = libfwsi_control_panel_category_values_read_data( control_panel_category_values, unsupported_data, 12, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 0 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	result = libfwsi_control_panel_category_values_read_data( NULL, data1, 12, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_control_panel_category_values_read_data( control_panel_category_values, NULL, 12, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_control_panel_category_values_read_data( control_panel_category_values, data1, (size_t) SSIZE_MAX + 1, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_control_panel_category_values_free( &control_panel_category_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free( &error );
+	}
+	if( control_panel_category_values != NULL )
+	{
+		libfwsi_control_panel_category_values_free( &control_panel_category_values, NULL );
+	}
+	return( 0 );
+}
+
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
 /* The main program
@@ -297,7 +357,9 @@ int main(
 	 "libfwsi_control_panel_category_values_free",
 	 fwsi_test_control_panel_category_values_free );
 
-	/* TODO: add tests for libfwsi_control_panel_category_values_read_data */
+	FWSI_TEST_RUN(
+	 "libfwsi_control_panel_category_values_read_data",
+	 fwsi_test_control_panel_category_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

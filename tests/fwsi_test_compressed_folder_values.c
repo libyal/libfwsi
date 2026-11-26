@@ -272,6 +272,142 @@ on_error:
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 
+/* Tests the libfwsi_compressed_folder_values_read_data function
+ * Returns 1 if successful or 0 if not
+ */
+#if defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT )
+
+int fwsi_test_compressed_folder_values_read_data(
+     void )
+{
+	/* Format 1 (Windows XP) */
+	uint8_t data_format1[ 80 ] = {
+		0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x31, 0x00, 0x2f, 0x00, 0x30, 0x00,
+		0x31, 0x00, 0x2f, 0x00, 0x30, 0x00, 0x30, 0x00, 0x20, 0x00, 0x20, 0x00, 0x31, 0x00, 0x32, 0x00,
+		0x3a, 0x00, 0x30, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x74, 0x00, 0x65, 0x00, 0x73, 0x00, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+	/* Format 2 (Windows 10 without date/time: "N/A") */
+	uint8_t data_format2[ 100 ] = {
+		0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x4e, 0x00, 0x2f, 0x00, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x61, 0x00, 0x62, 0x00,
+		0x00, 0x00, 0x00, 0x00 };
+
+	/* Format 3 (Windows 10 with date/time) */
+	uint8_t data_format3[ 100 ] = {
+		0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x31, 0x00, 0x2f, 0x00, 0x30, 0x00, 0x31, 0x00, 0x2f, 0x00,
+		0x32, 0x00, 0x30, 0x00, 0x32, 0x00, 0x30, 0x00, 0x20, 0x00, 0x20, 0x00, 0x31, 0x00, 0x32, 0x00,
+		0x3a, 0x00, 0x30, 0x00, 0x30, 0x00, 0x3a, 0x00, 0x30, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x61, 0x00, 0x62, 0x00,
+		0x00, 0x00, 0x00, 0x00 };
+
+	uint8_t unsupported_data[ 92 ] = { 0 };
+
+	libcerror_error_t *error                                     = NULL;
+	libfwsi_compressed_folder_values_t *compressed_folder_values = NULL;
+	int result                                                   = 0;
+
+	/* Format 1 */
+	result = libfwsi_compressed_folder_values_initialize( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format1, 80, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	/* Error: name already set */
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format1, 80, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_compressed_folder_values_free( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	/* Format 2 */
+	result = libfwsi_compressed_folder_values_initialize( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format2, 100, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	result = libfwsi_compressed_folder_values_free( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	/* Format 3 */
+	result = libfwsi_compressed_folder_values_initialize( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format3, 100, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	result = libfwsi_compressed_folder_values_free( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	/* Unsupported and error cases */
+	result = libfwsi_compressed_folder_values_initialize( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	/* Size < 68 */
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format1, 60, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 0 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	/* Unsupported format */
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, unsupported_data, 92, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 0 );
+	FWSI_TEST_ASSERT_IS_NULL( "error", error );
+
+	/* Name string size out of bounds */
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format1, 70, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	/* String2 size out of bounds */
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format1, 78, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	/* NULL args & SSIZE_MAX */
+	result = libfwsi_compressed_folder_values_read_data( NULL, data_format1, 80, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, NULL, 80, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_compressed_folder_values_read_data( compressed_folder_values, data_format1, (size_t) SSIZE_MAX + 1, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, -1 );
+	libcerror_error_free( &error );
+
+	result = libfwsi_compressed_folder_values_free( &compressed_folder_values, &error );
+	FWSI_TEST_ASSERT_EQUAL_INT( "result", result, 1 );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free( &error );
+	}
+	if( compressed_folder_values != NULL )
+	{
+		libfwsi_compressed_folder_values_free( &compressed_folder_values, NULL );
+	}
+	return( 0 );
+}
+
+#endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
+
 /* The main program
  */
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )
@@ -297,7 +433,9 @@ int main(
 	 "libfwsi_compressed_folder_values_free",
 	 fwsi_test_compressed_folder_values_free );
 
-	/* TODO: add tests for libfwsi_compressed_folder_values_read_data */
+	FWSI_TEST_RUN(
+	 "libfwsi_compressed_folder_values_read_data",
+	 fwsi_test_compressed_folder_values_read_data );
 
 #endif /* defined( __GNUC__ ) && !defined( LIBFWSI_DLL_IMPORT ) */
 

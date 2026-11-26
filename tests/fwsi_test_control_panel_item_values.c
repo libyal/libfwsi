@@ -280,6 +280,8 @@ on_error:
 int fwsi_test_control_panel_item_values_read_data(
      void )
 {
+	uint8_t short_data[ 29 ]     = { 0x1d, 0x00, 0x71 };
+	uint8_t wrong_type_data[ 30 ] = { 0x1e, 0x00, 0x72 };
 	libcerror_error_t *error                             = NULL;
 	libfwsi_control_panel_item_values_t *control_panel_item_values = NULL;
 	int result                                           = 0;
@@ -319,6 +321,28 @@ int fwsi_test_control_panel_item_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_control_panel_item_values_read_data(
+	          control_panel_item_values,
+	          short_data,
+	          29,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_control_panel_item_values_read_data(
+	          control_panel_item_values,
+	          wrong_type_data,
+	          30,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 
 	/* Test error cases
 	 */

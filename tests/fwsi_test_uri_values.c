@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <file_stream.h>
+#include <memory.h>
 #include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
@@ -303,6 +304,29 @@ on_error:
 int fwsi_test_uri_values_read_data(
      void )
 {
+	uint8_t short_data[ 5 ]          = { 0x05, 0x00, 0x61, 0x00, 0x00 };
+	uint8_t wrong_type_data[ 8 ]     = { 0x08, 0x00, 0x62, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	uint8_t ascii_uri_data[ 14 ]     = { 0x0e, 0x00, 0x61, 0x00, 0x00, 0x00, 'h', 't', 't', 'p', 0x00, 0x01, 0x02, 0x03 };
+	uint8_t ascii_uri_bad_tail[ 12 ] = { 0x0c, 0x00, 0x61, 0x00, 0x00, 0x00, 'h', 't', 't', 'p', 0x00, 0x01 };
+	uint8_t bad_item_size_data[ 8 ]  = { 0x08, 0x00, 0x61, 0x00, 0x10, 0x00, 0x00, 0x00 };
+	uint8_t no_uri_data[ 6 ]         = { 0x06, 0x00, 0x61, 0x00, 0x00, 0x00 };
+	uint8_t ext_uri_data[ 70 ]       = {
+		0x46, 0x00, 0x61, 0x00, 0x34, 0x00,
+		/* 36 bytes header */
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		/* string1 size = 0 */
+		0x00, 0x00, 0x00, 0x00,
+		/* string2 size = 0 */
+		0x00, 0x00, 0x00, 0x00,
+		/* string3 size = 0 */
+		0x00, 0x00, 0x00, 0x00,
+		/* 4 bytes trailing item data */
+		0x01, 0x02, 0x03, 0x04,
+		/* ASCII URI */
+		'h', 't', 't', 'p', ':', '/', '/', 'a', 0x00, 0x00, 0x00, 0x00 };
+	uint8_t ext_uri_err[ 70 ];
 	libcerror_error_t *error         = NULL;
 	libfwsi_uri_values_t *uri_values = NULL;
 	int result                       = 0;
@@ -339,6 +363,94 @@ int fwsi_test_uri_values_read_data(
 	 "result",
 	 result,
 	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test ASCII URI with trailing data
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ascii_uri_data,
+	          14,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test ASCII URI with no trailing data
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ascii_uri_data,
+	          11,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test extended URI data with item_data_size >= 36 and trailing item data
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_data,
+	          70,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          short_data,
+	          5,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          wrong_type_data,
+	          8,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
@@ -403,7 +515,236 @@ int fwsi_test_uri_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	/* TODO: test with invalid codepage */
+	/* item_data_size out of bounds
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          bad_item_size_data,
+	          8,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* data_offset >= data_size before URI
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          no_uri_data,
+	          6,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* trailing unknown9 too small
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ascii_uri_bad_tail,
+	          12,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	/* item_data_size >= 36 error branches: string1/2/3 OOB
+	 */
+	memory_copy(
+	 ext_uri_err,
+	 ext_uri_data,
+	 70 );
+	ext_uri_err[ 4 ] = 36;
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          44,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          60,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string1 data_offset >= data_size
+	 */
+	ext_uri_err[ 4 ] = 40;
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          46,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string2 data_offset >= data_size - 4
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          48,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string2 item_data_size < 4
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          60,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string2 data_offset >= data_size
+	 */
+	ext_uri_err[ 4 ] = 44;
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          50,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string3 data_offset >= data_size - 4
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          52,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string3 item_data_size < 4
+	 */
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          60,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* string3 data_offset >= data_size
+	 */
+	ext_uri_err[ 4 ] = 48;
+	result = libfwsi_uri_values_read_data(
+	          uri_values,
+	          ext_uri_err,
+	          54,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
 
 	/* Clean up
 	 */

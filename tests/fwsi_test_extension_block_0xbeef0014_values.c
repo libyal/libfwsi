@@ -297,6 +297,21 @@ on_error:
 int fwsi_test_extension_block_0xbeef0014_values_read_data(
      void )
 {
+	uint8_t short_data[ 25 ]      = { 0x19, 0x00, 0x00, 0x00, 0x14, 0x00, 0xef, 0xbe };
+	uint8_t wrong_sig_data[ 26 ]  = { 0x1a, 0x00, 0x00, 0x00, 0x15, 0x00, 0xef, 0xbe };
+	uint8_t non_curi_data[ 26 ]   = { 0x1a, 0x00, 0x00, 0x00, 0x14, 0x00, 0xef, 0xbe };
+	uint8_t curi_bad_prop[ 64 ]   = {
+		0x40, 0x00, 0x00, 0x00, 0x14, 0x00, 0xef, 0xbe,
+		0x13, 0xce, 0x2f, 0xdf, 0xec, 0x25, 0xbb, 0x45,
+		0x9d, 0x4c, 0xce, 0xcd, 0x47, 0xc2, 0x43, 0x0c,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00,
+		/* number_of_properties = 2 */
+		0x02, 0x00, 0x00, 0x00,
+		/* property 0: type = 1, size = 100 (OOB) */
+		0x01, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00 };
 	libcerror_error_t *error                                                       = NULL;
 	libfwsi_extension_block_0xbeef0014_values_t *extension_block_0xbeef0014_values = NULL;
 	int result                                                                     = 0;
@@ -336,6 +351,81 @@ int fwsi_test_extension_block_0xbeef0014_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Non-CURI class identifier
+	 */
+	result = libfwsi_extension_block_0xbeef0014_values_read_data(
+	          extension_block_0xbeef0014_values,
+	          non_curi_data,
+	          26,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_extension_block_0xbeef0014_values_read_data(
+	          extension_block_0xbeef0014_values,
+	          short_data,
+	          25,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_extension_block_0xbeef0014_values_read_data(
+	          extension_block_0xbeef0014_values,
+	          wrong_sig_data,
+	          26,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* CURI size < 58
+	 */
+	result = libfwsi_extension_block_0xbeef0014_values_read_data(
+	          extension_block_0xbeef0014_values,
+	          fwsi_test_extension_block_0xbeef0014_values_data1,
+	          57,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* CURI property header OOB (data_size == 60, offset 56 > 60 - 8)
+	 */
+	result = libfwsi_extension_block_0xbeef0014_values_read_data(
+	          extension_block_0xbeef0014_values,
+	          curi_bad_prop,
+	          60,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* CURI property_size OOB
+	 */
+	result = libfwsi_extension_block_0xbeef0014_values_read_data(
+	          extension_block_0xbeef0014_values,
+	          curi_bad_prop,
+	          64,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 
 	/* Test error cases
 	 */

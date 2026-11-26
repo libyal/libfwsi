@@ -280,6 +280,19 @@ on_error:
 int fwsi_test_users_property_view_values_read_data(
      void )
 {
+	uint8_t short_data[ 13 ]       = { 0x0d, 0x00 };
+	uint8_t wrong_sig_data[ 16 ]   = { 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x22, 0x33, 0x44 };
+	uint8_t bad_item_size[ 16 ]    = { 0x10, 0x00, 0x00, 0x00, 0x02, 0x00, 0xee, 0xbb, 0xfe, 0x23 };
+	uint8_t bad_id_size[ 16 ]      = { 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0xee, 0xbb, 0xfe, 0x23, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };
+	uint8_t bad_prop_size[ 20 ]    = { 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0xd5, 0xdf, 0xa3, 0x23, 0x10, 0x00, 0x04, 0x00, 0x01, 0x02, 0x03, 0x04, 0x00, 0x00 };
+	uint8_t id4_data[ 20 ]         = { 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0xd5, 0xdf, 0xa3, 0x23, 0x00, 0x00, 0x04, 0x00, 0x01, 0x02, 0x03, 0x04, 0x00, 0x00 };
+	uint8_t default_prop_data[ 28 ] = {
+		0x1c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x81, 0x19, 0x14, 0x10,
+		0x08, 0x00, 0x04, 0x00,
+		0x01, 0x02, 0x03, 0x04,
+		0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00 };
+	uint8_t guid_data[ 16 ];
 	libcerror_error_t *error                                         = NULL;
 	libfwsi_users_property_view_values_t *users_property_view_values = NULL;
 	int result                                                       = 0;
@@ -320,6 +333,117 @@ int fwsi_test_users_property_view_values_read_data(
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
+
+	/* Test known folder identifier getter (present + errors)
+	 */
+	result = libfwsi_users_property_view_values_get_known_folder_identifier(
+	          users_property_view_values,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_users_property_view_values_get_known_folder_identifier(
+	          NULL,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_users_property_view_values_get_known_folder_identifier(
+	          users_property_view_values,
+	          NULL,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_users_property_view_values_get_known_folder_identifier(
+	          users_property_view_values,
+	          guid_data,
+	          8,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	/* Test 4-byte identifier signature (0x23a3dfd5)
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          id4_data,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_users_property_view_values_get_known_folder_identifier(
+	          users_property_view_values,
+	          guid_data,
+	          16,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	/* Test default signature (0x10141981) with property store data
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          default_prop_data,
+	          28,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          short_data,
+	          13,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          wrong_sig_data,
+	          16,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 
 	/* Test error cases
 	 */
@@ -380,7 +504,50 @@ int fwsi_test_users_property_view_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	/* TODO: test with invalid codepage */
+	/* item_data_size <= 2 error (also cleans up property_store_data on error)
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          bad_item_size,
+	          16,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	/* identifier_size out of bounds
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          bad_id_size,
+	          16,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
+
+	/* property_store_size out of bounds
+	 */
+	result = libfwsi_users_property_view_values_read_data(
+	          users_property_view_values,
+	          bad_prop_size,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	libcerror_error_free(
+	 &error );
 
 	/* Clean up
 	 */

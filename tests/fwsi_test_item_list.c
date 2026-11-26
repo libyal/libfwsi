@@ -393,6 +393,9 @@ int fwsi_test_item_list_copy_from_byte_stream(
 	 "error",
 	 error );
 
+	libcerror_error_free(
+	 &error );
+
 	result = libfwsi_item_list_copy_from_byte_stream(
 	          item_list,
 	          fwsi_test_item_list_data1,
@@ -408,6 +411,9 @@ int fwsi_test_item_list_copy_from_byte_stream(
 	FWSI_TEST_ASSERT_IS_NOT_NULL(
 	 "error",
 	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	result = libfwsi_item_list_copy_from_byte_stream(
 	          item_list,
@@ -447,6 +453,49 @@ int fwsi_test_item_list_copy_from_byte_stream(
 	libcerror_error_free(
 	 &error );
 
+	/* Test empty item list (zero terminator)
+	 */
+	{
+		uint8_t empty_list_data[ 2 ] = { 0x00, 0x00 };
+		uint8_t bad_item_data[ 4 ]   = { 0x03, 0x00, 0x00, 0x00 };
+
+		result = libfwsi_item_list_copy_from_byte_stream(
+		          item_list,
+		          empty_list_data,
+		          2,
+		          LIBFWSI_CODEPAGE_WINDOWS_1252,
+		          &error );
+
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 1 );
+
+		FWSI_TEST_ASSERT_IS_NULL(
+		 "error",
+		 error );
+
+		/* Invalid item inside list (size < 4)
+		 */
+		result = libfwsi_item_list_copy_from_byte_stream(
+		          item_list,
+		          bad_item_data,
+		          4,
+		          LIBFWSI_CODEPAGE_WINDOWS_1252,
+		          &error );
+
+		FWSI_TEST_ASSERT_EQUAL_INT(
+		 "result",
+		 result,
+		 -1 );
+
+		FWSI_TEST_ASSERT_IS_NOT_NULL(
+		 "error",
+		 error );
+
+		libcerror_error_free(
+		 &error );
+	}
 	/* Clean up
 	 */
 	result = libfwsi_item_list_free(
@@ -634,6 +683,145 @@ on_error:
 	return( 0 );
 }
 
+/* Tests the libfwsi_item_list_get_item function
+ * Returns 1 if successful or 0 if not
+ */
+int fwsi_test_item_list_get_item(
+     libfwsi_item_list_t *item_list )
+{
+	libcerror_error_t *error = NULL;
+	libfwsi_item_t *item     = NULL;
+	int result               = 0;
+
+	/* Test regular cases
+	 */
+	result = libfwsi_item_list_get_item(
+	          item_list,
+	          0,
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "item",
+	 item );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_item_free(
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "item",
+	 item );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test error cases
+	 */
+	result = libfwsi_item_list_get_item(
+	          NULL,
+	          0,
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_list_get_item(
+	          item_list,
+	          -1,
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_list_get_item(
+	          item_list,
+	          999,
+	          &item,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_item_list_get_item(
+	          item_list,
+	          0,
+	          NULL,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
+
+	return( 1 );
+
+on_error:
+	if( error != NULL )
+	{
+		libcerror_error_free(
+		 &error );
+	}
+	if( item != NULL )
+	{
+		libfwsi_item_free(
+		 &item,
+		 NULL );
+	}
+	return( 0 );
+}
+
 /* The main program
  */
 #if defined( HAVE_WIDE_SYSTEM_CHARACTER )
@@ -712,7 +900,10 @@ int main(
 	 fwsi_test_item_list_get_number_of_items,
 	 item_list );
 
-	/* TODO: add tests for libfwsi_item_list_get_item */
+	FWSI_TEST_RUN_WITH_ARGS(
+	 "libfwsi_item_list_get_item",
+	 fwsi_test_item_list_get_item,
+	 item_list );
 
 	/* Clean up
 	 */

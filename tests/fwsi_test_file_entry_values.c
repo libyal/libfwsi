@@ -283,8 +283,31 @@ on_error:
 int fwsi_test_file_entry_values_read_data(
      void )
 {
+	uint8_t short_data[ 13 ]      = { 0x0d, 0x00, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	uint8_t wrong_type_data[ 16 ] = { 0x10, 0x00, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 'a', 0x00 };
+	uint8_t empty_name_data[ 14 ] = { 0x0e, 0x00, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	uint8_t unicode_data[ 22 ]    = {
+		0x16, 0x00, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00,
+		'a', 0x00, 'b', 0x00, 0x00, 0x00, 0x00, 0x00 };
+	uint8_t swn1_data[ 52 ]       = {
+		0x34, 0x00, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00,
+		'a', 0x00, 'b', 0x00, 0x00, 0x00, 0x20, 0x00,
+		'S', '.', 'W', '.', 'N', '.', '1', 0x00,
+		0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
+		0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	uint8_t pre_xp_ascii_data[ 36 ] = {
+		0x24, 0x00, 0xb1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00,
+		'a', 'b', 0x00, 'c', 'd', 0x00,
+		0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10 };
+	uint8_t pre_xp_unicode_data[ 22 ] = {
+		0x16, 0x00, 0x35, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00,
+		'a', 0x00, 0x00, 0x00, 'b', 0x00, 0x00, 0x00 };
+	uint8_t utf8_string[ 32 ];
+	uint16_t utf16_string[ 32 ];
 	libcerror_error_t *error                       = NULL;
 	libfwsi_file_entry_values_t *file_entry_values = NULL;
+	size_t string_size                             = 0;
 	int result                                     = 0;
 
 	/* Initialize test
@@ -320,6 +343,392 @@ int fwsi_test_file_entry_values_read_data(
 	 result,
 	 1 );
 
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test getters on ASCII file entry values
+	 */
+	result = libfwsi_file_entry_values_get_utf8_name_size(
+	          file_entry_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_values_get_utf8_name(
+	          file_entry_values,
+	          utf8_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_values_get_utf16_name_size(
+	          file_entry_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_values_get_utf16_name(
+	          file_entry_values,
+	          utf16_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test getter error cases
+	 */
+	result = libfwsi_file_entry_values_get_utf8_name_size(
+	          NULL,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf8_name_size(
+	          file_entry_values,
+	          NULL,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf8_name(
+	          NULL,
+	          utf8_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf8_name(
+	          file_entry_values,
+	          utf8_string,
+	          1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf16_name_size(
+	          NULL,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf16_name_size(
+	          file_entry_values,
+	          NULL,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf16_name(
+	          NULL,
+	          utf16_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_values_get_utf16_name(
+	          file_entry_values,
+	          utf16_string,
+	          1,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	/* Test Unicode class type (0x35) and getters
+	 */
+	result = libfwsi_file_entry_values_free(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_values_initialize(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          unicode_data,
+	          22,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_values_get_utf8_name_size(
+	          file_entry_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_get_utf8_name(
+	          file_entry_values,
+	          utf8_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_get_utf16_name_size(
+	          file_entry_values,
+	          &string_size,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_get_utf16_name(
+	          file_entry_values,
+	          utf16_string,
+	          32,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	/* Test S.W.N.1 format
+	 */
+	result = libfwsi_file_entry_values_free(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_values_initialize(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          swn1_data,
+	          52,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test pre-XP ASCII format with 0x80 flag and GUID
+	 */
+	result = libfwsi_file_entry_values_free(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_values_initialize(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          pre_xp_ascii_data,
+	          36,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test pre-XP Unicode format
+	 */
+	result = libfwsi_file_entry_values_free(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_values_initialize(
+	          &file_entry_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          pre_xp_unicode_data,
+	          22,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          short_data,
+	          13,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          wrong_type_data,
+	          16,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
@@ -383,7 +792,26 @@ int fwsi_test_file_entry_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	/* TODO: test with invalid codepage */
+	/* Empty name (data_size == 14)
+	 */
+	result = libfwsi_file_entry_values_read_data(
+	          file_entry_values,
+	          empty_name_data,
+	          14,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+
+	libcerror_error_free(
+	 &error );
 
 	/* Clean up
 	 */

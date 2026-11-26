@@ -283,6 +283,56 @@ on_error:
 int fwsi_test_file_entry_extension_values_read_data(
      void )
 {
+	uint8_t short_data[ 19 ]      = { 0x13, 0x00, 0x07, 0x00, 0x04, 0x00, 0xef, 0xbe };
+	uint8_t wrong_sig_data[ 24 ]  = { 0x18, 0x00, 0x07, 0x00, 0x05, 0x00, 0xef, 0xbe };
+	uint8_t wrong_ver_data[ 24 ]  = { 0x18, 0x00, 0x05, 0x00, 0x04, 0x00, 0xef, 0xbe };
+	uint8_t v3_data[ 34 ]         = {
+		0x22, 0x00, 0x03, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x14, 0x00, 0x1a, 0x00,
+		'a', 0x00, 'b', 0x00, 0x00, 0x00,
+		'l', 'o', 'c', 0x00, 0x00, 0x00, 0x14, 0x00 };
+	uint8_t v3_empty_long[ 22 ]   = {
+		0x16, 0x00, 0x03, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x14, 0x00, 0x00, 0x00, 0x14, 0x00 };
+	uint8_t v3_empty_loc[ 22 ]    = {
+		0x16, 0x00, 0x03, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x14, 0x00, 0x14, 0x00 };
+	uint8_t v7_loc_data[ 52 ]     = {
+		0x34, 0x00, 0x07, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x26, 0x00, 0x00, 0x00,
+		0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x2c, 0x00,
+		'a', 0x00, 0x00, 0x00,
+		'b', 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x1c, 0x00 };
+	uint8_t v7_empty_loc[ 40 ]    = {
+		0x28, 0x00, 0x07, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x26, 0x00, 0x1c, 0x00 };
+	uint8_t v8_data[ 50 ]         = {
+		0x32, 0x00, 0x08, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x2a, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		'a', 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c, 0x00 };
+	uint8_t v9_data[ 54 ]         = {
+		0x36, 0x00, 0x09, 0x00, 0x04, 0x00, 0xef, 0xbe,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x2e, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		'a', 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c, 0x00 };
 	libcerror_error_t *error                                           = NULL;
 	libfwsi_file_entry_extension_values_t *file_entry_extension_values = NULL;
 	int result                                                         = 0;
@@ -320,6 +370,232 @@ int fwsi_test_file_entry_extension_values_read_data(
 	 result,
 	 1 );
 
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test version 3 with long and ASCII localized name
+	 */
+	result = libfwsi_file_entry_extension_values_free(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_extension_values_initialize(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v3_data,
+	          34,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test version 7 with long and UTF-16 localized name
+	 */
+	result = libfwsi_file_entry_extension_values_free(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_extension_values_initialize(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v7_loc_data,
+	          52,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test version 8
+	 */
+	result = libfwsi_file_entry_extension_values_free(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_extension_values_initialize(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v8_data,
+	          50,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test version 9
+	 */
+	result = libfwsi_file_entry_extension_values_free(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	result = libfwsi_file_entry_extension_values_initialize(
+	          &file_entry_extension_values,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v9_data,
+	          54,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 1 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Test unsupported data cases
+	 */
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          short_data,
+	          19,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          wrong_sig_data,
+	          24,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          wrong_ver_data,
+	          24,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	/* Truncated v3 (20), v7 (36), v8 (42), v9 (42)
+	 */
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v3_data,
+	          20,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v7_loc_data,
+	          36,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v8_data,
+	          42,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
+	FWSI_TEST_ASSERT_IS_NULL(
+	 "error",
+	 error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v9_data,
+	          42,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 0 );
 	FWSI_TEST_ASSERT_IS_NULL(
 	 "error",
 	 error );
@@ -383,7 +659,55 @@ int fwsi_test_file_entry_extension_values_read_data(
 	libcerror_error_free(
 	 &error );
 
-	/* TODO: test with invalid codepage */
+	/* Empty long name and localized name errors
+	 */
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v3_empty_long,
+	          22,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v3_empty_loc,
+	          22,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
+
+	result = libfwsi_file_entry_extension_values_read_data(
+	          file_entry_extension_values,
+	          v7_empty_loc,
+	          40,
+	          LIBFWSI_CODEPAGE_WINDOWS_1252,
+	          &error );
+	FWSI_TEST_ASSERT_EQUAL_INT(
+	 "result",
+	 result,
+	 -1 );
+	FWSI_TEST_ASSERT_IS_NOT_NULL(
+	 "error",
+	 error );
+	libcerror_error_free(
+	 &error );
 
 	/* Clean up
 	 */
